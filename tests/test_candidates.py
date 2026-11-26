@@ -1,0 +1,23 @@
+import pytest
+
+pytest.importorskip("sklearn")
+from questionforge.candidates import extract_candidates  # noqa: E402
+
+
+@pytest.mark.parametrize("context,language", [
+    ("Lina planted nine seeds. Omar built a robot.", "en"),
+    ("Lina cultive des haricots. Omar construit un robot.", "fr"),
+    ("زرعت لينا تسع بذور. صنع عمر روبوتا صغيرا.", "ar"),
+])
+def test_candidates_are_exact_nonoverlapping_source_spans(context, language):
+    candidates = extract_candidates(context, language, 3)
+    assert candidates
+    for candidate in candidates:
+        assert context[candidate.start:candidate.start + len(candidate.answer)] == candidate.answer
+        assert candidate.answer in candidate.evidence
+    assert len({c.evidence for c in candidates}) == len(candidates)
+
+
+def test_all_stopwords_and_empty_context_have_no_candidates():
+    assert extract_candidates("the a an", "en") == []
+    assert extract_candidates("", "ar") == []

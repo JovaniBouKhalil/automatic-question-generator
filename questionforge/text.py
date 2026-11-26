@@ -57,7 +57,7 @@ class Sentence:
 def sentences(text: str) -> list[Sentence]:
     """Split at sentence punctuation/newlines while keeping exact source character spans."""
     result = []
-    for match in re.finditer(r"[^.!?؟\n]+(?:[.!?؟]+|$)", text):
+    for match in re.finditer(r"[^.!?؟\n]+(?:[.!?؟]+|(?=\n|$))", text):
         raw = match.group()
         stripped = raw.strip()
         if stripped:
