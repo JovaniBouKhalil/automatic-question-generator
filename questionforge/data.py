@@ -33,6 +33,9 @@ def validate_record(row: dict) -> None:
     for key in ["id", "context", "question", "answer", "answer_start", "language", "group", "source"]:
         if key not in row:
             raise ValueError(f"Missing {key} in record.")
+    for key in ["id", "context", "question", "answer", "language", "group", "source"]:
+        if not isinstance(row[key], str):
+            raise ValueError(f"{key} must be text.")
     validate_language(row["language"])
     answer, start = row["answer"], row["answer_start"]
     if not isinstance(start, int) or start < 0 or not isinstance(answer, str) or not answer.strip():
@@ -127,8 +130,16 @@ def normalize_records(raw: list[dict], language: str) -> tuple[list[dict], Count
         if len(texts) == 0:
             excluded["unanswerable"] += 1
             continue
+        if len(starts) == 0:
+            excluded["invalid_span_or_record"] += 1
+            continue
+        try:
+            start = int(starts[0])
+        except (TypeError, ValueError):
+            excluded["invalid_span_or_record"] += 1
+            continue
         row = {"id": f"{language}:{item['id']}", "context": item["context"],
-               "question": item["question"], "answer": str(texts[0]), "answer_start": int(starts[0]),
+               "question": item["question"], "answer": str(texts[0]), "answer_start": start,
                "language": language, "group": context_hash(item["context"]),
                "title": item.get("title", ""), "source": DATASETS[language]["id"]}
         try:

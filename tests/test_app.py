@@ -1,5 +1,7 @@
 """Streamlit workflow smoke tests use the honest offline baseline; no model downloads."""
 
+from pathlib import Path
+
 import pytest
 
 pytest.importorskip("streamlit")
@@ -7,7 +9,7 @@ from streamlit.testing.v1 import AppTest  # noqa: E402
 
 
 def test_create_quiz_with_baseline_and_no_verifier():
-    app = AppTest.from_file("app.py").run()
+    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
     assert not app.exception
     app.sidebar.selectbox[1].select("Template baseline")
     app.sidebar.toggle[0].set_value(False)
@@ -21,7 +23,7 @@ def test_create_quiz_with_baseline_and_no_verifier():
 
 
 def test_arabic_workflow_and_invalid_answer_feedback():
-    app = AppTest.from_file("app.py").run()
+    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
     app.sidebar.selectbox[0].select("ar")
     app.sidebar.selectbox[1].select("Template baseline")
     app.sidebar.toggle[0].set_value(False)

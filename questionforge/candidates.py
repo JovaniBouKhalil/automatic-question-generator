@@ -1,7 +1,7 @@
 """Cheap, inspectable answer selection using TF-IDF and source-span heuristics."""
 
-from dataclasses import dataclass
 import re
+from dataclasses import dataclass
 
 from .text import STOPWORDS, evidence_for, sentences, tokens, validate_language
 

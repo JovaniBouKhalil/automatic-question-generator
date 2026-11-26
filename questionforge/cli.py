@@ -2,11 +2,16 @@
 
 import argparse
 import json
+import sys
 from dataclasses import asdict
 from pathlib import Path
 
 
 def main():
+    # Windows redirected stdout can default to cp1252, which cannot encode Arabic.
+    for stream in [sys.stdout, sys.stderr]:
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(prog="questionforge")
     commands = parser.add_subparsers(dest="command", required=True)
     prepare = commands.add_parser("prepare", help="Download pinned public benchmarks and audit splits")

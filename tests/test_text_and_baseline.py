@@ -72,7 +72,7 @@ def test_prompt_highlights_only_the_requested_occurrence():
 
 
 class CharacterTokenizer:
-    def __call__(self, text):
+    def __call__(self, text, **kwargs):
         return {"input_ids": list(range(len(text)))}
 
 

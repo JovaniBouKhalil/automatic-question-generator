@@ -1,0 +1,51 @@
+{
+  "model": "lmqg/t5-small-squad-qg",
+  "revision": "57d0de8c285d3f89e01b5c607e22a24269fc5cc7",
+  "seed": 42,
+  "steps": 40,
+  "learning_rate": 0.0003,
+  "batch_size": 2,
+  "gradient_accumulation": 4,
+  "effective_batch_size": 8,
+  "input_tokens": 256,
+  "target_tokens": 64,
+  "lora_rank": 8,
+  "lora_alpha": 16,
+  "lora_dropout": 0.05,
+  "target_modules": [
+    "q",
+    "v"
+  ],
+  "trainable_parameters": 294912,
+  "total_parameters": 60787712,
+  "device": "cpu",
+  "selection_metric": "development target-token cross-entropy (lower is better)",
+  "initial_dev_loss": 1.594350790155345,
+  "best_dev_loss": 1.5834094843840951,
+  "best_step": 40,
+  "elapsed_seconds": 64.17055290000008,
+  "counts": {
+    "train": 600,
+    "dev": 15,
+    "test": 40
+  },
+  "data_sha256": {
+    "train": "1fb3230a60ed052448b0857f69032333b84b82e3150d12ec5495f47ac7bbb7b7",
+    "dev": "137d8b68d61a536c8b92c9ebbd6b7e98cb6006f0782c3154d5dc398a3db5b580",
+    "test": "48fa73ae9468009eb8afcd570f4f6e4ae72048dda683329b6db209141d3d15b8"
+  },
+  "environment": {
+    "python": "3.11.13",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "packages": {
+      "torch": "2.6.0+cpu",
+      "transformers": "4.57.6",
+      "numpy": "2.4.6",
+      "scikit-learn": "1.9.1",
+      "sacrebleu": "2.6.0",
+      "peft": "0.18.1"
+    },
+    "git_commit": "c72318f4c77613a1b578dd5ac460eb9b391fd0b3"
+  },
+  "test_used_for_training_or_selection": false
+}

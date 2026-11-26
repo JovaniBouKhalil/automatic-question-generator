@@ -33,7 +33,12 @@ def main():
         parser.error("Output already contains an adapter; choose a new directory to preserve it.")
     from peft import LoraConfig, TaskType, get_peft_model
     from torch.utils.data import DataLoader
-    from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, DataCollatorForSeq2Seq, get_linear_schedule_with_warmup
+    from transformers import (
+        AutoModelForSeq2SeqLM,
+        AutoTokenizer,
+        DataCollatorForSeq2Seq,
+        get_linear_schedule_with_warmup,
+    )
 
     torch, device = configure_torch(args.seed, args.device)
     random.seed(args.seed)

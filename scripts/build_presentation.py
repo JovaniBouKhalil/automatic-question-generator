@@ -120,7 +120,11 @@ def main():
               "Baseline: source sentence with the exact target replaced by a language-specific WH phrase. This retains source content but often yields unnatural grammar. Neural models learn conditional rewriting and question syntax. English: lmqg/t5-small-squad-qg; French: lmqg/mt5-small-frquad-qg; Arabic: Mihakram/AraT5-base-question-generation. Input formats and pinned revisions are documented in registry.py and DATA_AND_MODELS.md. Different language checkpoints are not matched in parameter count or training data.")
     exemplar = next(r for r in predictions if r["language"] == "en" and r["method"] == "beam4")
     baseline = next(r for r in predictions if r["id"] == exemplar["id"] and r["method"] == "baseline")
-    textbox(s, "SOURCE  " + exemplar["context"][:300], .8, 2.55, 11.6, 1.35, 18, GRAY)
+    evidence = exemplar.get("evidence", exemplar["context"])
+    answer_at = evidence.find(exemplar["answer"])
+    if len(evidence) > 300 and answer_at >= 0:
+        evidence = evidence[max(0, answer_at - 110):answer_at + len(exemplar["answer"]) + 110]
+    textbox(s, "SOURCE  " + evidence, .8, 2.55, 11.6, 1.35, 18, GRAY)
     textbox(s, "TARGET  " + exemplar["answer"], .8, 4.0, 11.6, .7, 21, GOLD, True)
     textbox(s, "BASELINE  " + baseline["question"][:200] + "\nTRANSFORMER  " + exemplar["question"][:200], .8, 4.9, 11.6, 1.7, 23)
 
@@ -156,7 +160,7 @@ def main():
     for index, lang in enumerate(["en", "fr", "ar"]):
         examples = [r for r in predictions if r["language"] == lang and r["method"] == "beam4"]
         row = min(examples, key=lambda r: (r.get("answer_f1", 0), r["id"]))
-        text = (f"{lang.upper()}  {row['question'][:180]}\nTarget: {row['answer'][:90]}  |  QA: {row.get('qa_answer', '')[:90]}"
+        text = (f"{lang.upper()}  {row['question'][:130]}\nTarget: {row['answer'][:60]}  |  QA: {row.get('qa_answer', '')[:60]}"
                 f"  |  F1: {100*row.get('answer_f1', 0):.1f}")
         textbox(s, text, .8, 2.5 + index*1.35, 11.7, 1.25, 18)
 

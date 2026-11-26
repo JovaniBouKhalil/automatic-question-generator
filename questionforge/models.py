@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import os
 from dataclasses import dataclass
 from functools import lru_cache
@@ -16,7 +17,9 @@ ROOT = Path(__file__).resolve().parents[1]
 def model_source(spec: ModelSpec) -> tuple[str, dict]:
     local = ROOT / "models" / spec.model_id.replace("/", "--")
     weights = (local / "model.safetensors").is_file() or (local / "pytorch_model.bin").is_file()
-    if weights and (local / "config.json").is_file():
+    metadata_file = local / "hub_metadata.json"
+    metadata = json.loads(metadata_file.read_text(encoding="utf-8")) if metadata_file.exists() else {}
+    if weights and (local / "config.json").is_file() and metadata.get("sha") == spec.revision:
         return str(local), {"local_files_only": True}
     return spec.model_id, {"revision": spec.revision}
 
@@ -76,7 +79,7 @@ def answer_window(context: str, answer: str, start: int, tokenizer, style: str, 
         return context[left:right], start - left
 
     def size(text, offset):
-        return len(tokenizer(format_prompt(text, answer, offset, style))["input_ids"])
+        return len(tokenizer(format_prompt(text, answer, offset, style), verbose=False)["input_ids"])
 
     if size(context, start) <= max_tokens:
         return context, start, False

@@ -1,0 +1,98 @@
+{
+  "seed": 42,
+  "sampling": "one question per paragraph; paragraph-disjoint partitions",
+  "pretrained_exposure": "These partitions prevent leakage in OUR experiments. Upstream model exposure cannot be ruled out.",
+  "datasets": {
+    "en": {
+      "id": "rajpurkar/squad",
+      "revision": "7b6d24c440a36b6815f21b70d25016731768db1f",
+      "license": "CC-BY-SA-4.0",
+      "format": "parquet",
+      "train": "plain_text/train-00000-of-00001.parquet",
+      "test": "plain_text/validation-00000-of-00001.parquet",
+      "removed_training_rows_overlapping_test": 0,
+      "raw_counts": {
+        "train": 87599,
+        "test": 10570
+      },
+      "excluded_train": {
+        "duplicate": 98
+      },
+      "excluded_test": {
+        "duplicate": 22
+      },
+      "available_clean_counts": {
+        "train": 74508,
+        "dev": 12993,
+        "test": 10548
+      },
+      "selected_counts": {
+        "train": 600,
+        "dev": 15,
+        "test": 40
+      }
+    },
+    "fr": {
+      "id": "lincoln/newsquadfr",
+      "revision": "6aca57928d2edaffa6f9a29bdecaa789c28d0391",
+      "license": "CC-BY-NC-SA-4.0",
+      "format": "json",
+      "train": "train.json",
+      "test": "valid.json",
+      "removed_training_rows_overlapping_test": 0,
+      "raw_counts": {
+        "train": 1650,
+        "test": 455
+      },
+      "excluded_train": {
+        "invalid_span_or_record": 5,
+        "duplicate": 2
+      },
+      "excluded_test": {
+        "duplicate": 1
+      },
+      "available_clean_counts": {
+        "train": 1398,
+        "dev": 245,
+        "test": 454
+      },
+      "selected_counts": {
+        "train": 280,
+        "dev": 15,
+        "test": 40
+      }
+    },
+    "ar": {
+      "id": "hsseinmz/arcd",
+      "revision": "cc6906b6eda547e4ffc63b8d88ccca7e0515187a",
+      "license": "MIT (Hub metadata; underlying Wikipedia attribution also applies)",
+      "format": "parquet",
+      "train": "plain_text/train-00000-of-00001.parquet",
+      "test": "plain_text/validation-00000-of-00001.parquet",
+      "removed_training_rows_overlapping_test": 15,
+      "raw_counts": {
+        "train": 693,
+        "test": 702
+      },
+      "excluded_train": {
+        "invalid_span_or_record": 3
+      },
+      "excluded_test": {
+        "invalid_span_or_record": 3
+      },
+      "available_clean_counts": {
+        "train": 577,
+        "dev": 98,
+        "test": 699
+      },
+      "selected_counts": {
+        "train": 193,
+        "dev": 15,
+        "test": 40
+      }
+    }
+  },
+  "train_sha256": "1fb3230a60ed052448b0857f69032333b84b82e3150d12ec5495f47ac7bbb7b7",
+  "dev_sha256": "137d8b68d61a536c8b92c9ebbd6b7e98cb6006f0782c3154d5dc398a3db5b580",
+  "test_sha256": "48fa73ae9468009eb8afcd570f4f6e4ae72048dda683329b6db209141d3d15b8"
+}

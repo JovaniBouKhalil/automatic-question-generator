@@ -4,7 +4,14 @@ from xml.etree import ElementTree as ET
 
 import pytest
 
-from questionforge.data import assert_disjoint, context_hash, grouped_split, load_jsonl, normalize_records, sample_groups
+from questionforge.data import (
+    assert_disjoint,
+    context_hash,
+    grouped_split,
+    load_jsonl,
+    normalize_records,
+    sample_groups,
+)
 from questionforge.export import as_csv, as_json, moodle_xml, worksheet_html
 from questionforge.metrics import quality_decision
 
@@ -39,6 +46,15 @@ def test_normalization_does_not_silently_fix_invalid_translated_answer_offsets()
 def test_context_hash_normalizes_only_case_whitespace_and_unicode_forms():
     assert context_hash("Café  PARIS") == context_hash("cafe\u0301 paris")
     assert context_hash("école") != context_hash("ecole")
+
+
+@pytest.mark.parametrize("starts", [[], [None], ["not an offset"]])
+def test_missing_or_invalid_offsets_are_counted_without_aborting_the_dataset(starts):
+    raw = [{"id": "a", "context": "Paris est une ville.", "question": "Quelle ville ?",
+            "answers": {"text": ["Paris"], "answer_start": starts}}]
+    rows, excluded = normalize_records(raw, "fr")
+    assert not rows
+    assert excluded["invalid_span_or_record"] == 1
 
 
 def test_novel_translations_share_topics_without_split_leakage():

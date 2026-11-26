@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from collections import Counter
 import math
+from collections import Counter
 
 from .text import STOPWORDS, normalize_answer, tokens
 

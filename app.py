@@ -63,7 +63,7 @@ def main():
       h1 {letter-spacing:-.045em!important;font-size:3.7rem!important;line-height:1.06!important}
       h2,h3 {letter-spacing:-.025em!important}
       [data-testid='stSidebar'] {background:#e9eee6}
-      textarea {direction:auto;line-height:1.8!important}
+      textarea {line-height:1.8!important}
       .eyebrow {font-size:12px;letter-spacing:.18em;font-weight:700;color:#69816a;margin-bottom:14px}
       .intro {font-size:18px;color:#60756c;max-width:660px;line-height:1.65}
       .question {font-size:23px;line-height:1.65;color:#173c3b;font-weight:600;padding:8px 0}
@@ -71,11 +71,15 @@ def main():
       mark {background:#d6e8aa;color:#173c3b;padding:2px 4px;border-radius:3px}
       .stButton>button[kind='primary'] {background:#205c4a;border-color:#205c4a;border-radius:8px}
       [data-testid='stMetricValue'] {color:#205c4a}
+      .stAppDeployButton {display:none}
     </style>""", unsafe_allow_html=True)
     with st.sidebar:
         st.markdown("### ✦ QuestionForge")
         st.caption("NLP FINAL PROJECT · 05")
-        language = st.selectbox("Passage language / Langue / اللغة", list(LANGUAGES), format_func=LANGUAGES.get)
+        initial_language = st.query_params.get("lang", "en")
+        initial_language = initial_language if initial_language in LANGUAGES else "en"
+        language = st.selectbox("Passage language / Langue / اللغة", list(LANGUAGES),
+                                index=list(LANGUAGES).index(initial_language), format_func=LANGUAGES.get)
         method = st.selectbox("Generation method", ["Pretrained Transformer", "Template baseline"])
         beams = st.select_slider("Decoding beams", options=[1, 4], value=4,
                                   help="1 = greedy decoding. 4 = deterministic beam search.")
@@ -88,8 +92,12 @@ def main():
         with st.expander("About the models"):
             st.write(GENERATORS[language].model_id)
             st.caption("Questions are drafts for teacher review. The verifier is fine-tuned on English; French and Arabic checks may be weaker.")
+    direction = "rtl" if language == "ar" else "ltr"
+    alignment = "right" if language == "ar" else "left"
+    font_size = "18px" if language == "ar" else "15px"
+    st.markdown(f"<style>textarea{{direction:{direction};text-align:{alignment};font-family:Arial,sans-serif!important;font-size:{font_size}!important}}</style>", unsafe_allow_html=True)
     st.markdown("<div class='eyebrow'>READ. QUESTION. UNDERSTAND.</div>", unsafe_allow_html=True)
-    st.title("Turn a passage\ninto a learning moment.")
+    st.title("Turn a passage into a learning moment.")
     st.markdown("<p class='intro'>Create factual questions in English, French, and Arabic. Keep the source evidence close—and see which questions need a second look.</p>", unsafe_allow_html=True)
     compose, results_tab, research = st.tabs(["Create a quiz", "Question library", "Experiment results"])
     with compose:

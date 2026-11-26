@@ -12,5 +12,5 @@ jobs:
           cache-dependency-path: pyproject.toml
       - run: python -m pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu
       - run: python -m pip install -e '.[dev]'
-      - run: python -m ruff check .
+      - run: python -m ruff check questionforge scripts tests app.py
       - run: python -m pytest -q

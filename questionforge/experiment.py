@@ -68,6 +68,8 @@ def run_experiment(data_path: Path, output: Path, *, methods=("baseline", "greed
               "generators": {k: asdict(v) for k, v in GENERATORS.items()}, "verifier": asdict(VERIFIER),
               "quality_thresholds": {"min_answer_f1": 0.5, "min_span_score": 0.1},
               "version": 1}
+    config["code_sha256"] = {path.name: hashlib.sha256(path.read_text(encoding="utf-8").encode("utf-8")).hexdigest()
+                              for path in Path(__file__).parent.glob("*.py")}
     config_path = output / "config.json"
     if config_path.exists() and json.loads(config_path.read_text(encoding="utf-8")) != config:
         raise ValueError("This output folder contains a different experiment. Use a new folder.")
@@ -125,7 +127,7 @@ def run_experiment(data_path: Path, output: Path, *, methods=("baseline", "greed
                             row["accepted"], row["review_reasons"] = quality_decision(row)
                     except Exception as exc:
                         # Errors remain in the denominator; do not cherry-pick successful generations.
-                        row.update({"question": "", "error": f"{type(exc).__name__}: {exc}",
+                        row.update({"question": row.get("question", "") if verify else "", "error": f"{type(exc).__name__}: {exc}",
                                     "generation_seconds": time.perf_counter() - start, "answer_f1": 0.0,
                                     "answer_em": 0.0, "qa_score": 0.0, "qa_answer": "",
                                     "accepted": False, "lexical_relevance": 0.0, "answer_leak": False})

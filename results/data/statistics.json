@@ -1,0 +1,83 @@
+[
+  {
+    "language": "ar",
+    "split": "dev",
+    "n": 15,
+    "context_words_median": 77.0,
+    "context_words_p95": 187.3,
+    "answer_words_mean": 5.066666666666666,
+    "question_words_mean": 7.6
+  },
+  {
+    "language": "ar",
+    "split": "test",
+    "n": 40,
+    "context_words_median": 83.0,
+    "context_words_p95": 190.59999999999997,
+    "answer_words_mean": 5.0,
+    "question_words_mean": 6.575
+  },
+  {
+    "language": "ar",
+    "split": "train",
+    "n": 193,
+    "context_words_median": 83.0,
+    "context_words_p95": 215.9999999999999,
+    "answer_words_mean": 5.844559585492228,
+    "question_words_mean": 6.108808290155441
+  },
+  {
+    "language": "en",
+    "split": "dev",
+    "n": 15,
+    "context_words_median": 125.0,
+    "context_words_p95": 182.3,
+    "answer_words_mean": 2.2,
+    "question_words_mean": 9.533333333333333
+  },
+  {
+    "language": "en",
+    "split": "test",
+    "n": 40,
+    "context_words_median": 107.5,
+    "context_words_p95": 246.84999999999985,
+    "answer_words_mean": 3.625,
+    "question_words_mean": 10.35
+  },
+  {
+    "language": "en",
+    "split": "train",
+    "n": 600,
+    "context_words_median": 111.5,
+    "context_words_p95": 209.29999999999973,
+    "answer_words_mean": 3.31,
+    "question_words_mean": 10.445
+  },
+  {
+    "language": "fr",
+    "split": "dev",
+    "n": 15,
+    "context_words_median": 61.0,
+    "context_words_p95": 91.89999999999999,
+    "answer_words_mean": 3.7333333333333334,
+    "question_words_mean": 6.866666666666666
+  },
+  {
+    "language": "fr",
+    "split": "test",
+    "n": 40,
+    "context_words_median": 61.0,
+    "context_words_p95": 87.14999999999999,
+    "answer_words_mean": 4.9,
+    "question_words_mean": 9.175
+  },
+  {
+    "language": "fr",
+    "split": "train",
+    "n": 280,
+    "context_words_median": 61.5,
+    "context_words_p95": 105.0,
+    "answer_words_mean": 4.210714285714285,
+    "question_words_mean": 8.089285714285714
+  }
+]
