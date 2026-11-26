@@ -1,0 +1,59 @@
+{
+  "interpretation": "Control discrimination only. AUROC is not generated-question accuracy or calibration; the unrelated negatives are synthetic and easy.",
+  "diagnostics": [
+    {
+      "language": "en",
+      "qa_span_score_control_auroc": 0.975,
+      "reference": {
+        "n": 40,
+        "empty_answer_pct": 5.0,
+        "target_f1_mean": 85.32855869620575,
+        "target_f1_at_least_half_pct": 87.5,
+        "automatic_acceptance_pct": 87.5
+      },
+      "unrelated": {
+        "n": 40,
+        "empty_answer_pct": 100.0,
+        "target_f1_mean": 0.0,
+        "target_f1_at_least_half_pct": 0.0,
+        "automatic_acceptance_pct": 0.0
+      }
+    },
+    {
+      "language": "fr",
+      "qa_span_score_control_auroc": 0.95,
+      "reference": {
+        "n": 40,
+        "empty_answer_pct": 10.0,
+        "target_f1_mean": 71.78009966612908,
+        "target_f1_at_least_half_pct": 80.0,
+        "automatic_acceptance_pct": 77.5
+      },
+      "unrelated": {
+        "n": 40,
+        "empty_answer_pct": 100.0,
+        "target_f1_mean": 0.0,
+        "target_f1_at_least_half_pct": 0.0,
+        "automatic_acceptance_pct": 0.0
+      }
+    },
+    {
+      "language": "ar",
+      "qa_span_score_control_auroc": 0.95,
+      "reference": {
+        "n": 40,
+        "empty_answer_pct": 10.0,
+        "target_f1_mean": 57.82342167636284,
+        "target_f1_at_least_half_pct": 62.5,
+        "automatic_acceptance_pct": 62.5
+      },
+      "unrelated": {
+        "n": 40,
+        "empty_answer_pct": 100.0,
+        "target_f1_mean": 0.0,
+        "target_f1_at_least_half_pct": 0.0,
+        "automatic_acceptance_pct": 0.0
+      }
+    }
+  ]
+}

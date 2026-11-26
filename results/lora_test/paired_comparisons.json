@@ -1,0 +1,22 @@
+[
+  {
+    "language": "en",
+    "method_minus_baseline": "beam4",
+    "n": 40,
+    "mean_answer_f1_difference_pp": -0.18817204301075308,
+    "group_bootstrap_ci95_pp": [
+      -11.666666666666666,
+      11.666666666666666
+    ]
+  },
+  {
+    "language": "en",
+    "method_minus_baseline": "lora_beam4",
+    "n": 40,
+    "mean_answer_f1_difference_pp": 2.311827956989247,
+    "group_bootstrap_ci95_pp": [
+      -8.25470430107527,
+      12.5
+    ]
+  }
+]

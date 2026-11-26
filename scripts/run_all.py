@@ -74,12 +74,24 @@ def main():
         run(name, ["-m", "questionforge.cli", "evaluate", "--data", f"data/processed/{split}.jsonl",
                    "--output", f"results/{name}", "--languages", "en", "--methods", "baseline", "beam4", "lora_beam4",
                    "--checkpoint", "artifacts/english_lora"], f"results/{name}/summary.json")
-    for name in ["benchmark_dev", "novel_dev", "benchmark_test", "novel_test", "lora_dev", "lora_test"]:
+    run("lora_novel_test", ["-m", "questionforge.cli", "evaluate", "--data", "data/novel/test.jsonl",
+                           "--output", "results/lora_novel_test", "--languages", "en", "--methods",
+                           "baseline", "beam4", "lora_beam4", "--checkpoint", "artifacts/english_lora"],
+        "results/lora_novel_test/summary.json")
+    run("stress_verifier", ["-m", "scripts.stress_verifier"], "results/verifier_stress/summary.json")
+    run("adaptation_analysis", ["-m", "scripts.analyze_adaptation"])
+    run("qualitative_review", ["-m", "scripts.build_qualitative_review"])
+    for name in ["benchmark_dev", "novel_dev", "benchmark_test", "novel_test", "lora_dev", "lora_test", "lora_novel_test"]:
         run(f"plot_{name}", ["-m", "scripts.plot_results", "--results", f"results/{name}"])
+        run(f"controls_{name}", ["-m", "scripts.analyze_controls", "--results", f"results/{name}"])
     run("tests", ["-m", "pytest", "-q"])
+    run("integration_tests", ["-m", "pytest", "-m", "integration", "-o", "addopts=", "-q",
+                              "tests/test_neural_integration.py", "tests/test_app.py"])
+    run("notebook_build", ["-m", "scripts.build_notebook"])
+    run("notebook_execute", ["-m", "scripts.execute_notebook"])
     run("presentation", ["-m", "scripts.build_presentation"])
     (ROOT / "outputs/pipeline/completed.json").write_text(json.dumps({"completed_utc": datetime.now(timezone.utc).isoformat()}, indent=2), encoding="utf-8")
-    print("Experiment pipeline complete. Review outputs, execute notebook and package submission.", flush=True)
+    print("Experiment pipeline complete, including executed notebook. Review outputs and package submission.", flush=True)
 
 
 if __name__ == "__main__":

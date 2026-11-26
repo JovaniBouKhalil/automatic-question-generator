@@ -67,6 +67,11 @@ bad questions or low when the verifier fails, hence reference and unrelated cont
 **Is the QA score confidence that the question is correct?** No. It is the model's span score,
 not a calibrated correctness probability. Rule-based acceptance is coverage, not measured accuracy.
 
+**How independent is the verifier?** It has separate parameters and a different architecture
+from the question generator. That does not imply statistically independent errors: their public
+training corpora can overlap. The expected target is used only after QA inference to score the
+extracted answer; it is not supplied to the verifier's question/passage input.
+
 **Why the controls?** If the verifier cannot answer a good reference question in Arabic, its
 judgment of generated Arabic questions is weak evidence. If it gives the target answer to an
 unrelated question, that exposes false agreement. Interpret generated scores with both controls.

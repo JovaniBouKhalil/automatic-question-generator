@@ -1,0 +1,42 @@
+{
+  "python": "3.11.13",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "packages": {
+    "torch": "2.6.0+cpu",
+    "transformers": "4.57.6",
+    "numpy": "2.4.6",
+    "scikit-learn": "1.9.1",
+    "sacrebleu": "2.6.0",
+    "peft": "0.18.1"
+  },
+  "git_commit": "603a0f529f80c80423572ca4ffbd1a2cd37904de",
+  "source_sha256": {
+    "questionforge/__init__.py": "ab2b984136b0f83fe00df36b313485ed946ef04981b3caf9ce994a631214b236",
+    "questionforge/baseline.py": "9bf672087f705af2eea24477cab03014973253d105aa4f2fb030e4207a0af9e1",
+    "questionforge/candidates.py": "7b7fdfe59a1bbf930794f25fd22fd830a6be0b478a8c6b7bff3cb82d59dcda92",
+    "questionforge/cli.py": "dc091209a7b22760860779fe40e0b3e02008805d7f65792dd4d8a594d1b9cdb1",
+    "questionforge/data.py": "de44b05086800bc14cf0e52c05f0fcc84e05dad9ed0ed98a4271cbfbde97fa86",
+    "questionforge/experiment.py": "74b84b99a36339f558d5214377d330e742976b15f8387fa39d4dc3e7489457a9",
+    "questionforge/export.py": "b34e15e474049c1eaa3581cb6e3d25003f5c64f9675629ec974891fcb3b59024",
+    "questionforge/metrics.py": "64a83578331afb11fc51d1a90908452e70a70b1d808f7e079bae742d0f5f8a75",
+    "questionforge/models.py": "2e01ba40843e8adcdf6801ad7e00920a9027dad18d2489fc17abc4567b4743ba",
+    "questionforge/registry.py": "47d8888cd92faf65e3e81c0d936b6dbc0c9d35e0841e37e65df3de1923ed471e",
+    "questionforge/text.py": "b454a3ee27ce5d02407cb6776db7f4c911c722fc014c8405ec223550c3cb6b58",
+    "scripts/analyze_controls.py": "f8b159a95654bf9c4ba7db04721cafb76ad37a252e281bf8730a8d5b622e583c",
+    "scripts/analyze_data.py": "4196844a45662ecb500d54ae9185847a7f88854b40fa47b9dd3a220d5e9a201e",
+    "scripts/build_notebook.py": "6c0fac2509466ac59eed5ffed55e4caf63ebaaf1ec336fbac10a7e60f083bdea",
+    "scripts/build_novel_data.py": "ebf9b271c5981c2419da1412ec161f6b40ee915959e22a500396ef7329f0f2cf",
+    "scripts/build_presentation.py": "18acb71e87bf5ece5930452f9f1ccf08faaee67ba1ba98f88f2b5718a1f70355",
+    "scripts/capture_app.py": "f5531e678e4f057c4a7293ce7a45de836bab31f504112522ecd10d4874109230",
+    "scripts/download_models.py": "a7b9a58a1ab78de1e69da275cfa80057262f0d3cf70ca4b35294523d10c6abc6",
+    "scripts/execute_notebook.py": "4f0aeb3ba2ea25497446f7b9b2ae24afa0c0b09451af59032f8c91185056c938",
+    "scripts/inspect_predictions.py": "b51995f8afec4dd6e3a859ac37b0000b055d0c5a25d56c893aaa5358a224ead0",
+    "scripts/inspect_sources.py": "538d97000bdf40a469d021ce8fab840e44e0f4de440d80f6129bda520b84e3ba",
+    "scripts/keep_awake.py": "0e734fcdb0604645497668f7d450a91cae5c4f19ceb08745c1d31a00760f1b5f",
+    "scripts/package_submission.py": "58021d655178400ea078623023f7514e52de828a8a1034609e8c534bd258ec1b",
+    "scripts/plot_results.py": "9673921d7f3bc87f7a06ce3c06230594ad6d70911f5d720aa9dc048d212b2312",
+    "scripts/refresh_adapter_card.py": "5f750b4a8eef89d9cd4ffd5eb00f13a0dc6221de350d02d477a402c054040968",
+    "scripts/run_all.py": "dd329bd4f45a0f47b8f62767aa55b2858dc04ee9d301853a8a0bdd107045398a",
+    "scripts/train_lora.py": "1f0e6071036c7b40f651a9e636799b8b9c3958ca43c50805f6b7d72299c91bf4"
+  }
+}

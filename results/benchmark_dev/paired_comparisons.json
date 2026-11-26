@@ -1,0 +1,62 @@
+[
+  {
+    "language": "ar",
+    "method_minus_baseline": "greedy",
+    "n": 15,
+    "mean_answer_f1_difference_pp": 7.6666666666666625,
+    "group_bootstrap_ci95_pp": [
+      -27.780555555555555,
+      42.11111111111111
+    ]
+  },
+  {
+    "language": "ar",
+    "method_minus_baseline": "beam4",
+    "n": 15,
+    "mean_answer_f1_difference_pp": 17.76190476190476,
+    "group_bootstrap_ci95_pp": [
+      -19.021031746031746,
+      50.227777777777774
+    ]
+  },
+  {
+    "language": "en",
+    "method_minus_baseline": "greedy",
+    "n": 15,
+    "mean_answer_f1_difference_pp": -2.2222222222222223,
+    "group_bootstrap_ci95_pp": [
+      -6.666666666666667,
+      0.0
+    ]
+  },
+  {
+    "language": "en",
+    "method_minus_baseline": "beam4",
+    "n": 15,
+    "mean_answer_f1_difference_pp": 0.0,
+    "group_bootstrap_ci95_pp": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "language": "fr",
+    "method_minus_baseline": "greedy",
+    "n": 15,
+    "mean_answer_f1_difference_pp": -3.555555555555556,
+    "group_bootstrap_ci95_pp": [
+      -34.66666666666666,
+      28.0222222222222
+    ]
+  },
+  {
+    "language": "fr",
+    "method_minus_baseline": "beam4",
+    "n": 15,
+    "mean_answer_f1_difference_pp": -8.36701860231272,
+    "group_bootstrap_ci95_pp": [
+      -39.45789341377577,
+      24.283333333333328
+    ]
+  }
+]

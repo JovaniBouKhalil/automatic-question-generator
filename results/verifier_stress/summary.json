@@ -1,0 +1,44 @@
+[
+  {
+    "language": "en",
+    "condition": "reference",
+    "n": 24,
+    "target_answer_f1": 77.77777777777779,
+    "automatic_acceptance_pct": 79.16666666666667
+  },
+  {
+    "language": "en",
+    "condition": "unsupported_qualifier",
+    "n": 24,
+    "target_answer_f1": 4.166666666666667,
+    "automatic_acceptance_pct": 4.166666666666667
+  },
+  {
+    "language": "fr",
+    "condition": "reference",
+    "n": 24,
+    "target_answer_f1": 73.84920634920636,
+    "automatic_acceptance_pct": 75.0
+  },
+  {
+    "language": "fr",
+    "condition": "unsupported_qualifier",
+    "n": 24,
+    "target_answer_f1": 42.738095238095234,
+    "automatic_acceptance_pct": 41.666666666666664
+  },
+  {
+    "language": "ar",
+    "condition": "reference",
+    "n": 24,
+    "target_answer_f1": 83.33333333333333,
+    "automatic_acceptance_pct": 83.33333333333333
+  },
+  {
+    "language": "ar",
+    "condition": "unsupported_qualifier",
+    "n": 24,
+    "target_answer_f1": 48.61111111111111,
+    "automatic_acceptance_pct": 50.0
+  }
+]

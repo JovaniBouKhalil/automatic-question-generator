@@ -13,6 +13,7 @@ try {
     $application.AutomationSecurity = 3
     $deck = $application.Presentations.Open($deckPath, $true, $false, $false)
     $deck.Export($previewPath, 'PNG', 1600, 900)
+    $deck.SaveAs((Join-Path $projectRoot 'presentation\QuestionForge.pdf'), 32)
     Write-Output "Rendered $($deck.Slides.Count) slides into $previewPath"
 }
 finally {

@@ -74,9 +74,16 @@ python -m questionforge.cli evaluate --data data/processed/test.jsonl --output r
 python -m questionforge.cli evaluate --data data/novel/test.jsonl --output results/novel_test
 python -m questionforge.cli evaluate --data data/processed/dev.jsonl --output results/lora_dev --languages en --methods baseline beam4 lora_beam4 --checkpoint artifacts/english_lora
 python -m questionforge.cli evaluate --data data/processed/test.jsonl --output results/lora_test --languages en --methods baseline beam4 lora_beam4 --checkpoint artifacts/english_lora
+python -m questionforge.cli evaluate --data data/novel/test.jsonl --output results/lora_novel_test --languages en --methods baseline beam4 lora_beam4 --checkpoint artifacts/english_lora
+python -m scripts.stress_verifier
+python -m scripts.analyze_adaptation
+python -m scripts.build_qualitative_review
 python -m scripts.plot_results --results results/benchmark_test
 python -m scripts.plot_results --results results/novel_test
 python -m scripts.plot_results --results results/lora_test
+python -m scripts.analyze_controls --results results/benchmark_test
+python -m scripts.build_notebook
+python -m scripts.execute_notebook
 python -m scripts.build_presentation
 python -m scripts.package_submission
 ```
@@ -95,7 +102,9 @@ It rejects an output directory with a different configuration or input hash. See
 Baseline, greedy and beam-4 settings are fixed in advance; the test set is not used for selection.
 
 `python scripts/run_all.py` automates dataset preparation, the bounded training run, evaluations
-and figures. Start the model downloader separately first. Per-stage logs are in `outputs/pipeline/`.
+and figures, the executed notebook, and the PPTX. Start the model downloader separately first.
+Per-stage logs are in `outputs/pipeline/`. PDF and PNG slide rendering is optional and uses an
+existing Windows PowerPoint installation through `scripts/render_slides.ps1`.
 
 ## Data and models
 
@@ -122,6 +131,25 @@ scores across languages are not a controlled language ranking.
 Experiment folders contain configurations, environment versions, per-example predictions,
 metric tables, group bootstrap intervals, figures and review examples. Human-rating cells in
 `human_review.csv` intentionally stay blank until a person annotates them.
+
+Measured public test subset, **40 paragraphs per language**, scores on 0–100 scales:
+
+| Language | Baseline ROUGE-L | Beam-4 ROUGE-L | Baseline QA F1 | Beam-4 QA F1 |
+|---|---:|---:|---:|---:|
+| English | 28.69 | 50.58 | 87.06 | 86.87 |
+| French | 19.91 | 31.33 | 76.56 | 58.38 |
+| Arabic | 12.24 | 31.91 | 31.30 | 38.25 |
+
+Reference agreement improves; answer recovery does not improve universally. QA agreement
+misses some factual errors and rejects some correct questions. See the paired intervals,
+verifier controls and 11 disclosed AI-assisted source inspections in `results/qualitative_examples.json`.
+English LoRA adds 2.5 QA F1 points on this 40-case subset (95% paired interval [0, 7.5]), with
+no QA F1 change on 24 original classroom cases. This is limited evidence of improvement.
+
+An **exploratory post-hoc** verifier probe adds an unsupported location to reference questions.
+The fixed rules accept 1/24 English, 10/24 French and 12/24 Arabic probes. These are constructed
+stress-test outcomes, not estimates of real-world question accuracy; no thresholds or generators
+were tuned using this probe.
 
 - [Walkthrough notebook](notebooks/QuestionForge.ipynb)
 - [Rubric checklist](docs/RUBRIC_CHECKLIST.md)

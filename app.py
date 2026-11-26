@@ -189,7 +189,7 @@ def main():
                         st.markdown(f"<div class='evidence' dir='auto'>{marked_evidence(row)}</div>", unsafe_allow_html=True)
                         if "answer_f1" in row:
                             if row.get("accepted"):
-                                st.success("Passed automatic review checks · teacher review recommended")
+                                st.success("Passed QA consistency rules · review wording and source support")
                             else:
                                 st.warning("Review suggested: " + "; ".join(row.get("review_reasons", [])))
                             with st.expander("Inspect the check"):

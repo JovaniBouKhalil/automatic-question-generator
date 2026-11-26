@@ -1,0 +1,62 @@
+[
+  {
+    "language": "ar",
+    "method_minus_baseline": "greedy",
+    "n": 24,
+    "mean_answer_f1_difference_pp": -37.5,
+    "group_bootstrap_ci95_pp": [
+      -50.0,
+      -25.0
+    ]
+  },
+  {
+    "language": "ar",
+    "method_minus_baseline": "beam4",
+    "n": 24,
+    "mean_answer_f1_difference_pp": -29.629629629629633,
+    "group_bootstrap_ci95_pp": [
+      -42.14120370370371,
+      -16.203703703703706
+    ]
+  },
+  {
+    "language": "en",
+    "method_minus_baseline": "greedy",
+    "n": 24,
+    "mean_answer_f1_difference_pp": -4.8611111111111125,
+    "group_bootstrap_ci95_pp": [
+      -16.666666666666668,
+      4.861111111111111
+    ]
+  },
+  {
+    "language": "en",
+    "method_minus_baseline": "beam4",
+    "n": 24,
+    "mean_answer_f1_difference_pp": -3.4722222222222228,
+    "group_bootstrap_ci95_pp": [
+      -14.583333333333334,
+      6.249999999999997
+    ]
+  },
+  {
+    "language": "fr",
+    "method_minus_baseline": "greedy",
+    "n": 24,
+    "mean_answer_f1_difference_pp": -29.471134742873875,
+    "group_bootstrap_ci95_pp": [
+      -47.33649382018947,
+      -11.78571428571429
+    ]
+  },
+  {
+    "language": "fr",
+    "method_minus_baseline": "beam4",
+    "n": 24,
+    "mean_answer_f1_difference_pp": -18.67216117216117,
+    "group_bootstrap_ci95_pp": [
+      -32.00152625152625,
+      -5.343330280830293
+    ]
+  }
+]

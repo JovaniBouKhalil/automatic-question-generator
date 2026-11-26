@@ -1,0 +1,23 @@
+{
+  "interpretation": "Control discrimination only. AUROC is not generated-question accuracy or calibration; the unrelated negatives are synthetic and easy.",
+  "diagnostics": [
+    {
+      "language": "en",
+      "qa_span_score_control_auroc": 0.8958333333333333,
+      "reference": {
+        "n": 24,
+        "empty_answer_pct": 20.833333333333332,
+        "target_f1_mean": 77.77777777777779,
+        "target_f1_at_least_half_pct": 79.16666666666667,
+        "automatic_acceptance_pct": 79.16666666666667
+      },
+      "unrelated": {
+        "n": 24,
+        "empty_answer_pct": 100.0,
+        "target_f1_mean": 0.0,
+        "target_f1_at_least_half_pct": 0.0,
+        "automatic_acceptance_pct": 0.0
+      }
+    }
+  ]
+}

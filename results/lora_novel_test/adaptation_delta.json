@@ -1,0 +1,12 @@
+{
+  "n": 24,
+  "mean_answer_f1_change_pp": 0.0,
+  "paired_group_bootstrap_ci95_pp": [
+    0.0,
+    0.0
+  ],
+  "improved_examples": 0,
+  "worsened_examples": 0,
+  "unchanged_examples": 24,
+  "interpretation": "Small paired subset. Intervals include sampling variation only; no test-based model selection."
+}

@@ -57,6 +57,8 @@ def main():
     training = json.loads((ROOT / "artifacts/english_lora/training_manifest.json").read_text(encoding="utf-8"))
     predictions = [json.loads(line) for line in (ROOT / "results/benchmark_test/predictions.jsonl").read_text(encoding="utf-8").splitlines()]
     presentation = Presentation()
+    presentation.core_properties.title = "QuestionForge — Multilingual Automatic Question Generation"
+    presentation.core_properties.author = "QuestionForge project; AI assistance disclosed"
     presentation.slide_width, presentation.slide_height = Inches(13.333), Inches(7.5)
     outline = []
 
@@ -91,6 +93,10 @@ def main():
     def metric(rows, language, method, key):
         return next(r[key] for r in rows if r["language"] == language and r["method"] == method)
 
+    def add_notes(result, text):
+        result.notes_slide.notes_text_frame.text += "\n\n" + text
+        outline[-1]["notes"] = result.notes_slide.notes_text_frame.text
+
     s = slide("From passage to practice.", "Factual question generation with source evidence and independent answerability checks.",
               "Introduce the task: educational text plus an intended answer becomes a factual question. We compare a cheap baseline, pretrained sequence-to-sequence models and an English LoRA extension. The final rubric requires code, 8–12 slides and a demo, not a standalone report. Substantial Codex assistance is disclosed in AI_ASSISTANCE.md; the student should understand and review the implementation.")
     textbox(s, "QuestionForge", .65, 2.6, 12, 1.1, 62, GREEN, True)
@@ -122,7 +128,9 @@ def main():
 
     s = slide("A cheap baseline. A learned rewrite.", "Identical context and target answers make the comparison interpretable.",
               "Baseline: source sentence with the exact target replaced by a language-specific WH phrase. This retains source content but often yields unnatural grammar. Neural models learn conditional rewriting and question syntax. English: lmqg/t5-small-squad-qg; French: lmqg/mt5-small-frquad-qg; Arabic: Mihakram/AraT5-base-question-generation. Input formats and pinned revisions are documented in registry.py and DATA_AND_MODELS.md. Different language checkpoints are not matched in parameter count or training data.")
-    exemplar = next(r for r in predictions if r["language"] == "en" and r["method"] == "beam4")
+    exemplar = next((r for r in predictions if r["id"] == "en:57114667a58dae1900cd6d80" and r["method"] == "beam4"),
+                    next(r for r in predictions if r["language"] == "en" and r["method"] == "beam4"))
+    add_notes(s, f"Illustrative source example selected for readability, not to estimate average quality. Record ID: {exemplar['id']}.")
     baseline = next(r for r in predictions if r["id"] == exemplar["id"] and r["method"] == "baseline")
     evidence = exemplar.get("evidence", exemplar["context"])
     answer_at = evidence.find(exemplar["answer"])
@@ -138,6 +146,7 @@ def main():
     pill(s, "Decoder: question tokens", 7.0, 2.9, 5.4, GOLD)
     textbox(s, "Bidirectional input attention\nCross-attention → causal output decoding", .9, 4.0, 11.4, 1.1, 24)
     textbox(s, f"LoRA: {training['trainable_parameters']:,} / {training['total_parameters']:,} trainable parameters\n{training['steps']} updates · effective batch 8 · dev loss {training['initial_dev_loss']:.3f} → {training['best_dev_loss']:.3f}", .9, 5.35, 11.5, 1.0, 23, GREEN, True)
+    add_notes(s, "LoRA method reference: https://arxiv.org/abs/2106.09685 . Training-loss figure is included in artifacts/english_lora/loss_curve.png. The loss reduction is small and is not a quality guarantee.")
 
     s = slide("Fixed settings. Paired comparisons.", "Do not choose hyperparameters using the final test results.",
               "Configuration is recorded in results/*/config.json along with input hashes and checkpoint commits; environment.json records versions and git commit. Cold model loading is excluded from per-example generation latency and reported separately. All methods evaluate identical IDs. Errors remain in denominators. LoRA trains at 256 input tokens for cost control, then evaluates at the common 384-token budget. This tests a small practical adaptation, not a full training sweep. Single-reference overlap is imperfect. Paragraph-group bootstrap intervals estimate sampling variability, not systematic error.")
@@ -156,23 +165,56 @@ def main():
     s = slide("Check the questions—and the judge.", "The verifier is multilingual-pretrained, but QA-fine-tuned on English SQuAD2.",
               "Verifier source: https://huggingface.co/deepset/xlm-roberta-base-squad2-distilled . Reference questions are positive controls; unrelated questions ask for a red submarine's serial number. High reference F1 supports usefulness of the verifier on that language/domain; low reference F1 makes generated-question failures ambiguous. Nonzero unrelated target agreement exposes false positives. The rule requires F1>=0.5, nonempty span score>=0.1 and no answer leakage. Coverage is not human accuracy. QA span scores are uncalibrated, and lexical cosine is not semantic entailment.")
     s.shapes.add_picture(str(ROOT / "results/benchmark_test/verifier_controls.png"), Inches(.65), Inches(2.45), width=Inches(7.5))
-    coverage = "\n".join(f"{lang.upper()} beam-4 coverage: {metric(benchmark, lang, 'beam4', 'accepted'):.1f}%" for lang in ["en", "fr", "ar"])
-    textbox(s, coverage + "\n\nCoverage ≠ question accuracy.\nTeacher review remains necessary.", 8.4, 2.8, 4.2, 3.3, 21)
+    stress_path = ROOT / "results/verifier_stress/summary.json"
+    if stress_path.exists():
+        stress = json.loads(stress_path.read_text(encoding="utf-8"))
+        rates = {r["language"]: r["automatic_acceptance_pct"] for r in stress if r["condition"] == "unsupported_qualifier"}
+        counts = {r["language"]: r["n"] for r in stress if r["condition"] == "unsupported_qualifier"}
+        accepted_counts = {lang: round(rates[lang] * counts[lang] / 100) for lang in rates}
+        textbox(s, "Unsupported location probe\nAutomatic acceptance", 8.4, 2.6, 4.2, .85, 19, GREEN, True)
+        textbox(s, "\n".join(f"{lang.upper()}   {rates[lang]:.1f}% ({accepted_counts[lang]}/{counts[lang]})" for lang in ["en", "fr", "ar"]), 8.5, 3.65, 4.0, 1.7, 22)
+        textbox(s, "Exploratory: append 'on Mars' to reference questions.\nThe location is unsupported by each passage.", 8.4, 5.65, 4.1, .95, 14, GRAY)
+        counts_text = ", ".join(f"{accepted_counts[lang]}/{counts[lang]} {lang.upper()}" for lang in ["en", "fr", "ar"])
+        coverage_text = ", ".join(f"{lang.upper()} {metric(benchmark, lang, 'beam4', 'accepted'):.1f}%" for lang in ["en", "fr", "ar"])
+        add_notes(s, f"This probe was added after observing a perfect-QA but unfaithful David/Trajan's Column question. It is exploratory and does not tune generation or review thresholds. Unsupported Mars qualifiers pass the fixed rules in {counts_text} cases. The labels indicate unsupported premises in these constructed questions, not real-world truth or general false-positive rates. Main beam-4 coverage: {coverage_text}; coverage is not accuracy.")
+    else:
+        coverage = "\n".join(f"{lang.upper()} beam-4 coverage: {metric(benchmark, lang, 'beam4', 'accepted'):.1f}%" for lang in ["en", "fr", "ar"])
+        textbox(s, coverage + "\n\nCoverage ≠ question accuracy.\nTeacher review remains necessary.", 8.4, 2.8, 4.2, 3.3, 21)
 
-    s = slide("Failures are part of the result.", "Automatic examples below need human inspection; low QA agreement can also mean verifier failure.",
-              "Examples are selected deterministically by lowest QA answer agreement within each language's beam-4 outputs. They are not invented human labels. Inspect source evidence, intended answer and independent QA answer to distinguish wrong relation, malformed question, ambiguity or judge failure. human_review.csv has blank relevance/answerability/fluency ratings. Add human annotation rather than claiming automatic proxies are ground truth.")
+    s = slide("Failures are part of the result.", "Source-inspected examples distinguish generation mistakes from judge mistakes.",
+              "These illustrative cases were selected purposively with disclosed AI-assisted qualitative inspection. They are not blinded human ratings or error-prevalence estimates. Inspect the source evidence and the intended relation. human_review.csv remains blank for student/human annotation. Additional cases and full source passages are in results/qualitative_examples.json.")
+    selected_ids = {"en": "en:572a07c11d046914007796d8", "fr": "fr:2739", "ar": "ar:550131195698"}
+    categories = {"en": "Purpose confused with method", "fr": "Wrong semantic role", "ar": "Verifier fails on the exact reference question"}
+    review_path = ROOT / "results/qualitative_examples.json"
+    qualitative = json.loads(review_path.read_text(encoding="utf-8"))["examples"] if review_path.exists() else []
     for index, lang in enumerate(["en", "fr", "ar"]):
         examples = [r for r in predictions if r["language"] == lang and r["method"] == "beam4"]
-        row = min(examples, key=lambda r: (r.get("answer_f1", 0), r["id"]))
-        text = (f"{lang.upper()}  {row['question'][:130]}\nTarget: {row['answer'][:60]}  |  QA: {row.get('qa_answer', '')[:60]}"
+        row = next((r for r in examples if r["id"] == selected_ids[lang]), min(examples, key=lambda r: (r.get("answer_f1", 0), r["id"])))
+        textbox(s, f"{lang.upper()} / {categories[lang]}", .8, 2.45 + index*1.35, 11.7, .35, 15, GREEN, True)
+        text = (f"{row['question'][:110]}\nTarget: {row['answer'][:45]}  |  QA: {row.get('qa_answer', '')[:45]}"
                 f"  |  F1: {100*row.get('answer_f1', 0):.1f}")
-        textbox(s, text, .8, 2.5 + index*1.35, 11.7, 1.25, 18)
+        textbox(s, text, .8, 2.82 + index*1.35, 11.7, .9, 16)
+        review = next((r["review"] for r in qualitative if r["id"] == row["id"] and r["method"] == "beam4"), "Inspect the source and target relation.")
+        add_notes(s, f"{lang.upper()} {row['id']}: {review}\nSource: {row.get('evidence', row['context'])}")
 
     s = slide("Ready to demonstrate. Clear about the limits.", "A working learning tool, with an auditable experiment behind it.",
               "Demonstrate English, French and Arabic; show evidence and review reasons; export student worksheet and answer key. Original parallel scenarios supplement the public benchmark but are small and AI-assisted. Upstream exposure, limited human annotation, single references and cross-lingual verifier weakness limit conclusions. Next: human ratings from two reviewers, near-duplicate/article isolation, stronger multilingual verification and independently authored educational data. AI assistance is disclosed. Personalize and rehearse the slides before submission.")
     base_f1, lora_f1 = metric(lora, "en", "beam4", "answer_f1"), metric(lora, "en", "lora_beam4", "answer_f1")
-    textbox(s, f"English QA F1: original {base_f1:.1f} → LoRA {lora_f1:.1f}\nTraining loss improvement does not guarantee generation improvement.", .8, 2.6, 11.7, 1.2, 24, GREEN, True)
-    textbox(s, "Demo: choose a passage → inspect a question → export a quiz\nNext: human annotations, stronger multilingual verification, new educational passages", .8, 4.3, 11.5, 1.5, 24)
+    delta_path = ROOT / "results/lora_test/adaptation_delta.json"
+    delta = json.loads(delta_path.read_text(encoding="utf-8")) if delta_path.exists() else {}
+    interval = delta.get("paired_group_bootstrap_ci95_pp")
+    interval_text = f"95% interval [{interval[0]:g}, {interval[1]:g}]" if interval else "paired interval pending"
+    novel_path = ROOT / "results/lora_novel_test/summary.json"
+    novel_text = "Original classroom adaptation comparison pending."
+    if novel_path.exists():
+        novel_adapt = json.loads(novel_path.read_text(encoding="utf-8"))
+        novel_gain = metric(novel_adapt, "en", "lora_beam4", "answer_f1") - metric(novel_adapt, "en", "beam4", "answer_f1")
+        novel_count = metric(novel_adapt, "en", "beam4", "n")
+        novel_text = (f"No QA F1 change on {novel_count} original classroom cases." if abs(novel_gain) < 1e-10 else
+                      f"Classroom-case QA F1 change: {novel_gain:+.1f} points ({novel_count} cases).")
+    textbox(s, f"English QA F1: original {base_f1:.1f} → LoRA {lora_f1:.1f}\nPaired gain: {lora_f1-base_f1:.1f} points; {interval_text}.\n{novel_text}", .8, 2.6, 11.7, 1.6, 23, GREEN, True)
+    textbox(s, "Demo: choose a passage → inspect a question → export a quiz\nNext: human review and stronger multilingual verification", .8, 4.55, 11.5, 1.25, 23)
+    add_notes(s, f"Paired public-benchmark LoRA analysis: {json.dumps(delta)}. {novel_text} These are limited subset results. Inspect whether intervals exclude zero before making a directional claim. See adaptation_delta.json for both subsets. Beam-4 improves benchmark ROUGE-L in all three languages in the provided run, while French QA agreement is lower than the copying baseline. Report the tradeoff rather than universal superiority.")
     textbox(s, "Code, sources, measured predictions and reproduction commands are included.\nSubstantial AI assistance disclosed in AI_ASSISTANCE.md.", .8, 6.1, 11.7, .7, 15, GRAY)
     output = ROOT / "presentation"
     output.mkdir(exist_ok=True)

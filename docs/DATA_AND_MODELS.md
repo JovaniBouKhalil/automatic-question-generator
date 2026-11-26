@@ -14,6 +14,10 @@ receives **context + target answer**, and predicts the reference question. Full 
 rejections and selected counts are measured in `data/processed/manifest.json`, copied into
 `results/data/manifest.json` for submission. Source URLs above document provenance and permissions.
 
+The NewsQuAD-fr card describes annotation by three people using PIAF tools and explicitly
+acknowledges limited annotation control and news-related bias. These source-label limitations
+are additional reasons to inspect individual examples rather than treating every score as truth.
+
 ## Partitions and preprocessing
 
 1. Validate nonempty questions and an exact answer at its supplied character offset.
@@ -98,10 +102,15 @@ evaluated separately. Small adapter weights may be submitted; backbone weights a
 - `scripts/analyze_controls.py` measures reference/unrelated answer rates and span-score AUROC
   on these constructed controls. This diagnoses control discrimination, not human-rated question
   accuracy or confidence calibration; synthetic unrelated negatives are relatively easy.
+- `scripts/stress_verifier.py` is a separate **exploratory post-hoc** diagnostic, motivated by
+  an observed wrong relation with perfect QA agreement. It pairs classroom references with
+  versions containing an unsupported Mars location. It measures unsupported-premise acceptance
+  on those constructed cases, without changing any model or fixed threshold.
 - **95% group bootstrap intervals** resample whole paragraphs or scenario topics 1,000 times
   (seed 42). Paired differences use matching record IDs. Small samples limit generalization.
-- Errors stay in denominators as explicit failure rows with zero scores. Generation, verification
-  and cold-load times are recorded separately.
+- Errors stay in denominators as explicit failure rows. Failed generation gives an empty
+  prediction; failed QA gives zero answer-agreement scores while retaining any real generated
+  question for overlap metrics. Generation, verification and cold-load times are separate.
 
 The verifier has multilingual pretraining but **English SQuAD2 QA fine-tuning**. A low French or
 Arabic score can be a judge failure. Neither high overlap nor QA agreement proves fluency,

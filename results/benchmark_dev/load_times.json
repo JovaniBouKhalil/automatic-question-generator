@@ -1,0 +1,9 @@
+{
+  "verifier_seconds": 8.787618399999701,
+  "en_greedy_load_seconds": 0.31437780000032944,
+  "en_beam4_load_seconds": 1.99999976757681e-06,
+  "fr_greedy_load_seconds": 1.552483100000245,
+  "fr_beam4_load_seconds": 2.200000380980782e-06,
+  "ar_greedy_load_seconds": 0.9472423000006529,
+  "ar_beam4_load_seconds": 1.5000005078036338e-06
+}

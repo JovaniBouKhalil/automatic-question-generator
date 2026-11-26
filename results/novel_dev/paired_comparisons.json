@@ -1,0 +1,62 @@
+[
+  {
+    "language": "ar",
+    "method_minus_baseline": "greedy",
+    "n": 6,
+    "mean_answer_f1_difference_pp": 0.0,
+    "group_bootstrap_ci95_pp": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "language": "ar",
+    "method_minus_baseline": "beam4",
+    "n": 6,
+    "mean_answer_f1_difference_pp": 0.0,
+    "group_bootstrap_ci95_pp": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "language": "en",
+    "method_minus_baseline": "greedy",
+    "n": 6,
+    "mean_answer_f1_difference_pp": 0.0,
+    "group_bootstrap_ci95_pp": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "language": "en",
+    "method_minus_baseline": "beam4",
+    "n": 6,
+    "mean_answer_f1_difference_pp": 0.0,
+    "group_bootstrap_ci95_pp": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "language": "fr",
+    "method_minus_baseline": "greedy",
+    "n": 6,
+    "mean_answer_f1_difference_pp": -16.666666666666668,
+    "group_bootstrap_ci95_pp": [
+      -50.0,
+      0.0
+    ]
+  },
+  {
+    "language": "fr",
+    "method_minus_baseline": "beam4",
+    "n": 6,
+    "mean_answer_f1_difference_pp": -16.666666666666668,
+    "group_bootstrap_ci95_pp": [
+      -50.0,
+      0.0
+    ]
+  }
+]

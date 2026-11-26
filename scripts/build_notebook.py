@@ -120,7 +120,7 @@ All methods use the same record IDs. Generation errors stay in the denominator. 
 bootstrap intervals resample paragraphs or scenario topics. Main results use every
 example; review rules report coverage and do not silently remove failures.
 """)
-    code("""for name in ['benchmark_test', 'novel_test', 'lora_test']:
+    code("""for name in ['benchmark_test', 'novel_test', 'lora_test', 'lora_novel_test']:
     summary = ROOT / 'results' / name / 'summary.csv'
     if summary.exists():
         print(name)
@@ -151,7 +151,35 @@ if review.exists():
     examples_to_review = json.loads(review.read_text(encoding='utf-8'))
     display(pd.DataFrame(examples_to_review)[['selection', 'language', 'method', 'question', 'answer', 'qa_answer', 'answer_f1']])
 """)
-    markdown("""## 6. Demonstrate and explain
+    markdown("""## 6. Inspect factual failures and stress the verifier
+
+`results/qualitative_examples.json` contains disclosed AI-assisted source inspections,
+not blinded human ratings. Cases include a question that wrongly merges David and
+Trajan's Column despite perfect QA agreement, and an Arabic question identical to its
+reference for which the verifier selects the wrong answer.
+
+An **exploratory post-hoc** probe appends an unsupported 'on Mars' qualifier to original
+classroom questions. It measures whether the fixed review rules can miss unsupported
+premises. It does not tune the generators or thresholds and does not estimate the
+frequency of such errors in naturally generated questions.
+""")
+    code("""qualitative = ROOT / 'results/qualitative_examples.json'
+if qualitative.exists():
+    inspected = json.loads(qualitative.read_text(encoding='utf-8'))
+    print(inspected['reviewer'])
+    display(pd.DataFrame(inspected['examples'])[['language','category','question','answer','qa_answer','review']])
+stress = ROOT / 'results/verifier_stress/summary.json'
+if stress.exists():
+    display(pd.DataFrame(json.loads(stress.read_text(encoding='utf-8'))))
+for name in ['lora_test', 'lora_novel_test']:
+    paired = ROOT / 'results' / name / 'adaptation_delta.json'
+    if paired.exists():
+        print(name, json.loads(paired.read_text(encoding='utf-8')))
+loss_plot = ROOT / 'artifacts/english_lora/loss_curve.png'
+if loss_plot.exists():
+    display(Image(filename=str(loss_plot), width=700))
+""")
+    markdown("""## 7. Demonstrate and explain
 
 Launch `python -m streamlit run app.py`. Choose a language, paste a passage, supply exact
 answers or use TF-IDF suggestions, and inspect the questions and evidence. Export a
