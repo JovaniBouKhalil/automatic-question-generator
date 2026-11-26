@@ -43,7 +43,9 @@ def main():
     axis.legend(fontsize=8)
     axis.spines[["top", "right"]].set_visible(False)
     fig.tight_layout()
-    fig.savefig(directory / "loss_curve.png", dpi=180)
+    figure_path = ROOT / "results/data/lora_loss_curve.png"
+    figure_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(figure_path, dpi=180)
     plt.close(fig)
 
 

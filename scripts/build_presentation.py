@@ -146,7 +146,7 @@ def main():
     pill(s, "Decoder: question tokens", 7.0, 2.9, 5.4, GOLD)
     textbox(s, "Bidirectional input attention\nCross-attention → causal output decoding", .9, 4.0, 11.4, 1.1, 24)
     textbox(s, f"LoRA: {training['trainable_parameters']:,} / {training['total_parameters']:,} trainable parameters\n{training['steps']} updates · effective batch 8 · dev loss {training['initial_dev_loss']:.3f} → {training['best_dev_loss']:.3f}", .9, 5.35, 11.5, 1.0, 23, GREEN, True)
-    add_notes(s, "LoRA method reference: https://arxiv.org/abs/2106.09685 . Training-loss figure is included in artifacts/english_lora/loss_curve.png. The loss reduction is small and is not a quality guarantee.")
+    add_notes(s, "LoRA method reference: https://arxiv.org/abs/2106.09685 . Training-loss figure is included in results/data/lora_loss_curve.png. The loss reduction is small and is not a quality guarantee.")
 
     s = slide("Fixed settings. Paired comparisons.", "Do not choose hyperparameters using the final test results.",
               "Configuration is recorded in results/*/config.json along with input hashes and checkpoint commits; environment.json records versions and git commit. Cold model loading is excluded from per-example generation latency and reported separately. All methods evaluate identical IDs. Errors remain in denominators. LoRA trains at 256 input tokens for cost control, then evaluates at the common 384-token budget. This tests a small practical adaptation, not a full training sweep. Single-reference overlap is imperfect. Paragraph-group bootstrap intervals estimate sampling variability, not systematic error.")

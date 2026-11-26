@@ -175,7 +175,7 @@ for name in ['lora_test', 'lora_novel_test']:
     paired = ROOT / 'results' / name / 'adaptation_delta.json'
     if paired.exists():
         print(name, json.loads(paired.read_text(encoding='utf-8')))
-loss_plot = ROOT / 'artifacts/english_lora/loss_curve.png'
+loss_plot = ROOT / 'results/data/lora_loss_curve.png'
 if loss_plot.exists():
     display(Image(filename=str(loss_plot), width=700))
 """)

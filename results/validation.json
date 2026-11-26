@@ -1,0 +1,23 @@
+{
+  "regular_tests_passed": 35,
+  "neural_integration_tests_passed": 4,
+  "executed_notebook_code_cells": 7,
+  "notebook_errors": 0,
+  "presentation_slides": 11,
+  "presentation_pdf_pages": 11,
+  "experiment_prediction_rows": {
+    "benchmark_dev": 225,
+    "benchmark_test": 600,
+    "lora_dev": 75,
+    "lora_novel_test": 120,
+    "lora_test": 200,
+    "novel_dev": 90,
+    "novel_test": 360
+  },
+  "experiment_execution_errors": 0,
+  "generation_experiments_with_matching_core_source_hashes": 7,
+  "adapter_fingerprints_match_saved_configurations": true,
+  "human_rating_cells_still_blank": true,
+  "resume_prediction_count": 200,
+  "resume_prediction_sha256_unchanged": "e31d8379e9f5b6585ad3d9616706e99a26dabfeaacd516f7538fc80ce5911976"
+}

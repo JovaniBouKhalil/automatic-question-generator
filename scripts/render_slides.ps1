@@ -11,6 +11,7 @@ $deck = $null
 try {
     $application = New-Object -ComObject PowerPoint.Application
     $application.AutomationSecurity = 3
+    $application.DisplayAlerts = 1
     $deck = $application.Presentations.Open($deckPath, $true, $false, $false)
     $deck.Export($previewPath, 'PNG', 1600, 900)
     $deck.SaveAs((Join-Path $projectRoot 'presentation\QuestionForge.pdf'), 32)

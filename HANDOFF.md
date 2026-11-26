@@ -78,6 +78,8 @@ completed human evaluations. Teacher review of wording and factual support is pa
 
 - **35 regular tests passed; 4 real neural integration tests passed.**
 - Ruff checks passed; the notebook executed without errors.
+- A resumed copy of the LoRA test experiment retained all 200 prediction records with an
+  unchanged SHA-256. All seven generation experiments match the final core source hashes.
 - All main generation/verification experiment records have zero execution errors.
 - Slides were rendered and visually inspected; PDF and ZIP integrity were checked.
 - Dataset preparation rejected invalid spans/duplicates and removed **15 Arabic training
