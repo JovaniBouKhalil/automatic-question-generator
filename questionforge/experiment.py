@@ -34,8 +34,12 @@ def environment_info():
         commit = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
     except (OSError, subprocess.CalledProcessError):
         commit = None
+    root = Path(__file__).resolve().parents[1]
+    source_files = list((root / "questionforge").glob("*.py")) + list((root / "scripts").glob("*.py"))
+    hashes = {p.relative_to(root).as_posix(): hashlib.sha256(p.read_text(encoding="utf-8").encode("utf-8")).hexdigest()
+              for p in sorted(source_files)}
     return {"python": platform.python_version(), "platform": platform.platform(), "packages": packages,
-            "git_commit": commit}
+            "git_commit": commit, "source_sha256": hashes}
 
 
 def fingerprint_file(path: Path):

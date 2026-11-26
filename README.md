@@ -31,6 +31,7 @@ validation. Windows PowerShell:
 py -3.11 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --upgrade pip
 .\.venv\Scripts\python.exe -m pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu
+.\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
 .\.venv\Scripts\python.exe -m pip install -e ".[dev,train]"
 .\.venv\Scripts\python.exe scripts/download_models.py
 .\.venv\Scripts\python.exe -m streamlit run app.py

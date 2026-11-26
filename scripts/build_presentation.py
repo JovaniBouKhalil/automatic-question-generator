@@ -107,8 +107,10 @@ def main():
     for lang in ["en", "fr", "ar"]:
         info = manifest["datasets"][lang]
         counts = info["selected_counts"]
-        rows.append([lang.upper(), info["id"], f"{counts['train']} / {counts['dev']} / {counts['test']}"])
-    table(s, ["Language", "Pinned dataset", "Train / dev / test"], rows, h=2.1)
+        short_name = {"en": "SQuAD", "fr": "NewsQuAD-fr", "ar": "ARCD"}[lang]
+        rows.append([f"{lang.upper()} · {short_name}", f"{info['raw_counts']['train']:,} / {info['raw_counts']['test']:,}",
+                     f"{counts['train']} / {counts['dev']} / {counts['test']}"])
+    table(s, ["Language / source", "Original train / eval", "Used train / dev / test"], rows, h=2.1)
     textbox(s, "Original supplement: 15 parallel scenarios · 90 questions\n18 development + 72 test · translations grouped by topic", .8, 5.2, 11.5, 1.1, 22)
 
     s = slide("Preserve language. Prevent paragraph leakage.", "Natural text and exact offsets enter the pretrained tokenizer unchanged.",

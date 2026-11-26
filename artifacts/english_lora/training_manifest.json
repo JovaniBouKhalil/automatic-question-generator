@@ -47,5 +47,6 @@
     },
     "git_commit": "c72318f4c77613a1b578dd5ac460eb9b391fd0b3"
   },
-  "test_used_for_training_or_selection": false
+  "test_used_for_training_or_selection": false,
+  "reproduction_note": "Training used a development working tree based on c72318f; implementation checkpoint f071982. Later changes suppress tokenizer warnings and improve source-hash logging; adapter weights are unchanged."
 }

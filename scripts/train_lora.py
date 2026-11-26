@@ -134,6 +134,17 @@ def main():
                 "data_sha256": {k: fingerprint_file(args.data_dir / f"{k}.jsonl") for k in partitions},
                 "environment": environment_info(), "test_used_for_training_or_selection": False}
     (args.output / "training_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    card = (f"# English question-generation LoRA adapter\n\n"
+            f"Base: [{spec.model_id}](https://huggingface.co/{spec.model_id}), pinned revision `{spec.revision}`. "
+            "Base checkpoint license: CC-BY-4.0. Credit the lmqg authors and original T5 authors.\n\n"
+            f"Rank 8 Q/V attention updates: {trainable:,} trainable parameters out of {total:,}. "
+            f"Trained for {args.steps} optimizer updates on the paragraph-disjoint English training subset. "
+            f"Checkpoint selected at step {best_step} using development token loss "
+            f"({initial_loss:.4f} → {best_loss:.4f}). No test examples entered training or selection.\n\n"
+            "This is a small adaptation experiment, not a claim of state-of-the-art quality. "
+            "See training_manifest.json and history.json for data hashes, configuration and measured losses; "
+            "results/lora_test for generation comparisons. The frozen backbone is not redistributed.\n")
+    (args.output / "README.md").write_text(card, encoding="utf-8")
     print(json.dumps(manifest, indent=2))
 
 
