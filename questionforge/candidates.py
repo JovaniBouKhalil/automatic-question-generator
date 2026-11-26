@@ -57,6 +57,11 @@ def extract_candidates(context: str, language: str, limit: int = 5) -> list[Cand
                     continue
                 seen.add(key)
                 numeric = (any(char.isdigit() for char in selected[0].group()) or words[0] in NUMBER_WORDS[language]) and length <= 2
+                # Avoid cutting an English compound noun: "twelve bean" [seeds].
+                # The scalar "twelve" is a cleaner target than that partial noun phrase.
+                if (numeric and language == "en" and length == 2 and index + 2 < len(word_matches)
+                        and not words[-1].endswith("s") and word_matches[index + 2].group().endswith("s")):
+                    continue
                 proper = language != "ar" and all(part.group()[0].isupper() for part in selected)
                 arabic_name = (language == "ar" and length == 1 and index > 0 and
                                word_matches[index - 1].group() in {

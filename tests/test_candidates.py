@@ -26,3 +26,8 @@ def test_all_stopwords_and_empty_context_have_no_candidates():
 def test_arabic_name_suggestion_does_not_attach_the_following_numeral():
     choices = extract_candidates("زرعت لينا تسع بذور في وعاء.", "ar", 1)
     assert choices[0].answer in {"لينا", "تسع", "تسع بذور"}
+
+
+def test_quantity_does_not_end_with_a_cut_compound_modifier():
+    choices = extract_candidates("Lina planted twelve bean seeds in a tray.", "en", 1)
+    assert choices[0].answer != "twelve bean"

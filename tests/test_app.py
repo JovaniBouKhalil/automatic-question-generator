@@ -35,3 +35,18 @@ def test_arabic_workflow_and_invalid_answer_feedback():
     app.text_area[1].input("This answer is absent")
     app.button[1].click().run(timeout=20)
     assert app.error
+
+
+@pytest.mark.integration
+def test_real_english_model_through_the_application():
+    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=120).run()
+    app.sidebar.toggle[0].set_value(False)
+    app.run()
+    app.text_area[1].input("Lina")
+    app.button[1].click().run(timeout=120)
+    assert not app.exception
+    assert not app.error
+    row = app.session_state["questions"][0]
+    assert row["question"].strip()
+    assert row["model_id"] == "lmqg/t5-small-squad-qg"
+    assert row["input_tokens"] <= 384

@@ -17,7 +17,7 @@ def main():
     folders = ["questionforge", "scripts", "tests", "docs", "notebooks", "results", "presentation",
                "artifacts/english_lora", "data/novel", "data/authoring", ".streamlit", ".github"]
     files = [ROOT / name for name in ["README.md", "AI_ASSISTANCE.md", "HANDOFF.md", "pyproject.toml",
-                                     "requirements-lock.txt", "app.py", ".gitignore"] if (ROOT / name).is_file()]
+                                     "requirements-lock.txt", "app.py", "run_app.bat", ".gitignore"] if (ROOT / name).is_file()]
     for folder in folders:
         files.extend(path for path in (ROOT / folder).rglob("*") if path.is_file()
                      and "__pycache__" not in path.parts and not path.name.endswith((".pyc", ".log")))

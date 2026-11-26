@@ -18,6 +18,8 @@ and supply exact target answers (one per line) or use automatic TF-IDF suggestio
 Review questions beside their answers and source evidence. Export a printable student
 worksheet, answer key, CSV, JSON, or Moodle short-answer XML.
 
+On Windows, you can also double-click `run_app.bat` after installation.
+
 The first neural run downloads pretrained weights. Cached models work offline. The template
 baseline with answerability checks disabled works without model downloads. Automatic checks
 suggest questions for review; they do not certify correctness.
@@ -91,6 +93,9 @@ For a real neural smoke check, remove `--no-verify`, use `--methods beam4`, and 
 output folder. Evaluation appends predictions immediately and resumes after interruption.
 It rejects an output directory with a different configuration or input hash. Seed: **42**.
 Baseline, greedy and beam-4 settings are fixed in advance; the test set is not used for selection.
+
+`python scripts/run_all.py` automates dataset preparation, the bounded training run, evaluations
+and figures. Start the model downloader separately first. Per-stage logs are in `outputs/pipeline/`.
 
 ## Data and models
 
