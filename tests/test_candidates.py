@@ -21,3 +21,8 @@ def test_candidates_are_exact_nonoverlapping_source_spans(context, language):
 def test_all_stopwords_and_empty_context_have_no_candidates():
     assert extract_candidates("the a an", "en") == []
     assert extract_candidates("", "ar") == []
+
+
+def test_arabic_name_suggestion_does_not_attach_the_following_numeral():
+    choices = extract_candidates("زرعت لينا تسع بذور في وعاء.", "ar", 1)
+    assert choices[0].answer in {"لينا", "تسع", "تسع بذور"}

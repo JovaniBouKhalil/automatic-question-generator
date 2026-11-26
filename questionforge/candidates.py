@@ -5,6 +5,12 @@ from dataclasses import dataclass
 
 from .text import STOPWORDS, evidence_for, sentences, tokens, validate_language
 
+NUMBER_WORDS = {
+    "en": set("one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred".split()),
+    "fr": set("un une deux trois quatre cinq six sept huit neuf dix onze douze treize quatorze quinze seize vingt trente quarante cinquante soixante cent".split()),
+    "ar": set("واحد واحدة اثنان اثنين اثنتان اثنتين اثنتي اثنا اثني ثلاثة ثلاث أربعة أربع خمسة خمس ستة ست سبعة سبع ثمانية ثماني تسعة تسع عشرة عشر عشرون عشرين ثلاثون ثلاثين أربعون أربعين خمسون خمسين سبعون سبعين".split()),
+}
+
 
 @dataclass(frozen=True)
 class Candidate:
@@ -50,9 +56,9 @@ def extract_candidates(context: str, language: str, limit: int = 5) -> list[Cand
                 if key in seen:
                     continue
                 seen.add(key)
-                numeric = any(char.isdigit() for char in span)
+                numeric = (any(char.isdigit() for char in selected[0].group()) or words[0] in NUMBER_WORDS[language]) and length <= 2
                 proper = language != "ar" and all(part.group()[0].isupper() for part in selected)
-                arabic_name = (language == "ar" and length <= 2 and index > 0 and
+                arabic_name = (language == "ar" and length == 1 and index > 0 and
                                word_matches[index - 1].group() in {
                                    "زرع", "زرعت", "صنع", "صنعت", "قاد", "قادت", "ثبت", "ثبتت",
                                    "وصل", "وصلت", "سكب", "سكبت", "قاست", "قاس", "سجل", "سجلت"})
