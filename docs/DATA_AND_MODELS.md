@@ -71,7 +71,8 @@ counts determine answer-centered cropping. The answer is preserved; oversized ta
 error. Cropping can cut neighboring words/sentences and lose context; crop frequency is reported.
 CPU float32 is the default. Cold model-load time is separated from generation time.
 
-The **English LoRA** extension freezes T5 and adapts attention query/value projections: rank 8,
+The **English LoRA** extension follows [Hu et al., LoRA](https://arxiv.org/abs/2106.09685),
+freezing T5 and adapting attention query/value projections: rank 8,
 alpha 16, dropout 0.05, AdamW, learning rate 0.0003, weight decay 0.01, batch 2, four microbatches
 per update (effective batch 8), 40 optimizer updates, gradient clipping 1.0 and linear scheduling.
 Training input/target budgets are 256/64 tokens. Checkpoint selection minimizes development
@@ -94,6 +95,9 @@ evaluated separately. Small adapter weights may be submitted; backbone weights a
   and no detected answer leakage. It is a review heuristic, not accuracy or calibrated confidence.
 - **Reference controls** ask reference questions; **unrelated controls** ask about a red submarine's
   serial number. These expose judge weakness and false agreement.
+- `scripts/analyze_controls.py` measures reference/unrelated answer rates and span-score AUROC
+  on these constructed controls. This diagnoses control discrimination, not human-rated question
+  accuracy or confidence calibration; synthetic unrelated negatives are relatively easy.
 - **95% group bootstrap intervals** resample whole paragraphs or scenario topics 1,000 times
   (seed 42). Paired differences use matching record IDs. Small samples limit generalization.
 - Errors stay in denominators as explicit failure rows with zero scores. Generation, verification

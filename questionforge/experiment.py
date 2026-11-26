@@ -101,7 +101,7 @@ def run_experiment(data_path: Path, output: Path, *, methods=("baseline", "greed
                     load_times[f"{language}_{method}_load_seconds"] = time.perf_counter() - begin
                 for index, record in enumerate(pending):
                     start = time.perf_counter()
-                    row = {**record, "reference": record["question"], "method": method,
+                    row = {**record, "reference": record["question"], "question": "", "method": method,
                            "cropped": False, "error": None}
                     try:
                         if method == "reference_control":
@@ -132,9 +132,11 @@ def run_experiment(data_path: Path, output: Path, *, methods=("baseline", "greed
                     except Exception as exc:
                         # Errors remain in the denominator; do not cherry-pick successful generations.
                         row.update({"question": row.get("question", "") if verify else "", "error": f"{type(exc).__name__}: {exc}",
-                                    "generation_seconds": time.perf_counter() - start, "answer_f1": 0.0,
+                                    "generation_seconds": row.get("generation_seconds", time.perf_counter() - start), "answer_f1": 0.0,
                                     "answer_em": 0.0, "qa_score": 0.0, "qa_answer": "",
-                                    "accepted": False, "lexical_relevance": 0.0, "answer_leak": False})
+                                    "accepted": False, "lexical_relevance": row.get("lexical_relevance", 0.0),
+                                    "answer_leak": row.get("answer_leak", False),
+                                    "review_reasons": [f"Execution error: {type(exc).__name__}"]})
                     stream.write(json.dumps(row, ensure_ascii=False) + "\n")
                     stream.flush()
                     rows.append(row)
