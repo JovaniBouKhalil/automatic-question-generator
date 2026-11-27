@@ -15,7 +15,7 @@ import streamlit as st
 from questionforge.baseline import template_question
 from questionforge.candidates import extract_candidates
 from questionforge.export import as_csv, as_json, moodle_xml, worksheet_html
-from questionforge.learning.pipeline import create_learning_quiz
+from questionforge.learning.pipeline import PLANNER, create_learning_quiz
 from questionforge.learning.rules import create_learning_t5_quiz
 from questionforge.metrics import leaks_answer, lexical_relevance, quality_decision
 from questionforge.models import generate_question
@@ -130,6 +130,8 @@ def main():
         st.caption("The first use downloads model weights. Once cached, generation works offline. CPU inference is supported.")
         with st.expander("About the models"):
             st.write(GENERATORS[language].model_id)
+            if learning_mode and "hybrid" in method:
+                st.write("Local planner/editor: " + PLANNER.model_id)
             st.caption("Questions are drafts for teacher review. The original checker has English QA training; the experimental checker adds multilingual QA training. French remains zero-shot for both.")
     direction = "rtl" if language == "ar" else "ltr"
     alignment = "right" if language == "ar" else "left"
@@ -145,9 +147,18 @@ def main():
             st.subheader("01 / Your learning material")
             samples = sample_passages(language, learning_mode)
             sample = st.selectbox("Try a classroom passage", list(samples))
-            passage_key = f"passage_{language}" + ("_learning" if learning_mode else "")
+            passage_key = f"passage_{language}"
+            family_key = f"sample_family_{language}"
             if passage_key not in st.session_state:
                 st.session_state[passage_key] = samples[sample]
+            elif st.session_state.get(family_key, learning_mode) != learning_mode:
+                previous_samples = sample_passages(language, not learning_mode)
+                # Replace only an untouched demo. Keep pasted/uploaded material and chosen answers.
+                uploaded = st.session_state.get("upload_digest", "").endswith(language)
+                if (st.session_state[passage_key] in previous_samples.values() and not uploaded
+                        and not st.session_state.get(f"answers_{language}", "").strip()):
+                    st.session_state[passage_key] = samples[sample]
+            st.session_state[family_key] = learning_mode
             if st.button("Use this example"):
                 st.session_state[passage_key] = samples[sample]
             upload = st.file_uploader("Or upload a text document", type=["txt", "pdf"],
@@ -166,7 +177,10 @@ def main():
             st.subheader("02 / Choose your facts")
             st.write("Add exact answers from the passage, one per line. Leave this blank to suggest key facts automatically.")
             manual = st.text_area("Target answers (optional)", key=f"answers_{language}", height=130,
-                                   placeholder={"en": "Lina\nNine", "fr": "Lina\nNeuf", "ar": "لينا\nتسع"}[language])
+                                   placeholder=({"en": "update a model's weights\nchoose hyperparameters",
+                                                 "fr": "mettre à jour les poids d'un modèle\nchoisir les hyperparamètres",
+                                                 "ar": "تحديث أوزان النموذج\nاختيار المعلمات الفائقة"} if learning_mode else
+                                                {"en": "Lina\nNine", "fr": "Lina\nNeuf", "ar": "لينا\nتسع"})[language])
             objective = ""
             if learning_mode:
                 objective = st.text_area("What should students understand? (optional)", max_chars=500,
@@ -230,7 +244,7 @@ def main():
                     if rows:
                         st.success(f"Created {len(rows)} questions. Open Question library to review and export.")
                         if learning_mode and len(rows) < count:
-                            st.info("Returned fewer questions because some proposed facts or questions did not pass source-span and format checks.")
+                            st.info("The planner found fewer targets, or some drafts did not pass the checks. Review the selected facts and their evidence.")
                     else:
                         st.info("No suitable learning-focused questions passed the checks. Try a passage that explains a concept or process, or supply a specific target answer.")
                 except Exception as exc:
@@ -245,6 +259,7 @@ def main():
             b.metric("Generation + checks", f"{st.session_state.get('elapsed', 0):.1f} s")
             if st.session_state.get("verified"):
                 c.metric("QA answer agreement (token F1)", f"{100 * sum(r.get('answer_f1', 0) for r in rows) / len(rows):.0f}%")
+                st.caption("QA checks answer recovery. It does not measure educational usefulness or establish factual support.")
             else:
                 c.metric("Answerability checks", "Not run")
             show_answers = st.toggle("Show answers and evidence", value=True)
@@ -280,6 +295,27 @@ def main():
             formats[4].download_button("Moodle XML", moodle_xml(rows), "questionforge.xml", "application/xml")
             st.caption("Print the HTML worksheet from your browser. Moodle imports one exact short-answer variant; review acceptable alternatives.")
     with research:
+        learning_studies = {label: ROOT / folder for label, folder in [
+            ("T5 with relation targets", "results/learning_t5_educational_v2"),
+            ("Hybrid: educational passages", "results/learning_focus_educational_v1"),
+            ("Hybrid: classroom passages", "results/learning_focus_dev_v1")]
+            if (ROOT / folder / "summary.json").exists()}
+        if learning_studies:
+            with st.expander("Inspect learning-focused questions", expanded=True):
+                comparison = st.selectbox("Learning-focused development comparison", list(learning_studies),
+                                          index=len(learning_studies) - 1)
+                comparison_folder = learning_studies[comparison]
+                learning_summary = json.loads((comparison_folder / "summary.json").read_text(encoding="utf-8"))
+                st.write(f"{learning_summary['passage_language_pairs']} passage/language pairs recorded.")
+                if not learning_summary.get("study_complete", True):
+                    st.info("This development comparison is still in progress.")
+                st.download_button("Download source-linked comparison", (comparison_folder / "comparison.html").read_bytes(),
+                                   comparison_folder.name + ".html", "text/html")
+                template = comparison_folder / "learning_review_template.csv"
+                if template.exists():
+                    st.download_button("Download learning-review template", template.read_bytes(),
+                                       comparison_folder.name + "-review.csv", "text/csv")
+                st.caption("Inspect source support, clarity and learning value. These are synthetic development examples; human ratings are pending. Original and planned target answers differ.")
         st.subheader("Measured results, reproducible comparisons")
         paths = sorted((ROOT / "results").glob("*/summary.csv"))
         if not paths:

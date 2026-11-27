@@ -1,0 +1,28 @@
+{
+  "studies": [
+    {
+      "study": "learning_t5_educational_v1",
+      "completed_case_records": 9,
+      "source_snapshots_checked": 8,
+      "returned_questions": {
+        "recall_t5": 27,
+        "planned_t5": 24
+      },
+      "execution_error_cases": 0,
+      "review_rows_with_any_ratings": 0,
+      "interpretation": "Exact spans, source snapshots and counts checked. Logical support and educational value are not established by this audit."
+    },
+    {
+      "study": "learning_t5_educational_v2",
+      "completed_case_records": 9,
+      "source_snapshots_checked": 8,
+      "returned_questions": {
+        "recall_t5": 27,
+        "planned_t5": 24
+      },
+      "execution_error_cases": 0,
+      "review_rows_with_any_ratings": 0,
+      "interpretation": "Exact spans, source snapshots and counts checked. Logical support and educational value are not established by this audit."
+    }
+  ]
+}

@@ -12,12 +12,18 @@ from pathlib import Path
 from questionforge.candidates import extract_candidates
 from questionforge.learning.rules import create_learning_t5_quiz
 from questionforge.models import generate_question
-from scripts.run_learning_focus_study import diagnostics, render_report, snapshot_sources, source_hash, write_json
+from scripts.run_learning_focus_study import (
+    diagnostics,
+    render_report,
+    snapshot_sources,
+    source_hash,
+    write_json,
+)
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", type=Path, default=Path("results/learning_t5_educational_v2"))
+    parser.add_argument("--output", type=Path, default=Path("outputs/learning_t5_reproduction"))
     args = parser.parse_args()
     folder = args.output
     folder.mkdir(parents=True, exist_ok=True)
@@ -62,7 +68,7 @@ def main():
                "returned": {method: sum(len(c["outputs"].get(method, [])) for c in cases)
                             for method in ["recall_t5", "planned_t5"]}}
     write_json(folder / "summary.json", summary)
-    render_report(folder, cases, write_template=True)
+    render_report(folder, cases, write_template=True, methods=["recall_t5", "planned_t5"])
     print(json.dumps(summary, indent=2), flush=True)
     # Fingerprint the inspected record set, not an invented educational-quality score.
     fingerprint = hashlib.sha256(json.dumps(cases, ensure_ascii=False, sort_keys=True).encode()).hexdigest()

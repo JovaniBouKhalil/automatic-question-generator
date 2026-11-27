@@ -35,6 +35,23 @@ def test_duplicate_targets_are_not_extra_questions():
     assert len(chosen) == len(rejected) == 1
 
 
+def test_numbered_evidence_is_resolved_from_source_instead_of_generated_quotes():
+    passage = "A mesh catches leaves. A tank stores water."
+    item = {"answer": "water", "sentence_index": 1, "learning_goal": "Understand storage.",
+            "question_type": "function", "evidence": "This generated evidence is ignored."}
+    chosen, rejected = pipeline.validate_plan(passage, [item], "en", 1)
+    assert not rejected
+    assert chosen[0]["evidence"] == "A tank stores water."
+    assert chosen[0]["answer_start"] == passage.index("water")
+
+
+@pytest.mark.parametrize("index", [-1, 2, "0", True])
+def test_invalid_source_indices_cannot_be_rescued_by_a_generated_quote(index):
+    item = {**fact("leaves", "A mesh catches leaves."), "sentence_index": index}
+    chosen, rejected = pipeline.validate_plan("A mesh catches leaves.", [item], "en", 1)
+    assert not chosen and rejected[0]["reason"] == "invalid source sentence index"
+
+
 @pytest.mark.parametrize("response", ['{"answer":"leaves"}', '```python\nprint(1)\n```', '[] trailing'])
 def test_generated_code_or_non_json_is_not_accepted(response):
     with pytest.raises(ValueError):
@@ -54,6 +71,13 @@ def test_empty_plan_abstains_without_invoking_t5(monkeypatch):
     monkeypatch.setattr(pipeline, "generate_question", unexpected)
     rows, report = pipeline.create_learning_quiz("Lina arrived.", "en", complete=lambda *args: ([], "[]"))
     assert rows == [] and report["returned"] == report["planned"] == 0
+
+
+def test_missing_editor_weights_give_a_download_instruction_without_network(monkeypatch):
+    pipeline.load_planner.cache_clear()
+    monkeypatch.setattr(pipeline, "model_source", lambda spec: (spec.model_id, {"revision": spec.revision}))
+    with pytest.raises(RuntimeError, match="scripts.download_models planner"):
+        pipeline.load_planner()
 
 
 def test_editor_cannot_introduce_answers_or_duplicate_fact_indices(monkeypatch):
@@ -83,7 +107,7 @@ def test_partial_report_does_not_freeze_an_incomplete_review_template(tmp_path):
     from scripts.run_learning_focus_study import render_report
 
     def case(case_id, question):
-        return {"case_id": case_id, "language": "fr", "context": "Le filtre retient les feuilles.",
+        return {"case_id": case_id, "language": "fr", "context": "=1+1\nLe filtre retient les feuilles.",
                 "outputs": {"learning_hybrid": [{"question": question, "answer": "les feuilles",
                      "evidence": "Le filtre retient les feuilles.", "learning_goal": "Comprendre le filtre.",
                      "answer_f1": 1.0}]}}
@@ -96,6 +120,7 @@ def test_partial_report_does_not_freeze_an_incomplete_review_template(tmp_path):
     rows = list(csv.DictReader(io.StringIO(target.read_text(encoding="utf-8-sig"), newline="")))
     assert len(rows) == 2
     assert all(not row["learning_value_0_2"] and not row["reviewer_id"] for row in rows)
+    assert rows[0]["context"] == "'=1+1\nLe filtre retient les feuilles."
     original = target.read_bytes()
     render_report(tmp_path, [first], write_template=True)
     assert target.read_bytes() == original

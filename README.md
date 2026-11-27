@@ -232,6 +232,12 @@ the resume guard deliberately refuses incompatible folders.
 
 ## Interpretation limits
 
+Two experimental [learning-focused modes](docs/LEARNING_FOCUS.md) address the difference
+between answer recovery and a useful classroom question. T5-only mode targets explicit
+relations; hybrid mode uses a local fact planner and question editor around T5. Both
+show learning goals and preserve source evidence. The first T5-only comparisons still
+contain relation and negation errors. Human learning-value ratings remain pending.
+
 The [course alignment and question-quality audit](docs/COURSE_ALIGNMENT.md) compares the
 supplied slides with the actual implementation. It documents the PyTorch/LoRA versus Keras
 classroom differences and concrete generation/answer-selection failures. Course alignment

@@ -257,7 +257,47 @@ if expanded_path.exists():
 else:
     print('Expanded training is not complete; no additional results are claimed.')
 """)
-    markdown("""## 9. Demonstrate and explain
+    markdown("""## 9. Evaluate learning value separately
+
+A question may recover the target answer while testing an incidental name instead of
+the passage's main idea. Learning-focused modes propose concepts, functions, purposes
+and relationships. They remain drafts: question type and learning goal are proposals,
+and QA F1 is not a measure of educational benefit.
+
+The T5-only mode selects explicit relation spans and evidence windows. The hybrid adds
+a local Qwen planner/editor around T5. Neither is a new training run. Synthetic
+development/demo passages and repeated comparisons do not establish fresh-test gains.
+See `docs/LEARNING_FOCUS.md` for the three-criterion review rubric and reproduction.
+""")
+    code("""from questionforge.learning.rules import plan_learning_facts
+
+learning_examples = json.loads((ROOT / 'data/authoring/learning_passages.json').read_text(encoding='utf-8'))
+example = learning_examples[0]['en']
+display(pd.DataFrame(plan_learning_facts(example['context'], 'en', 3))[
+    ['answer', 'question_type', 'learning_goal']])
+
+for summary_path in sorted((ROOT / 'results').glob('learning*/summary.json')):
+    summary = json.loads(summary_path.read_text(encoding='utf-8'))
+    print(summary_path.parent.name, '|', summary.get('scope', ''),
+          '| Human learning-value ratings:', summary.get('human_learning_value_ratings', 'pending'))
+
+selection_file = ROOT / 'results/learning_focus/selected.json'
+selected_study = (json.loads(selection_file.read_text(encoding='utf-8'))['study_path']
+                  if selection_file.exists() else 'results/learning_t5_educational_v2')
+folder = ROOT / selected_study
+print('Inspect source-linked development examples:', selected_study)
+for language in ['en', 'fr', 'ar']:
+    paths = sorted(folder.glob(f'learning_*_{language}.json'))
+    if paths:
+        case = json.loads(paths[0].read_text(encoding='utf-8'))
+        print(language.upper(), case['context'])
+        shown = [{'method': method, 'question': row['question'], 'answer': row['answer'],
+                  'learning_goal': row.get('learning_goal', '')}
+                 for method, output in case['outputs'].items() for row in output]
+        with pd.option_context('display.max_colwidth', None):
+            display(pd.DataFrame(shown))
+""")
+    markdown("""## 10. Demonstrate and explain
 
 Launch `python -m streamlit run app.py`. Choose a language, paste a passage, supply exact
 answers or use TF-IDF suggestions, and inspect the questions and evidence. Export a

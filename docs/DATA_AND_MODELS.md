@@ -144,6 +144,17 @@ across platforms. `docs/ARABIC_TARGET_FORMAT.md` records the native decoder-pref
 
 ## Redistribution of source material
 
+The optional learning-focused planner/editor uses
+[Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct), revision
+`989aa7980e4cf806f80c7fef2b1adb7bc71aa306` (Apache-2.0). Its approximately 3.1 GB of
+backbone weights are downloaded locally, not included in the submission. CPU inference
+dynamically quantizes linear layers to int8; this is not fine-tuning.
+
+`data/authoring/learning_passages.json` contains three original educational development/demo
+topics in English, French and Arabic. They are synthetic, have not received human ratings,
+and are not an independently authored final test set. The solar-panel topic expands a
+previously inspected scenario. No examples from this file are used for training.
+
 Full downloaded datasets and backbone weights are ignored locally. Prediction artifacts contain
 small source excerpts for auditability; the named dataset licenses and source URLs apply to them.
 French excerpts are noncommercial/share-alike. No blanket permissive license is assigned to

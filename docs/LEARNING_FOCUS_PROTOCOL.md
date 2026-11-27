@@ -63,4 +63,10 @@ begins with an anaphoric expression. This changes target boundaries and context 
 do not attribute any outcome to one change alone. Repeat the same development examples
 in a new folder, without claiming fresh-test performance or completed human assessment.
 
+Before the first instruction-model inference, refine its output schema to reference
+numbered source sentences instead of requiring it to recopy entire evidence sentences.
+The answer must still be an exact substring of the referenced sentence. The program
+resolves the evidence quote and original offset directly from the passage. This reduces
+fragile quote copying and output length; it does not validate semantic relations.
+
 Source: [official model card](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct).

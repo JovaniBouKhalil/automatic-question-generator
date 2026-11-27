@@ -64,9 +64,24 @@ def test_learning_mode_passes_objective_and_shows_the_seq2seq_draft(monkeypatch)
     assert any("Understand the mesh" in element.value for element in app.markdown)
 
 
+def test_switching_learning_mode_keeps_the_users_passage_and_target():
+    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
+    app.sidebar.selectbox[1].select("Pretrained Transformer")
+    app.run()
+    app.text_area[0].input("A mesh catches leaves.")
+    app.text_area[1].input("leaves")
+    app.run()
+    app.sidebar.selectbox[1].select("Learning-focused hybrid (experimental)")
+    app.run()
+    assert not app.exception
+    assert app.text_area[0].value == "A mesh catches leaves."
+    assert app.text_area[1].value == "leaves"
+
+
 @pytest.mark.integration
 def test_real_english_model_through_the_application():
     app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=120).run()
+    app.sidebar.selectbox[1].select("Pretrained Transformer")
     app.sidebar.toggle[0].set_value(False)
     if len(app.sidebar.toggle) > 1:
         app.sidebar.toggle[1].set_value(False)
@@ -94,6 +109,7 @@ def test_development_selected_adapter_through_the_application():
         study = json.loads((root / "results/seed_study/summary.json").read_text(encoding="utf-8"))
         selected_path = study["optional_app_adapter"]
     app = AppTest.from_file(root / "app.py", default_timeout=120).run()
+    app.sidebar.selectbox[1].select("Pretrained Transformer")
     app.sidebar.toggle[0].set_value(False)
     app.run()
     assert app.sidebar.toggle[1].label == "Use adapted English generator"
@@ -122,6 +138,7 @@ def test_expanded_native_adapter_through_the_application(language, answer):
     if selected is None:
         pytest.skip("Development selection preferred the unadapted generator.")
     app = AppTest.from_file(root / "app.py", default_timeout=120).run()
+    app.sidebar.selectbox[1].select("Pretrained Transformer")
     app.sidebar.selectbox[0].select(language)
     app.sidebar.toggle[0].set_value(False)
     app.run()

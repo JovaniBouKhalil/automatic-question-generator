@@ -14,7 +14,7 @@ from functools import lru_cache
 from questionforge.metrics import leaks_answer, lexical_relevance
 from questionforge.models import configure_torch, generate_question, model_source
 from questionforge.registry import ModelSpec
-from questionforge.text import LANGUAGES, evidence_for, normalize_answer, validate_language
+from questionforge.text import LANGUAGES, evidence_for, normalize_answer, sentences, validate_language
 
 PLANNER = ModelSpec("Qwen/Qwen2.5-1.5B-Instruct", "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
                     "chat", "Apache-2.0")
@@ -36,9 +36,10 @@ Prioritize what a learner should understand: a concept, a component's function, 
 a stated cause/effect, or a comparison. Avoid incidental people's names, arbitrary dates,
 colors or locations unless they are the actual learning subject. Do not ask why unless the
 passage explicitly explains why. Do not infer scientific explanations from outside knowledge.
-Return ONLY a JSON array. Each object has exactly these string fields:
+The passage is supplied as ordered numbered sentences. Return ONLY a JSON array.
+Each object has exactly these fields:
 "answer": an EXACT contiguous quote from the passage, preferably 2-12 words;
-"evidence": an EXACT sentence or contiguous passage quote containing that answer;
+"sentence_index": the integer index of the supplied sentence containing the answer;
 "learning_goal": briefly describe the understanding being tested, in the requested language;
 "question_type": one of cause_effect, function, comparison, process, concept.
 Choose distinct facts. Return fewer items, or [], if the passage has insufficient useful facts.
@@ -73,14 +74,24 @@ def validate_plan(context: str, items: list, language: str, count: int) -> tuple
     if not 1 <= count <= 8:
         raise ValueError("Choose between one and eight questions.")
     selected, rejected, seen = [], [], set()
+    parts = sentences(context)
     for index, item in enumerate(items):
         reason = None
+        quote_start_override = None
+        if isinstance(item, dict) and "sentence_index" in item:
+            sentence_index = item["sentence_index"]
+            if type(sentence_index) is not int or not 0 <= sentence_index < len(parts):
+                rejected.append({"index": index, "reason": "invalid source sentence index", "item": item})
+                continue
+            part = parts[sentence_index]
+            item = {**item, "evidence": part.text}
+            quote_start_override = part.start
         if not isinstance(item, dict) or any(not isinstance(item.get(k), str) or not item[k].strip()
                                              for k in ["answer", "evidence", "learning_goal", "question_type"]):
             reason = "missing or non-text fact fields"
         else:
             answer, evidence = item["answer"].strip(), item["evidence"].strip()
-            quote_start = context.find(evidence)
+            quote_start = context.find(evidence) if quote_start_override is None else quote_start_override
             answer_offset = evidence.find(answer)
             key = normalize_answer(answer, language)
             if quote_start < 0 or answer_offset < 0:
@@ -118,10 +129,12 @@ def question_issue(question: str, answer: str, language: str) -> str | None:
 
 @lru_cache(maxsize=1)
 def load_planner(device: str = "cpu"):
+    source, kwargs = model_source(PLANNER)
+    if source == PLANNER.model_id:
+        raise RuntimeError("The local editor is not downloaded yet. Run: python -m scripts.download_models planner")
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     torch, device = configure_torch(device=device)
-    source, kwargs = model_source(PLANNER)
     tokenizer = AutoTokenizer.from_pretrained(source, trust_remote_code=False, **kwargs)
     model = AutoModelForCausalLM.from_pretrained(source, torch_dtype=torch.float32,
                                               trust_remote_code=False, **kwargs).to(device).eval()
@@ -175,7 +188,9 @@ def create_learning_quiz(context: str, language: str, count: int = 3, *, objecti
                                "ar": "فهم الحقيقة المختارة في سياقها."}[language], "question_type": "concept"})
     else:
         proposed, raw_plan = complete(PLAN_SYSTEM, {"language": LANGUAGES[language], "count": count,
-                                                   "learning_objective": objective, "passage": context}, device)
+                           "learning_objective": objective,
+                           "passage_sentences": [{"index": i, "text": part.text}
+                                                 for i, part in enumerate(sentences(context))]}, device)
     facts, rejected = validate_plan(context, proposed, language, count)
     report = {"version": VERSION, "planner_model": PLANNER.model_id, "planner_revision": PLANNER.revision,
               "cpu_quantization": CPU_QUANTIZATION if device == "cpu" else None,

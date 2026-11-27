@@ -5,6 +5,12 @@ the existing native-language T5 generators. It targets explicitly stated concept
 functions, processes, causes/effects and comparisons. A model-proposed learning goal is
 shown with each question. Users can also specify their own goal or exact target answers.
 
+**Learning-focused T5** is a second, faster option using explicit relation markers and
+an evidence window. It needs only the existing T5 checkpoints. An entered objective is
+saved for review in this option; it does not instruct T5 or alter automatic rule selection.
+Use manual targets to control the selected facts. The first two development versions
+still contain logical errors, especially in French/Arabic, and remain experimental.
+
 The original recall and template modes remain available. Remembering a definition,
 important date or central entity can be useful; the aim is to avoid incidental trivia,
 not to force every question to start with “why.” Explanations must be in the passage.
@@ -44,6 +50,8 @@ The protocol and exact source fingerprints are saved with each run. See
 ```powershell
 python -m scripts.run_learning_focus_study --output results/learning_focus_dev_v1
 python -m scripts.run_learning_focus_study --source educational --output results/learning_focus_educational_v1
+python -m scripts.run_learning_t5_study --output outputs/learning_t5_reproduction
+python -m scripts.validate_learning_focus
 ```
 
 Each completed study includes raw model responses, T5 drafts, edited questions, rejection
