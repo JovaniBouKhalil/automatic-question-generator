@@ -1,5 +1,6 @@
 # Checksum-bearing experiment artifacts must retain their exact recorded bytes.
 * text=auto
+/docs/LEARNING_FOCUS_PROTOCOL.md text eol=lf
 /artifacts/** -text
 /results/** -text
 /data/** -text

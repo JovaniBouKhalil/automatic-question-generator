@@ -1,0 +1,217 @@
+{
+  "case_id": "learning:text_representation:en",
+  "language": "en",
+  "context": "A bag-of-words representation records how often each vocabulary word occurs in a document. It does not preserve the order of the words. TF-IDF adjusts word counts using how widely each word occurs across the document collection. Words appearing in many documents receive less weight, while words concentrated in fewer documents can receive more weight. This helps emphasize terms that distinguish one document from the others.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "What does TF-IDF help emphasize terms that distinguish from others?",
+        "answer": "one document",
+        "answer_start": 397,
+        "evidence": "This helps emphasize terms that distinguish one document from the others.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 90,
+        "cropped": false,
+        "lexical_relevance": 0.5039526306789696,
+        "answer_leak": false,
+        "qa_answer": "Words appearing in many documents receive less weight, while words concentrated in fewer documents can receive more weight.",
+        "qa_score": 0.4118983931839466,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "What adjusts word counts?",
+        "answer": "TF-IDF",
+        "answer_start": 136,
+        "evidence": "TF-IDF adjusts word counts using how widely each word occurs across the document collection.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 90,
+        "cropped": false,
+        "lexical_relevance": 0.5,
+        "answer_leak": false,
+        "qa_answer": "TF-IDF",
+        "qa_score": 0.9978931827445194,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "What does TF-IDF do to the order of words?",
+        "answer": "does not preserve",
+        "answer_start": 94,
+        "evidence": "It does not preserve the order of the words.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 90,
+        "cropped": false,
+        "lexical_relevance": 0.50709255283711,
+        "answer_leak": false,
+        "qa_answer": "adjusts word counts",
+        "qa_score": 0.6519333720207214,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "planned_t5": [
+      {
+        "question": "What does TF-IDF not preserve?",
+        "answer": "the order of the words",
+        "answer_start": 112,
+        "evidence": "It does not preserve the order of the words.",
+        "language": "en",
+        "method": "learning_focused_t5",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 91,
+        "cropped": false,
+        "learning_goal": "Understand an important property or limitation.",
+        "question_type": "concept",
+        "planner": "explicit_relation_rules",
+        "answer_leak": false,
+        "lexical_relevance": 0.5477225575051661,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "the order of the words.",
+        "qa_score": 0.5436051180586219,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "What does TF-IDF help do?",
+        "answer": "emphasize terms that distinguish one document from the others",
+        "answer_start": 364,
+        "evidence": "This helps emphasize terms that distinguish one document from the others.",
+        "language": "en",
+        "method": "learning_focused_t5",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 91,
+        "cropped": false,
+        "learning_goal": "Understand the function described in the passage.",
+        "question_type": "function",
+        "planner": "explicit_relation_rules",
+        "answer_leak": false,
+        "lexical_relevance": 0.0,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "adjusts word counts",
+        "qa_score": 0.96080735445139,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "What does a bag-of-words representation record?",
+        "answer": "how often each vocabulary word occurs in a document",
+        "answer_start": 38,
+        "evidence": "A bag-of-words representation records how often each vocabulary word occurs in a document.",
+        "language": "en",
+        "method": "learning_focused_t5",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 91,
+        "cropped": false,
+        "learning_goal": "Understand the function described in the passage.",
+        "question_type": "function",
+        "planner": "explicit_relation_rules",
+        "answer_leak": false,
+        "lexical_relevance": 0.3692744729379982,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "how often each vocabulary word occurs in a document.",
+        "qa_score": 0.931985991075635,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-t5-v1",
+    "planner": "explicit_relation_rules",
+    "requested": 3,
+    "planned": 3,
+    "facts": [
+      {
+        "answer": "the order of the words",
+        "answer_start": 112,
+        "evidence": "It does not preserve the order of the words.",
+        "question_type": "concept",
+        "learning_goal": "Understand an important property or limitation.",
+        "priority": 4
+      },
+      {
+        "answer": "emphasize terms that distinguish one document from the others",
+        "answer_start": 364,
+        "evidence": "This helps emphasize terms that distinguish one document from the others.",
+        "question_type": "function",
+        "learning_goal": "Understand the function described in the passage.",
+        "priority": 4
+      },
+      {
+        "answer": "how often each vocabulary word occurs in a document",
+        "answer_start": 38,
+        "evidence": "A bag-of-words representation records how often each vocabulary word occurs in a document.",
+        "question_type": "function",
+        "learning_goal": "Understand the function described in the passage.",
+        "priority": 3
+      }
+    ],
+    "drafts": [
+      {
+        "question": "What does TF-IDF not preserve?",
+        "answer": "the order of the words",
+        "answer_start": 112,
+        "evidence": "It does not preserve the order of the words.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 91,
+        "cropped": false
+      },
+      {
+        "question": "What does TF-IDF help do?",
+        "answer": "emphasize terms that distinguish one document from the others",
+        "answer_start": 364,
+        "evidence": "This helps emphasize terms that distinguish one document from the others.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 91,
+        "cropped": false
+      },
+      {
+        "question": "What does a bag-of-words representation record?",
+        "answer": "how often each vocabulary word occurs in a document",
+        "answer_start": 38,
+        "evidence": "A bag-of-words representation records how often each vocabulary word occurs in a document.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 91,
+        "cropped": false
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "Understand what bag-of-words loses and why TF-IDF reduces the weight of common terms.",
+    "educational_quality_status": "not_human_rated",
+    "returned": 3,
+    "seconds": 1.0420165000032284
+  },
+  "seconds": 2.8152498999988893
+}

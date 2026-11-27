@@ -35,6 +35,33 @@ def test_arabic_workflow_and_invalid_answer_feedback():
     app.text_area[1].input("This answer is absent")
     app.button[1].click().run(timeout=20)
     assert app.error
+    assert app.session_state["questions"] == []
+
+
+def test_learning_mode_passes_objective_and_shows_the_seq2seq_draft(monkeypatch):
+    from questionforge.learning import pipeline
+
+    calls = []
+
+    def fake(context, language, count, **kwargs):
+        calls.append((context, language, count, kwargs))
+        return [{"question": "What does the mesh catch?", "answer": "leaves", "language": "en",
+                 "evidence": "A mesh catches leaves.", "method": "learning_focused_hybrid",
+                 "learning_goal": "Understand the mesh's function.",
+                 "draft_question": "What catches leaves?"}], {"returned": 1}
+
+    monkeypatch.setattr(pipeline, "create_learning_quiz", fake)
+    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
+    app.sidebar.selectbox[1].select("Learning-focused hybrid (experimental)")
+    app.sidebar.toggle[0].set_value(False)
+    app.run()
+    app.text_area[0].input("A mesh catches leaves.")
+    app.text_area[2].input("Understand how the filter works.")
+    app.button[1].click().run(timeout=20)
+    assert not app.exception and not app.error
+    assert calls[0][3]["objective"] == "Understand how the filter works."
+    assert app.session_state["questions"][0]["method"] == "learning_focused_hybrid"
+    assert any("Understand the mesh" in element.value for element in app.markdown)
 
 
 @pytest.mark.integration

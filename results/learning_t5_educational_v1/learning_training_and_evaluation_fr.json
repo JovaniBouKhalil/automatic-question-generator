@@ -1,0 +1,217 @@
+{
+  "case_id": "learning:training_and_evaluation:fr",
+  "language": "fr",
+  "context": "Les données d'entraînement servent à mettre à jour les poids d'un modèle. Les données de validation servent à choisir les hyperparamètres, comme le taux d'apprentissage. Le jeu de test reste séparé jusqu'à l'évaluation finale afin que son résultat ne guide pas la sélection du modèle. Lorsque plusieurs questions proviennent du même article, l'article entier est affecté à une seule partition pour éviter de partager ses faits entre l'entraînement et l'évaluation.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "Quand l'article entier est-il affecté à une seule partition ?",
+        "answer": "Lorsque",
+        "answer_start": 285,
+        "evidence": "Lorsque plusieurs questions proviennent du même article, l'article entier est affecté à une seule partition pour éviter de partager ses faits entre l'entraînement et l'évaluation.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 144,
+        "cropped": false,
+        "lexical_relevance": 0.5619514869490164,
+        "answer_leak": false,
+        "qa_answer": "Lorsque plusieurs questions proviennent du même article,",
+        "qa_score": 0.7309141736477613,
+        "answer_f1": 0.25,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "Que servent les données d'entraînement ?",
+        "answer": "validation servent",
+        "answer_start": 89,
+        "evidence": "Les données de validation servent à choisir les hyperparamètres, comme le taux d'apprentissage.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 144,
+        "cropped": false,
+        "lexical_relevance": 0.35355339059327373,
+        "answer_leak": false,
+        "qa_answer": "à mettre à jour les poids d'un modèle.",
+        "qa_score": 0.5125628300011158,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "A quoi servent les données d'entraînement ?",
+        "answer": "mettre",
+        "answer_start": 37,
+        "evidence": "Les données d'entraînement servent à mettre à jour les poids d'un modèle.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 144,
+        "cropped": false,
+        "lexical_relevance": 0.50709255283711,
+        "answer_leak": false,
+        "qa_answer": "mettre à jour les poids d'un modèle.",
+        "qa_score": 0.7316841445863247,
+        "answer_f1": 0.2222222222222222,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "planned_t5": [
+      {
+        "question": "Quel est le résultat du jeu de test ?",
+        "answer": "son résultat ne guide pas la sélection du modèle",
+        "answer_start": 235,
+        "evidence": "Le jeu de test reste séparé jusqu'à l'évaluation finale afin que son résultat ne guide pas la sélection du modèle.",
+        "language": "fr",
+        "method": "learning_focused_t5",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 145,
+        "cropped": false,
+        "learning_goal": "Comprendre une raison ou un objectif explicitement indiqué.",
+        "question_type": "cause_effect",
+        "planner": "explicit_relation_rules",
+        "answer_leak": false,
+        "lexical_relevance": 0.3872983346207417,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "ne guide pas la sélection du modèle.",
+        "qa_score": 0.2572447545826435,
+        "answer_f1": 0.875,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "Pourquoi l'article entier est-il affecté ?",
+        "answer": "de partager ses faits entre l'entraînement et l'évaluation",
+        "answer_start": 405,
+        "evidence": "Lorsque plusieurs questions proviennent du même article, l'article entier est affecté à une seule partition pour éviter de partager ses faits entre l'entraînement et l'évaluation.",
+        "language": "fr",
+        "method": "learning_focused_t5",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 145,
+        "cropped": false,
+        "learning_goal": "Comprendre une raison ou un objectif explicitement indiqué.",
+        "question_type": "cause_effect",
+        "planner": "explicit_relation_rules",
+        "answer_leak": false,
+        "lexical_relevance": 0.4588314677411235,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "pour éviter de partager ses faits entre l'entraînement et l'évaluation.",
+        "qa_score": 0.8730554506182671,
+        "answer_f1": 0.9090909090909091,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "A quoi servent les données d'entraînement ?",
+        "answer": "mettre à jour les poids d'un modèle",
+        "answer_start": 37,
+        "evidence": "Les données d'entraînement servent à mettre à jour les poids d'un modèle.",
+        "language": "fr",
+        "method": "learning_focused_t5",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 145,
+        "cropped": false,
+        "learning_goal": "Comprendre la fonction décrite dans le passage.",
+        "question_type": "function",
+        "planner": "explicit_relation_rules",
+        "answer_leak": false,
+        "lexical_relevance": 0.50709255283711,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "mettre à jour les poids d'un modèle.",
+        "qa_score": 0.7316841445863247,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-t5-v1",
+    "planner": "explicit_relation_rules",
+    "requested": 3,
+    "planned": 3,
+    "facts": [
+      {
+        "answer": "son résultat ne guide pas la sélection du modèle",
+        "answer_start": 235,
+        "evidence": "Le jeu de test reste séparé jusqu'à l'évaluation finale afin que son résultat ne guide pas la sélection du modèle.",
+        "question_type": "cause_effect",
+        "learning_goal": "Comprendre une raison ou un objectif explicitement indiqué.",
+        "priority": 5
+      },
+      {
+        "answer": "de partager ses faits entre l'entraînement et l'évaluation",
+        "answer_start": 405,
+        "evidence": "Lorsque plusieurs questions proviennent du même article, l'article entier est affecté à une seule partition pour éviter de partager ses faits entre l'entraînement et l'évaluation.",
+        "question_type": "cause_effect",
+        "learning_goal": "Comprendre une raison ou un objectif explicitement indiqué.",
+        "priority": 5
+      },
+      {
+        "answer": "mettre à jour les poids d'un modèle",
+        "answer_start": 37,
+        "evidence": "Les données d'entraînement servent à mettre à jour les poids d'un modèle.",
+        "question_type": "function",
+        "learning_goal": "Comprendre la fonction décrite dans le passage.",
+        "priority": 4
+      }
+    ],
+    "drafts": [
+      {
+        "question": "Quel est le résultat du jeu de test ?",
+        "answer": "son résultat ne guide pas la sélection du modèle",
+        "answer_start": 235,
+        "evidence": "Le jeu de test reste séparé jusqu'à l'évaluation finale afin que son résultat ne guide pas la sélection du modèle.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 145,
+        "cropped": false
+      },
+      {
+        "question": "Pourquoi l'article entier est-il affecté ?",
+        "answer": "de partager ses faits entre l'entraînement et l'évaluation",
+        "answer_start": 405,
+        "evidence": "Lorsque plusieurs questions proviennent du même article, l'article entier est affecté à une seule partition pour éviter de partager ses faits entre l'entraînement et l'évaluation.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 145,
+        "cropped": false
+      },
+      {
+        "question": "A quoi servent les données d'entraînement ?",
+        "answer": "mettre à jour les poids d'un modèle",
+        "answer_start": 37,
+        "evidence": "Les données d'entraînement servent à mettre à jour les poids d'un modèle.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 145,
+        "cropped": false
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "Comprendre les rôles de l'entraînement, de la validation et du test, ainsi que la séparation des articles.",
+    "educational_quality_status": "not_human_rated",
+    "returned": 3,
+    "seconds": 3.6062508999966667
+  },
+  "seconds": 9.640654100003303
+}

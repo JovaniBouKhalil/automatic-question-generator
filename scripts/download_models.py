@@ -16,6 +16,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from questionforge.learning.pipeline import PLANNER  # noqa: E402
 from questionforge.registry import GENERATORS, VERIFIER  # noqa: E402
 from questionforge.verification import MULTILINGUAL_QA  # noqa: E402
 
@@ -83,7 +84,7 @@ def main():
     specs = list(GENERATORS.values()) + [VERIFIER]
     requested = sys.argv[1:]
     if requested:
-        choices = {**GENERATORS, "verifier": VERIFIER, "multilingual": MULTILINGUAL_QA}
+        choices = {**GENERATORS, "verifier": VERIFIER, "multilingual": MULTILINGUAL_QA, "planner": PLANNER}
         unknown = set(requested) - choices.keys()
         if unknown:
             raise ValueError(f"Unknown model selections: {sorted(unknown)}; choose {sorted(choices)}")

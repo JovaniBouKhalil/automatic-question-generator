@@ -15,6 +15,8 @@ import streamlit as st
 from questionforge.baseline import template_question
 from questionforge.candidates import extract_candidates
 from questionforge.export import as_csv, as_json, moodle_xml, worksheet_html
+from questionforge.learning.pipeline import create_learning_quiz
+from questionforge.learning.rules import create_learning_t5_quiz
 from questionforge.metrics import leaks_answer, lexical_relevance, quality_decision
 from questionforge.models import generate_question
 from questionforge.registry import GENERATORS
@@ -25,7 +27,10 @@ from questionforge.verification import check_answer
 ROOT = Path(__file__).resolve().parent
 
 
-def sample_passages(language):
+def sample_passages(language, learning=False):
+    if learning:
+        source = json.loads((ROOT / "data/authoring/learning_passages.json").read_text(encoding="utf-8"))
+        return {scenario["topic"].replace("_", " ").title(): scenario[language]["context"] for scenario in source}
     source = json.loads((ROOT / "data/authoring/scenarios.json").read_text(encoding="utf-8"))
     return {scenario["topic"].replace("_", " ").title(): scenario[language][0]
             for scenario in source if scenario["split"] == "dev"}
@@ -82,7 +87,15 @@ def main():
         initial_language = initial_language if initial_language in LANGUAGES else "en"
         language = st.selectbox("Passage language / Langue / اللغة", list(LANGUAGES),
                                 index=list(LANGUAGES).index(initial_language), format_func=LANGUAGES.get)
-        method = st.selectbox("Generation method", ["Pretrained Transformer", "Template baseline"])
+        method = st.selectbox("Generation method", ["Pretrained Transformer", "Template baseline",
+                                                    "Learning-focused T5 (experimental)",
+                                                    "Learning-focused hybrid (experimental)"])
+        learning_mode = method.startswith("Learning-focused")
+        if learning_mode:
+            if "hybrid" in method:
+                st.caption("Selects important facts, creates T5 drafts, then edits questions for understanding. The local editor takes longer.")
+            else:
+                st.caption("Targets explicitly stated purposes, functions and properties. Uses the existing T5 model and can return fewer questions.")
         beams = st.select_slider("Decoding beams", options=[1, 4], value=4,
                                   help="1 = greedy decoding. 4 = deterministic beam search.")
         verify = st.toggle("Check answerability", value=True,
@@ -98,12 +111,12 @@ def main():
         expanded_path = ROOT / "results/expanded_training/summary.json"
         selected = None
         use_by_default = False
-        if expanded_path.exists() and method == "Pretrained Transformer":
+        if expanded_path.exists() and (method == "Pretrained Transformer" or learning_mode):
             expanded = json.loads(expanded_path.read_text(encoding="utf-8"))
             selection = expanded["languages"][language]["selected_app_adapter"]
             if selection:
                 selected = ROOT / selection
-        elif language == "en" and method == "Pretrained Transformer" and study_path.exists():
+        elif language == "en" and (method == "Pretrained Transformer" or learning_mode) and study_path.exists():
             study = json.loads(study_path.read_text(encoding="utf-8"))
             selected = ROOT / study["optional_app_adapter"]
         if selected is not None and selected.is_dir():
@@ -130,9 +143,9 @@ def main():
         left, right = st.columns([3, 2], gap="large")
         with left:
             st.subheader("01 / Your learning material")
-            samples = sample_passages(language)
+            samples = sample_passages(language, learning_mode)
             sample = st.selectbox("Try a classroom passage", list(samples))
-            passage_key = f"passage_{language}"
+            passage_key = f"passage_{language}" + ("_learning" if learning_mode else "")
             if passage_key not in st.session_state:
                 st.session_state[passage_key] = samples[sample]
             if st.button("Use this example"):
@@ -154,8 +167,19 @@ def main():
             st.write("Add exact answers from the passage, one per line. Leave this blank to suggest key facts automatically.")
             manual = st.text_area("Target answers (optional)", key=f"answers_{language}", height=130,
                                    placeholder={"en": "Lina\nNine", "fr": "Lina\nNeuf", "ar": "لينا\nتسع"}[language])
-            st.caption("Automatic selection uses TF-IDF and simple span heuristics. Specific, short answers usually give clearer questions.")
+            objective = ""
+            if learning_mode:
+                objective = st.text_area("What should students understand? (optional)", max_chars=500,
+                                         help="For example: how the components work, the steps of a process, or a cause stated in the passage.")
+                if "hybrid" not in method:
+                    st.caption("In T5 mode this goal is saved for your review; automatic selection follows explicit relation markers. Use manual targets to control the facts.")
+                st.caption("Focuses on concepts, functions and relationships stated in your passage. It may return fewer questions when there are too few useful facts.")
+            else:
+                st.caption("Automatic selection uses TF-IDF and simple span heuristics. Specific, short answers usually give clearer questions.")
             if st.button("Generate questions →", type="primary", use_container_width=True):
+                # A failed new request must not leave an earlier quiz looking current.
+                st.session_state["questions"] = []
+                st.session_state.pop("learning_report", None)
                 try:
                     if not passage.strip():
                         raise ValueError("Add a passage first.")
@@ -164,13 +188,24 @@ def main():
                         raise ValueError("Use at most eight manual answers per quiz.")
                     for answer in answers:
                         evidence_for(passage, answer)
-                    candidates = ([(answer, passage.find(answer)) for answer in answers[:count]] if answers else
+                    candidates = [] if learning_mode else ([(answer, passage.find(answer)) for answer in answers[:count]] if answers else
                                   [(c.answer, c.start) for c in extract_candidates(passage, language, count)])
-                    if not candidates:
+                    if not candidates and not learning_mode:
                         raise ValueError("No suitable facts were found. Enter an exact target answer from the passage.")
                     rows = []
                     started = time.perf_counter()
                     with st.status("Building your question set…", expanded=True) as status:
+                        if learning_mode:
+                            create = create_learning_quiz if "hybrid" in method else create_learning_t5_quiz
+                            rows, learning_report = create(passage, language, count,
+                                        objective=objective, manual_answers=answers, beams=beams,
+                                        checkpoint=checkpoint, progress=st.write)
+                            st.session_state["learning_report"] = learning_report
+                            for row in rows:
+                                if verify:
+                                    row.update(check_answer(row["question"], passage, row["answer"], language, verifier))
+                                    row["verifier"] = verifier
+                                    row["accepted"], row["review_reasons"] = quality_decision(row)
                         for index, (answer, start) in enumerate(candidates, 1):
                             st.write(f"Question {index}/{len(candidates)}")
                             if method == "Template baseline":
@@ -192,7 +227,12 @@ def main():
                     st.session_state["quiz_context"] = passage
                     st.session_state["elapsed"] = time.perf_counter() - started
                     st.session_state["verified"] = verify
-                    st.success(f"Created {len(rows)} questions. Open Question library to review and export.")
+                    if rows:
+                        st.success(f"Created {len(rows)} questions. Open Question library to review and export.")
+                        if learning_mode and len(rows) < count:
+                            st.info("Returned fewer questions because some proposed facts or questions did not pass source-span and format checks.")
+                    else:
+                        st.info("No suitable learning-focused questions passed the checks. Try a passage that explains a concept or process, or supply a specific target answer.")
                 except Exception as exc:
                     st.error(f"Could not complete this quiz: {exc}")
     with results_tab:
@@ -212,6 +252,12 @@ def main():
                 with st.container(border=True):
                     st.caption(f"QUESTION {i:02d} · {LANGUAGES[row['language']]} · {row['method']}")
                     st.markdown(f"<div class='question' dir='auto'>{html.escape(row['question'])}</div>", unsafe_allow_html=True)
+                    if row.get("learning_goal"):
+                        st.write("**Learning goal:** " + row["learning_goal"])
+                        if row.get("draft_question"):
+                            with st.expander("Compare with the T5 draft"):
+                                st.write(row["draft_question"])
+                                st.caption("The editor can change wording and focus. Inspect the passage for logical support; the learning goal is a model proposal.")
                     if show_answers:
                         st.write("**Answer:** " + row["answer"])
                         st.markdown(f"<div class='evidence' dir='auto'>{marked_evidence(row)}</div>", unsafe_allow_html=True)
