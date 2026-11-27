@@ -51,7 +51,7 @@ def main():
     html = BOOKLET.replace("__ITEMS__", json.dumps(items, ensure_ascii=False).replace("<", "\\u003c"))
     html = html.replace("__GUIDE__", json.dumps(GUIDE)).replace("__HASH__", json.dumps(digest[:16]))
     (directory / "review_booklet.html").write_text(html, encoding="utf-8")
-    (directory / "ratings_template.csv").write_text(ratings_csv([{"item_id": r["item_id"]} for r in items]), encoding="utf-8-sig")
+    (directory / "ratings_template.csv").write_bytes(ratings_csv([{"item_id": r["item_id"]} for r in items]).encode("utf-8-sig"))
     print(f"Prepared {len(items)} blinded original/expanded comparisons; no human ratings supplied.")
 
 

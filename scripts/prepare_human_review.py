@@ -113,7 +113,7 @@ def main():
         if target.exists() and target.read_text(encoding="utf-8") != content:
             raise ValueError("Existing review sample differs. Preserve it before preparing another sample.")
         target.write_text(content, encoding="utf-8")
-    (output / "ratings_template.csv").write_text(ratings_csv([{"item_id": item["item_id"]} for item in items]), encoding="utf-8-sig")
+    (output / "ratings_template.csv").write_bytes(ratings_csv([{"item_id": item["item_id"]} for item in items]).encode("utf-8-sig"))
     # Escape '<' so source text cannot terminate the script element in a browser.
     html = BOOKLET.replace("__ITEMS__", json.dumps(items, ensure_ascii=False).replace("<", "\\u003c"))
     html = html.replace("__GUIDE__", json.dumps(GUIDE)).replace("__HASH__", json.dumps(digest[:16]))

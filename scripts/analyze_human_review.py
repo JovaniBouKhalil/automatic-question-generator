@@ -23,7 +23,7 @@ def main():
     summary = summarize_ratings(rows, items, mapping)
     (args.directory / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     if rows:
-        (args.directory / "ratings.csv").write_text(ratings_csv(rows), encoding="utf-8-sig")
+        (args.directory / "ratings.csv").write_bytes(ratings_csv(rows).encode("utf-8-sig"))
     print(json.dumps(summary, indent=2))
 
 
