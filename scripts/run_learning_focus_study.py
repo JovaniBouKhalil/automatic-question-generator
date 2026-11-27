@@ -10,6 +10,7 @@ import io
 import json
 import time
 from dataclasses import asdict
+from functools import partial
 from pathlib import Path
 
 from questionforge.candidates import extract_candidates
@@ -49,6 +50,12 @@ def diagnostics(row, context, language):
 
 def render_report(directory, cases, write_template=False, methods=None):
     methods = methods or ["recall_t5", "planned_t5", "learning_hybrid"]
+    if "recall_t5" in methods:
+        target_note = "Original recall targets differ from planned targets. Planned T5 and edited questions share targets."
+    elif set(methods) == {"original_t5", "selected_t5"}:
+        target_note = "Original and adapted T5 receive identical passages and exact target answers."
+    else:
+        target_note = "All displayed methods share the saved passages and target answers; the T5 drafts are held fixed."
     cards, rating_rows = [], []
     for case in cases:
         cells = []
@@ -72,8 +79,8 @@ def render_report(directory, cases, write_template=False, methods=None):
 <style>body{font:17px/1.6 Arial,sans-serif;background:#f6f7f3;color:#173c3b;max-width:1450px;margin:30px auto;padding:20px}
 section{background:white;padding:24px;margin:24px 0;border:1px solid #cad8cf;border-radius:10px}.grid{display:grid;grid-template-columns:repeat(var(--cols),1fr);gap:28px}
 li{margin-bottom:22px}p{overflow-wrap:anywhere}[lang=ar]{font-size:20px;line-height:1.9}details{font-size:14px;color:#536b60}@media(max-width:950px){.grid{grid-template-columns:1fr}}</style>
-<h1>Does the question help a student understand?</h1><p>Development examples; model methods are visible. Original recall targets differ from planned targets.
-Where present, planned T5 and edited questions share targets. This is an inspectable comparison, not a completed human study.</p>
+<h1>Does the question help a student understand?</h1><p>Development examples; model methods are visible. """ + target_note + """
+This is an inspectable comparison, not a completed human study.</p>
 <p>Review four aspects: source support, clear wording, importance to the passage, and whether the question tests a concept/function/process/relationship.
 A longer question or a higher QA score need not be more useful. No human ratings are claimed.</p>""" + "".join(cards) + "</html>"
     (directory / "comparison.html").write_text(page, encoding="utf-8")
@@ -93,7 +100,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=Path("results/learning_focus_dev_v1"))
     parser.add_argument("--source", choices=["classroom", "educational"], default="classroom")
+    parser.add_argument("--data", type=Path, help="Custom JSON educational scenarios or classroom JSONL in the same schema.")
     parser.add_argument("--planner", choices=["small", "quality"], default="small")
+    parser.add_argument("--original-edit", action="store_true", help="Use the original 4B batch editor for a new reproduction folder.")
     parser.add_argument("--languages", nargs="+", choices=["en", "fr", "ar"], default=["en", "fr", "ar"])
     parser.add_argument("--max-new-cases", type=int, help="Pause after this many new cases; a later run resumes the same fixed study.")
     args = parser.parse_args()
@@ -101,7 +110,11 @@ def main():
         from questionforge.learning.quality import QUALITY_MODEL, QUALITY_PRECISION, create_quality_quiz
 
         planner, precision, create = QUALITY_MODEL, QUALITY_PRECISION, create_quality_quiz
+        if args.original_edit:
+            create = partial(create_quality_quiz, role_focus=False)
     else:
+        if args.original_edit:
+            raise ValueError("--original-edit applies only to --planner quality.")
         planner, precision, create = PLANNER, CPU_QUANTIZATION, create_learning_quiz
     if args.max_new_cases is not None and args.max_new_cases < 1:
         raise ValueError("--max-new-cases must be positive.")
@@ -111,14 +124,18 @@ def main():
                *Path("questionforge/learning").glob("*.py"),
                *[Path("questionforge") / f"{name}.py" for name in
                  ["candidates", "models", "registry", "text", "metrics", "verification"]]]
-    data_path = "data/novel/dev.jsonl" if args.source == "classroom" else "data/authoring/learning_passages.json"
+    if args.planner == "quality" and not args.original_edit:
+        sources += [Path("docs/ANSWER_ROLE_PROTOCOL.md"), Path("results/learning_focus/refinement_selection.json")]
+    data_path = args.data or Path("data/novel/dev.jsonl" if args.source == "classroom" else "data/authoring/learning_passages.json")
     config = {"version": VERSION, "split": f"{args.source}_development", "count": 3,
               "languages": args.languages,
               "seed": 42, "beams": 4, "native_adapters": False, "device": "cpu",
               "planner_model": planner.model_id, "planner_revision": planner.revision,
               "cpu_quantization": precision,
+              "edit_recipe": "answer-role-v1" if args.planner == "quality" and not args.original_edit else "original-batch-edit",
               "source_sha256_normalized_utf8": {p.as_posix(): source_hash(p) for p in sources},
               "data_sha256": source_hash(data_path),
+              "data_path": data_path.as_posix(),
               "interpretation": "Target selection differs across recall/planned methods. QA F1 is not usefulness or accuracy."}
     config_path = directory / "config.json"
     if config_path.exists() and json.loads(config_path.read_text(encoding="utf-8")) != config:

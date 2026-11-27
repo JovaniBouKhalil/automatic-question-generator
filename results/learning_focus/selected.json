@@ -1,7 +1,7 @@
 {
-  "study_path": "results/learning_focus_educational_v3",
+  "study_path": "results/learning_focus_educational_4b_v1",
   "recommendation": null,
-  "selection_scope": "Readable development inspection only; this does not promote the smaller hybrid model.",
-  "reason": "The 1.5B model still reverses relations, produces wrong-language text and copies faulty drafts. The stronger 4B checkpoint is downloading; no generated 4B quality result is claimed yet.",
+  "selection_scope": "Readable development inspection only; this does not establish human educational value.",
+  "reason": "The completed 4B comparisons repair several English/French relations, but Arabic grammar and answer-role errors remain. Controlled refinement probes are running; no automatic quality promotion is claimed.",
   "human_learning_value_ratings": "pending"
 }

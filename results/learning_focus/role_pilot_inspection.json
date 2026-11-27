@@ -1,0 +1,14 @@
+{
+  "scope": "Source-linked inspection of all six purposive pilot cases, not human ratings or a representative error estimate.",
+  "pilot": "results/quality/learning_4b_role_focus_pilot.json",
+  "preferred_variant": "role_hinted_edit",
+  "reason": "Both variants repair the validation-purpose and English contrast mismatches. Keeping drafts yields a more specific English voltage-effect question; removing drafts does not repair Arabic conversion grammar. Retain the course-aligned drafting/editing path and test the separately frozen Arabic grammatical guidance before final selection.",
+  "cases": [
+    {"case": "learning:light_and_voltage:ar", "observation": "The edit variant still asks for the conversion input and leaks the output target, so its conversion item fails the mechanical check. The draft-free conversion is malformed. Both screen-purpose questions are supported. Neither conversion response should be presented as a successful repair."},
+    {"case": "learning:training_and_evaluation:ar", "observation": "Both variants repair validation-data purpose into a natural question about use. They preserve the test-isolation and article-grouping prevention reasons; draft removal supplies no clear additional benefit."},
+    {"case": "learning:light_and_voltage:en", "observation": "Both preserve conversion output and screen purpose. The edit variant explicitly names the measured voltage in the effect question, while the draft-free version asks the broader 'What happened'. Prefer the more focused edit."},
+    {"case": "learning:text_representation:en", "observation": "Both variants preserve the bag-of-words limitation and TF-IDF adjustment criterion. Both replace the baseline why-question with a comparison matching the assigned weight-contrast target."},
+    {"case": "learning:training_and_evaluation:fr", "observation": "Both preserve supported training/validation purposes and test isolation. Draft-free purpose questions become longer without a clear benefit. The edit variant still omits the initial accent in 'À quoi'."},
+    {"case": "learning:text_representation:fr", "observation": "Both retain the missing-order property, distinguishing purpose and weighting comparison. No clear factual-role improvement from removing drafts was observed."}
+  ]
+}

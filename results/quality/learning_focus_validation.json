@@ -1,6 +1,19 @@
 {
   "studies": [
     {
+      "study": "learning_focus_dev_4b_v1",
+      "completed_case_records": 9,
+      "source_snapshots_checked": 14,
+      "returned_questions": {
+        "recall_t5": 27,
+        "planned_t5": 25,
+        "learning_hybrid": 25
+      },
+      "execution_error_cases": 0,
+      "review_rows_with_any_ratings": 0,
+      "interpretation": "Exact spans, source snapshots and counts checked. Logical support and educational value are not established by this audit."
+    },
+    {
       "study": "learning_focus_dev_v3",
       "completed_case_records": 9,
       "source_snapshots_checked": 12,
@@ -8,6 +21,19 @@
         "recall_t5": 27,
         "planned_t5": 25,
         "learning_hybrid": 25
+      },
+      "execution_error_cases": 0,
+      "review_rows_with_any_ratings": 0,
+      "interpretation": "Exact spans, source snapshots and counts checked. Logical support and educational value are not established by this audit."
+    },
+    {
+      "study": "learning_focus_educational_4b_v1",
+      "completed_case_records": 9,
+      "source_snapshots_checked": 14,
+      "returned_questions": {
+        "recall_t5": 27,
+        "planned_t5": 25,
+        "learning_hybrid": 24
       },
       "execution_error_cases": 0,
       "review_rows_with_any_ratings": 0,

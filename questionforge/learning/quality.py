@@ -73,8 +73,29 @@ def quality_chat_json(system: str, payload: dict, device: str = "cpu", max_new_t
         raise StructuredOutputError(raw) from exc
 
 
-def create_quality_quiz(*args, **kwargs):
+def role_quality_chat(system: str, payload: dict, device: str = "cpu") -> tuple[list, str]:
+    """Keep planning unchanged and use the exact paired-study payload for editing."""
+    from questionforge.learning.focus import REFINEMENT_SYSTEM, focused_payload
+    from questionforge.learning.pipeline import EDIT_SYSTEM
+    from questionforge.text import LANGUAGES
+
+    if system == EDIT_SYSTEM:
+        language = next(code for code, name in LANGUAGES.items() if name == payload["language"])
+        facts = [{k: value for k, value in fact.items() if k not in {"index", "draft_question"}}
+                 for fact in payload["facts"]]
+        drafts = [{"question": fact["draft_question"]} for fact in payload["facts"]]
+        payload = focused_payload(payload["passage"], language, facts, drafts, payload["learning_objective"])
+        system = REFINEMENT_SYSTEM
+    return quality_chat_json(system, payload, device)
+
+
+def create_quality_quiz(*args, role_focus: bool = True, **kwargs):
     from questionforge.learning.pipeline import create_learning_quiz
 
-    return create_learning_quiz(*args, **kwargs, complete=quality_chat_json, planner_spec=QUALITY_MODEL,
-                                cpu_precision=QUALITY_PRECISION)
+    rows, report = create_learning_quiz(*args, **kwargs,
+                                      complete=role_quality_chat if role_focus else quality_chat_json,
+                                      planner_spec=QUALITY_MODEL, cpu_precision=QUALITY_PRECISION)
+    report["edit_recipe"] = "answer-role-v1" if role_focus else "original-batch-edit"
+    for row in rows:
+        row["edit_recipe"] = report["edit_recipe"]
+    return rows, report

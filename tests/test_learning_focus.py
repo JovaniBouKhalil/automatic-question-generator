@@ -217,3 +217,57 @@ def test_teacher_csv_preserves_objectives_draft_provenance_and_literal_formulas(
     assert exported["learning_objective"] == "'=1+1" and exported["draft_question"] == "'+unsafe()"
     assert exported["model_id"] == "Qwen/editor" and exported["draft_model_id"] == "T5/adapter"
     assert exported["question"] == source["question"]
+
+
+def test_reediting_cannot_silently_use_a_changed_source_passage():
+    report = {"facts": [{**fact("leaves", "The mesh catches leaves."), "answer_start": 17}],
+              "drafts": [], "rejected_questions": []}
+    with pytest.raises(ValueError, match="exact source span"):
+        pipeline.validate_edits("The mesh catches stones.", "en", [], report)
+
+
+def test_role_refinement_keeps_exact_targets_and_can_remove_only_the_draft():
+    import copy
+
+    from questionforge.learning.focus import focused_payload
+
+    context = "A turbine converts moving water into electricity."
+    facts = [{**fact("electricity", context), "answer_start": context.index("electricity")}]
+    drafts = [{"question": "Which device converts moving water?"}]
+    before = copy.deepcopy((facts, drafts))
+    edited = focused_payload(context, "en", facts, drafts, "Understand energy conversion.")
+    independent = focused_payload(context, "en", facts, drafts, "Understand energy conversion.", include_drafts=False)
+    assert (facts, drafts) == before
+    assert edited["facts"][0]["answer"] == "electricity" and edited["passage"] == context
+    assert "resulting output" in edited["facts"][0]["answer_focus"]
+    edited["facts"][0].pop("draft_question")
+    assert edited == independent
+
+
+@pytest.mark.parametrize("language,context,answer", [
+    ("en", "A turbine converts moving water into electricity.", "electricity"),
+    ("fr", "Une turbine convertit le mouvement de l'eau en électricité.", "électricité"),
+    ("ar", "تحول التوربينة حركة الماء إلى كهرباء.", "كهرباء"),
+])
+def test_live_editor_and_saved_draft_replay_have_identical_ordered_model_inputs(monkeypatch, language, context, answer):
+    from questionforge.learning import quality
+    from questionforge.learning.focus import REFINEMENT_SYSTEM, focused_payload
+    from questionforge.text import LANGUAGES
+
+    calls = []
+
+    def complete(system, payload, device="cpu"):
+        calls.append((system, json.dumps(payload, ensure_ascii=False), device))
+        return [], "[]"
+
+    monkeypatch.setattr(quality, "quality_chat_json", complete)
+    facts, _ = pipeline.validate_plan(context, [fact(answer, context)], language, 1)
+    drafts = [{"question": "Which device converts moving water?"}]
+    live = {"language": LANGUAGES[language], "learning_objective": "Understand conversion.", "passage": context,
+            "facts": [{"index": 0, **facts[0], "draft_question": drafts[0]["question"]}]}
+    quality.role_quality_chat(pipeline.EDIT_SYSTEM, live)
+    replay = focused_payload(context, language, facts, drafts, "Understand conversion.")
+    assert calls[-1] == (REFINEMENT_SYSTEM, json.dumps(replay, ensure_ascii=False), "cpu")
+    plan = {"language": LANGUAGES[language], "count": 1, "passage": context, "candidates": []}
+    quality.role_quality_chat(pipeline.PLAN_SYSTEM, plan)
+    assert calls[-1] == (pipeline.PLAN_SYSTEM, json.dumps(plan, ensure_ascii=False), "cpu")

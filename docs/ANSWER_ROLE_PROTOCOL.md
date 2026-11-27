@@ -33,3 +33,25 @@ re-edit all 18 saved passage/language cases using the same targets/drafts. This 
 wording refinement from a new target-selection run. Keep every original baseline case and
 report any coverage change. Do not select by QA F1 or claim a completed human assessment.
 Human educational-value ratings remain pending.
+
+## Conditional Arabic wording probe
+
+The first solar pilot responses retain an Arabic conversion error: the edit variant
+asks for the input and leaks the output answer, while the draft-free variant produces
+malformed conversion syntax. Before the additional probe, freeze an extra instruction
+giving generic Arabic output-question forms, with an explicit contrast against asking
+for the converting device. This supplies grammar scaffolding, not source-specific answers.
+Run the same saved Arabic solar/training cases and an English text-representation control
+after the original 12 responses finish. Keep every response. A useful pattern may be
+added to the final recipe only after inspection; otherwise retain it as a failed probe.
+
+## Additional synthetic transfer audit
+
+After selecting and freezing the final recipe, run three additional authored topics in
+English, French and Arabic from `data/authoring/learning_challenge.json`. They cover
+physical separation, word-search limitations and conditional greenhouse control. These
+are new synthetic development probes, not independent human references or a benchmark
+test. Run the full automatic fact-selection/T5/editing path, retain all nine cases, and
+inspect negation, conditions, target alignment and coverage. Do not tune the selected
+recipe on this audit or report automatic metrics as question correctness. Any remaining
+failures belong in the findings and handoff.

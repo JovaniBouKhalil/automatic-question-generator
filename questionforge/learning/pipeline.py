@@ -19,7 +19,7 @@ from questionforge.text import LANGUAGES, evidence_for, normalize_answer, valida
 PLANNER = ModelSpec("Qwen/Qwen2.5-1.5B-Instruct", "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
                     "chat", "Apache-2.0")
 TYPES = {"cause_effect", "function", "comparison", "process", "concept"}
-VERSION = "learning-v4"
+VERSION = "learning-v5"
 CPU_QUANTIZATION = "none-float32"
 
 
@@ -219,6 +219,22 @@ def create_learning_quiz(context: str, language: str, count: int = 3, *, objecti
         report["raw_edit"] = exc.raw_text
         exc.learning_report = report
         raise
+    rows = validate_edits(context, language, edited, report, planner_spec)
+    report.update(returned=len(rows), seconds=time.perf_counter() - started)
+    return rows, report
+
+
+def validate_edits(context: str, language: str, edited: list, report: dict,
+                   planner_spec: ModelSpec = PLANNER) -> list[dict]:
+    """Apply the same grounding, leakage and duplicate checks to live and saved drafts.
+
+    These are mechanical checks; a returned question can still misstate a relation.
+    """
+    facts = report["facts"]
+    for fact in facts:
+        start, answer = fact["answer_start"], fact["answer"]
+        if start < 0 or context[start:start + len(answer)] != answer or fact["evidence"] not in context:
+            raise ValueError("The planned answer or evidence is no longer an exact source span.")
     rows, seen_indices, seen_questions = [], set(), set()
     for item in edited:
         if not isinstance(item, dict) or type(item.get("index")) is not int or not 0 <= item["index"] < len(facts):
@@ -240,8 +256,8 @@ def create_learning_quiz(context: str, language: str, count: int = 3, *, objecti
                      "method": "learning_focused_hybrid", "planner_model": planner_spec.model_id,
                      "model_id": planner_spec.model_id, "model_revision": planner_spec.revision,
                      "draft_model_id": draft["model_id"],
+                     "edit_recipe": report.get("edit_recipe", "original-batch-edit"),
                      "evidence": facts[index]["evidence"],
                      "lexical_relevance": lexical_relevance(question, facts[index]["evidence"], language),
                      "answer_leak": False, "educational_quality_status": "not_human_rated"})
-    report.update(returned=len(rows), seconds=time.perf_counter() - started)
-    return rows, report
+    return rows

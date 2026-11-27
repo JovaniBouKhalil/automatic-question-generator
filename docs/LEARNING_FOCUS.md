@@ -2,8 +2,9 @@
 
 The experimental **Learning-focused hybrid** adds a local fact planner/editor around
 the existing native-language T5 generators. It targets explicitly stated concepts,
-functions, processes, causes/effects and comparisons. A model-proposed learning goal is
-shown with each question. Users can also specify their own goal or exact target answers.
+functions, processes, causes/effects and comparisons. Each question displays the user's
+objective or a generic goal assigned from its relation type. Users can also specify exact
+target answers. These labels do not establish that the question meets the objective.
 
 **Learning-focused T5** is a second, faster option using explicit relation markers and
 an evidence window. It needs only the existing T5 checkpoints. An entered objective is
@@ -38,18 +39,40 @@ mode takes longer than T5 alone and performs inference, not additional fine-tuni
 **Learning-focused hybrid 4B (experimental)** uses the stronger
 [Qwen3-4B-Instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507), revision
 `cdbee75f17c01a7cc42f958dc650907174af0554`. Its 8.04 GB of weights are optional and
-still downloading on the development computer; no completed 4B quality result is claimed.
+fully downloaded on the development computer, with all three shard checksums verified.
 Prepare it with `python -m scripts.download_quality_model`. The downloader preserves partial
 files and checks every complete shard. If the Hugging Face transfer stalls, the alternate
 `--source modelscope` uses a pinned Qwen repository whose three published shard checksums
 must match the pinned Hugging Face metadata exactly. Runtime parameters alone need roughly
 16 GB in FP32, plus inference memory. The original mode remains the default.
 
-When ready, `scripts.run_learning_followups` runs the paired precision controls and both
-fixed nine-passage/language development comparisons. Read their actual questions before
-recommending a mode. The queue does not change application defaults or invent human scores.
+The paired precision controls and both fixed nine-passage/language development comparisons
+are complete. The main comparisons use FP32; the three control responses alone do not prove
+that reduced precision preserves all questions. The queue changes neither application defaults nor human scores.
 Completed reports appear in the app's Experiment results tab. The [science adapter
 training study](SCIENCE_TRAINING_RESULTS.md) is a separate English-only experiment.
+
+## Completed larger-model development comparison
+
+| Synthetic development set | Cases | Planned T5 drafts | Edited questions | Execution errors |
+|---|---:|---:|---:|---:|
+| Educational concepts | 9 | 25 | 24 | 0 |
+| Classroom scenarios | 9 | 25 | 25 | 0 |
+
+Read the [educational comparison](../results/learning_focus_educational_4b_v1/comparison.html)
+and [classroom comparison](../results/learning_focus_dev_4b_v1/comparison.html).
+All nine cases in each set have source-linked development inspection notes under
+`results/learning_focus/inspection*_4b_v1.json`. English/French educational edits repair
+several reversed subjects and incomplete questions. Arabic is more consistent in language
+than the smaller model, but retains awkward grammar and conversion-role errors. Whole
+statement targets can also be broader than the shortest sufficient answer, especially
+in simple classroom scenarios. A supported recall question need not test a deep concept.
+
+These are inspected synthetic development cases, not a fresh held-out test. Conditional
+QA averages cannot establish educational value, and coverage differs between versions.
+The separate [answer-role refinement protocol](ANSWER_ROLE_PROTOCOL.md) holds these
+facts and T5 drafts fixed when testing revised writing instructions. All baseline outputs
+remain intact, including rejected questions.
 
 The planner chooses IDs from source-derived relation spans and complete statements.
 Code resolves the exact answers and evidence; generated answer paraphrases are not used.

@@ -78,12 +78,12 @@ def main():
               "## Generation after selection", "",
               "Original and selected T5 receive identical exact answers/passages and beam-4 decoding.",
               "Question/answer pairs differ from the original project tests. These are public published",
-              "SciQ splits, not guaranteed-unseen checkpoint pretraining data. No test result reselects weights.", "",
-              "| Split / method | Inputs | BLEU | chrF++ | ROUGE-L | QA answer F1 |",
-              "|---|---:|---:|---:|---:|---:|"]
+              "SciQ splits, not guaranteed-unseen checkpoint pretraining data. No test result reselects weights.", ""]
     for split in ["dev", "test"]:
         folder = Path(str(args.evaluation_prefix) + "_" + split)
         summary = json.loads((folder / "summary.json").read_text(encoding="utf-8"))
+        lines += ["| Split / method | Inputs | BLEU | chrF++ | ROUGE-L | QA answer F1 |",
+                  "|---|---:|---:|---:|---:|---:|"]
         for method, score in summary["methods"].items():
             lines.append(f"| {split} / {method} | {score['n']} | {score['bleu']:.2f} | {score['chrf_pp']:.2f} | {score['rouge_l']:.2f} | {score['answer_f1']:.2f} |")
         diff = summary["paired_qa_answer_f1_difference_pp"]

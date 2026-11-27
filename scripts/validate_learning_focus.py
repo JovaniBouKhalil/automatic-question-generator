@@ -16,7 +16,10 @@ def audit(directory):
     for name, expected in sources.items():
         snapshot = directory / "source" / name
         assert source_hash(snapshot) == expected, (directory.name, "source snapshot", name)
-    data = Path("data/authoring/learning_passages.json") if "educational" in config["split"] else Path("data/novel/dev.jsonl")
+    for name, expected in config.get("source_case_sha256", {}).items():
+        assert source_hash(name) == expected, (directory.name, "paired source case", name)
+    data = Path(config.get("data_path", "data/authoring/learning_passages.json" if "educational" in config["split"]
+                           else "data/novel/dev.jsonl"))
     assert source_hash(data) == config["data_sha256"], (directory.name, "development data changed")
     if data.suffix == ".json":
         scenarios = json.loads(data.read_text(encoding="utf-8"))
@@ -34,6 +37,15 @@ def audit(directory):
     for case in cases:
         context = case["context"]
         assert (case["language"], context) in known, (directory.name, case["case_id"])
+        if config.get("version") == "answer-role-v1":
+            source = json.loads(Path(case["source_case"]).read_text(encoding="utf-8"))
+            assert case["source_case_sha256"] == config["source_case_sha256"][case["source_case"]]
+            for key in ["case_id", "language", "group", "context"]:
+                assert case[key] == source[key], (directory.name, key)
+            for key in ["facts", "drafts", "learning_objective"]:
+                assert case["planning_report"][key] == source["planning_report"][key], (directory.name, key)
+            assert case["outputs"]["planned_t5"] == source["outputs"]["planned_t5"]
+            assert case["outputs"]["baseline_hybrid"] == source["outputs"]["learning_hybrid"]
         for method, rows in case["outputs"].items():
             counts[method] = counts.get(method, 0) + len(rows)
             for index, row in enumerate(rows):

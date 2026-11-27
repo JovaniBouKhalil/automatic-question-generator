@@ -205,6 +205,19 @@ Use the source-linked comparison pages in `results/learning*` and the science de
 comparison. Human review templates remain empty until a person supplies ratings. Avoid
 starting a second training process while the first is active.
 
+**Why distinguish an answer's role from its words?** A source can say that a panel
+converts light into electrical energy. If the target is electrical energy, asking which
+device performs the conversion requests the wrong endpoint of the relation. Exact
+source spans and fluent grammar alone do not ensure question–answer alignment. The
+answer-role development protocol holds targets and drafts fixed while changing the
+editing instructions; all original responses remain available for comparison.
+
+**Does the checker decide what goes into the worksheet?** Questions it flags start
+unselected in the app. The teacher can include or exclude each question before export.
+This changes the classroom quiz, while stored experiment outputs and reported metrics
+remain intact. Read the source even when the checker accepts an item: acceptance is
+an imperfect automated decision, not a correctness guarantee.
+
 ## Human review procedure
 
 Annotate relevance, answerability and fluency independently on a 0–2 scale: 0 = poor, 1 = partial,

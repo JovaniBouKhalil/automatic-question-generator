@@ -11,6 +11,9 @@ def main():
     queue = root / ".cache/learning_followups_status.json"
     if queue.exists():
         print("Evaluation queue:", json.loads(queue.read_text(encoding="utf-8"))["stage"])
+    refinement = root / ".cache/refinement_status.json"
+    if refinement.exists():
+        print("Refinement queue:", json.loads(refinement.read_text(encoding="utf-8"))["stage"])
     trials = []
     for path in (root / "results/science_training").glob("lr*.json"):
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -38,14 +41,23 @@ def main():
             downloaded += max(cached, full.stat().st_size if full.exists() else 0,
                               partial.stat().st_size if partial.exists() else 0)
         print(f"Stronger model download: {downloaded / 1e9:.2f}/{total / 1e9:.2f} GB cached ({100 * downloaded / total:.1f}%)")
-    for folder in ["science_evaluation_dev", "science_evaluation_test", "learning_focus_educational_4b_v1", "learning_focus_dev_4b_v1"]:
+    for folder in ["science_evaluation_dev", "science_evaluation_test", "learning_focus_educational_4b_v1",
+                   "learning_focus_dev_4b_v1", "learning_role_educational_v1", "learning_role_classroom_v1",
+                   "learning_challenge_v1"]:
         summary = root / "results" / folder / "summary.json"
         if summary.exists():
             value = json.loads(summary.read_text(encoding="utf-8"))
             print(folder, "complete" if value.get("study_complete", True) else "partial",
                   "| execution errors:", value.get("cases_with_execution_error", "not recorded"))
         else:
-            print(folder, "pending")
+            directory = root / "results" / folder
+            completed_cases = len(list(directory.glob("learning_*_??.json"))) + len(list(directory.glob("novel_*_??.json")))
+            print(folder, f"{completed_cases}/9 case records saved" if completed_cases else "pending")
+    pilot = root / "results/quality/learning_4b_role_focus_pilot.json"
+    if pilot.exists():
+        value = json.loads(pilot.read_text(encoding="utf-8"))
+        count = sum(len(case["variants"]) for case in value["cases"])
+        print(f"Answer-role pilot: {count}/12 responses saved; inspect target alignment, not just QA scores")
     print("This status command does not start or stop training. Human usefulness ratings remain pending.")
 
 

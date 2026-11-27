@@ -179,6 +179,13 @@ topics in English, French and Arabic. They are synthetic, have not received huma
 and are not an independently authored final test set. The solar-panel topic expands a
 previously inspected scenario. No examples from this file are used for training.
 
+`data/authoring/learning_challenge.json` adds three further parallel synthetic topics
+(nine passage/language pairs): physical separation, word-search limitations and greenhouse
+conditions. They have objectives but no human reference questions or ratings. They are
+an additional development transfer audit after refinement selection, with no prompt
+retuning on their outputs. They are excluded from model training and do not extend the
+human-authored benchmark test count.
+
 Full downloaded datasets and backbone weights are ignored locally. Prediction artifacts contain
 small source excerpts for auditability; the named dataset licenses and source URLs apply to them.
 French excerpts are noncommercial/share-alike. No blanket permissive license is assigned to

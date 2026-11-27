@@ -108,7 +108,7 @@ def main():
             if "hybrid" in method:
                 st.caption("Selects important facts, creates T5 drafts, then edits questions for understanding. The local editor takes longer.")
                 if quality_mode:
-                    st.caption("Uses the stronger 4B planner/editor. Prepare it with: python -m scripts.download_quality_model")
+                    st.caption("Uses the stronger 4B planner/editor. CPU generation can take several minutes; inspect wording and source support.")
             else:
                 st.caption("Targets explicitly stated purposes, functions and properties. Uses the existing T5 model and can return fewer questions.")
         beams = st.select_slider("Decoding beams", options=[1, 4], value=4,
@@ -312,7 +312,7 @@ def main():
                         if row.get("draft_question"):
                             with st.expander("Compare with the T5 draft"):
                                 st.write(row["draft_question"])
-                                st.caption("The editor can change wording and focus. Inspect the passage for logical support; the learning goal is a model proposal.")
+                                st.caption("The editor can change wording and focus. Inspect the passage for logical support; the displayed goal does not establish educational value.")
                     if show_answers:
                         st.write("**Answer:** " + row["answer"])
                         st.markdown(f"<div class='evidence' dir='auto'>{marked_evidence(row)}</div>", unsafe_allow_html=True)
@@ -370,7 +370,10 @@ def main():
             ("Hybrid: educational passages", "results/learning_focus_educational_v3"),
             ("Hybrid: classroom passages", "results/learning_focus_dev_v3"),
             ("4B hybrid: educational passages", "results/learning_focus_educational_4b_v1"),
-            ("4B hybrid: classroom passages", "results/learning_focus_dev_4b_v1")]
+            ("4B hybrid: classroom passages", "results/learning_focus_dev_4b_v1"),
+            ("4B additional synthetic topics", "results/learning_challenge_v1"),
+            ("Answer-role edits: classroom passages", "results/learning_role_classroom_v1"),
+            ("Answer-role edits: educational passages", "results/learning_role_educational_v1")]
             if (ROOT / folder / "summary.json").exists()}
         if learning_studies:
             with st.expander("Inspect learning-focused questions", expanded=True):
@@ -387,7 +390,7 @@ def main():
                 if template.exists():
                     st.download_button("Download learning-review template", template.read_bytes(),
                                        comparison_folder.name + "-review.csv", "text/csv")
-                st.caption("Inspect source support, clarity and learning value. These are synthetic development examples; human ratings are pending. Original and planned target answers differ.")
+                st.caption("Inspect source support, clarity and learning value. These are synthetic development examples; human ratings are pending. The answer-role comparisons hold target answers and T5 drafts fixed.")
         st.subheader("Measured results, reproducible comparisons")
         paths = sorted((ROOT / "results").glob("*/summary.csv"))
         if not paths:

@@ -54,6 +54,8 @@ SciQ splits, not guaranteed-unseen checkpoint pretraining data. No test result r
 dev: selected minus original QA answer F1 +8.05 percentage points;
 paired paragraph-bootstrap 95% interval [0.62, 15.05].
 
+| Split / method | Inputs | BLEU | chrF++ | ROUGE-L | QA answer F1 |
+|---|---:|---:|---:|---:|---:|
 | test / reference_control | 200 | 100.00 | 100.00 | 100.00 | 76.50 |
 | test / original_t5 | 200 | 31.83 | 50.90 | 59.83 | 72.63 |
 | test / selected_t5 | 200 | 42.11 | 58.69 | 64.15 | 74.11 |
