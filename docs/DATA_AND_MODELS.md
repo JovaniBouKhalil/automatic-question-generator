@@ -118,7 +118,16 @@ educational value or factual correctness. `human_review.csv` is a blank annotati
 human ratings are not invented. Different datasets/domains and checkpoints prevent causal
 claims that one language is intrinsically easier.
 
-## Redistribution
+## Follow-up verifier and split studies
+
+`docs/EXTENSIONS.md` documents the pinned augmented-XQuAD mBERT comparator, its absent license
+metadata and no-answer training, 720 constructed-control records, three repeated English
+training seeds, and a separate article-isolated English training sensitivity. These extend
+previously inspected test sets. The quantified overlap audit reports remaining shared article
+titles and an Arabic development near-duplicate candidate rather than claiming complete
+article/semantic isolation. Original datasets, metrics and experiment records are preserved.
+
+## Redistribution details
 
 Full downloaded datasets and backbone weights are ignored locally. Prediction artifacts contain
 small source excerpts for auditability; the named dataset licenses and source URLs apply to them.

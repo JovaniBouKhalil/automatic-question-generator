@@ -1,0 +1,434 @@
+[
+  {
+    "item_id": "7a47f3d177ef",
+    "dataset": "public",
+    "source_id": "en:57112686b654c5140001fbd7",
+    "group": "2236bb2a43be95ef66f0c554bee870ba6e644e17f89e6196f6c30f1b7ee836c0",
+    "language": "en",
+    "method": "baseline"
+  },
+  {
+    "item_id": "810fe2698f8b",
+    "dataset": "public",
+    "source_id": "en:57112686b654c5140001fbd7",
+    "group": "2236bb2a43be95ef66f0c554bee870ba6e644e17f89e6196f6c30f1b7ee836c0",
+    "language": "en",
+    "method": "greedy"
+  },
+  {
+    "item_id": "617282c30727",
+    "dataset": "public",
+    "source_id": "en:57112686b654c5140001fbd7",
+    "group": "2236bb2a43be95ef66f0c554bee870ba6e644e17f89e6196f6c30f1b7ee836c0",
+    "language": "en",
+    "method": "beam4"
+  },
+  {
+    "item_id": "d2d18a3cdd66",
+    "dataset": "public",
+    "source_id": "en:56bebc383aeaaa14008c931f",
+    "group": "84ce5ad76179daec8188e5db54bd196c22b0aaab70b5fbfb1c8d7c818b1f3a75",
+    "language": "en",
+    "method": "baseline"
+  },
+  {
+    "item_id": "2d825d5b3b70",
+    "dataset": "public",
+    "source_id": "en:56bebc383aeaaa14008c931f",
+    "group": "84ce5ad76179daec8188e5db54bd196c22b0aaab70b5fbfb1c8d7c818b1f3a75",
+    "language": "en",
+    "method": "greedy"
+  },
+  {
+    "item_id": "fdef934a2447",
+    "dataset": "public",
+    "source_id": "en:56bebc383aeaaa14008c931f",
+    "group": "84ce5ad76179daec8188e5db54bd196c22b0aaab70b5fbfb1c8d7c818b1f3a75",
+    "language": "en",
+    "method": "beam4"
+  },
+  {
+    "item_id": "0ce46d6a2009",
+    "dataset": "public",
+    "source_id": "en:57269c06708984140094cba3",
+    "group": "662a3caa9008e0caf4e2d0d9528c4670c9cc41ba4a650c68e8c42d0a262100df",
+    "language": "en",
+    "method": "baseline"
+  },
+  {
+    "item_id": "3d059dc37079",
+    "dataset": "public",
+    "source_id": "en:57269c06708984140094cba3",
+    "group": "662a3caa9008e0caf4e2d0d9528c4670c9cc41ba4a650c68e8c42d0a262100df",
+    "language": "en",
+    "method": "greedy"
+  },
+  {
+    "item_id": "26ffc8849325",
+    "dataset": "public",
+    "source_id": "en:57269c06708984140094cba3",
+    "group": "662a3caa9008e0caf4e2d0d9528c4670c9cc41ba4a650c68e8c42d0a262100df",
+    "language": "en",
+    "method": "beam4"
+  },
+  {
+    "item_id": "191380ab5153",
+    "dataset": "public",
+    "source_id": "fr:2717",
+    "group": "a70bfbcc9216cf260a6de944de837bbd4b9d2e8efbeed85072933ee305548974",
+    "language": "fr",
+    "method": "baseline"
+  },
+  {
+    "item_id": "a4568442aee4",
+    "dataset": "public",
+    "source_id": "fr:2717",
+    "group": "a70bfbcc9216cf260a6de944de837bbd4b9d2e8efbeed85072933ee305548974",
+    "language": "fr",
+    "method": "greedy"
+  },
+  {
+    "item_id": "a4809fdbdd8f",
+    "dataset": "public",
+    "source_id": "fr:2717",
+    "group": "a70bfbcc9216cf260a6de944de837bbd4b9d2e8efbeed85072933ee305548974",
+    "language": "fr",
+    "method": "beam4"
+  },
+  {
+    "item_id": "cb38deea7de2",
+    "dataset": "public",
+    "source_id": "fr:2703",
+    "group": "784cc1b61ff59bce619475e5a9597851980f82cd020c1ec9978c8789f810699c",
+    "language": "fr",
+    "method": "baseline"
+  },
+  {
+    "item_id": "8f03b222a66b",
+    "dataset": "public",
+    "source_id": "fr:2703",
+    "group": "784cc1b61ff59bce619475e5a9597851980f82cd020c1ec9978c8789f810699c",
+    "language": "fr",
+    "method": "greedy"
+  },
+  {
+    "item_id": "82360c1c882e",
+    "dataset": "public",
+    "source_id": "fr:2703",
+    "group": "784cc1b61ff59bce619475e5a9597851980f82cd020c1ec9978c8789f810699c",
+    "language": "fr",
+    "method": "beam4"
+  },
+  {
+    "item_id": "c23be5372577",
+    "dataset": "public",
+    "source_id": "fr:2652",
+    "group": "70f98429112e880e11a0403313ec85e35c28f26901eafc05bfe7ba1d819239ef",
+    "language": "fr",
+    "method": "baseline"
+  },
+  {
+    "item_id": "93b32c6b20de",
+    "dataset": "public",
+    "source_id": "fr:2652",
+    "group": "70f98429112e880e11a0403313ec85e35c28f26901eafc05bfe7ba1d819239ef",
+    "language": "fr",
+    "method": "greedy"
+  },
+  {
+    "item_id": "066ac82adff4",
+    "dataset": "public",
+    "source_id": "fr:2652",
+    "group": "70f98429112e880e11a0403313ec85e35c28f26901eafc05bfe7ba1d819239ef",
+    "language": "fr",
+    "method": "beam4"
+  },
+  {
+    "item_id": "f1576933d14d",
+    "dataset": "public",
+    "source_id": "ar:25304657387",
+    "group": "ca5c973a89a2e63e1d5700a142e8b81e9a00ac8d14453f373650f783314d3af4",
+    "language": "ar",
+    "method": "baseline"
+  },
+  {
+    "item_id": "75cf50a0a7f0",
+    "dataset": "public",
+    "source_id": "ar:25304657387",
+    "group": "ca5c973a89a2e63e1d5700a142e8b81e9a00ac8d14453f373650f783314d3af4",
+    "language": "ar",
+    "method": "greedy"
+  },
+  {
+    "item_id": "a63c09167292",
+    "dataset": "public",
+    "source_id": "ar:25304657387",
+    "group": "ca5c973a89a2e63e1d5700a142e8b81e9a00ac8d14453f373650f783314d3af4",
+    "language": "ar",
+    "method": "beam4"
+  },
+  {
+    "item_id": "a51e3216219a",
+    "dataset": "public",
+    "source_id": "ar:886523824840",
+    "group": "3ed4c3f81824167f419e598ff1d1432bae17e81232b8111614858df4c612aca2",
+    "language": "ar",
+    "method": "baseline"
+  },
+  {
+    "item_id": "e856342ac117",
+    "dataset": "public",
+    "source_id": "ar:886523824840",
+    "group": "3ed4c3f81824167f419e598ff1d1432bae17e81232b8111614858df4c612aca2",
+    "language": "ar",
+    "method": "greedy"
+  },
+  {
+    "item_id": "3f421c9edb49",
+    "dataset": "public",
+    "source_id": "ar:886523824840",
+    "group": "3ed4c3f81824167f419e598ff1d1432bae17e81232b8111614858df4c612aca2",
+    "language": "ar",
+    "method": "beam4"
+  },
+  {
+    "item_id": "a70b95bfdcca",
+    "dataset": "public",
+    "source_id": "ar:247853330363",
+    "group": "ce6fb819850686c7de6adb8f501803ce0dff5e6fcfd723f4060449950a84e312",
+    "language": "ar",
+    "method": "baseline"
+  },
+  {
+    "item_id": "b1d1dbc2c3ca",
+    "dataset": "public",
+    "source_id": "ar:247853330363",
+    "group": "ce6fb819850686c7de6adb8f501803ce0dff5e6fcfd723f4060449950a84e312",
+    "language": "ar",
+    "method": "greedy"
+  },
+  {
+    "item_id": "e4126d97f677",
+    "dataset": "public",
+    "source_id": "ar:247853330363",
+    "group": "ce6fb819850686c7de6adb8f501803ce0dff5e6fcfd723f4060449950a84e312",
+    "language": "ar",
+    "method": "beam4"
+  },
+  {
+    "item_id": "18144fa7166d",
+    "dataset": "classroom",
+    "source_id": "novel:archive:en:0",
+    "group": "novel:archive",
+    "language": "en",
+    "method": "baseline"
+  },
+  {
+    "item_id": "0754367c74f4",
+    "dataset": "classroom",
+    "source_id": "novel:archive:en:0",
+    "group": "novel:archive",
+    "language": "en",
+    "method": "greedy"
+  },
+  {
+    "item_id": "2fabc967fea2",
+    "dataset": "classroom",
+    "source_id": "novel:archive:en:0",
+    "group": "novel:archive",
+    "language": "en",
+    "method": "beam4"
+  },
+  {
+    "item_id": "28c9aa0e494e",
+    "dataset": "classroom",
+    "source_id": "novel:robot_route:en:0",
+    "group": "novel:robot_route",
+    "language": "en",
+    "method": "baseline"
+  },
+  {
+    "item_id": "ad1b72e2442f",
+    "dataset": "classroom",
+    "source_id": "novel:robot_route:en:0",
+    "group": "novel:robot_route",
+    "language": "en",
+    "method": "greedy"
+  },
+  {
+    "item_id": "9f3b4c0e2070",
+    "dataset": "classroom",
+    "source_id": "novel:robot_route:en:0",
+    "group": "novel:robot_route",
+    "language": "en",
+    "method": "beam4"
+  },
+  {
+    "item_id": "074f539fd0da",
+    "dataset": "classroom",
+    "source_id": "novel:sound:en:0",
+    "group": "novel:sound",
+    "language": "en",
+    "method": "baseline"
+  },
+  {
+    "item_id": "0f0632f49f86",
+    "dataset": "classroom",
+    "source_id": "novel:sound:en:0",
+    "group": "novel:sound",
+    "language": "en",
+    "method": "greedy"
+  },
+  {
+    "item_id": "b228a3cf93de",
+    "dataset": "classroom",
+    "source_id": "novel:sound:en:0",
+    "group": "novel:sound",
+    "language": "en",
+    "method": "beam4"
+  },
+  {
+    "item_id": "a4a1066d3202",
+    "dataset": "classroom",
+    "source_id": "novel:archive:fr:0",
+    "group": "novel:archive",
+    "language": "fr",
+    "method": "baseline"
+  },
+  {
+    "item_id": "7e74e426e0a0",
+    "dataset": "classroom",
+    "source_id": "novel:archive:fr:0",
+    "group": "novel:archive",
+    "language": "fr",
+    "method": "greedy"
+  },
+  {
+    "item_id": "e13c107daa9f",
+    "dataset": "classroom",
+    "source_id": "novel:archive:fr:0",
+    "group": "novel:archive",
+    "language": "fr",
+    "method": "beam4"
+  },
+  {
+    "item_id": "2e62fdba48d4",
+    "dataset": "classroom",
+    "source_id": "novel:robot_route:fr:0",
+    "group": "novel:robot_route",
+    "language": "fr",
+    "method": "baseline"
+  },
+  {
+    "item_id": "63cbc0a89008",
+    "dataset": "classroom",
+    "source_id": "novel:robot_route:fr:0",
+    "group": "novel:robot_route",
+    "language": "fr",
+    "method": "greedy"
+  },
+  {
+    "item_id": "aa45f009e82b",
+    "dataset": "classroom",
+    "source_id": "novel:robot_route:fr:0",
+    "group": "novel:robot_route",
+    "language": "fr",
+    "method": "beam4"
+  },
+  {
+    "item_id": "6bbb6055a508",
+    "dataset": "classroom",
+    "source_id": "novel:sound:fr:0",
+    "group": "novel:sound",
+    "language": "fr",
+    "method": "baseline"
+  },
+  {
+    "item_id": "f3529d9dad06",
+    "dataset": "classroom",
+    "source_id": "novel:sound:fr:0",
+    "group": "novel:sound",
+    "language": "fr",
+    "method": "greedy"
+  },
+  {
+    "item_id": "a2b8b95cdb1f",
+    "dataset": "classroom",
+    "source_id": "novel:sound:fr:0",
+    "group": "novel:sound",
+    "language": "fr",
+    "method": "beam4"
+  },
+  {
+    "item_id": "59398bf90ba7",
+    "dataset": "classroom",
+    "source_id": "novel:archive:ar:0",
+    "group": "novel:archive",
+    "language": "ar",
+    "method": "baseline"
+  },
+  {
+    "item_id": "37edbbc0c879",
+    "dataset": "classroom",
+    "source_id": "novel:archive:ar:0",
+    "group": "novel:archive",
+    "language": "ar",
+    "method": "greedy"
+  },
+  {
+    "item_id": "b1dfce6fefc1",
+    "dataset": "classroom",
+    "source_id": "novel:archive:ar:0",
+    "group": "novel:archive",
+    "language": "ar",
+    "method": "beam4"
+  },
+  {
+    "item_id": "684282707482",
+    "dataset": "classroom",
+    "source_id": "novel:robot_route:ar:0",
+    "group": "novel:robot_route",
+    "language": "ar",
+    "method": "baseline"
+  },
+  {
+    "item_id": "e8a114693cc2",
+    "dataset": "classroom",
+    "source_id": "novel:robot_route:ar:0",
+    "group": "novel:robot_route",
+    "language": "ar",
+    "method": "greedy"
+  },
+  {
+    "item_id": "ae2cfac71aee",
+    "dataset": "classroom",
+    "source_id": "novel:robot_route:ar:0",
+    "group": "novel:robot_route",
+    "language": "ar",
+    "method": "beam4"
+  },
+  {
+    "item_id": "5f76231d8f5e",
+    "dataset": "classroom",
+    "source_id": "novel:sound:ar:0",
+    "group": "novel:sound",
+    "language": "ar",
+    "method": "baseline"
+  },
+  {
+    "item_id": "f6668ad54166",
+    "dataset": "classroom",
+    "source_id": "novel:sound:ar:0",
+    "group": "novel:sound",
+    "language": "ar",
+    "method": "greedy"
+  },
+  {
+    "item_id": "71bf33b0c738",
+    "dataset": "classroom",
+    "source_id": "novel:sound:ar:0",
+    "group": "novel:sound",
+    "language": "ar",
+    "method": "beam4"
+  }
+]

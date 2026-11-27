@@ -40,7 +40,7 @@ py -3.11 -m venv .venv
 ```
 
 Linux/macOS: create a Python environment and replace `.\.venv\Scripts\python.exe` with
-`.venv/bin/python`. Training dependencies are optional for inference. Downloads resume after
+`.venv/bin/python`. Training dependencies are optional for unadapted inference; adapters require PEFT. Downloads resume after
 interruption, pin Hub commits, and check LFS SHA-256 hashes. About **3.7 GB** of inference weights
 go into ignored `models/`. Allow additional space for packages. Weights and course materials
 are excluded from GitHub and the submission.
@@ -159,7 +159,46 @@ were tuned using this probe.
 - Review handoff: `HANDOFF.md`, completed after validation
 
 The supplied rubric requires **8–12 slides and no standalone technical report**. The presentation
-generator creates 11 slides with speaker notes, measured results, figures, limits and source links.
+generator creates 12 slides when the follow-up studies are present, with notes, figures, limits and source links.
+
+## Follow-up robustness studies
+
+Original experiments are preserved. [The extension protocol](docs/EXTENSION_PROTOCOL.md) fixes
+settings before the additional runs; these follow up previously inspected test sets.
+
+| 160-update English LoRA seed | Public QA F1 change | Classroom QA F1 change |
+|---|---:|---:|
+| 13 | +2.76 points | +2.78 points |
+| 42 | +2.76 points | +4.86 points |
+| 73 | +1.85 points | −2.78 points |
+
+The seed-mean public change is +2.46 points (topic-bootstrap 95% interval −1.67 to +8.29);
+the classroom change is +1.62 (−3.70 to +9.03). These small samples do not establish a reliable
+general improvement. The optional English app adapter uses development loss alone for selection.
+
+A stronger character TF-IDF audit found no test near-duplicate candidates at cosine >= 0.90,
+but found shared article titles and one Arabic development candidate. A separate English run
+removes 23 training paragraphs sharing held-out titles; 577 remain. Its QA F1 changes are
++2.76 public and +0.69 classroom, with intervals including zero. This sensitivity changes
+training coverage as well as isolation.
+
+Two QA judges were compared on **720 paired model/control records** from 15 classroom topics.
+On test references, answer F1 rises from 77.8 to 98.6 English, 73.8 to 91.3 French, and 83.3
+to 86.1 Arabic. False acceptance on constructed negatives also rises: 1.4 to 33.3%, 13.9 to
+33.3%, and 18.1 to 31.9%. The original default checker is retained; the alternative is an
+explicit experimental option. Its extra 0.71 GB of weights are cached, not redistributed.
+
+The **Review study** tab supplies a [54-item blinded booklet](results/human_evaluation/review_booklet.html)
+and validated paired/inter-rater CSV analysis. **Human ratings remain pending.** See
+[extension findings and reproduction instructions](docs/EXTENSIONS.md).
+
+```powershell
+python -m scripts.run_extensions --render
+```
+
+Omit `--render` on non-Windows systems; it requires an idle PowerPoint installation.
+Use a fresh output directory for original experiments when source/configuration hashes differ;
+the resume guard deliberately refuses incompatible folders.
 
 ## Interpretation limits
 

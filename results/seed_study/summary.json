@@ -1,0 +1,154 @@
+{
+  "scope": "Prespecified follow-up: all three 160-update training runs, with development-only checkpoint and optional application selection.",
+  "seeds": [
+    13,
+    42,
+    73
+  ],
+  "steps": 160,
+  "selected_seed_by_development_loss": 42,
+  "optional_app_adapter": "artifacts/seed_study/seed42",
+  "runs": [
+    {
+      "seed": 13,
+      "dataset": "public",
+      "n_unique_inputs": 40,
+      "selected_for_optional_app_by_dev_loss": false,
+      "best_dev_loss": 1.5262573235140646,
+      "best_step": 140,
+      "unadapted_qa_f1": 86.87135176651307,
+      "adapted_qa_f1": 89.6352813852814,
+      "qa_f1_delta_pp": 2.76392961876833,
+      "paired_topic_ci95_pp": [
+        0.0,
+        8.027859237536656
+      ],
+      "unadapted_rouge_l": 50.581709872677706,
+      "adapted_rouge_l": 49.890231707007366,
+      "qa_f1_improved_inputs": 2,
+      "qa_f1_worsened_inputs": 0
+    },
+    {
+      "seed": 42,
+      "dataset": "public",
+      "n_unique_inputs": 40,
+      "selected_for_optional_app_by_dev_loss": true,
+      "best_dev_loss": 1.5242321250473925,
+      "best_step": 160,
+      "unadapted_qa_f1": 86.87135176651307,
+      "adapted_qa_f1": 89.6352813852814,
+      "qa_f1_delta_pp": 2.76392961876833,
+      "paired_topic_ci95_pp": [
+        0.0,
+        8.027859237536656
+      ],
+      "unadapted_rouge_l": 50.581709872677706,
+      "adapted_rouge_l": 49.84181520367599,
+      "qa_f1_improved_inputs": 2,
+      "qa_f1_worsened_inputs": 0
+    },
+    {
+      "seed": 73,
+      "dataset": "public",
+      "n_unique_inputs": 40,
+      "selected_for_optional_app_by_dev_loss": false,
+      "best_dev_loss": 1.527054381487992,
+      "best_step": 160,
+      "unadapted_qa_f1": 86.87135176651307,
+      "adapted_qa_f1": 88.72619047619048,
+      "qa_f1_delta_pp": 1.8548387096774093,
+      "paired_topic_ci95_pp": [
+        -5.64516129032258,
+        9.919354838709676
+      ],
+      "unadapted_rouge_l": 50.581709872677706,
+      "adapted_rouge_l": 48.253311165417436,
+      "qa_f1_improved_inputs": 2,
+      "qa_f1_worsened_inputs": 1
+    },
+    {
+      "seed": 13,
+      "dataset": "classroom",
+      "n_unique_inputs": 24,
+      "selected_for_optional_app_by_dev_loss": false,
+      "best_dev_loss": 1.5262573235140646,
+      "best_step": 140,
+      "unadapted_qa_f1": 71.52777777777779,
+      "adapted_qa_f1": 74.30555555555556,
+      "qa_f1_delta_pp": 2.7777777777777715,
+      "paired_topic_ci95_pp": [
+        -4.166666666666667,
+        12.5
+      ],
+      "unadapted_rouge_l": 63.75785594264696,
+      "adapted_rouge_l": 64.15637263063734,
+      "qa_f1_improved_inputs": 1,
+      "qa_f1_worsened_inputs": 1
+    },
+    {
+      "seed": 42,
+      "dataset": "classroom",
+      "n_unique_inputs": 24,
+      "selected_for_optional_app_by_dev_loss": true,
+      "best_dev_loss": 1.5242321250473925,
+      "best_step": 160,
+      "unadapted_qa_f1": 71.52777777777779,
+      "adapted_qa_f1": 76.38888888888889,
+      "qa_f1_delta_pp": 4.8611111111111,
+      "paired_topic_ci95_pp": [
+        -2.777777777777778,
+        15.277777777777777
+      ],
+      "unadapted_rouge_l": 63.75785594264696,
+      "adapted_rouge_l": 63.063172530084294,
+      "qa_f1_improved_inputs": 2,
+      "qa_f1_worsened_inputs": 1
+    },
+    {
+      "seed": 73,
+      "dataset": "classroom",
+      "n_unique_inputs": 24,
+      "selected_for_optional_app_by_dev_loss": false,
+      "best_dev_loss": 1.527054381487992,
+      "best_step": 160,
+      "unadapted_qa_f1": 71.52777777777779,
+      "adapted_qa_f1": 68.75,
+      "qa_f1_delta_pp": -2.7777777777777857,
+      "paired_topic_ci95_pp": [
+        -6.9444444444444455,
+        0.0
+      ],
+      "unadapted_rouge_l": 63.75785594264696,
+      "adapted_rouge_l": 63.418822054851454,
+      "qa_f1_improved_inputs": 0,
+      "qa_f1_worsened_inputs": 2
+    }
+  ],
+  "paired_seed_means": [
+    {
+      "dataset": "public",
+      "unique_test_inputs": 40,
+      "training_seeds": 3,
+      "mean_qa_f1_delta_pp": 2.4608993157380232,
+      "between_seed_sample_sd_pp": 0.5248638810814846,
+      "topic_bootstrap_ci95_of_seed_mean_pp": [
+        -1.6676441837732159,
+        8.294232649071358
+      ],
+      "interpretation": "Topic bootstrap holds the three trained seeds fixed. Between-seed SD is descriptive with only three runs. Repeated IDs are not independent extra test data."
+    },
+    {
+      "dataset": "classroom",
+      "unique_test_inputs": 24,
+      "training_seeds": 3,
+      "mean_qa_f1_delta_pp": 1.620370370370362,
+      "between_seed_sample_sd_pp": 3.9487782660259203,
+      "topic_bootstrap_ci95_of_seed_mean_pp": [
+        -3.703703703703704,
+        9.027777777777777
+      ],
+      "interpretation": "Topic bootstrap holds the three trained seeds fixed. Between-seed SD is descriptive with only three runs. Repeated IDs are not independent extra test data."
+    }
+  ],
+  "training_seconds_total": 870.6343479999996
+}

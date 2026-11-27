@@ -15,7 +15,8 @@ def main():
     if missing:
         raise FileNotFoundError("Finish required artifacts before packaging: " + ", ".join(missing))
     folders = ["questionforge", "scripts", "tests", "docs", "notebooks", "results", "presentation",
-               "artifacts/english_lora", "data/novel", "data/authoring", ".streamlit", ".github"]
+               "artifacts/english_lora", "artifacts/seed_study", "artifacts/article_isolated_lora",
+               "data/novel", "data/authoring", ".streamlit", ".github"]
     files = [ROOT / name for name in ["README.md", "HANDOFF.md", "pyproject.toml",
                                      "requirements-lock.txt", "app.py", "run_app.bat", ".gitignore"] if (ROOT / name).is_file()]
     for folder in folders:

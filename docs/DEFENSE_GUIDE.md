@@ -92,7 +92,29 @@ An interval crossing zero does not establish a clear directional paired improvem
 controls, semantic relevance/entailment assessment, article-level and near-duplicate isolation,
 larger independently written educational test passages, and domain-specific training data.
 
-## Human review procedure
+## Follow-up questions
+
+**Why is the second verifier not the new default?** Its reference-answer recovery improves,
+but false acceptance of constructed negatives also rises. It lacks impossible-question
+training, and its uncalibrated span score is not a probability that a question is correct.
+Architecture and adaptation data both change. No universal improvement is established.
+
+**Why show all seeds?** They expose training variation. Seed 73 worsens the classroom score.
+The seed-mean topic intervals include zero. Reporting only the most favorable seed would
+overstate the evidence. The optional app checkpoint is chosen using development loss only.
+
+**Why add an article-isolated run?** Paragraph-disjoint data can still share facts across
+articles. The audit found English development titles in training. The sensitivity excludes
+23 training paragraphs sharing held-out titles. It also reduces training coverage, so the
+result does not isolate the causal effect of isolation. Arabic title/near-duplicate risks
+are reported separately; the only adapters trained here are English.
+
+**Is the human evaluation complete?** No. Fifty-four blinded items, a browser-tested booklet,
+CSV validation and paired/inter-rater analysis are prepared. Only actual reviewer CSVs can
+turn that preparation into human evidence. Constructed controls and explanatory source
+inspections do not replace those ratings.
+
+## Human review procedure and booklet
 
 Annotate relevance, answerability and fluency independently on a 0–2 scale: 0 = poor, 1 = partial,
 2 = good. Use the passage and intended answer, not just the reference wording. Label errors such

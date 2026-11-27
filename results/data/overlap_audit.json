@@ -1,0 +1,331 @@
+{
+  "scope": "Post-hoc leakage sensitivity audit; no records removed and no generation settings tuned.",
+  "threshold": 0.9,
+  "representation": "Training-only TF-IDF character 3-5 grams, cosine; cap 150000 features per language.",
+  "limitations": "A heuristic can miss paraphrases and cross-language duplicates. Different paragraphs from the same article can share facts. Missing titles do not imply article-disjointness. This does not audit upstream pretrained model exposure.",
+  "data_sha256": {
+    "train": "1fb3230a60ed052448b0857f69032333b84b82e3150d12ec5495f47ac7bbb7b7",
+    "dev": "137d8b68d61a536c8b92c9ebbd6b7e98cb6006f0782c3154d5dc398a3db5b580",
+    "test": "48fa73ae9468009eb8afcd570f4f6e4ae72048dda683329b6db209141d3d15b8"
+  },
+  "results": [
+    {
+      "language": "en",
+      "held_out_partition": "dev",
+      "n_training": 600,
+      "n_held_out": 15,
+      "exact_paragraph_overlaps": 0,
+      "near_duplicate_candidates_cosine_ge_0_90": 0,
+      "maximum_char_ngram_cosine": 0.6016058921813965,
+      "held_out_rows_with_title": 15,
+      "held_out_rows_sharing_training_article_title": 11,
+      "closest_pairs": [
+        {
+          "held_out_id": "en:5725c5e0271a42140099d180",
+          "training_id": "en:57289db33acd2414000dfb6e",
+          "char_ngram_cosine": 0.6016058921813965,
+          "flagged_at_0_90": false,
+          "held_out_title": "Israel",
+          "training_title": "London"
+        },
+        {
+          "held_out_id": "en:5727f9b1ff5b5019007d99ae",
+          "training_id": "en:5727fcbaff5b5019007d9a2d",
+          "char_ngram_cosine": 0.41494807600975037,
+          "flagged_at_0_90": false,
+          "held_out_title": "Gamal_Abdel_Nasser",
+          "training_title": "Gamal_Abdel_Nasser"
+        },
+        {
+          "held_out_id": "en:5726b4e0f1498d1400e8e836",
+          "training_id": "en:5726bcacf1498d1400e8e996",
+          "char_ngram_cosine": 0.27491462230682373,
+          "flagged_at_0_90": false,
+          "held_out_title": "Napoleon",
+          "training_title": "Napoleon"
+        },
+        {
+          "held_out_id": "en:572f8f2eb2c2fd14005681fe",
+          "training_id": "en:572f6c5904bcaa1900d76925",
+          "char_ngram_cosine": 0.27400103211402893,
+          "flagged_at_0_90": false,
+          "held_out_title": "Pain",
+          "training_title": "Pain"
+        },
+        {
+          "held_out_id": "en:570fcf3e80d9841400ab3691",
+          "training_id": "en:570fdda25ab6b81900391082",
+          "char_ngram_cosine": 0.22460725903511047,
+          "flagged_at_0_90": false,
+          "held_out_title": "Dell",
+          "training_title": "Dell"
+        }
+      ]
+    },
+    {
+      "language": "en",
+      "held_out_partition": "test",
+      "n_training": 600,
+      "n_held_out": 40,
+      "exact_paragraph_overlaps": 0,
+      "near_duplicate_candidates_cosine_ge_0_90": 0,
+      "maximum_char_ngram_cosine": 0.30850234627723694,
+      "held_out_rows_with_title": 40,
+      "held_out_rows_sharing_training_article_title": 0,
+      "closest_pairs": [
+        {
+          "held_out_id": "en:57284d484b864d1900164903",
+          "training_id": "en:57344d2bacc1501500babddb",
+          "char_ngram_cosine": 0.30850234627723694,
+          "flagged_at_0_90": false,
+          "held_out_title": "University_of_Chicago",
+          "training_title": "Richmond,_Virginia"
+        },
+        {
+          "held_out_id": "en:57266cc9f1498d1400e8df55",
+          "training_id": "en:572f1f9004bcaa1900d7675c",
+          "char_ngram_cosine": 0.2774399220943451,
+          "flagged_at_0_90": false,
+          "held_out_title": "Newcastle_upon_Tyne",
+          "training_title": "Modern_history"
+        },
+        {
+          "held_out_id": "en:5730b07c8ab72b1400f9c699",
+          "training_id": "en:57326123b9d445190005eacb",
+          "char_ngram_cosine": 0.26853784918785095,
+          "flagged_at_0_90": false,
+          "held_out_title": "United_Methodist_Church",
+          "training_title": "Protestantism"
+        },
+        {
+          "held_out_id": "en:5730b776069b5314008322be",
+          "training_id": "en:57326123b9d445190005eacb",
+          "char_ngram_cosine": 0.26010558009147644,
+          "flagged_at_0_90": false,
+          "held_out_title": "United_Methodist_Church",
+          "training_title": "Protestantism"
+        },
+        {
+          "held_out_id": "en:5725ca4389a1e219009abeb5",
+          "training_id": "en:57292b8e6aef051400154b27",
+          "char_ngram_cosine": 0.24757982790470123,
+          "flagged_at_0_90": false,
+          "held_out_title": "European_Union_law",
+          "training_title": "Race_(human_categorization)"
+        }
+      ]
+    },
+    {
+      "language": "fr",
+      "held_out_partition": "dev",
+      "n_training": 280,
+      "n_held_out": 15,
+      "exact_paragraph_overlaps": 0,
+      "near_duplicate_candidates_cosine_ge_0_90": 0,
+      "maximum_char_ngram_cosine": 0.20809306204319,
+      "held_out_rows_with_title": 0,
+      "held_out_rows_sharing_training_article_title": 0,
+      "closest_pairs": [
+        {
+          "held_out_id": "fr:2186",
+          "training_id": "fr:731",
+          "char_ngram_cosine": 0.20809306204319,
+          "flagged_at_0_90": false,
+          "held_out_title": "",
+          "training_title": ""
+        },
+        {
+          "held_out_id": "fr:511",
+          "training_id": "fr:912",
+          "char_ngram_cosine": 0.1888783872127533,
+          "flagged_at_0_90": false,
+          "held_out_title": "",
+          "training_title": ""
+        },
+        {
+          "held_out_id": "fr:855",
+          "training_id": "fr:158",
+          "char_ngram_cosine": 0.18448512256145477,
+          "flagged_at_0_90": false,
+          "held_out_title": "",
+          "training_title": ""
+        },
+        {
+          "held_out_id": "fr:75",
+          "training_id": "fr:2241",
+          "char_ngram_cosine": 0.16867892444133759,
+          "flagged_at_0_90": false,
+          "held_out_title": "",
+          "training_title": ""
+        },
+        {
+          "held_out_id": "fr:935",
+          "training_id": "fr:697",
+          "char_ngram_cosine": 0.16646181046962738,
+          "flagged_at_0_90": false,
+          "held_out_title": "",
+          "training_title": ""
+        }
+      ]
+    },
+    {
+      "language": "fr",
+      "held_out_partition": "test",
+      "n_training": 280,
+      "n_held_out": 40,
+      "exact_paragraph_overlaps": 0,
+      "near_duplicate_candidates_cosine_ge_0_90": 0,
+      "maximum_char_ngram_cosine": 0.2672902047634125,
+      "held_out_rows_with_title": 0,
+      "held_out_rows_sharing_training_article_title": 0,
+      "closest_pairs": [
+        {
+          "held_out_id": "fr:2632",
+          "training_id": "fr:639",
+          "char_ngram_cosine": 0.2672902047634125,
+          "flagged_at_0_90": false,
+          "held_out_title": "",
+          "training_title": ""
+        },
+        {
+          "held_out_id": "fr:3044",
+          "training_id": "fr:1144",
+          "char_ngram_cosine": 0.19628536701202393,
+          "flagged_at_0_90": false,
+          "held_out_title": "",
+          "training_title": ""
+        },
+        {
+          "held_out_id": "fr:2776",
+          "training_id": "fr:1562",
+          "char_ngram_cosine": 0.1927039623260498,
+          "flagged_at_0_90": false,
+          "held_out_title": "",
+          "training_title": ""
+        },
+        {
+          "held_out_id": "fr:3037",
+          "training_id": "fr:393",
+          "char_ngram_cosine": 0.19240400195121765,
+          "flagged_at_0_90": false,
+          "held_out_title": "",
+          "training_title": ""
+        },
+        {
+          "held_out_id": "fr:2701",
+          "training_id": "fr:105",
+          "char_ngram_cosine": 0.1888008862733841,
+          "flagged_at_0_90": false,
+          "held_out_title": "",
+          "training_title": ""
+        }
+      ]
+    },
+    {
+      "language": "ar",
+      "held_out_partition": "dev",
+      "n_training": 193,
+      "n_held_out": 15,
+      "exact_paragraph_overlaps": 0,
+      "near_duplicate_candidates_cosine_ge_0_90": 1,
+      "maximum_char_ngram_cosine": 0.9130695462226868,
+      "held_out_rows_with_title": 15,
+      "held_out_rows_sharing_training_article_title": 13,
+      "closest_pairs": [
+        {
+          "held_out_id": "ar:490350758952",
+          "training_id": "ar:379029789792",
+          "char_ngram_cosine": 0.9130695462226868,
+          "flagged_at_0_90": true,
+          "held_out_title": "كأس العالم 2018",
+          "training_title": "كأس العالم 2018"
+        },
+        {
+          "held_out_id": "ar:413347809130",
+          "training_id": "ar:764453363797",
+          "char_ngram_cosine": 0.8660863637924194,
+          "flagged_at_0_90": false,
+          "held_out_title": "نادي الهلال (السعودية)",
+          "training_title": "نادي الهلال (السعودية)"
+        },
+        {
+          "held_out_id": "ar:464028102055",
+          "training_id": "ar:596809961187",
+          "char_ngram_cosine": 0.8545054197311401,
+          "flagged_at_0_90": false,
+          "held_out_title": "رجب طيب أردوغان",
+          "training_title": "رجب طيب أردوغان"
+        },
+        {
+          "held_out_id": "ar:474538356773",
+          "training_id": "ar:573561849357",
+          "char_ngram_cosine": 0.8056742548942566,
+          "flagged_at_0_90": false,
+          "held_out_title": "الحرب العالمية الثانية",
+          "training_title": "الحرب العالمية الثانية"
+        },
+        {
+          "held_out_id": "ar:795211998955",
+          "training_id": "ar:961637804870",
+          "char_ngram_cosine": 0.7626688480377197,
+          "flagged_at_0_90": false,
+          "held_out_title": "صلاح الدين الأيوبي",
+          "training_title": "صلاح الدين الأيوبي"
+        }
+      ]
+    },
+    {
+      "language": "ar",
+      "held_out_partition": "test",
+      "n_training": 193,
+      "n_held_out": 40,
+      "exact_paragraph_overlaps": 0,
+      "near_duplicate_candidates_cosine_ge_0_90": 0,
+      "maximum_char_ngram_cosine": 0.8240419030189514,
+      "held_out_rows_with_title": 40,
+      "held_out_rows_sharing_training_article_title": 4,
+      "closest_pairs": [
+        {
+          "held_out_id": "ar:153159225042",
+          "training_id": "ar:794327756655",
+          "char_ngram_cosine": 0.8240419030189514,
+          "flagged_at_0_90": false,
+          "held_out_title": "سليمان",
+          "training_title": "سليمان القانوني"
+        },
+        {
+          "held_out_id": "ar:105673018704",
+          "training_id": "ar:775568316533",
+          "char_ngram_cosine": 0.81757652759552,
+          "flagged_at_0_90": false,
+          "held_out_title": "حرب أكتوبر",
+          "training_title": "حرب أكتوبر"
+        },
+        {
+          "held_out_id": "ar:25304657387",
+          "training_id": "ar:824672697075",
+          "char_ngram_cosine": 0.25615954399108887,
+          "flagged_at_0_90": false,
+          "held_out_title": "إنجلترا",
+          "training_title": "السعودية"
+        },
+        {
+          "held_out_id": "ar:422296598940",
+          "training_id": "ar:77352932221",
+          "char_ngram_cosine": 0.25266531109809875,
+          "flagged_at_0_90": false,
+          "held_out_title": "إمبراطورية المغول",
+          "training_title": "إيران"
+        },
+        {
+          "held_out_id": "ar:579054360190",
+          "training_id": "ar:447012233306",
+          "char_ngram_cosine": 0.2388441115617752,
+          "flagged_at_0_90": false,
+          "held_out_title": "كرة القدم",
+          "training_title": "كرة القدم"
+        }
+      ]
+    }
+  ]
+}

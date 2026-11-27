@@ -1,23 +1,97 @@
 {
-  "regular_tests_passed": 35,
-  "neural_integration_tests_passed": 4,
-  "executed_notebook_code_cells": 7,
+  "regular_tests_passed": 46,
+  "neural_integration_tests_passed": 8,
+  "executed_notebook_code_cells": 8,
   "notebook_errors": 0,
-  "presentation_slides": 11,
-  "presentation_pdf_pages": 11,
-  "experiment_prediction_rows": {
-    "benchmark_dev": 225,
-    "benchmark_test": 600,
-    "lora_dev": 75,
-    "lora_novel_test": 120,
-    "lora_test": 200,
-    "novel_dev": 90,
-    "novel_test": 360
-  },
-  "experiment_execution_errors": 0,
-  "generation_experiments_with_matching_core_source_hashes": 7,
+  "presentation_slides": 12,
+  "presentation_pdf_pages": 12,
+  "generation_experiments": [
+    {
+      "name": "article_classroom_test",
+      "rows": 96,
+      "source_hashes_match": true
+    },
+    {
+      "name": "article_public_test",
+      "rows": 160,
+      "source_hashes_match": true
+    },
+    {
+      "name": "benchmark_dev",
+      "rows": 225,
+      "source_hashes_match": true
+    },
+    {
+      "name": "benchmark_test",
+      "rows": 600,
+      "source_hashes_match": true
+    },
+    {
+      "name": "lora_dev",
+      "rows": 75,
+      "source_hashes_match": true
+    },
+    {
+      "name": "lora_novel_test",
+      "rows": 120,
+      "source_hashes_match": true
+    },
+    {
+      "name": "lora_test",
+      "rows": 200,
+      "source_hashes_match": true
+    },
+    {
+      "name": "novel_dev",
+      "rows": 90,
+      "source_hashes_match": true
+    },
+    {
+      "name": "novel_test",
+      "rows": 360,
+      "source_hashes_match": true
+    },
+    {
+      "name": "seed13_classroom_test",
+      "rows": 96,
+      "source_hashes_match": true
+    },
+    {
+      "name": "seed13_public_test",
+      "rows": 160,
+      "source_hashes_match": true
+    },
+    {
+      "name": "seed42_classroom_test",
+      "rows": 96,
+      "source_hashes_match": true
+    },
+    {
+      "name": "seed42_public_test",
+      "rows": 160,
+      "source_hashes_match": true
+    },
+    {
+      "name": "seed73_classroom_test",
+      "rows": 96,
+      "source_hashes_match": true
+    },
+    {
+      "name": "seed73_public_test",
+      "rows": 160,
+      "source_hashes_match": true
+    }
+  ],
+  "generation_experiments_with_matching_core_source_hashes": 15,
   "adapter_fingerprints_match_saved_configurations": true,
-  "human_rating_cells_still_blank": true,
-  "resume_prediction_count": 200,
-  "resume_prediction_sha256_unchanged": "e31d8379e9f5b6585ad3d9616706e99a26dabfeaacd516f7538fc80ce5911976"
+  "verifier_study_rows": 720,
+  "verifier_study_execution_errors": 0,
+  "human_evaluation_status": "pending_human_annotation",
+  "complete_human_rating_rows": 0,
+  "repeated_training_seeds": [
+    13,
+    42,
+    73
+  ],
+  "article_isolated_training_rows": 577
 }

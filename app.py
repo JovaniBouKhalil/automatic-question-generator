@@ -16,9 +16,11 @@ from questionforge.baseline import template_question
 from questionforge.candidates import extract_candidates
 from questionforge.export import as_csv, as_json, moodle_xml, worksheet_html
 from questionforge.metrics import leaks_answer, lexical_relevance, quality_decision
-from questionforge.models import generate_question, verify_question
+from questionforge.models import generate_question
 from questionforge.registry import GENERATORS
+from questionforge.review import GUIDE, ratings_csv, summarize_ratings, validate_ratings
 from questionforge.text import LANGUAGES, evidence_for
+from questionforge.verification import check_answer
 
 ROOT = Path(__file__).resolve().parent
 
@@ -85,13 +87,27 @@ def main():
                                   help="1 = greedy decoding. 4 = deterministic beam search.")
         verify = st.toggle("Check answerability", value=True,
                            help="An independent QA model attempts to recover the answer. This is an imperfect proxy.")
+        verifier = "original"
+        if verify:
+            verifier = st.selectbox("Answerability checker", ["original", "multilingual"],
+                                    format_func=lambda value: {"original": "Original QA checker",
+                                                              "multilingual": "Experimental multilingual QA"}[value],
+                                    help="The experimental checker has multilingual QA training. Both can miss unsupported premises.")
+        checkpoint = None
+        study_path = ROOT / "results/seed_study/summary.json"
+        if language == "en" and method == "Pretrained Transformer" and study_path.exists():
+            study = json.loads(study_path.read_text(encoding="utf-8"))
+            selected = ROOT / study["optional_app_adapter"]
+            if selected.is_dir() and st.toggle("Use adapted English generator", value=False,
+                                               help="LoRA checkpoint selected using development loss, with all three training seeds reported."):
+                checkpoint = str(selected)
         count = st.slider("Questions to create", 1, 8, 3)
         st.divider()
         st.markdown("**Works locally. No paid API.**")
         st.caption("The first use downloads model weights. Once cached, generation works offline. CPU inference is supported.")
         with st.expander("About the models"):
             st.write(GENERATORS[language].model_id)
-            st.caption("Questions are drafts for teacher review. The verifier is fine-tuned on English; French and Arabic checks may be weaker.")
+            st.caption("Questions are drafts for teacher review. The original checker has English QA training; the experimental checker adds multilingual QA training. French remains zero-shot for both.")
     direction = "rtl" if language == "ar" else "ltr"
     alignment = "right" if language == "ar" else "left"
     font_size = "18px" if language == "ar" else "15px"
@@ -99,7 +115,7 @@ def main():
     st.markdown("<div class='eyebrow'>READ. QUESTION. UNDERSTAND.</div>", unsafe_allow_html=True)
     st.title("Turn a passage into a learning moment.")
     st.markdown("<p class='intro'>Create factual questions in English, French, and Arabic. Keep the source evidence close—and see which questions need a second look.</p>", unsafe_allow_html=True)
-    compose, results_tab, research = st.tabs(["Create a quiz", "Question library", "Experiment results"])
+    compose, results_tab, research, review_tab = st.tabs(["Create a quiz", "Question library", "Experiment results", "Review study"])
     with compose:
         left, right = st.columns([3, 2], gap="large")
         with left:
@@ -152,11 +168,13 @@ def main():
                                        "answer": answer, "answer_start": start, "language": language,
                                        "evidence": evidence_for(passage, answer, start).text, "method": "baseline"}
                             else:
-                                row = asdict(generate_question(passage, answer, language, answer_start=start, beams=beams))
+                                row = asdict(generate_question(passage, answer, language, answer_start=start,
+                                                               beams=beams, checkpoint=checkpoint))
                             row["lexical_relevance"] = lexical_relevance(row["question"], row["evidence"], language)
                             row["answer_leak"] = leaks_answer(row["question"], answer, language)
                             if verify:
-                                row.update(verify_question(row["question"], passage, answer, language))
+                                row.update(check_answer(row["question"], passage, answer, language, verifier))
+                                row["verifier"] = verifier
                                 row["accepted"], row["review_reasons"] = quality_decision(row)
                             rows.append(row)
                         status.update(label="Your question set is ready", state="complete", expanded=False)
@@ -219,6 +237,58 @@ def main():
             st.caption("chrF++, ROUGE-L and QA agreement are shown on 0–100 scales. Acceptance is rule-based coverage, not accuracy. Reference and unrelated questions diagnose the verifier.")
         st.markdown("**Fair comparison:** identical passages and target answers for the baseline, greedy decoding, and beam search. The main experiment supplies target answers; automatic answer selection is a separate demonstration feature.")
         st.markdown("**Known limits:** lexical overlap misses good paraphrases; automatic QA is an imperfect judge; checkpoint training exposure is partly unknown; multilingual checkpoints differ in size and training data.")
+        if study_path.exists():
+            with st.expander("Training stability across three seeds"):
+                study = json.loads(study_path.read_text(encoding="utf-8"))
+                st.dataframe(study["runs"], hide_index=True)
+                figure = study_path.parent / "seed_stability.png"
+                if figure.exists():
+                    st.image(str(figure))
+                st.caption("The same test inputs repeat across seeds; they are not additional independent examples. Checkpoints and the optional app adapter use development loss only.")
+        verification_path = ROOT / "results/verification_study/summary.json"
+        if verification_path.exists():
+            with st.expander("Verifier ablation on constructed controls"):
+                verification = json.loads(verification_path.read_text(encoding="utf-8"))
+                st.dataframe([{k: v for k, v in r.items() if k != "conditions"}
+                              for r in verification["models"] if r["partition"] == "test"], hide_index=True)
+                st.caption("Reference questions and constructed negatives test intended-answer consistency. These are not human ratings of generated questions, and span scores are uncalibrated.")
+    with review_tab:
+        st.subheader("Independent review of question quality")
+        st.write("Rate relevance, answerability and fluency with the passage in view. The offline booklet hides model names and automatic scores.")
+        folder = ROOT / "results/human_evaluation"
+        if not (folder / "items.json").exists():
+            st.info("Prepare the review sample with python -m scripts.prepare_human_review.")
+        else:
+            items = json.loads((folder / "items.json").read_text(encoding="utf-8"))
+            mapping = json.loads((folder / "researcher_mapping.json").read_text(encoding="utf-8"))
+            st.download_button("Download offline review booklet", (folder / "review_booklet.html").read_bytes(),
+                               "questionforge-review.html", "text/html")
+            st.caption(f"{len(items)} questions prepared. Open the downloaded HTML file in a browser, rate languages you can judge, and export a CSV. No human study is claimed until ratings are supplied.")
+            with st.expander("Scoring instructions"):
+                for dimension, explanation in GUIDE.items():
+                    st.write(f"**{dimension.title()}:** {explanation}")
+            uploads = st.file_uploader("Import reviewer CSVs for analysis", type=["csv"], accept_multiple_files=True,
+                                       key="review_csvs")
+            if uploads:
+                try:
+                    rows = []
+                    for upload in uploads:
+                        rows.extend(validate_ratings(upload.getvalue().decode("utf-8-sig"), items))
+                    rows = validate_ratings(ratings_csv(rows), items)
+                    summary = summarize_ratings(rows, items, mapping)
+                    st.metric("Complete rating rows", summary["complete_rating_rows"])
+                    st.metric("Complete paired reviewer/input blocks", summary["complete_paired_blocks"])
+                    if summary["method_means_0_to_2"]:
+                        st.dataframe(summary["method_means_0_to_2"], hide_index=True)
+                    if summary["inter_rater_agreement"]:
+                        st.dataframe(summary["inter_rater_agreement"], hide_index=True)
+                    st.download_button("Download review analysis", json.dumps(summary, indent=2),
+                                       "human-review-analysis.json", "application/json")
+                    st.caption(summary["interpretation"])
+                except (ValueError, UnicodeDecodeError) as exc:
+                    st.error(f"Could not analyze ratings: {exc}")
+            else:
+                st.info("Human ratings pending. Prepared questions and automated checks are not completed human annotations.")
 
 
 if __name__ == "__main__":

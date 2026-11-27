@@ -1,0 +1,10 @@
+{
+  "status": "pending_human_annotation",
+  "prepared_items": 54,
+  "received_rows": 0,
+  "complete_rating_rows": 0,
+  "complete_paired_blocks": 0,
+  "method_means_0_to_2": [],
+  "inter_rater_agreement": [],
+  "interpretation": "Only genuine supplied ratings are summarized. Method means use complete paired input/reviewer blocks; small samples are descriptive."
+}

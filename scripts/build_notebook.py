@@ -179,13 +179,42 @@ loss_plot = ROOT / 'results/data/lora_loss_curve.png'
 if loss_plot.exists():
     display(Image(filename=str(loss_plot), width=700))
 """)
-    markdown("""## 7. Demonstrate and explain
+    markdown("""## 7. Check robustness beyond a single result
+
+Follow-up protocols are in `docs/EXTENSION_PROTOCOL.md`. Three seeds repeat 160-update
+English LoRA training; report every run and distinguish seed variation from topic bootstrap
+uncertainty. A separate English run excludes training articles shared with development/test.
+The verifier study contrasts two QA judges on reference questions and three constructed
+negative conditions. These controls do not replace human judgments of generated quality.
+The blinded booklet contains 54 items; annotation remains pending until people supply CSVs.
+""")
+    code("""seed_path = ROOT / 'results/seed_study/summary.json'
+if seed_path.exists():
+    seed_study = json.loads(seed_path.read_text(encoding='utf-8'))
+    display(pd.DataFrame(seed_study['runs']))
+    display(pd.DataFrame(seed_study['paired_seed_means']))
+    display(Image(filename=str(seed_path.parent / 'seed_stability.png'), width=900))
+verifier_path = ROOT / 'results/verification_study/summary.json'
+if verifier_path.exists():
+    verifier_study = json.loads(verifier_path.read_text(encoding='utf-8'))
+    display(pd.DataFrame([{k:v for k,v in row.items() if k != 'conditions'}
+                          for row in verifier_study['models'] if row['partition'] == 'test']))
+    display(Image(filename=str(verifier_path.parent / 'comparison.png'), width=900))
+audit_path = ROOT / 'results/data/overlap_audit.json'
+if audit_path.exists():
+    audit = json.loads(audit_path.read_text(encoding='utf-8'))
+    display(pd.DataFrame([{k:v for k,v in row.items() if k != 'closest_pairs'} for row in audit['results']]))
+human_path = ROOT / 'results/human_evaluation/summary.json'
+if human_path.exists():
+    print('Human evaluation:', json.loads(human_path.read_text(encoding='utf-8'))['status'])
+""")
+    markdown("""## 8. Demonstrate and explain
 
 Launch `python -m streamlit run app.py`. Choose a language, paste a passage, supply exact
 answers or use TF-IDF suggestions, and inspect the questions and evidence. Export a
 student worksheet, answer key, CSV, JSON or Moodle XML.
 
-See `docs/DEFENSE_GUIDE.md` for course connections and technical Q&A.  No external paid API is used.
+See `docs/DEFENSE_GUIDE.md` for course connections and technical Q&A. No external paid API is used.
 """)
     notebook = {"cells": cells, "metadata": {"kernelspec": {"display_name": "Python 3 (QuestionForge)",
                 "language": "python", "name": "python3"}, "language_info": {"name": "python", "version": "3.11"}},

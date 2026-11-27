@@ -1,0 +1,55 @@
+{
+  "scope": "Follow-up article-isolated English training; fewer training examples, identical held-out inputs.",
+  "n_training": 577,
+  "best_dev_loss": 1.5291304282954175,
+  "best_step": 160,
+  "results": [
+    {
+      "dataset": "public",
+      "n": 40,
+      "mean_qa_f1_delta_pp": 2.763929618768328,
+      "paired_topic_ci95_pp": [
+        0.0,
+        8.027859237536656
+      ],
+      "method_metrics": [
+        {
+          "method": "beam4",
+          "answer_f1": 86.87135176651307,
+          "rouge_l": 50.581709872677706,
+          "chrf_pp": 47.55276381141534
+        },
+        {
+          "method": "lora_beam4",
+          "answer_f1": 89.6352813852814,
+          "rouge_l": 50.65369797455712,
+          "chrf_pp": 47.948181728412095
+        }
+      ]
+    },
+    {
+      "dataset": "classroom",
+      "n": 24,
+      "mean_qa_f1_delta_pp": 0.6944444444444438,
+      "paired_topic_ci95_pp": [
+        -11.822916666666668,
+        14.583333333333334
+      ],
+      "method_metrics": [
+        {
+          "method": "beam4",
+          "answer_f1": 71.52777777777779,
+          "rouge_l": 63.75785594264696,
+          "chrf_pp": 61.82757610032659
+        },
+        {
+          "method": "lora_beam4",
+          "answer_f1": 72.22222222222221,
+          "rouge_l": 64.54682368285309,
+          "chrf_pp": 64.774442731948
+        }
+      ]
+    }
+  ],
+  "interpretation": "This sensitivity changes training coverage as well as isolation. A single seed does not isolate a causal effect. Test scores do not choose the app adapter."
+}

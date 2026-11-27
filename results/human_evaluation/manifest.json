@@ -1,0 +1,11 @@
+{
+  "sampling_seed": 42,
+  "items": 54,
+  "source_sha256": {
+    "results/benchmark_test/predictions.jsonl": "d9a8948303e0a56e17b5168ab7294d24a971a7ec7231d63a2cf16f9dcb3a0c80",
+    "results/novel_test/predictions.jsonl": "73d3b799fe98f59450bfe42738bac8e7a13773157b8381c0bf5f5869381d1403"
+  },
+  "items_sha256": "ccb104b85d890895135a4fde6bf85ef9033a69786115f685143455b829894d69",
+  "blinding": "Method, model, reference and automatic scores hidden in reviewer booklet.",
+  "status": "prepared; no human ratings supplied by this script"
+}

@@ -1,0 +1,30 @@
+{
+  "models": {
+    "original": {
+      "model_id": "deepset/xlm-roberta-base-squad2-distilled",
+      "revision": "c1bbfe57bc3335c37960a48c5628ba26d7e9e3b7",
+      "prompt_style": "extractive_qa",
+      "license": "MIT"
+    },
+    "multilingual": {
+      "model_id": "mrm8488/bert-multi-cased-finetuned-xquadv1",
+      "revision": "610161fac355eac3e06ac622d376e178a948a5d0",
+      "prompt_style": "extractive_qa_answerable_only",
+      "license": "Unspecified; do not redistribute weights"
+    }
+  },
+  "thresholds": {
+    "answer_f1": 0.5,
+    "span_score": 0.1
+  },
+  "seed": 42,
+  "data_sha256": {
+    "dev": "334c28bfd0cc1c766e01d52331688692949b003e2a288982d3a4a54a137dc022",
+    "test": "f3f7bae15a112dca0112e839dc33d3f6f2bc9d2828290b7b87eae0729f13d0fc"
+  },
+  "protocol_sha256": "6776995cc6d3a67d743f51918745cd11055bf4a78f7a976f7113af9ea96369bc",
+  "source_sha256": {
+    "scripts/study_verifiers.py": "2dbbb08081bd758930dd00770aabb488af9d070a58eedffde7c270f2fb79f609",
+    "questionforge/verification.py": "0afe21469cead9539b440110dc416aea248b2f4422f5f348dda97c497ea8a8b3"
+  }
+}

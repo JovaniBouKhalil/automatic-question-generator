@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import os
+import subprocess
 from pathlib import Path
 
 from pptx import Presentation
@@ -21,6 +23,16 @@ GOLD = "B68943"
 
 def color(value):
     return RGBColor.from_string(value)
+
+
+def ensure_destination_closed():
+    """Never regenerate a user's open presentation and discard its unsaved edits."""
+    if os.name == "nt":
+        result = subprocess.run(["powershell", "-NoProfile", "-Command",
+                                 "if (Get-Process POWERPNT -ErrorAction SilentlyContinue) { exit 1 }"],
+                                capture_output=True, creationflags=subprocess.CREATE_NO_WINDOW)
+        if result.returncode:
+            raise RuntimeError("PowerPoint is open. Preserve your edits and close it before regenerating, or use an explicit snapshot/output copy.")
 
 
 def textbox(slide, text, x, y, w, h, size=20, fill=INK, bold=False):
@@ -48,6 +60,7 @@ def pill(slide, label, x, y, w, fill=GREEN):
 
 
 def main():
+    ensure_destination_closed()
     required = [ROOT / f"results/{name}/summary.json" for name in ["benchmark_test", "novel_test", "lora_test"]]
     for path in required:
         if not path.exists():
@@ -220,7 +233,11 @@ def main():
     output.mkdir(exist_ok=True)
     presentation.save(output / "QuestionForge.pptx")
     (output / "slide_notes.json").write_text(json.dumps(outline, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(f"Created {len(presentation.slides)} slides: presentation/QuestionForge.pptx")
+    if all((ROOT / f"results/{name}/summary.json").exists()
+           for name in ["seed_study", "verification_study", "article_sensitivity"]):
+        from scripts.extend_presentation import main as extend
+        extend()
+    print(f"Created {len(Presentation(output / 'QuestionForge.pptx').slides)} slides: presentation/QuestionForge.pptx")
 
 
 if __name__ == "__main__":

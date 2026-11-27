@@ -21,9 +21,9 @@ Export a worksheet, answer key, CSV, JSON or Moodle XML. Full setup/reproduction
 
 - `submission/QuestionForge-submission.zip` — code, dependencies, sources, results, notebook,
   presentation and small trained adapter; excludes environments, full weights and course files.
-- `presentation/QuestionForge.pptx` — **11 editable slides**, with sources and technical speaker notes.
+- `presentation/QuestionForge.pptx` — **12 editable slides**, with sources and technical speaker notes.
 - `presentation/QuestionForge.pdf` — readable slide export; PNG previews are in `presentation/preview/`.
-- `notebooks/QuestionForge.ipynb` — **7 executed code cells**, including real generation in all three languages.
+- `notebooks/QuestionForge.ipynb` — **8 executed code cells**, including real generation in all three languages.
 - `docs/DEFENSE_GUIDE.md` — demo steps, course connections and technical questions to prepare.
 - `docs/RUBRIC_CHECKLIST.md` — evidence mapped to the 100-point rubric.
 
@@ -75,11 +75,11 @@ completed human evaluations. Teacher review of wording and factual support is pa
 
 ## Validation and reproducibility
 
-- **35 regular tests passed; 4 real neural integration tests passed.**
+- **46 regular tests passed; 8 real neural integration tests passed.**
 - Ruff checks passed; the notebook executed without errors.
 - A resumed copy of the LoRA test experiment retained all 200 prediction records with an
-  unchanged SHA-256. All seven generation experiments match the final core source hashes.
-- All main generation/verification experiment records have zero execution errors.
+  unchanged SHA-256. All 15 original/follow-up generation experiments match their recorded core source hashes.
+- All original and follow-up generation/verification experiment records have zero execution errors.
 - Slides were rendered and visually inspected; PDF and ZIP integrity were checked.
 - Dataset preparation rejected invalid spans/duplicates and removed **15 Arabic training
   rows overlapping evaluation passages**. Paragraph groups do not cross our partitions.
@@ -89,6 +89,19 @@ completed human evaluations. Teacher review of wording and factual support is pa
 Our split audit does not prove that public checkpoints never saw benchmark text upstream.
 The original scenarios reduce that concern but are small and synthetic.
 Full source/licensing details and remaining limitations are in `docs/DATA_AND_MODELS.md`.
+
+## Additional work to strengthen the assessment
+
+- Three 160-update training seeds report public QA F1 changes of +2.76, +2.76 and +1.85 points;
+  classroom changes are +2.78, +4.86 and −2.78. Intervals include zero. No seed is hidden.
+- The overlap audit quantifies near-duplicates and shared article titles. A separate English
+  sensitivity run removes 23 training paragraphs sharing held-out titles; 577 remain.
+- Two QA judges were compared on 720 control records. The alternative recovers more reference
+  answers but accepts more constructed negatives; it is an experimental option, not the default.
+- `results/human_evaluation/review_booklet.html` supplies 54 blinded items, browser-tested CSV
+  export and validated paired/inter-rater statistics. Human annotation remains pending.
+- Your open presentation was backed up and updated in place. New results are on slide 11;
+  the conclusion remains last. See `docs/EXTENSIONS.md` for findings and reproduction.
 
 ## Before handing it in
 

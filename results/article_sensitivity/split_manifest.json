@@ -1,0 +1,42 @@
+{
+  "scope": "English article-isolation sensitivity, not a replacement of frozen original experiments.",
+  "seed": 42,
+  "updates": 160,
+  "counts": {
+    "train": 577,
+    "dev": 15,
+    "test": 40
+  },
+  "removed_training_ids": [
+    "en:5726834af1498d1400e8e246",
+    "en:57265f7e5951b619008f70e5",
+    "en:570fe7a580d9841400ab370e",
+    "en:572f6c5904bcaa1900d76925",
+    "en:57266c21f1498d1400e8df4c",
+    "en:5725fe4f89a1e219009ac13d",
+    "en:5725cdb989a1e219009abefc",
+    "en:5731f24bb9d445190005e6d7",
+    "en:5727fcbaff5b5019007d9a2d",
+    "en:5728ba9d2ca10214002da6a4",
+    "en:5726672df1498d1400e8de76",
+    "en:5726c242708984140094d0b7",
+    "en:570fdda25ab6b81900391082",
+    "en:572665cc5951b619008f71ab",
+    "en:57266e09f1498d1400e8df83",
+    "en:572661f5708984140094c444",
+    "en:57280b982ca10214002d9c86",
+    "en:572faad8b2c2fd14005682ea",
+    "en:5725d1ecec44d21400f3d62e",
+    "en:5727b0ccff5b5019007d92a9",
+    "en:5726903d5951b619008f76b2",
+    "en:572621eeec44d21400f3d954",
+    "en:5726bcacf1498d1400e8e996"
+  ],
+  "removed_training_rows": 23,
+  "training_heldout_article_intersection": [],
+  "data_sha256": {
+    "train": "fec392676119b464dfcf26c0643749f9cb932190e6c926adbd41b23bbe70c027",
+    "dev": "18d0a008458ba816eb8ab4e70859c2b83dadc581c5454912039d8b8760e03329",
+    "test": "91a12c9534a026742945bfe92a35ee64b82cb39610996264846ba70c008d4231"
+  }
+}
