@@ -1,0 +1,114 @@
+{
+  "case_id": "learning:light_and_voltage:ar",
+  "language": "ar",
+  "group": "learning:light_and_voltage",
+  "context": "يحول اللوح الشمسي الضوء إلى طاقة كهربائية. في تجربة صفية، أنتج اللوح ستة فولتات تحت ضوء الشمس المباشر. قلل حاجز من الورق المقوى الضوء الواصل إلى اللوح، فانخفض الجهد المقاس إلى فولتين. كان الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "كم من ضوء الشمس تم إنتاجه تحت ضوء الشمس؟",
+        "answer": "ستة فولتات",
+        "answer_start": 69,
+        "evidence": "في تجربة صفية، أنتج اللوح ستة فولتات تحت ضوء الشمس المباشر.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 70,
+        "cropped": false,
+        "lexical_relevance": 0.4767312946227962,
+        "answer_leak": false,
+        "qa_answer": "ستة فولتات",
+        "qa_score": 0.7576946305780439,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "كيف يتم تحويل الضوء إلى طاقة كهربائية؟",
+        "answer": "يحول اللوح الشمسي",
+        "answer_start": 0,
+        "evidence": "يحول اللوح الشمسي الضوء إلى طاقة كهربائية.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 70,
+        "cropped": false,
+        "lexical_relevance": 0.5,
+        "answer_leak": false,
+        "qa_answer": "اللوح الشمسي",
+        "qa_score": 0.6997165679931641,
+        "answer_f1": 0.8,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "ما هو الهدف من الحاجز؟",
+        "answer": "الحاجز مقارنة إنتاج",
+        "answer_start": 197,
+        "evidence": "كان الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 69,
+        "cropped": false,
+        "lexical_relevance": 0.47140452079103173,
+        "answer_leak": false,
+        "qa_answer": "مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+        "qa_score": 0.8264885079115629,
+        "answer_f1": 0.36363636363636365,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "planned_t5": [],
+    "learning_hybrid": []
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-v2",
+    "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "planner_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 0,
+    "rejected_facts": [
+      {
+        "index": 0,
+        "reason": "answer or evidence is not an exact source quote",
+        "item": {
+          "answer": "يقوم الحاجز بتعديل الإنتاج الكهربائي بناءً على كمية الضوء.",
+          "sentence_index": 3,
+          "learning_goal": "فهم كيفية التأثير في الإنتاج الكهربائي بواسطة الحاجز",
+          "question_type": "comparison",
+          "evidence": "كان الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء."
+        }
+      },
+      {
+        "index": 1,
+        "reason": "answer or evidence is not an exact source quote",
+        "item": {
+          "answer": "الضوء يتحول إلى طاقة كهربائية عند مروره عبر اللوح.",
+          "sentence_index": 0,
+          "learning_goal": "ال comprehension of how light converts to electrical energy through the solar panel",
+          "question_type": "concept",
+          "evidence": "يحول اللوح الشمسي الضوء إلى طاقة كهربائية."
+        }
+      }
+    ],
+    "raw_plan": "```json\n[\n    {\n        \"answer\": \"يقوم الحاجز بتعديل الإنتاج الكهربائي بناءً على كمية الضوء.\",\n        \"sentence_index\": 3,\n        \"learning_goal\": \"فهم كيفية التأثير في الإنتاج الكهربائي بواسطة الحاجز\",\n        \"question_type\": \"comparison\"\n    },\n    {\n        \"answer\": \"الضوء يتحول إلى طاقة كهربائية عند مروره عبر اللوح.\",\n        \"sentence_index\": 0,\n        \"learning_goal\": \"ال comprehension of how light converts to electrical energy through the solar panel\",\n        \"question_type\": \"concept\"\n    }\n]\n```",
+    "raw_edit": null,
+    "facts": [],
+    "drafts": [],
+    "rejected_questions": [],
+    "learning_objective": "فهم وظيفة اللوح والمقارنة التجريبية والأثر المذكور للتظليل.",
+    "educational_quality_status": "not_human_rated",
+    "returned": 0,
+    "seconds": 59.07247369999823
+  },
+  "seconds": 75.81094339999254
+}

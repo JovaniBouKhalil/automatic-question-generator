@@ -30,11 +30,14 @@ Inspect the source evidence and expand **Compare with the T5 draft** for each qu
 
 The extra checkpoint is [Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct),
 revision `989aa7980e4cf806f80c7fef2b1adb7bc71aa306` (Apache-2.0). The download is about
-3.1 GB and stays in ignored `models/`. On CPU, linear layers use dynamic int8 quantization
-while embeddings remain float32. The app still runs locally without a paid API. This
+3.1 GB and stays in ignored `models/`. The editor uses full-precision FP32 on CPU. A
+generic int8 conversion failed paired instruction-following controls and was discarded.
+The app still runs locally without a paid API. This
 mode takes longer than T5 alone and performs inference, not additional fine-tuning.
 
-The planner proposes exact answer/evidence spans. T5 generates drafts for those targets;
+The planner chooses IDs from source-derived relation spans and complete statements.
+Code resolves the exact answers and evidence; generated answer paraphrases are not used.
+T5 generates drafts for those targets;
 the editor revises the questions using the passage and goals. Invalid spans, malformed
 responses, duplicate targets/questions, answer leakage and some language/format errors
 are rejected. Fewer questions may be returned rather than filling the quiz with weaker
@@ -48,8 +51,8 @@ The protocol and exact source fingerprints are saved with each run. See
 [the recorded protocol](LEARNING_FOCUS_PROTOCOL.md).
 
 ```powershell
-python -m scripts.run_learning_focus_study --output results/learning_focus_dev_v1
-python -m scripts.run_learning_focus_study --source educational --output results/learning_focus_educational_v1
+python -m scripts.run_learning_focus_study --output outputs/learning_focus_classroom_reproduction
+python -m scripts.run_learning_focus_study --source educational --output outputs/learning_focus_educational_reproduction
 python -m scripts.run_learning_t5_study --output outputs/learning_t5_reproduction
 python -m scripts.validate_learning_focus
 ```

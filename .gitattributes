@@ -12,3 +12,6 @@
 /docs/EXPANDED_TRAINING_PROTOCOL.md text eol=lf
 /docs/ARABIC_TARGET_FORMAT.md text eol=lf
 /scripts/train_expanded_lora.py text eol=lf
+/docs/SCIENCE_TRAINING_PROTOCOL.md text eol=lf
+/scripts/prepare_science_data.py text eol=lf
+/scripts/train_science_grid.py text eol=lf

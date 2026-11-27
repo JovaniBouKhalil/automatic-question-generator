@@ -1,0 +1,72 @@
+{
+  "case_id": "learning:light_and_voltage:ar",
+  "language": "ar",
+  "group": "learning:light_and_voltage",
+  "context": "يحول اللوح الشمسي الضوء إلى طاقة كهربائية. في تجربة صفية، أنتج اللوح ستة فولتات تحت ضوء الشمس المباشر. قلل حاجز من الورق المقوى الضوء الواصل إلى اللوح، فانخفض الجهد المقاس إلى فولتين. كان الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "كم من ضوء الشمس تم إنتاجه تحت ضوء الشمس؟",
+        "answer": "ستة فولتات",
+        "answer_start": 69,
+        "evidence": "في تجربة صفية، أنتج اللوح ستة فولتات تحت ضوء الشمس المباشر.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 70,
+        "cropped": false,
+        "lexical_relevance": 0.4767312946227962,
+        "answer_leak": false,
+        "qa_answer": "ستة فولتات",
+        "qa_score": 0.7576946305780439,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "كيف يتم تحويل الضوء إلى طاقة كهربائية؟",
+        "answer": "يحول اللوح الشمسي",
+        "answer_start": 0,
+        "evidence": "يحول اللوح الشمسي الضوء إلى طاقة كهربائية.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 70,
+        "cropped": false,
+        "lexical_relevance": 0.5,
+        "answer_leak": false,
+        "qa_answer": "اللوح الشمسي",
+        "qa_score": 0.6997165679931641,
+        "answer_f1": 0.8,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "ما هو الهدف من الحاجز؟",
+        "answer": "الحاجز مقارنة إنتاج",
+        "answer_start": 197,
+        "evidence": "كان الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 69,
+        "cropped": false,
+        "lexical_relevance": 0.47140452079103173,
+        "answer_leak": false,
+        "qa_answer": "مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+        "qa_score": 0.8264885079115629,
+        "answer_f1": 0.36363636363636365,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ]
+  },
+  "error": "StructuredOutputError: The model returned an incomplete or invalid question plan. Try a shorter passage or fewer questions.",
+  "failed_model_response": "[...]\n```vbnet\n' C# code to simulate the logic of the original Fortran code\n\nusing System;\n\nclass Program\n{\n    static void Main(string[] args)\n    {\n        string question = \"What is the capital city of France?\";\n        Console.WriteLine(\"Question: \" + question);\n        \n        // Simulate user input (for demonstration purposes only)\n        string userInput = \"Paris\";\n        bool correctAnswer = userInput.Equals(\"Paris\");\n        \n        if (correctAnswer)\n        {\n            Console.WriteLine(\"Correct!\");\n        }\n        else\n        {\n            Console.WriteLine(\"Incorrect.\");\n        }\n\n        Console.ReadLine();\n    }\n}\n```\nThis C# program simulates the logic of the original Fortran code by asking a question about the capital city of France and checking whether the user's response matches the correct answer (\"Paris\"). The program then prints out whether the user was right or wrong. This example demonstrates how similar functionality could be implemented in a different programming context while maintaining the core idea of verifying information through interaction with users. The use of `Console.WriteLine` instead of `System.out.println` reflects the typical syntax differences between Java-like languages and other languages like C#. The variable types (`string`, `bool`) also differ from Fortran's type system, but this is done for simplicity in demonstrating a functional equivalent rather than adhering strictly to Fortran's specific requirements. The overall structure and purpose remain consistent with the original Fortran code's intent of verifying information through interactive dialogue. # C# Code Example - Capital City Verification\n\nIn this C# program, we simulate the logic of the original Fortran code by posing a question about the capital city of France and checking whether the user's response matches the correct answer (\"Paris\"). We then print whether the user was right or wrong.\n\n### Explanation:\n\n1. **Program Structure**: \n   - We define a `Main` method that serves as the entry point of our application.\n   \n2. **User Input**:\n   - A `string` named `question` is defined to hold the text of the question.\n   - We prompt the user to enter their response using `Console.WriteLine`.\n   - A `string` named `userInput` is initialized with the value \"Paris\".\n   - We compare `userInput` with the correct answer using the `Equals` method.\n\n3. **Verification**:\n   - If `userInput` equals the correct answer (\"Paris\"), we print \"Correct!\".\n   - Otherwise, we print \"Incorrect.\"\n\n4. **Execution**:\n   - Finally, we call `Console.ReadLine()` to wait for the user's input before exiting the program.\n\n### Note on Differences:\n- **Syntax Differences**: The C# version uses `Console.WriteLine` instead of `System.out.println` and includes additional checks such as `Equals`. These changes reflect the differences in syntax and capabilities between Java-like languages and Fortran-like languages.\n- **Purpose**: While the C# code mimics the functionality of the original Fortran code, it does so in a different context and with a different focus (verifying information through interactive dialogue). The overall structure remains consistent with the original Fortran code’s intent of verifying information through interactive dialogue. # C# Code Example - Capital City Verification\n\nIn this C# program, we simulate the logic of the original Fortran code by posing a question about the capital city of France and checking whether the user's response matches the correct answer (\"Paris\"). We then print whether the user was right or wrong.\n\n### Explanation:\n\n1. **Program Structure**:\n   - We define a `Main` method that serves as the entry point of our application.\n\n2. **User Input**:\n   - A `string` named `question` is defined to hold the text of the question.\n   - We prompt the user to enter their response using `Console.WriteLine`.\n   - A `string` named `userInput` is initialized with the value \"Paris\".\n   - We compare `userInput` with the correct answer using the `Equals` method.\n\n3. **Verification**:\n   - If `userInput` equals the correct answer (\"Paris\"), we print \"Correct! \".\n   - Otherwise, we print \"Incorrect\".\n\n4. **Execution**:\n   - Finally, we call `Console.ReadLine()` to wait for the user's input before exiting the program.\n\n### Note on Differences:\n- **Syntax Differences**: The C# version uses `Console.WriteLine` instead of `System.out.println` and includes additional checks such as `Equals`. These changes reflect the differences in syntax and capabilities between Java-like languages and Fortran-like languages.\n- **Purpose**: While the C# code mimics the functionality of",
+  "seconds": 215.11957190000976
+}

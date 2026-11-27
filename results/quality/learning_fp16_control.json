@@ -1,0 +1,33 @@
+{
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "precision": "FP16 packed linear weights, FP32 activations",
+  "original_control_sha256": "85e23b76c097f73907837d14426e83993df554b0fef00c6c7df375af31cd2352",
+  "script_sha256": "d4304f83e22870b58ddfe93675babc1bd57d3cb79cd20d57fbe23ae019a176ef",
+  "probes": [
+    {
+      "probe": "json_control",
+      "raw_response": "```json\n[\"light\"]\n```",
+      "seconds": 2.275243199997931,
+      "new_tokens": 8,
+      "format_grounding_control_pass": true
+    },
+    {
+      "probe": "arabic_single_fact",
+      "raw_response": "```json\n[\n    {\n        \"answer\": \"الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.\",\n        \"sentence_index\": 3,\n        \"learning_goal\": \"فهم وظيفة اللوح والمقارنة التجريبية والأثر المذكور للتظليل.\",\n        \"question_type\": \"comparison\"\n    }\n]\n```",
+      "seconds": 24.729873999996926,
+      "new_tokens": 79,
+      "format_grounding_control_pass": true,
+      "accepted_facts": [
+        {
+          "learning_goal": "فهم وظيفة اللوح والمقارنة التجريبية والأثر المذكور للتظليل.",
+          "question_type": "comparison",
+          "answer": "الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+          "evidence": "كان الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+          "answer_start": 188
+        }
+      ],
+      "rejected_facts": []
+    }
+  ]
+}

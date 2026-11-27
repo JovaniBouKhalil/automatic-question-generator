@@ -1,0 +1,115 @@
+{
+  "scope": "Development diagnostic; T5 drafts are excluded from writer input. No human ratings.",
+  "system": "اكتب جميع الأسئلة باللغة العربية فقط. اكتب سؤالا واضحا ومباشرا لكل حقيقة.\nالجواب المطلوب محدد؛ يجب أن يجيب هذا الجواب عن السؤال. لا تضع الجواب في السؤال.\nاستعمل النص فقط. لا تسأل لماذا إلا إذا ذكر النص سببا أو هدفا.\n\nExamples of correct question roles:\nPassage: يحول المحرك الكهرباء إلى حركة. Answer: حركة\nQuestion: إلى ماذا يحول المحرك الكهرباء؟\nPassage: لا يحتفظ التنسيق بالألوان. Answer: الألوان\nQuestion: ما المعلومات التي لا يحتفظ بها التنسيق؟\nPassage: يستخدم الميزان لقياس الكتلة. Answer: قياس الكتلة\nQuestion: لأي غرض يستخدم الميزان؟\n\nReturn ONLY a JSON array of objects with integer \"index\" and Arabic \"question\".\nUse the same index as each supplied fact. No explanations.",
+  "script_sha256": "63eb94638f3d79ecfc7730e821bdee72ba136c89283a4d0634f31ab2c26c4e7f",
+  "probes": [
+    {
+      "source_case": "results\\learning_focus_educational_v3\\learning_text_representation_ar.json",
+      "source_case_sha256": "5989e552589d546f01733ee59001c9dc02a2d111b9cae99bb0d4f98679197de1",
+      "source_fact_index": 0,
+      "payload": {
+        "language": "Arabic (العربية)",
+        "passage": "يسجل تمثيل حقيبة الكلمات عدد مرات ظهور كل كلمة من المفردات في الوثيقة. لكنه لا يحتفظ بترتيب الكلمات.",
+        "facts": [
+          {
+            "index": 0,
+            "answer": "ترتيب الكلمات",
+            "evidence": "لكنه لا يحتفظ بترتيب الكلمات."
+          }
+        ]
+      },
+      "raw_response": "[{\"index\": 0, \"question\": \"أي المعلومات التي لا يحتفظ بها الحافظ على الترتيب؟\"}]",
+      "questions": [
+        {
+          "index": 0,
+          "question": "أي المعلومات التي لا يحتفظ بها الحافظ على الترتيب؟"
+        }
+      ],
+      "format_issues": [
+        null
+      ],
+      "seconds": 40.57662249999703
+    },
+    {
+      "source_case": "results\\learning_focus_educational_v3\\learning_text_representation_ar.json",
+      "source_case_sha256": "5989e552589d546f01733ee59001c9dc02a2d111b9cae99bb0d4f98679197de1",
+      "source_fact_index": 1,
+      "payload": {
+        "language": "Arabic (العربية)",
+        "passage": "يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق.",
+        "facts": [
+          {
+            "index": 0,
+            "answer": "انتشار كل كلمة في مجموعة الوثائق",
+            "evidence": "يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق."
+          }
+        ]
+      },
+      "raw_response": "[{\"index\": 0, \"question\": \"يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق?\"}]",
+      "questions": [
+        {
+          "index": 0,
+          "question": "يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق?"
+        }
+      ],
+      "format_issues": [
+        "target answer appears in question"
+      ],
+      "seconds": 27.339856899998267
+    },
+    {
+      "source_case": "results\\learning_focus_educational_v3\\learning_text_representation_ar.json",
+      "source_case_sha256": "5989e552589d546f01733ee59001c9dc02a2d111b9cae99bb0d4f98679197de1",
+      "source_fact_index": 2,
+      "payload": {
+        "language": "Arabic (العربية)",
+        "passage": "يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق. تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر. يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+        "facts": [
+          {
+            "index": 0,
+            "answer": "إبراز الكلمات التي تميز وثيقة عن غيرها",
+            "evidence": "يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها."
+          }
+        ]
+      },
+      "raw_response": "[{\"index\": 0, \"question\": \"أي شيء يساعد على إبراز الكلمات التي تميز وثيقة عن غيرها؟\"}]",
+      "questions": [
+        {
+          "index": 0,
+          "question": "أي شيء يساعد على إبراز الكلمات التي تميز وثيقة عن غيرها؟"
+        }
+      ],
+      "format_issues": [
+        "target answer appears in question"
+      ],
+      "seconds": 21.83574489998864
+    },
+    {
+      "source_case": "results\\learning_focus_educational_v3\\learning_light_and_voltage_ar.json",
+      "source_case_sha256": "71592e0d8830c96faed185260a25e20c63ea0f2763f0c39a34d0766b2aa89776",
+      "source_fact_index": 0,
+      "payload": {
+        "language": "Arabic (العربية)",
+        "passage": "يحول اللوح الشمسي الضوء إلى طاقة كهربائية.",
+        "facts": [
+          {
+            "index": 0,
+            "answer": "طاقة كهربائية",
+            "evidence": "يحول اللوح الشمسي الضوء إلى طاقة كهربائية."
+          }
+        ]
+      },
+      "raw_response": "[{\"index\": 0, \"question\": \"لماذا تحول اللوح الشمسي الضوء إلى طاقة كهربائية؟\"}]",
+      "questions": [
+        {
+          "index": 0,
+          "question": "لماذا تحول اللوح الشمسي الضوء إلى طاقة كهربائية؟"
+        }
+      ],
+      "format_issues": [
+        "target answer appears in question"
+      ],
+      "seconds": 22.498228999989806
+    }
+  ]
+}

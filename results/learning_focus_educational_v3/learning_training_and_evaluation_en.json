@@ -1,0 +1,316 @@
+{
+  "case_id": "learning:training_and_evaluation:en",
+  "language": "en",
+  "group": "learning:training_and_evaluation",
+  "context": "Training data is used to update a model's weights. Validation data is used to choose hyperparameters, such as the learning rate. The test set is kept separate until the final evaluation so that the reported result does not guide model selection. When several questions come from the same article, the entire article is assigned to one split to avoid sharing its facts between training and evaluation.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "What data is used to choose hyperparameters?",
+        "answer": "Validation",
+        "answer_start": 51,
+        "evidence": "Validation data is used to choose hyperparameters, such as the learning rate.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 86,
+        "cropped": false,
+        "lexical_relevance": 0.6324555320336759,
+        "answer_leak": false,
+        "qa_answer": "Validation data",
+        "qa_score": 0.6513742208480835,
+        "answer_f1": 0.6666666666666666,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "What data is used to update a model's weights?",
+        "answer": "Training",
+        "answer_start": 0,
+        "evidence": "Training data is used to update a model's weights.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 86,
+        "cropped": false,
+        "lexical_relevance": 0.8571428571428571,
+        "answer_leak": false,
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      },
+      {
+        "question": "What is the entire article assigned to when several questions come from the same article?",
+        "answer": "one split",
+        "answer_start": 331,
+        "evidence": "When several questions come from the same article, the entire article is assigned to one split to avoid sharing its facts between training and evaluation.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 86,
+        "cropped": false,
+        "lexical_relevance": 0.7284927963857741,
+        "answer_leak": false,
+        "qa_answer": "one split",
+        "qa_score": 0.98032146692276,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ],
+    "planned_t5": [
+      {
+        "question": "Why is the test set kept separate until the final evaluation?",
+        "answer": "the reported result does not guide model selection",
+        "answer_start": 194,
+        "evidence": "The test set is kept separate until the final evaluation so that the reported result does not guide model selection.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 87,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Understand the different roles of training, validation and test data, and why related examples stay in one split.",
+        "question_type": "cause_effect",
+        "lexical_relevance": 0.6390096504226938,
+        "answer_leak": false,
+        "qa_answer": "so that the reported result does not guide model selection.",
+        "qa_score": 0.7618371043354273,
+        "answer_f1": 0.875,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "What is training data used to do?",
+        "answer": "update a model's weights",
+        "answer_start": 25,
+        "evidence": "Training data is used to update a model's weights.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 87,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Understand the different roles of training, validation and test data, and why related examples stay in one split.",
+        "question_type": "function",
+        "lexical_relevance": 0.50709255283711,
+        "answer_leak": false,
+        "qa_answer": "update a model's weights.",
+        "qa_score": 0.7106222622096539,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "What is validation data used to do?",
+        "answer": "choose hyperparameters, such as the learning rate",
+        "answer_start": 78,
+        "evidence": "Validation data is used to choose hyperparameters, such as the learning rate.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 87,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "Understand the different roles of training, validation and test data, and why related examples stay in one split.",
+        "question_type": "function",
+        "lexical_relevance": 0.4743416490252569,
+        "answer_leak": false,
+        "qa_answer": "choose hyperparameters,",
+        "qa_score": 0.326227342011407,
+        "answer_f1": 0.5,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ],
+    "learning_hybrid": [
+      {
+        "question": "Why is the test set kept separate until the final evaluation?",
+        "answer": "the reported result does not guide model selection",
+        "answer_start": 194,
+        "evidence": "The test set is kept separate until the final evaluation so that the reported result does not guide model selection.",
+        "language": "en",
+        "method": "learning_focused_hybrid",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 87,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Understand the different roles of training, validation and test data, and why related examples stay in one split.",
+        "question_type": "cause_effect",
+        "draft_question": "Why is the test set kept separate until the final evaluation?",
+        "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "lexical_relevance": 0.6390096504226938,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "so that the reported result does not guide model selection.",
+        "qa_score": 0.7618371043354273,
+        "answer_f1": 0.875,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-v3",
+    "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "planner_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 3,
+    "rejected_facts": [],
+    "candidate_pool": [
+      {
+        "candidate_id": 0,
+        "answer": "the reported result does not guide model selection",
+        "answer_start": 194,
+        "evidence": "The test set is kept separate until the final evaluation so that the reported result does not guide model selection.",
+        "question_type": "cause_effect",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 1,
+        "answer": "avoid sharing its facts between training and evaluation",
+        "answer_start": 344,
+        "evidence": "When several questions come from the same article, the entire article is assigned to one split to avoid sharing its facts between training and evaluation.",
+        "question_type": "cause_effect",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 2,
+        "answer": "update a model's weights",
+        "answer_start": 25,
+        "evidence": "Training data is used to update a model's weights.",
+        "question_type": "function",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 3,
+        "answer": "choose hyperparameters, such as the learning rate",
+        "answer_start": 78,
+        "evidence": "Validation data is used to choose hyperparameters, such as the learning rate.",
+        "question_type": "function",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 4,
+        "answer": "Training data is used to update a model's weights",
+        "answer_start": 0,
+        "evidence": "Training data is used to update a model's weights.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 5,
+        "answer": "Validation data is used to choose hyperparameters, such as the learning rate",
+        "answer_start": 51,
+        "evidence": "Validation data is used to choose hyperparameters, such as the learning rate.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 6,
+        "answer": "The test set is kept separate until the final evaluation so that the reported result does not guide model selection",
+        "answer_start": 129,
+        "evidence": "The test set is kept separate until the final evaluation so that the reported result does not guide model selection.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 7,
+        "answer": "When several questions come from the same article, the entire article is assigned to one split to avoid sharing its facts between training and evaluation",
+        "answer_start": 246,
+        "evidence": "When several questions come from the same article, the entire article is assigned to one split to avoid sharing its facts between training and evaluation.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      }
+    ],
+    "raw_plan": "[0, 2, 3]",
+    "raw_edit": "[{\"index\": 0, \"question\": \"Why is the test set kept separate until the final evaluation?\", \"answer\": \"The test set is kept separate until the final evaluation so that the reported result does not guide model selection.\"}]",
+    "facts": [
+      {
+        "learning_goal": "Understand the different roles of training, validation and test data, and why related examples stay in one split.",
+        "question_type": "cause_effect",
+        "answer": "the reported result does not guide model selection",
+        "evidence": "The test set is kept separate until the final evaluation so that the reported result does not guide model selection.",
+        "answer_start": 194
+      },
+      {
+        "learning_goal": "Understand the different roles of training, validation and test data, and why related examples stay in one split.",
+        "question_type": "function",
+        "answer": "update a model's weights",
+        "evidence": "Training data is used to update a model's weights.",
+        "answer_start": 25
+      },
+      {
+        "learning_goal": "Understand the different roles of training, validation and test data, and why related examples stay in one split.",
+        "question_type": "function",
+        "answer": "choose hyperparameters, such as the learning rate",
+        "evidence": "Validation data is used to choose hyperparameters, such as the learning rate.",
+        "answer_start": 78
+      }
+    ],
+    "drafts": [
+      {
+        "question": "Why is the test set kept separate until the final evaluation?",
+        "answer": "the reported result does not guide model selection",
+        "answer_start": 194,
+        "evidence": "The test set is kept separate until the final evaluation so that the reported result does not guide model selection.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 87,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Understand the different roles of training, validation and test data, and why related examples stay in one split.",
+        "question_type": "cause_effect"
+      },
+      {
+        "question": "What is training data used to do?",
+        "answer": "update a model's weights",
+        "answer_start": 25,
+        "evidence": "Training data is used to update a model's weights.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 87,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Understand the different roles of training, validation and test data, and why related examples stay in one split.",
+        "question_type": "function"
+      },
+      {
+        "question": "What is validation data used to do?",
+        "answer": "choose hyperparameters, such as the learning rate",
+        "answer_start": 78,
+        "evidence": "Validation data is used to choose hyperparameters, such as the learning rate.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 87,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "Understand the different roles of training, validation and test data, and why related examples stay in one split.",
+        "question_type": "function"
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "Understand the different roles of training, validation and test data, and why related examples stay in one split.",
+    "educational_quality_status": "not_human_rated",
+    "returned": 1,
+    "seconds": 33.503208300011465
+  },
+  "seconds": 35.25115100000403
+}

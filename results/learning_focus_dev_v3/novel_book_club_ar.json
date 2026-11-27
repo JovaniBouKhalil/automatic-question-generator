@@ -1,0 +1,340 @@
+{
+  "case_id": "novel:book_club:ar",
+  "language": "ar",
+  "group": "novel:book_club",
+  "context": "يجتمع نادي الأرز للقراءة يوم الخميس في القاعة الثامنة عشرة. تدير سلمى النقاش وتسجل اقتراحات الأعضاء. يقرأ النادي هذا الشهر مجموعة من قصص الرحلات.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "كم عدد الأعضاء في نادي الأرز؟",
+        "answer": "عشرة",
+        "answer_start": 54,
+        "evidence": "يجتمع نادي الأرز للقراءة يوم الخميس في القاعة الثامنة عشرة.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 36,
+        "cropped": false,
+        "lexical_relevance": 0.29814239699997197,
+        "answer_leak": false,
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      },
+      {
+        "question": "من يدير النادي؟",
+        "answer": "تدير سلمى النقاش",
+        "answer_start": 60,
+        "evidence": "تدير سلمى النقاش وتسجل اقتراحات الأعضاء.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 38,
+        "cropped": false,
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "qa_answer": "سلمى النقاش",
+        "qa_score": 0.9091105400730157,
+        "answer_f1": 0.8,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "أين يجتمع نادي الأرز في يوم الأربعاء؟",
+        "answer": "يقرأ النادي",
+        "answer_start": 101,
+        "evidence": "يقرأ النادي هذا الشهر مجموعة من قصص الرحلات.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 37,
+        "cropped": false,
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      }
+    ],
+    "planned_t5": [
+      {
+        "question": "أين يجتمع نادي الأرز؟",
+        "answer": "يجتمع نادي الأرز للقراءة يوم الخميس في القاعة الثامنة عشرة",
+        "answer_start": 0,
+        "evidence": "يجتمع نادي الأرز للقراءة يوم الخميس في القاعة الثامنة عشرة.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 45,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "lexical_relevance": 0.5,
+        "answer_leak": false,
+        "qa_answer": "القاعة الثامنة عشرة.",
+        "qa_score": 0.6831372333690524,
+        "answer_f1": 0.46153846153846156,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "من يدير النادي؟",
+        "answer": "تدير سلمى النقاش وتسجل اقتراحات الأعضاء",
+        "answer_start": 60,
+        "evidence": "تدير سلمى النقاش وتسجل اقتراحات الأعضاء.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 42,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "qa_answer": "سلمى النقاش",
+        "qa_score": 0.9091105400730157,
+        "answer_f1": 0.5,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "كيف يقرأ النادي يوم الأربعاء؟",
+        "answer": "يقرأ النادي هذا الشهر مجموعة من قصص الرحلات",
+        "answer_start": 101,
+        "evidence": "يقرأ النادي هذا الشهر مجموعة من قصص الرحلات.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 43,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "lexical_relevance": 0.3651483716701107,
+        "answer_leak": false,
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      }
+    ],
+    "learning_hybrid": [
+      {
+        "question": "ما هي القاعة التي يجتمع فيها نادي الأرز للقراءة؟",
+        "answer": "يجتمع نادي الأرز للقراءة يوم الخميس في القاعة الثامنة عشرة",
+        "answer_start": 0,
+        "evidence": "يجتمع نادي الأرز للقراءة يوم الخميس في القاعة الثامنة عشرة.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 45,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "draft_question": "أين يجتمع نادي الأرز؟",
+        "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "lexical_relevance": 0.6804138174397717,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "الثامنة عشرة.",
+        "qa_score": 0.781356162391603,
+        "answer_f1": 0.3333333333333333,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "من يدير النقاش داخل النادي اليوم؟",
+        "answer": "تدير سلمى النقاش وتسجل اقتراحات الأعضاء",
+        "answer_start": 60,
+        "evidence": "تدير سلمى النقاش وتسجل اقتراحات الأعضاء.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 42,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "draft_question": "من يدير النادي؟",
+        "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "lexical_relevance": 0.18257418583505536,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "سلمى",
+        "qa_score": 0.9786017243241076,
+        "answer_f1": 0.2857142857142857,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "ما هو الموضوع الذي سيقرأه النادي هذا الشهر؟",
+        "answer": "يقرأ النادي هذا الشهر مجموعة من قصص الرحلات",
+        "answer_start": 101,
+        "evidence": "يقرأ النادي هذا الشهر مجموعة من قصص الرحلات.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 43,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "draft_question": "كيف يقرأ النادي يوم الأربعاء؟",
+        "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "lexical_relevance": 0.4082482904638631,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "قصص الرحلات.",
+        "qa_score": 0.8495557939750142,
+        "answer_f1": 0.4,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-v3",
+    "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "planner_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 3,
+    "rejected_facts": [],
+    "candidate_pool": [
+      {
+        "candidate_id": 0,
+        "answer": "يجتمع نادي الأرز للقراءة يوم الخميس في القاعة الثامنة عشرة",
+        "answer_start": 0,
+        "evidence": "يجتمع نادي الأرز للقراءة يوم الخميس في القاعة الثامنة عشرة.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 1,
+        "answer": "تدير سلمى النقاش وتسجل اقتراحات الأعضاء",
+        "answer_start": 60,
+        "evidence": "تدير سلمى النقاش وتسجل اقتراحات الأعضاء.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 2,
+        "answer": "يقرأ النادي هذا الشهر مجموعة من قصص الرحلات",
+        "answer_start": 101,
+        "evidence": "يقرأ النادي هذا الشهر مجموعة من قصص الرحلات.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      }
+    ],
+    "raw_plan": "[0, 1, 2]",
+    "raw_edit": "[\n    {\n        \"index\": 0,\n        \"question\": \"ما هي القاعة التي يجتمع فيها نادي الأرز للقراءة؟\"\n    },\n    {\n        \"index\": 1,\n        \"question\": \"من يدير النقاش داخل النادي اليوم؟\"\n    },\n    {\n        \"index\": 2,\n        \"question\": \"ما هو الموضوع الذي سيقرأه النادي هذا الشهر؟\"\n    }\n]",
+    "facts": [
+      {
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "answer": "يجتمع نادي الأرز للقراءة يوم الخميس في القاعة الثامنة عشرة",
+        "evidence": "يجتمع نادي الأرز للقراءة يوم الخميس في القاعة الثامنة عشرة.",
+        "answer_start": 0
+      },
+      {
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "answer": "تدير سلمى النقاش وتسجل اقتراحات الأعضاء",
+        "evidence": "تدير سلمى النقاش وتسجل اقتراحات الأعضاء.",
+        "answer_start": 60
+      },
+      {
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "answer": "يقرأ النادي هذا الشهر مجموعة من قصص الرحلات",
+        "evidence": "يقرأ النادي هذا الشهر مجموعة من قصص الرحلات.",
+        "answer_start": 101
+      }
+    ],
+    "drafts": [
+      {
+        "question": "أين يجتمع نادي الأرز؟",
+        "answer": "يجتمع نادي الأرز للقراءة يوم الخميس في القاعة الثامنة عشرة",
+        "answer_start": 0,
+        "evidence": "يجتمع نادي الأرز للقراءة يوم الخميس في القاعة الثامنة عشرة.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 45,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept"
+      },
+      {
+        "question": "من يدير النادي؟",
+        "answer": "تدير سلمى النقاش وتسجل اقتراحات الأعضاء",
+        "answer_start": 60,
+        "evidence": "تدير سلمى النقاش وتسجل اقتراحات الأعضاء.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 42,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept"
+      },
+      {
+        "question": "كيف يقرأ النادي يوم الأربعاء؟",
+        "answer": "يقرأ النادي هذا الشهر مجموعة من قصص الرحلات",
+        "answer_start": 101,
+        "evidence": "يقرأ النادي هذا الشهر مجموعة من قصص الرحلات.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 43,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept"
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "",
+    "educational_quality_status": "not_human_rated",
+    "returned": 3,
+    "seconds": 64.28407809999771
+  },
+  "seconds": 69.27107489999617
+}

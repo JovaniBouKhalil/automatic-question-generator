@@ -1,0 +1,342 @@
+{
+  "case_id": "novel:seedlings:ar",
+  "language": "ar",
+  "group": "novel:seedlings",
+  "context": "في تجربة صفية، زرعت لينا اثنتي عشرة بذرة فاصوليا في وعاء. سقت الوعاء كل صباح لمدة ثمانية أيام. نبتت تسع بذور خلال التجربة.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "كم عدد البذور التي نبتت خلال التجربة؟",
+        "answer": "تسع بذور",
+        "answer_start": 100,
+        "evidence": "نبتت تسع بذور خلال التجربة.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 40,
+        "cropped": false,
+        "lexical_relevance": 0.4472135954999579,
+        "answer_leak": false,
+        "qa_answer": "تسع",
+        "qa_score": 0.8890070915222168,
+        "answer_f1": 0.6666666666666666,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "كم من الوقت سكبت لينا الماء في وعاء؟",
+        "answer": "ثمانية أيام",
+        "answer_start": 82,
+        "evidence": "سقت الوعاء كل صباح لمدة ثمانية أيام.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 40,
+        "cropped": false,
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      },
+      {
+        "question": "كم عدد البذور التي زرعها لينا في وعاء؟",
+        "answer": "اثنتي عشرة",
+        "answer_start": 25,
+        "evidence": "في تجربة صفية، زرعت لينا اثنتي عشرة بذرة فاصوليا في وعاء.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 41,
+        "cropped": false,
+        "lexical_relevance": 0.2721655269759087,
+        "answer_leak": false,
+        "qa_answer": "تسع",
+        "qa_score": 0.6758116483688354,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "planned_t5": [
+      {
+        "question": "ما هي التجربة التي قامت بها لينا؟",
+        "answer": "في تجربة صفية، زرعت لينا اثنتي عشرة بذرة فاصوليا في وعاء",
+        "answer_start": 0,
+        "evidence": "في تجربة صفية، زرعت لينا اثنتي عشرة بذرة فاصوليا في وعاء.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 52,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "lexical_relevance": 0.16666666666666666,
+        "answer_leak": false,
+        "qa_answer": "صفية،",
+        "qa_score": 0.7408888786740135,
+        "answer_f1": 0.16666666666666666,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "كم من الوقت تم زرع الفاصوليا في وعاء؟",
+        "answer": "سقت الوعاء كل صباح لمدة ثمانية أيام",
+        "answer_start": 58,
+        "evidence": "سقت الوعاء كل صباح لمدة ثمانية أيام.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 46,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "qa_answer": "ثمانية أيام.",
+        "qa_score": 0.6660393258789554,
+        "answer_f1": 0.4444444444444444,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "كم عدد البذور التي تم زرعها في وعاء؟",
+        "answer": "نبتت تسع بذور خلال التجربة",
+        "answer_start": 95,
+        "evidence": "نبتت تسع بذور خلال التجربة.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 44,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "qa_answer": "تسع",
+        "qa_score": 0.7794905304908752,
+        "answer_f1": 0.3333333333333333,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "learning_hybrid": [
+      {
+        "question": "لماذا قام صفية بتوزيع بذور الفاصوليا على عوامة؟",
+        "answer": "في تجربة صفية، زرعت لينا اثنتي عشرة بذرة فاصوليا في وعاء",
+        "answer_start": 0,
+        "evidence": "في تجربة صفية، زرعت لينا اثنتي عشرة بذرة فاصوليا في وعاء.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 52,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "draft_question": "ما هي التجربة التي قامت بها لينا؟",
+        "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "lexical_relevance": 0.1259881576697424,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      },
+      {
+        "question": "متى بدأت الصفات زراعة الفاصوليا؟",
+        "answer": "سقت الوعاء كل صباح لمدة ثمانية أيام",
+        "answer_start": 58,
+        "evidence": "سقت الوعاء كل صباح لمدة ثمانية أيام.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 46,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "draft_question": "كم من الوقت تم زرع الفاصوليا في وعاء؟",
+        "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      },
+      {
+        "question": "كم عدد البذور التي تم زراعتها في وعاء؟",
+        "answer": "نبتت تسع بذور خلال التجربة",
+        "answer_start": 95,
+        "evidence": "نبتت تسع بذور خلال التجربة.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 44,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "draft_question": "كم عدد البذور التي تم زرعها في وعاء؟",
+        "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "تسع",
+        "qa_score": 0.8066849112510681,
+        "answer_f1": 0.3333333333333333,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-v3",
+    "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "planner_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 3,
+    "rejected_facts": [],
+    "candidate_pool": [
+      {
+        "candidate_id": 0,
+        "answer": "في تجربة صفية، زرعت لينا اثنتي عشرة بذرة فاصوليا في وعاء",
+        "answer_start": 0,
+        "evidence": "في تجربة صفية، زرعت لينا اثنتي عشرة بذرة فاصوليا في وعاء.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 1,
+        "answer": "سقت الوعاء كل صباح لمدة ثمانية أيام",
+        "answer_start": 58,
+        "evidence": "سقت الوعاء كل صباح لمدة ثمانية أيام.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 2,
+        "answer": "نبتت تسع بذور خلال التجربة",
+        "answer_start": 95,
+        "evidence": "نبتت تسع بذور خلال التجربة.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      }
+    ],
+    "raw_plan": "[0, 1, 2]",
+    "raw_edit": "[\n    {\n        \"index\": 0,\n        \"question\": \"لماذا قام صفية بتوزيع بذور الفاصوليا على عوامة؟\"\n    },\n    {\n        \"index\": 1,\n        \"question\": \"متى بدأت الصفات زراعة الفاصوليا؟\"\n    },\n    {\n        \"index\": 2,\n        \"question\": \"كم عدد البذور التي تم زراعتها في وعاء؟\"\n    }\n]",
+    "facts": [
+      {
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "answer": "في تجربة صفية، زرعت لينا اثنتي عشرة بذرة فاصوليا في وعاء",
+        "evidence": "في تجربة صفية، زرعت لينا اثنتي عشرة بذرة فاصوليا في وعاء.",
+        "answer_start": 0
+      },
+      {
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "answer": "سقت الوعاء كل صباح لمدة ثمانية أيام",
+        "evidence": "سقت الوعاء كل صباح لمدة ثمانية أيام.",
+        "answer_start": 58
+      },
+      {
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "answer": "نبتت تسع بذور خلال التجربة",
+        "evidence": "نبتت تسع بذور خلال التجربة.",
+        "answer_start": 95
+      }
+    ],
+    "drafts": [
+      {
+        "question": "ما هي التجربة التي قامت بها لينا؟",
+        "answer": "في تجربة صفية، زرعت لينا اثنتي عشرة بذرة فاصوليا في وعاء",
+        "answer_start": 0,
+        "evidence": "في تجربة صفية، زرعت لينا اثنتي عشرة بذرة فاصوليا في وعاء.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 52,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept"
+      },
+      {
+        "question": "كم من الوقت تم زرع الفاصوليا في وعاء؟",
+        "answer": "سقت الوعاء كل صباح لمدة ثمانية أيام",
+        "answer_start": 58,
+        "evidence": "سقت الوعاء كل صباح لمدة ثمانية أيام.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 46,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept"
+      },
+      {
+        "question": "كم عدد البذور التي تم زرعها في وعاء؟",
+        "answer": "نبتت تسع بذور خلال التجربة",
+        "answer_start": 95,
+        "evidence": "نبتت تسع بذور خلال التجربة.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 44,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept"
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "",
+    "educational_quality_status": "not_human_rated",
+    "returned": 3,
+    "seconds": 48.534900900005596
+  },
+  "seconds": 52.343965399995795
+}

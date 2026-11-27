@@ -1,0 +1,114 @@
+{
+  "case_id": "learning:light_and_voltage:en",
+  "language": "en",
+  "group": "learning:light_and_voltage",
+  "context": "A solar panel converts light into electrical energy. In a classroom experiment, the panel produced six volts under direct sunlight. A cardboard screen reduced the light reaching the panel, and the measured voltage fell to two volts. The purpose of the screen was to compare the panel's output under different amounts of light.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "How many volts did a solar panel produce under direct sunlight?",
+        "answer": "six volts",
+        "answer_start": 99,
+        "evidence": "In a classroom experiment, the panel produced six volts under direct sunlight.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 73,
+        "cropped": false,
+        "lexical_relevance": 0.5270462766947299,
+        "answer_leak": false,
+        "qa_answer": "six",
+        "qa_score": 0.8366507887840271,
+        "answer_f1": 0.6666666666666666,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "How many volts did the measured voltage fall to?",
+        "answer": "two volts",
+        "answer_start": 222,
+        "evidence": "A cardboard screen reduced the light reaching the panel, and the measured voltage fell to two volts.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 74,
+        "cropped": false,
+        "lexical_relevance": 0.3418817293789138,
+        "answer_leak": false,
+        "qa_answer": "two",
+        "qa_score": 0.6200472116470337,
+        "answer_f1": 0.6666666666666666,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "What does a solar panel convert to electrical energy?",
+        "answer": "solar panel converts",
+        "answer_start": 2,
+        "evidence": "A solar panel converts light into electrical energy.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 73,
+        "cropped": false,
+        "lexical_relevance": 0.5714285714285714,
+        "answer_leak": false,
+        "qa_answer": "light",
+        "qa_score": 0.9948951601982117,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "planned_t5": [],
+    "learning_hybrid": []
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-v2",
+    "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "planner_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 0,
+    "rejected_facts": [
+      {
+        "index": 0,
+        "reason": "answer or evidence is not an exact source quote",
+        "item": {
+          "answer": "function",
+          "sentence_index": 0,
+          "learning_goal": "understanding the role of a solar panel in converting light to electricity",
+          "question_type": "concept",
+          "evidence": "A solar panel converts light into electrical energy."
+        }
+      },
+      {
+        "index": 1,
+        "reason": "answer or evidence is not an exact source quote",
+        "item": {
+          "answer": "stated effect",
+          "sentence_index": 3,
+          "learning_goal": "recognizing that reducing light exposure decreases the panel's output voltage",
+          "question_type": "cause_effect",
+          "evidence": "The purpose of the screen was to compare the panel's output under different amounts of light."
+        }
+      }
+    ],
+    "raw_plan": "```json\n[\n    {\n        \"answer\": \"function\",\n        \"sentence_index\": 0,\n        \"learning_goal\": \"understanding the role of a solar panel in converting light to electricity\",\n        \"question_type\": \"concept\"\n    },\n    {\n        \"answer\": \"stated effect\",\n        \"sentence_index\": 3,\n        \"learning_goal\": \"recognizing that reducing light exposure decreases the panel's output voltage\",\n        \"question_type\": \"cause_effect\"\n    }\n]\n```",
+    "raw_edit": null,
+    "facts": [],
+    "drafts": [],
+    "rejected_questions": [],
+    "learning_objective": "Understand the panel's function, the experimental comparison and the stated effect of shading.",
+    "educational_quality_status": "not_human_rated",
+    "returned": 0,
+    "seconds": 33.71634639998956
+  },
+  "seconds": 35.44158569999854
+}

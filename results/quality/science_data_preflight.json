@@ -1,0 +1,9 @@
+{
+  "train_raw_heldout_support_overlap": 0,
+  "train_raw_heldout_question_overlap": 0,
+  "duplicate_questions": {
+    "train": 0,
+    "dev": 0,
+    "test": 0
+  }
+}

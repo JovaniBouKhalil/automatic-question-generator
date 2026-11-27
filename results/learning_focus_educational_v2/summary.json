@@ -1,0 +1,27 @@
+{
+  "scope": "Interrupted FP32 quote-copying development attempt. Stopped because paraphrased targets were rejected; no usefulness claim.",
+  "planned_passage_language_pairs": 9,
+  "study_complete": false,
+  "passage_language_pairs": 6,
+  "requested_questions_per_method": 18,
+  "cases_with_execution_error": 0,
+  "human_learning_value_ratings": "pending",
+  "interrupted_during_next_case": true,
+  "methods": {
+    "recall_t5": {
+      "returned_questions": 18,
+      "mean_qa_answer_f1_diagnostic": 0.43686868686868685,
+      "interpretation": "Different targets; QA recovery does not establish usefulness."
+    },
+    "planned_t5": {
+      "returned_questions": 1,
+      "mean_qa_answer_f1_diagnostic": 0.47058823529411764,
+      "interpretation": "Different targets; QA recovery does not establish usefulness."
+    },
+    "learning_hybrid": {
+      "returned_questions": 1,
+      "mean_qa_answer_f1_diagnostic": 0.7619047619047619,
+      "interpretation": "Different targets; QA recovery does not establish usefulness."
+    }
+  }
+}

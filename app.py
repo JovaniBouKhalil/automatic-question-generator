@@ -16,6 +16,7 @@ from questionforge.baseline import template_question
 from questionforge.candidates import extract_candidates
 from questionforge.export import as_csv, as_json, moodle_xml, worksheet_html
 from questionforge.learning.pipeline import PLANNER, create_learning_quiz
+from questionforge.learning.quality import QUALITY_MODEL, create_quality_quiz
 from questionforge.learning.rules import create_learning_t5_quiz
 from questionforge.metrics import leaks_answer, lexical_relevance, quality_decision
 from questionforge.models import generate_question
@@ -89,11 +90,15 @@ def main():
                                 index=list(LANGUAGES).index(initial_language), format_func=LANGUAGES.get)
         method = st.selectbox("Generation method", ["Pretrained Transformer", "Template baseline",
                                                     "Learning-focused T5 (experimental)",
-                                                    "Learning-focused hybrid (experimental)"])
+                                                    "Learning-focused hybrid (experimental)",
+                                                    "Learning-focused hybrid 4B (experimental)"])
         learning_mode = method.startswith("Learning-focused")
+        quality_mode = "4B" in method
         if learning_mode:
             if "hybrid" in method:
                 st.caption("Selects important facts, creates T5 drafts, then edits questions for understanding. The local editor takes longer.")
+                if quality_mode:
+                    st.caption("Uses the stronger 4B planner/editor. Prepare it with: python -m scripts.download_quality_model")
             else:
                 st.caption("Targets explicitly stated purposes, functions and properties. Uses the existing T5 model and can return fewer questions.")
         beams = st.select_slider("Decoding beams", options=[1, 4], value=4,
@@ -124,6 +129,14 @@ def main():
             if st.toggle(label, value=use_by_default, key=f"use_adapter_{language}",
                          help="Checkpoint selected using development loss. Disable to compare the original pretrained generator."):
                 checkpoint = str(selected)
+                science_path = ROOT / "results/science_training/selection.json"
+                if language == "en" and science_path.exists():
+                    science = json.loads(science_path.read_text(encoding="utf-8"))
+                    if science.get("complete") and science.get("selected_checkpoint"):
+                        adaptation = st.selectbox("English adaptation data", ["General reading", "Educational science"],
+                                                  help="The science adapter was selected on SciQ validation loss. Compare its questions with the original model.")
+                        if adaptation == "Educational science":
+                            checkpoint = str(ROOT / science["selected_checkpoint"])
         count = st.slider("Questions to create", 1, 8, 3)
         st.divider()
         st.markdown("**Works locally. No paid API.**")
@@ -131,7 +144,7 @@ def main():
         with st.expander("About the models"):
             st.write(GENERATORS[language].model_id)
             if learning_mode and "hybrid" in method:
-                st.write("Local planner/editor: " + PLANNER.model_id)
+                st.write("Local planner/editor: " + (QUALITY_MODEL.model_id if quality_mode else PLANNER.model_id))
             st.caption("Questions are drafts for teacher review. The original checker has English QA training; the experimental checker adds multilingual QA training. French remains zero-shot for both.")
     direction = "rtl" if language == "ar" else "ltr"
     alignment = "right" if language == "ar" else "left"
@@ -183,7 +196,20 @@ def main():
                                                 {"en": "Lina\nNine", "fr": "Lina\nNeuf", "ar": "لينا\nتسع"})[language])
             objective = ""
             if learning_mode:
+                learning_examples = json.loads((ROOT / "data/authoring/learning_passages.json").read_text(encoding="utf-8"))
+                auto_goal = next((item[language]["objective"] for item in learning_examples
+                                  if item[language]["context"] == passage), "")
+                objective_key = f"learning_objective_{language}"
+                last_auto_key = f"last_auto_goal_{language}"
+                last_passage_key = f"objective_passage_{language}"
+                if (objective_key not in st.session_state or
+                        (st.session_state.get(last_passage_key) != passage and
+                         st.session_state[objective_key] == st.session_state.get(last_auto_key, ""))):
+                    st.session_state[objective_key] = auto_goal
+                st.session_state[last_auto_key] = auto_goal
+                st.session_state[last_passage_key] = passage
                 objective = st.text_area("What should students understand? (optional)", max_chars=500,
+                                         key=objective_key,
                                          help="For example: how the components work, the steps of a process, or a cause stated in the passage.")
                 if "hybrid" not in method:
                     st.caption("In T5 mode this goal is saved for your review; automatic selection follows explicit relation markers. Use manual targets to control the facts.")
@@ -210,12 +236,13 @@ def main():
                     started = time.perf_counter()
                     with st.status("Building your question set…", expanded=True) as status:
                         if learning_mode:
-                            create = create_learning_quiz if "hybrid" in method else create_learning_t5_quiz
+                            create = (create_quality_quiz if quality_mode else create_learning_quiz) if "hybrid" in method else create_learning_t5_quiz
                             rows, learning_report = create(passage, language, count,
                                         objective=objective, manual_answers=answers, beams=beams,
                                         checkpoint=checkpoint, progress=st.write)
                             st.session_state["learning_report"] = learning_report
                             for row in rows:
+                                row["learning_objective"] = objective
                                 if verify:
                                     row.update(check_answer(row["question"], passage, row["answer"], language, verifier))
                                     row["verifier"] = verifier
@@ -297,8 +324,8 @@ def main():
     with research:
         learning_studies = {label: ROOT / folder for label, folder in [
             ("T5 with relation targets", "results/learning_t5_educational_v2"),
-            ("Hybrid: educational passages", "results/learning_focus_educational_v1"),
-            ("Hybrid: classroom passages", "results/learning_focus_dev_v1")]
+            ("Hybrid: educational passages", "results/learning_focus_educational_v3"),
+            ("Hybrid: classroom passages", "results/learning_focus_dev_v3")]
             if (ROOT / folder / "summary.json").exists()}
         if learning_studies:
             with st.expander("Inspect learning-focused questions", expanded=True):
@@ -308,7 +335,7 @@ def main():
                 learning_summary = json.loads((comparison_folder / "summary.json").read_text(encoding="utf-8"))
                 st.write(f"{learning_summary['passage_language_pairs']} passage/language pairs recorded.")
                 if not learning_summary.get("study_complete", True):
-                    st.info("This development comparison is still in progress.")
+                    st.info("This comparison is incomplete; inspect the cases recorded so far.")
                 st.download_button("Download source-linked comparison", (comparison_folder / "comparison.html").read_bytes(),
                                    comparison_folder.name + ".html", "text/html")
                 template = comparison_folder / "learning_review_template.csv"

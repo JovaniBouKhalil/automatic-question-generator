@@ -1,0 +1,9 @@
+{
+  "complete": false,
+  "reason": "Preflight audit exposed filtering-before-protection and duplicate-question bugs. One sampled training support appeared in the full raw held-out source; one question was duplicated within train and one across train/test. Training was stopped after the first trial's step-128 validation. No trial selection or test generation occurred.",
+  "last_observed_step": 128,
+  "last_observed_development_loss": 1.096146920311924,
+  "optimizer_updates_after_last_observation": "Unknown; process was stopped between progress events.",
+  "adapter_used_in_application": false,
+  "followup": "Preparation now protects all raw published held-out passages and question strings before sampling. Start the corrected eight-trial study from the pinned pretrained model. No interrupted weights are reused."
+}

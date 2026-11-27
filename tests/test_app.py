@@ -38,8 +38,9 @@ def test_arabic_workflow_and_invalid_answer_feedback():
     assert app.session_state["questions"] == []
 
 
-def test_learning_mode_passes_objective_and_shows_the_seq2seq_draft(monkeypatch):
-    from questionforge.learning import pipeline
+@pytest.mark.parametrize("stronger", [False, True])
+def test_learning_mode_passes_objective_and_shows_the_seq2seq_draft(monkeypatch, stronger):
+    from questionforge.learning import pipeline, quality
 
     calls = []
 
@@ -50,9 +51,9 @@ def test_learning_mode_passes_objective_and_shows_the_seq2seq_draft(monkeypatch)
                  "learning_goal": "Understand the mesh's function.",
                  "draft_question": "What catches leaves?"}], {"returned": 1}
 
-    monkeypatch.setattr(pipeline, "create_learning_quiz", fake)
+    monkeypatch.setattr(quality if stronger else pipeline, "create_quality_quiz" if stronger else "create_learning_quiz", fake)
     app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
-    app.sidebar.selectbox[1].select("Learning-focused hybrid (experimental)")
+    app.sidebar.selectbox[1].select("Learning-focused hybrid 4B (experimental)" if stronger else "Learning-focused hybrid (experimental)")
     app.sidebar.toggle[0].set_value(False)
     app.run()
     app.text_area[0].input("A mesh catches leaves.")
@@ -76,6 +77,20 @@ def test_switching_learning_mode_keeps_the_users_passage_and_target():
     assert not app.exception
     assert app.text_area[0].value == "A mesh catches leaves."
     assert app.text_area[1].value == "leaves"
+
+
+def test_demo_goal_updates_without_overwriting_a_users_goal():
+    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
+    app.sidebar.selectbox[1].select("Learning-focused hybrid (experimental)")
+    app.run()
+    assert "training, validation and test" in app.text_area[2].value
+    app.text_area[0].input("A mesh catches leaves.")
+    app.run()
+    assert app.text_area[2].value == ""
+    app.text_area[2].input("Understand the filter's function.")
+    app.text_area[0].input("A tank stores water.")
+    app.run()
+    assert app.text_area[2].value == "Understand the filter's function."
 
 
 @pytest.mark.integration

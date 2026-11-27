@@ -62,6 +62,7 @@ def test_arabic_questions_cannot_silently_be_english_or_leak_the_answer():
     assert pipeline.question_issue("What catches leaves?", "شبكة", "ar")
     assert pipeline.question_issue("ما وظيفة الشبكة؟", "الشبكة", "ar")
     assert pipeline.question_issue("ما الذي يحتجز الأوراق؟", "الشبكة", "ar") is None
+    assert pipeline.question_issue("ما الذي يحتجز الأوراق？", "الشبكة", "ar") is None
 
 
 def test_empty_plan_abstains_without_invoking_t5(monkeypatch):
@@ -84,10 +85,10 @@ def test_editor_cannot_introduce_answers_or_duplicate_fact_indices(monkeypatch):
     from questionforge.models import GeneratedQuestion
 
     passage = "A mesh catches leaves."
-    monkeypatch.setattr(pipeline, "generate_question", lambda *args, **kwargs:
-                        GeneratedQuestion("Who invented the mesh?", "leaves", 15, passage, "en", "beam4", "test"))
+    monkeypatch.setattr(pipeline, "generate_question", lambda context, answer, language, **kwargs:
+                        GeneratedQuestion("Who invented the mesh?", answer, context.find(answer), passage, "en", "beam4", "test"))
     answers = iter([
-        ([fact("leaves", passage)], "plan"),
+        ([0], "[0]"),
         ([{"index": 0, "question": "What does the mesh catch?"},
           {"index": 0, "question": "Which objects does the mesh catch?"},
           {"index": 3, "question": "What happens next?"}], "edit"),
@@ -98,6 +99,26 @@ def test_editor_cannot_introduce_answers_or_duplicate_fact_indices(monkeypatch):
     assert rows[0]["draft_question"] == "Who invented the mesh?"
     assert rows[0]["educational_quality_status"] == "not_human_rated"
     assert json.loads(json.dumps(report))["returned"] == 1
+
+
+def test_editor_failure_preserves_the_valid_plan_and_seq2seq_draft(monkeypatch):
+    from questionforge.models import GeneratedQuestion
+
+    passage = "A mesh catches leaves."
+    monkeypatch.setattr(pipeline, "generate_question", lambda context, answer, language, **kwargs:
+                        GeneratedQuestion("What does the mesh catch?", answer, context.find(answer), passage, "en", "beam4", "test"))
+
+    def complete(system, payload, device):
+        if system == pipeline.PLAN_SYSTEM:
+            return [0], "valid plan"
+        raise pipeline.StructuredOutputError('[{"index": 0, "question":')
+
+    with pytest.raises(pipeline.StructuredOutputError) as caught:
+        pipeline.create_learning_quiz(passage, "en", complete=complete)
+    report = caught.value.learning_report
+    assert report["raw_plan"] == "valid plan"
+    assert report["raw_edit"].endswith('"question":')
+    assert report["drafts"][0]["question"] == "What does the mesh catch?"
 
 
 def test_partial_report_does_not_freeze_an_incomplete_review_template(tmp_path):
@@ -149,3 +170,31 @@ def test_focus_keeps_antecedent_but_drops_later_distracting_subject():
     assert "Bag-of-words" in window and "TF-IDF" not in window
     offset = passage.index(answer) - left
     assert window[offset:offset + len(answer)] == answer
+
+
+@pytest.mark.parametrize("language,context", [
+    ("en", "Training data is used to update model weights. The test stays separate to avoid bias."),
+    ("fr", "Les données servent à choisir les paramètres. Le test reste séparé pour éviter un biais."),
+    ("ar", "تستخدم بيانات التدريب لتحديث الأوزان. يبقى الاختبار منفصلا حتى لا يؤثر في الاختيار."),
+])
+def test_candidate_ids_resolve_to_exact_source_spans_in_each_language(language, context):
+    from questionforge.learning.planning import build_fact_candidates, resolve_candidate_choices
+
+    candidates = build_fact_candidates(context, language)
+    assert candidates
+    for candidate in candidates:
+        start, answer = candidate["answer_start"], candidate["answer"]
+        assert context[start:start + len(answer)] == answer
+    proposed, rejected = resolve_candidate_choices([0], candidates, language, 3)
+    assert not rejected and proposed[0]["answer"] == candidates[0]["answer"]
+
+
+def test_selector_cannot_supply_new_answer_wording_or_duplicate_the_same_fact():
+    from questionforge.learning.planning import build_fact_candidates, resolve_candidate_choices
+
+    passage = "Training data is used to update weights."
+    candidates = build_fact_candidates(passage, "en")
+    choices = [{"candidate_id": 0, "answer": "invented answer"}, 1, -1, "new wording"]
+    proposed, rejected = resolve_candidate_choices(choices, candidates, "en", 3)
+    assert len(proposed) == 1 and len(rejected) == 3
+    assert proposed[0]["answer"] == "update weights"

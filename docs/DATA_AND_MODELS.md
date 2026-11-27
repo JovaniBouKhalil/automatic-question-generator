@@ -148,7 +148,8 @@ The optional learning-focused planner/editor uses
 [Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct), revision
 `989aa7980e4cf806f80c7fef2b1adb7bc71aa306` (Apache-2.0). Its approximately 3.1 GB of
 backbone weights are downloaded locally, not included in the submission. CPU inference
-dynamically quantizes linear layers to int8; this is not fine-tuning.
+uses FP32; this is inference, not fine-tuning. An attempted generic dynamic-int8 conversion
+failed paired controls, so it is not used by the application.
 
 `data/authoring/learning_passages.json` contains three original educational development/demo
 topics in English, French and Arabic. They are synthetic, have not received human ratings,

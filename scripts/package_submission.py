@@ -17,6 +17,7 @@ def main():
     folders = ["questionforge", "scripts", "tests", "docs", "notebooks", "results", "presentation",
                "artifacts/english_lora", "artifacts/seed_study", "artifacts/article_isolated_lora",
                "artifacts/expanded",
+               "artifacts/science_lora",
                "data/novel", "data/authoring", ".streamlit", ".github"]
     files = [ROOT / name for name in ["README.md", "HANDOFF.md", "pyproject.toml",
                                      "requirements-lock.txt", "app.py", "run_app.bat", ".gitignore", ".gitattributes"] if (ROOT / name).is_file()]

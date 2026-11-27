@@ -92,9 +92,16 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, default=Path("results/learning_focus_dev_v1"))
     parser.add_argument("--source", choices=["classroom", "educational"], default="classroom")
+    parser.add_argument("--planner", choices=["small", "quality"], default="small")
     parser.add_argument("--languages", nargs="+", choices=["en", "fr", "ar"], default=["en", "fr", "ar"])
     parser.add_argument("--max-new-cases", type=int, help="Pause after this many new cases; a later run resumes the same fixed study.")
     args = parser.parse_args()
+    if args.planner == "quality":
+        from questionforge.learning.quality import QUALITY_MODEL, QUALITY_PRECISION, create_quality_quiz
+
+        planner, precision, create = QUALITY_MODEL, QUALITY_PRECISION, create_quality_quiz
+    else:
+        planner, precision, create = PLANNER, CPU_QUANTIZATION, create_learning_quiz
     if args.max_new_cases is not None and args.max_new_cases < 1:
         raise ValueError("--max-new-cases must be positive.")
     directory = args.output
@@ -107,8 +114,8 @@ def main():
     config = {"version": VERSION, "split": f"{args.source}_development", "count": 3,
               "languages": args.languages,
               "seed": 42, "beams": 4, "native_adapters": False, "device": "cpu",
-              "planner_model": PLANNER.model_id, "planner_revision": PLANNER.revision,
-              "cpu_quantization": CPU_QUANTIZATION,
+              "planner_model": planner.model_id, "planner_revision": planner.revision,
+              "cpu_quantization": precision,
               "source_sha256_normalized_utf8": {p.as_posix(): source_hash(p) for p in sources},
               "data_sha256": source_hash(data_path),
               "interpretation": "Target selection differs across recall/planned methods. QA F1 is not usefulness or accuracy."}
@@ -141,7 +148,7 @@ def main():
                 original.append(diagnostics(asdict(generate_question(source["context"], candidate.answer, language,
                                         answer_start=candidate.start, beams=4)), source["context"], language))
             case["outputs"]["recall_t5"] = original
-            edited, report = create_learning_quiz(source["context"], language, count=3,
+            edited, report = create(source["context"], language, count=3,
                                                    objective=source.get("objective", ""),
                                                    progress=lambda s: print(f"{case_id}: {s}", flush=True))
             case["planning_report"] = report
@@ -151,6 +158,10 @@ def main():
             case["error"] = f"{type(exc).__name__}: {exc}"
             if hasattr(exc, "raw_text"):
                 case["failed_model_response"] = exc.raw_text
+            if hasattr(exc, "learning_report"):
+                case["planning_report"] = exc.learning_report
+                case["outputs"]["planned_t5"] = [diagnostics(row, source["context"], language)
+                                                   for row in exc.learning_report["drafts"]]
             print(case["error"], flush=True)
         case["seconds"] = time.perf_counter() - started
         write_json(filename, case)

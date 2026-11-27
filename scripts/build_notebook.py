@@ -297,7 +297,40 @@ for language in ['en', 'fr', 'ar']:
         with pd.option_context('display.max_colwidth', None):
             display(pd.DataFrame(shown))
 """)
-    markdown("""## 10. Demonstrate and explain
+    markdown("""## 10. Educational training and three-hyperparameter search
+
+SciQ supplies human-authored English science questions, correct answers and support
+passages. The curriculum keeps unique exact answer spans and the published split roles.
+The whole raw held-out support/question pool stays protected before sampling.
+
+The equal-budget factorial search varies learning rate, LoRA rank and dropout across
+eight settings. Each trial starts from the same pinned T5 checkpoint; the selected
+checkpoint minimizes validation token loss, including the unadapted step-zero model.
+Test generation happens after selection. This follows the course's validation-only
+hyperparameter-selection principle without claiming that lower loss proves usefulness.
+See `scripts/train_science_grid.py` and `docs/SCIENCE_TRAINING_PROTOCOL.md`.
+""")
+    code("""science_folder = ROOT / 'results/science_training'
+selection_path = science_folder / 'selection.json'
+if selection_path.exists():
+    selection = json.loads(selection_path.read_text(encoding='utf-8'))
+    trials = [json.loads(path.read_text(encoding='utf-8')) for path in sorted(science_folder.glob('lr*.json'))]
+    display(pd.DataFrame([{key: row[key] for key in ['trial','learning_rate','rank','dropout','updates',
+                        'best_step','best_dev_loss','unique_training_ids_seen']} for row in trials]))
+    print('Validation-selected:', selection['selected_trial'], '| saved update:', selection['selected_step'])
+    print('Test used for selection:', selection['test_used_for_selection'])
+    display(Image(filename=str(science_folder / 'validation_search.png'), width=1000))
+    for split in ['dev', 'test']:
+        result = json.loads((ROOT / f'results/science_evaluation_{split}/summary.json').read_text(encoding='utf-8'))
+        print(split.upper(), result['scope'])
+        display(pd.DataFrame([{'method': name, **{key: score[key] for key in
+                  ['n','bleu','chrf_pp','rouge_l','answer_f1']}} for name, score in result['methods'].items()]))
+        print('Paired QA recovery difference, not question accuracy:', result['paired_qa_answer_f1_difference_pp'])
+    print('Human educational-value ratings remain pending. Inspect the source-linked development comparison.')
+else:
+    print('Science training is not complete; no new outcomes are claimed.')
+""")
+    markdown("""## 11. Demonstrate and explain
 
 Launch `python -m streamlit run app.py`. Choose a language, paste a passage, supply exact
 answers or use TF-IDF suggestions, and inspect the questions and evidence. Export a

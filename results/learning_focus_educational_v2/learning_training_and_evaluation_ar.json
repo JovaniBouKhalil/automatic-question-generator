@@ -1,0 +1,125 @@
+{
+  "case_id": "learning:training_and_evaluation:ar",
+  "language": "ar",
+  "group": "learning:training_and_evaluation",
+  "context": "تستخدم بيانات التدريب لتحديث أوزان النموذج. وتستخدم بيانات التحقق لاختيار المعلمات الفائقة مثل معدل التعلم. تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي حتى لا تؤثر نتيجتها في اختيار النموذج. عندما تأتي عدة أسئلة من المقال نفسه، يوضع المقال كاملا في قسم واحد لتجنب مشاركة حقائقه بين التدريب والتقييم.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "كم عدد الأقسام في المقال؟",
+        "answer": "واحد لتجنب",
+        "answer_start": 257,
+        "evidence": "عندما تأتي عدة أسئلة من المقال نفسه، يوضع المقال كاملا في قسم واحد لتجنب مشاركة حقائقه بين التدريب والتقييم.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 64,
+        "cropped": false,
+        "lexical_relevance": 0.23570226039551587,
+        "answer_leak": false,
+        "qa_answer": "قسم واحد",
+        "qa_score": 0.5586154460906982,
+        "answer_f1": 0.5,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "كيف يتم تحديث أوزان النموذج؟",
+        "answer": "حتى",
+        "answer_start": 136,
+        "evidence": "تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي حتى لا تؤثر نتيجتها في اختيار النموذج.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 63,
+        "cropped": false,
+        "lexical_relevance": 0.11952286093343936,
+        "answer_leak": false,
+        "qa_answer": "بيانات التدريب",
+        "qa_score": 0.7016175389289856,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "كيف يتم تحديث أوزان النموذج؟",
+        "answer": "تستخدم بيانات التدريب",
+        "answer_start": 0,
+        "evidence": "تستخدم بيانات التدريب لتحديث أوزان النموذج.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 65,
+        "cropped": false,
+        "lexical_relevance": 0.3651483716701107,
+        "answer_leak": false,
+        "qa_answer": "بيانات التدريب",
+        "qa_score": 0.7016175389289856,
+        "answer_f1": 0.8,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ],
+    "planned_t5": [],
+    "learning_hybrid": []
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-v2",
+    "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "planner_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 0,
+    "rejected_facts": [
+      {
+        "index": 0,
+        "reason": "answer or evidence is not an exact source quote",
+        "item": {
+          "answer": "يُستخدم بيانات التدريب لتحديث أوزان النموذج.",
+          "sentence_index": 0,
+          "learning_goal": "فهم أدوار بيانات التدريب",
+          "question_type": "concept",
+          "evidence": "تستخدم بيانات التدريب لتحديث أوزان النموذج."
+        }
+      },
+      {
+        "index": 1,
+        "reason": "answer or evidence is not an exact source quote",
+        "item": {
+          "answer": "تُستخدم بيانات التحقق لاختيار المعلمات الفائقة مثل معدل التعلم.",
+          "sentence_index": 1,
+          "learning_goal": "فهم أدوار بيانات التدريب",
+          "question_type": "concept",
+          "evidence": "وتستخدم بيانات التحقق لاختيار المعلمات الفائقة مثل معدل التعلم."
+        }
+      },
+      {
+        "index": 2,
+        "reason": "answer or evidence is not an exact source quote",
+        "item": {
+          "answer": "تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي.",
+          "sentence_index": 2,
+          "learning_goal": "فهم أدوار بيانات التدريب",
+          "question_type": "process",
+          "evidence": "تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي حتى لا تؤثر نتيجتها في اختيار النموذج."
+        }
+      }
+    ],
+    "raw_plan": "```json\n[\n    {\n        \"answer\": \"يُستخدم بيانات التدريب لتحديث أوزان النموذج.\",\n        \"sentence_index\": 0,\n        \"learning_goal\": \"فهم أدوار بيانات التدريب\",\n        \"question_type\": \"concept\"\n    },\n    {\n        \"answer\": \"تُستخدم بيانات التحقق لاختيار المعلمات الفائقة مثل معدل التعلم.\",\n        \"sentence_index\": 1,\n        \"learning_goal\": \"فهم أدوار بيانات التدريب\",\n        \"question_type\": \"concept\"\n    },\n    {\n        \"answer\": \"تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي.\",\n        \"sentence_index\": 2,\n        \"learning_goal\": \"فهم أدوار بيانات التدريب\",\n        \"question_type\": \"process\"\n    }\n]\n```",
+    "raw_edit": null,
+    "facts": [],
+    "drafts": [],
+    "rejected_questions": [],
+    "learning_objective": "فهم أدوار بيانات التدريب والتحقق والاختبار وسبب وضع المقال كاملا في قسم واحد.",
+    "educational_quality_status": "not_human_rated",
+    "returned": 0,
+    "seconds": 65.37799500000256
+  },
+  "seconds": 69.67239759999211
+}

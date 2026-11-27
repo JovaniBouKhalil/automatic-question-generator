@@ -11,8 +11,8 @@ The experimental hybrid uses `Qwen/Qwen2.5-1.5B-Instruct`, pinned revision
 The official model card gives Apache-2.0. Full weights remain outside the submission.
 This is inference-time orchestration, not new fine-tuning, a trained usefulness scorer,
 RAG or an independent factuality judge.
-CPU inference dynamically quantizes linear layers to int8 using PyTorch; embeddings stay
-in float32. Record this precision choice because outputs can differ from unquantized inference.
+The initial v1 CPU attempt dynamically quantizes linear layers to int8 using PyTorch;
+embeddings stay in float32. Preserve that attempt and its recorded precision.
 
 The planner proposes at most the requested number of exact answer/evidence spans,
 learning goals and question types. It must avoid unstated explanations. The editor
@@ -70,3 +70,57 @@ resolves the evidence quote and original offset directly from the passage. This 
 fragile quote copying and output length; it does not validate semantic relations.
 
 Source: [official model card](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct).
+
+## Runtime addendum after the first instruction-model attempt
+
+The first Arabic case returned unrelated text and was rejected. Paired controls with
+identical prompts show that FP32 follows the JSON instruction and produces a grounded
+Arabic fact, while generic PyTorch dynamic-int8 fails both controls. Preserve all raw
+responses in `results/quality/learning_editor_runtime_diagnostic.json` and the partial
+v1 study. This finding concerns this conversion/runtime, not all quantization methods.
+
+A pinned llama.cpp CPU runtime and weight-only Q8_0 conversion were prepared, but Windows
+Application Control blocked execution. That runtime was not used for any question result.
+No application-control setting was changed or bypassed.
+
+Version v2 uses the validated FP32 PyTorch path. It asks for compact JSON and shorter goal
+descriptions, with a bounded token budget of max(256, 180 * requested facts), capped at
+1,500. These prompt/runtime changes are development fixes; compare a new versioned output
+folder rather than overwrite v1. The selected model weights and task remain unchanged.
+
+## Development addendum after the FP32 quote-copying attempt
+
+The FP32 v2 attempt was stopped after six completed educational cases. It returned one
+edited question across those cases; other proposed answers were paraphrases rather than
+exact source quotes. Preserve the records and mark the study interrupted/incomplete.
+
+In v3, build a source-grounded pool from explicit relation spans and complete statements.
+The instruction model chooses integer candidate IDs, with at most one chosen evidence
+statement per question. The program resolves answers and evidence from the source pool;
+it never uses generated answer wording. Goals use the user's objective or a fact-type
+template. T5 drafting and question editing remain. This also reduces planning output length.
+Run both fixed development sets in new v3 output folders and keep all prior attempts.
+
+## Stronger multilingual model comparison, frozen before its first inference
+
+The 1.5B v3 model completed both fixed sets but still reversed basic Arabic relations,
+sometimes returned Chinese, and produced an unsupported French split premise. Exact spans
+and QA agreement did not establish logical support. Localized prompts and independent
+focused writing did not resolve these weaknesses; preserve their pilot responses.
+
+Compare pinned Qwen3-4B-Instruct-2507, revision
+`cdbee75f17c01a7cc42f958dc650907174af0554` (Apache 2.0), using the same candidate-ID
+selection, T5 drafts and editing prompts. First run paired FP32 / FP16-packed-linear controls
+on identical English and Arabic inputs. Generic dynamic-int8 remains excluded. Inspect the
+actual questions as well as schemas; use FP16 packing only if instruction/role fidelity is
+preserved, otherwise retain FP32. This is a runtime check, not a human quality evaluation.
+
+Then run all nine educational and nine existing classroom passage/language pairs in new
+folders, with no model training on them. Preserve every response, omission and error. Version
+v4 also accepts the Unicode fullwidth question mark; it does not add a factuality claim.
+Report writer/planner identity separately from the T5 draft generator. Any recommendation
+must be based on reading source-question relationships in all three languages, not QA F1.
+Human educational-value ratings remain pending. These repeatedly inspected synthetic
+examples are development data, not a fresh final test.
+
+Source: [official model card](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507).

@@ -1,0 +1,61 @@
+{
+  "scope": "Development prompt diagnostic, not a human rating or fresh test.",
+  "case_path": "results\\learning_focus_educational_v3\\learning_text_representation_ar.json",
+  "system": "اكتب جميع الأسئلة باللغة العربية فقط. اكتب سؤالا واضحا ومباشرا لكل حقيقة.\nالجواب المطلوب محدد؛ يجب أن يجيب هذا الجواب عن السؤال. لا تضع الجواب في السؤال.\nاستعمل النص فقط. لا تسأل لماذا إلا إذا ذكر النص سببا أو هدفا.\nاحتفظ بالسؤال المقترح إذا كان صحيحا؛ أصلح فقط الأخطاء أو الغموض.\n\nExamples of correct question roles:\nPassage: يحول المحرك الكهرباء إلى حركة. Answer: حركة\nQuestion: إلى ماذا يحول المحرك الكهرباء؟\nPassage: لا يحتفظ التنسيق بالألوان. Answer: الألوان\nQuestion: ما المعلومات التي لا يحتفظ بها التنسيق؟\nPassage: يستخدم الميزان لقياس الكتلة. Answer: قياس الكتلة\nQuestion: لأي غرض يستخدم الميزان؟\n\nReturn ONLY a JSON array of objects with integer \"index\" and Arabic \"question\".\nUse the same index as each supplied fact. No explanations.",
+  "payload": {
+    "language": "Arabic (العربية)",
+    "passage": "يسجل تمثيل حقيبة الكلمات عدد مرات ظهور كل كلمة من المفردات في الوثيقة. لكنه لا يحتفظ بترتيب الكلمات. يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق. تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر. يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+    "facts": [
+      {
+        "index": 0,
+        "answer": "ترتيب الكلمات",
+        "evidence": "لكنه لا يحتفظ بترتيب الكلمات.",
+        "draft_question": "ما الذي يحتفظ به TF-IDF؟"
+      },
+      {
+        "index": 1,
+        "answer": "انتشار كل كلمة في مجموعة الوثائق",
+        "evidence": "يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق.",
+        "draft_question": "كيف يتم تكرار الكلمات في وثيقة؟"
+      },
+      {
+        "index": 2,
+        "answer": "إبراز الكلمات التي تميز وثيقة عن غيرها",
+        "evidence": "يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+        "draft_question": "ما الذي يساعد في تحسين تكرار الكلمات في وثيقة؟"
+      }
+    ]
+  },
+  "script_sha256": "e0d650b06a62687b4baf16ac072e477b45c090fe61f172fd542f73e6cc1141a2",
+  "case_sha256": "5989e552589d546f01733ee59001c9dc02a2d111b9cae99bb0d4f98679197de1",
+  "raw_response": "[{\"index\": 0, \"question\": \"ما الذي يحتفظ به TF-IDF؟\"},{\"index\": 1, \"question\": \"كيف يتم تكرار الكلمات في وثيقة？\"},{\"index\": 2, \"question\": \"ما الذي يساعد في تحسين تكرار الكلمات في وثيقة？\"}]",
+  "questions": [
+    {
+      "index": 0,
+      "question": "ما الذي يحتفظ به TF-IDF؟"
+    },
+    {
+      "index": 1,
+      "question": "كيف يتم تكرار الكلمات في وثيقة？"
+    },
+    {
+      "index": 2,
+      "question": "ما الذي يساعد في تحسين تكرار الكلمات في وثيقة？"
+    }
+  ],
+  "format_issues": [
+    {
+      "index": 0,
+      "issue": null
+    },
+    {
+      "index": 1,
+      "issue": "missing question mark"
+    },
+    {
+      "index": 2,
+      "issue": "missing question mark"
+    }
+  ],
+  "seconds": 67.82805650000228
+}

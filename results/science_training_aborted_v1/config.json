@@ -1,0 +1,35 @@
+{
+  "seed": 42,
+  "updates": 256,
+  "batch_size": 2,
+  "gradient_accumulation": 4,
+  "grid": {
+    "learning_rate": [
+      0.0001,
+      0.0003
+    ],
+    "rank": [
+      8,
+      16
+    ],
+    "dropout": [
+      0.05,
+      0.15
+    ]
+  },
+  "base_model": "lmqg/t5-small-squad-qg",
+  "base_revision": "57d0de8c285d3f89e01b5c607e22a24269fc5cc7",
+  "data_sha256": {
+    "train": "5c5e1f6eda0f8a6a93551024a110a3fc3229fc3cf7b0eecac1a2619be1d1ab5b",
+    "dev": "c9c48547ccb16cb225765918470888857f025978f9187a0c893a35690509be56",
+    "test": "e1187b61bca40f7565d7f144020df31c728d4836fb7d00038b4d0a6ddd51ad3b"
+  },
+  "sources_sha256": {
+    "C:/Users/boukh/Desktop/NLP-final/automatic-question-generator/scripts/train_science_grid.py": "6bbd09ba489d118b3ea2c15539b3d9a88499a3b8ce7551b2ea79a1feed6e0ea2",
+    "docs/SCIENCE_TRAINING_PROTOCOL.md": "4029a400455824c53009b0a62046c1fc1d2fabc840afecbadb0bee13b948e424",
+    "scripts/prepare_science_data.py": "c43ca6f0e4e84c76d5addf8951b93ac23f1d12e0931881dfc180b1848b24e544"
+  },
+  "test_opened_for_training_or_selection": false,
+  "precision": "float32",
+  "device": "cpu"
+}

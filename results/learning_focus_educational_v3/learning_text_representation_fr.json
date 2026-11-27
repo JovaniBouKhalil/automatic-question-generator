@@ -1,0 +1,375 @@
+{
+  "case_id": "learning:text_representation:fr",
+  "language": "fr",
+  "group": "learning:text_representation",
+  "context": "Une représentation en sac de mots enregistre la fréquence de chaque mot du vocabulaire dans un document. Elle ne conserve pas l'ordre des mots. TF-IDF ajuste les fréquences selon la présence de chaque mot dans l'ensemble des documents. Les mots présents dans de nombreux documents reçoivent moins de poids, tandis que les mots concentrés dans moins de documents peuvent en recevoir davantage. Cela permet de mettre en évidence les termes qui distinguent un document des autres.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "Que permet de mettre en évidence les termes qui distinguent un document des autres ?",
+        "answer": "Cela",
+        "answer_start": 393,
+        "evidence": "Cela permet de mettre en évidence les termes qui distinguent un document des autres.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 128,
+        "cropped": false,
+        "lexical_relevance": 0.8888888888888888,
+        "answer_leak": false,
+        "qa_answer": "Les mots présents dans de nombreux documents reçoivent moins de poids, tandis que les mots concentrés dans moins de documents peuvent en recevoir davantage.",
+        "qa_score": 0.3192540407180786,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "Comment s'appelle la représentation en sac de mots ?",
+        "answer": "TF-IDF",
+        "answer_start": 144,
+        "evidence": "TF-IDF ajuste les fréquences selon la présence de chaque mot dans l'ensemble des documents.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 128,
+        "cropped": false,
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "qa_answer": "Elle ne conserve pas l'ordre des mots.",
+        "qa_score": 0.4969654995948076,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "Quelle est la fréquence de la représentation en sac de mots?",
+        "answer": "ne conserve pas",
+        "answer_start": 110,
+        "evidence": "Elle ne conserve pas l'ordre des mots.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 128,
+        "cropped": false,
+        "lexical_relevance": 0.2,
+        "answer_leak": false,
+        "qa_answer": "la fréquence de chaque mot du vocabulaire dans un document.",
+        "qa_score": 0.14175006747245789,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "planned_t5": [
+      {
+        "question": "Quelle est la fréquence de la représentation en sac de mots ?",
+        "answer": "l'ordre des mots",
+        "answer_start": 126,
+        "evidence": "Elle ne conserve pas l'ordre des mots.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 129,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Comprendre l'information perdue par le sac de mots et la pondération des termes communs par TF-IDF.",
+        "question_type": "concept",
+        "lexical_relevance": 0.2,
+        "answer_leak": false,
+        "qa_answer": "la fréquence de chaque mot du vocabulaire dans un document.",
+        "qa_score": 0.11385826021432877,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "Qu'est-ce qui permet de mettre en évidence les termes ?",
+        "answer": "mettre en évidence les termes qui distinguent un document des autres",
+        "answer_start": 408,
+        "evidence": "Cela permet de mettre en évidence les termes qui distinguent un document des autres.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 129,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Comprendre l'information perdue par le sac de mots et la pondération des termes communs par TF-IDF.",
+        "question_type": "function",
+        "lexical_relevance": 0.6804138174397717,
+        "answer_leak": false,
+        "qa_answer": "Les mots présents dans de nombreux documents reçoivent moins de poids, tandis que les mots concentrés dans moins de documents peuvent en recevoir davantage.",
+        "qa_score": 0.3351892586797476,
+        "answer_f1": 0.11428571428571428,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "Qu'enregistre une représentation en sac de mots ?",
+        "answer": "la fréquence de chaque mot du vocabulaire dans un document",
+        "answer_start": 45,
+        "evidence": "Une représentation en sac de mots enregistre la fréquence de chaque mot du vocabulaire dans un document.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 129,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "Comprendre l'information perdue par le sac de mots et la pondération des termes communs par TF-IDF.",
+        "question_type": "function",
+        "lexical_relevance": 0.5962847939999439,
+        "answer_leak": false,
+        "qa_answer": "la fréquence de chaque mot du vocabulaire dans un document.",
+        "qa_score": 0.5824873894453049,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ],
+    "learning_hybrid": [
+      {
+        "question": "Quel aspect de la représentation en sac de mots n'est-il pas conservé ?",
+        "answer": "l'ordre des mots",
+        "answer_start": 126,
+        "evidence": "Elle ne conserve pas l'ordre des mots.",
+        "language": "fr",
+        "method": "learning_focused_hybrid",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 129,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Comprendre l'information perdue par le sac de mots et la pondération des termes communs par TF-IDF.",
+        "question_type": "concept",
+        "draft_question": "Quelle est la fréquence de la représentation en sac de mots ?",
+        "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "lexical_relevance": 0.31622776601683794,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "l'ordre des mots.",
+        "qa_score": 0.9705662479245802,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "Pourquoi est-elle utile d'utiliser TF-IDF ?",
+        "answer": "mettre en évidence les termes qui distinguent un document des autres",
+        "answer_start": 408,
+        "evidence": "Cela permet de mettre en évidence les termes qui distinguent un document des autres.",
+        "language": "fr",
+        "method": "learning_focused_hybrid",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 129,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Comprendre l'information perdue par le sac de mots et la pondération des termes communs par TF-IDF.",
+        "question_type": "function",
+        "draft_question": "Qu'est-ce qui permet de mettre en évidence les termes ?",
+        "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "Les mots présents dans de nombreux documents reçoivent moins de poids, tandis que les mots concentrés dans moins de documents peuvent en recevoir davantage. Cela permet de mettre en évidence les termes qui distinguent un document des autres.",
+        "qa_score": 0.13810839876532555,
+        "answer_f1": 0.4489795918367347,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "Qu'est-ce qu'une représentation en sac de mots enregistre ?",
+        "answer": "la fréquence de chaque mot du vocabulaire dans un document",
+        "answer_start": 45,
+        "evidence": "Une représentation en sac de mots enregistre la fréquence de chaque mot du vocabulaire dans un document.",
+        "language": "fr",
+        "method": "learning_focused_hybrid",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 129,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "Comprendre l'information perdue par le sac de mots et la pondération des termes communs par TF-IDF.",
+        "question_type": "function",
+        "draft_question": "Qu'enregistre une représentation en sac de mots ?",
+        "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "lexical_relevance": 0.47140452079103173,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "la fréquence de chaque mot du vocabulaire dans un document.",
+        "qa_score": 0.5832586642354727,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-v3",
+    "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "planner_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 3,
+    "rejected_facts": [],
+    "candidate_pool": [
+      {
+        "candidate_id": 0,
+        "answer": "l'ordre des mots",
+        "answer_start": 126,
+        "evidence": "Elle ne conserve pas l'ordre des mots.",
+        "question_type": "concept",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 1,
+        "answer": "mettre en évidence les termes qui distinguent un document des autres",
+        "answer_start": 408,
+        "evidence": "Cela permet de mettre en évidence les termes qui distinguent un document des autres.",
+        "question_type": "function",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 2,
+        "answer": "la fréquence de chaque mot du vocabulaire dans un document",
+        "answer_start": 45,
+        "evidence": "Une représentation en sac de mots enregistre la fréquence de chaque mot du vocabulaire dans un document.",
+        "question_type": "function",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 3,
+        "answer": "Une représentation en sac de mots enregistre la fréquence de chaque mot du vocabulaire dans un document",
+        "answer_start": 0,
+        "evidence": "Une représentation en sac de mots enregistre la fréquence de chaque mot du vocabulaire dans un document.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 4,
+        "answer": "Elle ne conserve pas l'ordre des mots",
+        "answer_start": 105,
+        "evidence": "Elle ne conserve pas l'ordre des mots.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 5,
+        "answer": "TF-IDF ajuste les fréquences selon la présence de chaque mot dans l'ensemble des documents",
+        "answer_start": 144,
+        "evidence": "TF-IDF ajuste les fréquences selon la présence de chaque mot dans l'ensemble des documents.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 6,
+        "answer": "Les mots présents dans de nombreux documents reçoivent moins de poids, tandis que les mots concentrés dans moins de documents peuvent en recevoir davantage",
+        "answer_start": 236,
+        "evidence": "Les mots présents dans de nombreux documents reçoivent moins de poids, tandis que les mots concentrés dans moins de documents peuvent en recevoir davantage.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 7,
+        "answer": "Cela permet de mettre en évidence les termes qui distinguent un document des autres",
+        "answer_start": 393,
+        "evidence": "Cela permet de mettre en évidence les termes qui distinguent un document des autres.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      }
+    ],
+    "raw_plan": "[0, 1, 2]",
+    "raw_edit": "[{\"index\": 0, \"question\": \"Quel aspect de la représentation en sac de mots n'est-il pas conservé ?\"},{\"index\": 1, \"question\": \"Pourquoi est-elle utile d'utiliser TF-IDF ?\"},{\"index\": 2, \"question\": \"Qu'est-ce qu'une représentation en sac de mots enregistre ?\"}]",
+    "facts": [
+      {
+        "learning_goal": "Comprendre l'information perdue par le sac de mots et la pondération des termes communs par TF-IDF.",
+        "question_type": "concept",
+        "answer": "l'ordre des mots",
+        "evidence": "Elle ne conserve pas l'ordre des mots.",
+        "answer_start": 126
+      },
+      {
+        "learning_goal": "Comprendre l'information perdue par le sac de mots et la pondération des termes communs par TF-IDF.",
+        "question_type": "function",
+        "answer": "mettre en évidence les termes qui distinguent un document des autres",
+        "evidence": "Cela permet de mettre en évidence les termes qui distinguent un document des autres.",
+        "answer_start": 408
+      },
+      {
+        "learning_goal": "Comprendre l'information perdue par le sac de mots et la pondération des termes communs par TF-IDF.",
+        "question_type": "function",
+        "answer": "la fréquence de chaque mot du vocabulaire dans un document",
+        "evidence": "Une représentation en sac de mots enregistre la fréquence de chaque mot du vocabulaire dans un document.",
+        "answer_start": 45
+      }
+    ],
+    "drafts": [
+      {
+        "question": "Quelle est la fréquence de la représentation en sac de mots ?",
+        "answer": "l'ordre des mots",
+        "answer_start": 126,
+        "evidence": "Elle ne conserve pas l'ordre des mots.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 129,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Comprendre l'information perdue par le sac de mots et la pondération des termes communs par TF-IDF.",
+        "question_type": "concept"
+      },
+      {
+        "question": "Qu'est-ce qui permet de mettre en évidence les termes ?",
+        "answer": "mettre en évidence les termes qui distinguent un document des autres",
+        "answer_start": 408,
+        "evidence": "Cela permet de mettre en évidence les termes qui distinguent un document des autres.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 129,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Comprendre l'information perdue par le sac de mots et la pondération des termes communs par TF-IDF.",
+        "question_type": "function"
+      },
+      {
+        "question": "Qu'enregistre une représentation en sac de mots ?",
+        "answer": "la fréquence de chaque mot du vocabulaire dans un document",
+        "answer_start": 45,
+        "evidence": "Une représentation en sac de mots enregistre la fréquence de chaque mot du vocabulaire dans un document.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 129,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "Comprendre l'information perdue par le sac de mots et la pondération des termes communs par TF-IDF.",
+        "question_type": "function"
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "Comprendre l'information perdue par le sac de mots et la pondération des termes communs par TF-IDF.",
+    "educational_quality_status": "not_human_rated",
+    "returned": 3,
+    "seconds": 48.49559020000743
+  },
+  "seconds": 52.9393529999943
+}

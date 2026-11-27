@@ -1,0 +1,372 @@
+{
+  "case_id": "learning:training_and_evaluation:ar",
+  "language": "ar",
+  "group": "learning:training_and_evaluation",
+  "context": "تستخدم بيانات التدريب لتحديث أوزان النموذج. وتستخدم بيانات التحقق لاختيار المعلمات الفائقة مثل معدل التعلم. تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي حتى لا تؤثر نتيجتها في اختيار النموذج. عندما تأتي عدة أسئلة من المقال نفسه، يوضع المقال كاملا في قسم واحد لتجنب مشاركة حقائقه بين التدريب والتقييم.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "كم عدد الأقسام في المقال؟",
+        "answer": "واحد لتجنب",
+        "answer_start": 257,
+        "evidence": "عندما تأتي عدة أسئلة من المقال نفسه، يوضع المقال كاملا في قسم واحد لتجنب مشاركة حقائقه بين التدريب والتقييم.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 64,
+        "cropped": false,
+        "lexical_relevance": 0.23570226039551587,
+        "answer_leak": false,
+        "qa_answer": "قسم واحد",
+        "qa_score": 0.5586154460906982,
+        "answer_f1": 0.5,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "كيف يتم تحديث أوزان النموذج؟",
+        "answer": "حتى",
+        "answer_start": 136,
+        "evidence": "تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي حتى لا تؤثر نتيجتها في اختيار النموذج.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 63,
+        "cropped": false,
+        "lexical_relevance": 0.11952286093343936,
+        "answer_leak": false,
+        "qa_answer": "بيانات التدريب",
+        "qa_score": 0.7016175389289856,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "كيف يتم تحديث أوزان النموذج؟",
+        "answer": "تستخدم بيانات التدريب",
+        "answer_start": 0,
+        "evidence": "تستخدم بيانات التدريب لتحديث أوزان النموذج.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 65,
+        "cropped": false,
+        "lexical_relevance": 0.3651483716701107,
+        "answer_leak": false,
+        "qa_answer": "بيانات التدريب",
+        "qa_score": 0.7016175389289856,
+        "answer_f1": 0.8,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ],
+    "planned_t5": [
+      {
+        "question": "ما هي النتيجة النهائية للإختبار النهائي؟",
+        "answer": "لا تؤثر نتيجتها في اختيار النموذج",
+        "answer_start": 160,
+        "evidence": "تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي حتى لا تؤثر نتيجتها في اختيار النموذج.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 68,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم أدوار بيانات التدريب والتحقق والاختبار وسبب وضع المقال كاملا في قسم واحد.",
+        "question_type": "cause_effect",
+        "lexical_relevance": 0.1336306209562122,
+        "answer_leak": false,
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      },
+      {
+        "question": "كيف يتم وضع المقالات كاملة في قسم واحد؟",
+        "answer": "تجنب مشاركة حقائقه بين التدريب والتقييم",
+        "answer_start": 263,
+        "evidence": "عندما تأتي عدة أسئلة من المقال نفسه، يوضع المقال كاملا في قسم واحد لتجنب مشاركة حقائقه بين التدريب والتقييم.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 69,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم أدوار بيانات التدريب والتحقق والاختبار وسبب وضع المقال كاملا في قسم واحد.",
+        "question_type": "cause_effect",
+        "lexical_relevance": 0.1781741612749496,
+        "answer_leak": false,
+        "qa_answer": "عندما تأتي عدة أسئلة من المقال نفسه،",
+        "qa_score": 0.5275946771726012,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "ما الذي تستخدمه بيانات التدريب؟",
+        "answer": "تحديث أوزان النموذج",
+        "answer_start": 23,
+        "evidence": "تستخدم بيانات التدريب لتحديث أوزان النموذج.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 66,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "فهم أدوار بيانات التدريب والتحقق والاختبار وسبب وضع المقال كاملا في قسم واحد.",
+        "question_type": "function",
+        "lexical_relevance": 0.47140452079103173,
+        "answer_leak": false,
+        "qa_answer": "لتحديث أوزان النموذج.",
+        "qa_score": 0.9854689294006675,
+        "answer_f1": 0.6666666666666666,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ],
+    "learning_hybrid": [
+      {
+        "question": "لماذا تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي؟",
+        "answer": "لا تؤثر نتيجتها في اختيار النموذج",
+        "answer_start": 160,
+        "evidence": "تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي حتى لا تؤثر نتيجتها في اختيار النموذج.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 68,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم أدوار بيانات التدريب والتحقق والاختبار وسبب وضع المقال كاملا في قسم واحد.",
+        "question_type": "cause_effect",
+        "draft_question": "ما هي النتيجة النهائية للإختبار النهائي؟",
+        "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "lexical_relevance": 0.7559289460184544,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "حتى لا تؤثر نتيجتها في اختيار النموذج.",
+        "qa_score": 0.8551767282187939,
+        "answer_f1": 0.9230769230769231,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "كيف يتم وضع المقالات كاملة في قسم واحد؟",
+        "answer": "تجنب مشاركة حقائقه بين التدريب والتقييم",
+        "answer_start": 263,
+        "evidence": "عندما تأتي عدة أسئلة من المقال نفسه، يوضع المقال كاملا في قسم واحد لتجنب مشاركة حقائقه بين التدريب والتقييم.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 69,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم أدوار بيانات التدريب والتحقق والاختبار وسبب وضع المقال كاملا في قسم واحد.",
+        "question_type": "cause_effect",
+        "draft_question": "كيف يتم وضع المقالات كاملة في قسم واحد؟",
+        "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "lexical_relevance": 0.1781741612749496,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "عندما تأتي عدة أسئلة من المقال نفسه،",
+        "qa_score": 0.5275946771726012,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "ما الذي تستخدمه بيانات التدريب؟",
+        "answer": "تحديث أوزان النموذج",
+        "answer_start": 23,
+        "evidence": "تستخدم بيانات التدريب لتحديث أوزان النموذج.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 66,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "فهم أدوار بيانات التدريب والتحقق والاختبار وسبب وضع المقال كاملا في قسم واحد.",
+        "question_type": "function",
+        "draft_question": "ما الذي تستخدمه بيانات التدريب؟",
+        "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+        "lexical_relevance": 0.47140452079103173,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "لتحديث أوزان النموذج.",
+        "qa_score": 0.9854689294006675,
+        "answer_f1": 0.6666666666666666,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-v3",
+    "planner_model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "planner_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 3,
+    "rejected_facts": [],
+    "candidate_pool": [
+      {
+        "candidate_id": 0,
+        "answer": "لا تؤثر نتيجتها في اختيار النموذج",
+        "answer_start": 160,
+        "evidence": "تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي حتى لا تؤثر نتيجتها في اختيار النموذج.",
+        "question_type": "cause_effect",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 1,
+        "answer": "تجنب مشاركة حقائقه بين التدريب والتقييم",
+        "answer_start": 263,
+        "evidence": "عندما تأتي عدة أسئلة من المقال نفسه، يوضع المقال كاملا في قسم واحد لتجنب مشاركة حقائقه بين التدريب والتقييم.",
+        "question_type": "cause_effect",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 2,
+        "answer": "تحديث أوزان النموذج",
+        "answer_start": 23,
+        "evidence": "تستخدم بيانات التدريب لتحديث أوزان النموذج.",
+        "question_type": "function",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 3,
+        "answer": "اختيار المعلمات الفائقة مثل معدل التعلم",
+        "answer_start": 67,
+        "evidence": "وتستخدم بيانات التحقق لاختيار المعلمات الفائقة مثل معدل التعلم.",
+        "question_type": "function",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 4,
+        "answer": "تستخدم بيانات التدريب لتحديث أوزان النموذج",
+        "answer_start": 0,
+        "evidence": "تستخدم بيانات التدريب لتحديث أوزان النموذج.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 5,
+        "answer": "وتستخدم بيانات التحقق لاختيار المعلمات الفائقة مثل معدل التعلم",
+        "answer_start": 44,
+        "evidence": "وتستخدم بيانات التحقق لاختيار المعلمات الفائقة مثل معدل التعلم.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 6,
+        "answer": "تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي حتى لا تؤثر نتيجتها في اختيار النموذج",
+        "answer_start": 108,
+        "evidence": "تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي حتى لا تؤثر نتيجتها في اختيار النموذج.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 7,
+        "answer": "عندما تأتي عدة أسئلة من المقال نفسه، يوضع المقال كاملا في قسم واحد لتجنب مشاركة حقائقه بين التدريب والتقييم",
+        "answer_start": 195,
+        "evidence": "عندما تأتي عدة أسئلة من المقال نفسه، يوضع المقال كاملا في قسم واحد لتجنب مشاركة حقائقه بين التدريب والتقييم.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      }
+    ],
+    "raw_plan": "[0, 1, 2]",
+    "raw_edit": "[\n    {\n        \"index\": 0,\n        \"question\": \"لماذا تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي؟\"\n    },\n    {\n        \"index\": 1,\n        \"question\": \"كيف يتم وضع المقالات كاملة في قسم واحد؟\"\n    },\n    {\n        \"index\": 2,\n        \"question\": \"ما الذي تستخدمه بيانات التدريب؟\"\n    }\n]",
+    "facts": [
+      {
+        "learning_goal": "فهم أدوار بيانات التدريب والتحقق والاختبار وسبب وضع المقال كاملا في قسم واحد.",
+        "question_type": "cause_effect",
+        "answer": "لا تؤثر نتيجتها في اختيار النموذج",
+        "evidence": "تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي حتى لا تؤثر نتيجتها في اختيار النموذج.",
+        "answer_start": 160
+      },
+      {
+        "learning_goal": "فهم أدوار بيانات التدريب والتحقق والاختبار وسبب وضع المقال كاملا في قسم واحد.",
+        "question_type": "cause_effect",
+        "answer": "تجنب مشاركة حقائقه بين التدريب والتقييم",
+        "evidence": "عندما تأتي عدة أسئلة من المقال نفسه، يوضع المقال كاملا في قسم واحد لتجنب مشاركة حقائقه بين التدريب والتقييم.",
+        "answer_start": 263
+      },
+      {
+        "learning_goal": "فهم أدوار بيانات التدريب والتحقق والاختبار وسبب وضع المقال كاملا في قسم واحد.",
+        "question_type": "function",
+        "answer": "تحديث أوزان النموذج",
+        "evidence": "تستخدم بيانات التدريب لتحديث أوزان النموذج.",
+        "answer_start": 23
+      }
+    ],
+    "drafts": [
+      {
+        "question": "ما هي النتيجة النهائية للإختبار النهائي؟",
+        "answer": "لا تؤثر نتيجتها في اختيار النموذج",
+        "answer_start": 160,
+        "evidence": "تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي حتى لا تؤثر نتيجتها في اختيار النموذج.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 68,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم أدوار بيانات التدريب والتحقق والاختبار وسبب وضع المقال كاملا في قسم واحد.",
+        "question_type": "cause_effect"
+      },
+      {
+        "question": "كيف يتم وضع المقالات كاملة في قسم واحد؟",
+        "answer": "تجنب مشاركة حقائقه بين التدريب والتقييم",
+        "answer_start": 263,
+        "evidence": "عندما تأتي عدة أسئلة من المقال نفسه، يوضع المقال كاملا في قسم واحد لتجنب مشاركة حقائقه بين التدريب والتقييم.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 69,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم أدوار بيانات التدريب والتحقق والاختبار وسبب وضع المقال كاملا في قسم واحد.",
+        "question_type": "cause_effect"
+      },
+      {
+        "question": "ما الذي تستخدمه بيانات التدريب؟",
+        "answer": "تحديث أوزان النموذج",
+        "answer_start": 23,
+        "evidence": "تستخدم بيانات التدريب لتحديث أوزان النموذج.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 66,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "فهم أدوار بيانات التدريب والتحقق والاختبار وسبب وضع المقال كاملا في قسم واحد.",
+        "question_type": "function"
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "فهم أدوار بيانات التدريب والتحقق والاختبار وسبب وضع المقال كاملا في قسم واحد.",
+    "educational_quality_status": "not_human_rated",
+    "returned": 3,
+    "seconds": 52.13083579999511
+  },
+  "seconds": 55.819457599995076
+}
