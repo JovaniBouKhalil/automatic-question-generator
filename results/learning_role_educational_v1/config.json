@@ -1,0 +1,42 @@
+{
+  "version": "answer-role-v1",
+  "split": "educational_development",
+  "variant": "edit",
+  "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+  "planner_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+  "cpu_precision": "none-float32",
+  "greedy_edit": true,
+  "source_study": "results/learning_focus_educational_4b_v1",
+  "source_case_sha256": {
+    "results/learning_focus_educational_4b_v1/learning_light_and_voltage_ar.json": "99f3536eb9326a2e810ae1e96288b8a7593f1b21d5d2dc4ea592d8a349d09a0b",
+    "results/learning_focus_educational_4b_v1/learning_light_and_voltage_en.json": "82e47be1b84979ff4b3a12ceb01a9e51de96be8579e48e8d2dbe45e1aef8d682",
+    "results/learning_focus_educational_4b_v1/learning_light_and_voltage_fr.json": "5e99d260597d46e0587b61e3c5cce17ecf4ce820e272395a98942b7e299a1c59",
+    "results/learning_focus_educational_4b_v1/learning_text_representation_ar.json": "4f6676a14487bfd9939a63e483a0439ff93433007b43fed3138c96b3dce2242b",
+    "results/learning_focus_educational_4b_v1/learning_text_representation_en.json": "51eb557c332308e7757d4a3f2feddc954b234632f4009e06e8f7c9f7047dc174",
+    "results/learning_focus_educational_4b_v1/learning_text_representation_fr.json": "ddc063357e66d3d72d042cdd31571fb2defef176f4b27cc2f5f25f0dd95160c3",
+    "results/learning_focus_educational_4b_v1/learning_training_and_evaluation_ar.json": "09fcffb6876ed73d4888d3985398a9e7052b874bfae3e254caa6463cfe60c896",
+    "results/learning_focus_educational_4b_v1/learning_training_and_evaluation_en.json": "64f352e16543e9dbe4c7080172a800728092637cd357febc58e27aac706e5e66",
+    "results/learning_focus_educational_4b_v1/learning_training_and_evaluation_fr.json": "c8c876bcf4c84451af2d7e11ec6fe192316259d9551fcb04074de1aa9bb569ec"
+  },
+  "source_sha256_normalized_utf8": {
+    "scripts/reedit_saved_learning.py": "9779705d83997cd464c33d07c6515b20864299a5c6cd376d289e2863f246a06e",
+    "scripts/run_learning_focus_study.py": "9a4a9a6d41e8088e48ab32c8868c50e4f539cdaa36a09014d5c1ddfdce4bdb0a",
+    "docs/ANSWER_ROLE_PROTOCOL.md": "df9a4228e277876d78b2f97290cd13367471177f86cd741640ece8ce6de25563",
+    "results/learning_focus/refinement_selection.json": "a7236a093715ec2afc0ea0be95e4dc2cc2d3dceb93825bd87bc287dd5da8f233",
+    "questionforge/learning/exports.py": "f33859cbd473758be261326e431642b746489d170e8b4b81cfc5557380d923e8",
+    "questionforge/learning/focus.py": "f20363421f14bb96dfd0cde1babe0b7a4c559a739a3a4785223e953c784252b3",
+    "questionforge/learning/pipeline.py": "86c1c44be592fb2783f926299a3868d4b0b861a6193968f408a1550766ed0d4e",
+    "questionforge/learning/planning.py": "46676e20ffa5c3805e250a620d51ea4c646cd6d5ee55f70ad35a6ae807c3745a",
+    "questionforge/learning/quality.py": "8cfc964cc6370a22933d8528207a322603b3b8999dde2da07813582b18f9999e",
+    "questionforge/learning/rules.py": "5b7bbeaef05d6ba44b59dbe87b9374bb55e8147bad12ccf5992f7e4b00f787d5",
+    "questionforge/learning/__init__.py": "3048dc41f62d658304a560989114c9398e1aebb46f3ade9a1999d76bbf35dfca",
+    "questionforge/models.py": "2e01ba40843e8adcdf6801ad7e00920a9027dad18d2489fc17abc4567b4743ba",
+    "questionforge/registry.py": "47d8888cd92faf65e3e81c0d936b6dbc0c9d35e0841e37e65df3de1923ed471e",
+    "questionforge/text.py": "b454a3ee27ce5d02407cb6776db7f4c911c722fc014c8405ec223550c3cb6b58",
+    "questionforge/metrics.py": "64a83578331afb11fc51d1a90908452e70a70b1d808f7e079bae742d0f5f8a75",
+    "questionforge/verification.py": "0afe21469cead9539b440110dc416aea248b2f4422f5f348dda97c497ea8a8b3",
+    "questionforge/experiment.py": "74b84b99a36339f558d5214377d330e742976b15f8387fa39d4dc3e7489457a9"
+  },
+  "data_sha256": "6d4bb67c1fb424f67b26800da314c0d44461852881f0151f083d7ca164640de9",
+  "interpretation": "Development re-edit only. Facts, offsets, goals and T5 drafts are fixed; QA recovery is not educational usefulness."
+}

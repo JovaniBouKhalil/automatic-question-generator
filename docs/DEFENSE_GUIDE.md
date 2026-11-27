@@ -218,6 +218,12 @@ This changes the classroom quiz, while stored experiment outputs and reported me
 remain intact. Read the source even when the checker accepts an item: acceptance is
 an imperfect automated decision, not a correctness guarantee.
 
+**What happens when I edit a question?** The app keeps the original generated record,
+clears old QA results from the revision and starts its export checkbox unselected.
+Exports identify the revision and retain the original wording/model. A score for an
+earlier question cannot establish that edited wording has the same support. Empty
+revisions cannot be exported. Editing a demo never changes stored benchmark results.
+
 ## Human review procedure
 
 Annotate relevance, answerability and fluency independently on a 0–2 scale: 0 = poor, 1 = partial,

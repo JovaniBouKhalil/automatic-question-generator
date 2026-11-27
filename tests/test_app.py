@@ -68,6 +68,12 @@ def test_learning_mode_passes_objective_and_shows_the_seq2seq_draft(monkeypatch,
     assert calls[0][3]["objective"] == "Understand how the filter works."
     assert app.session_state["questions"][0]["method"] == "learning_focused_hybrid"
     assert any("Understand the mesh" in element.value for element in app.markdown)
+    if stronger:
+        assert calls[0][3]["role_focus"] is True
+        next(toggle for toggle in app.sidebar.toggle if toggle.label == "Guide the target answer's role").set_value(False)
+        app.run()
+        app.button[1].click().run()
+        assert not app.exception and calls[1][3]["role_focus"] is False
 
 
 def test_switching_learning_mode_keeps_the_users_passage_and_target():
@@ -129,6 +135,66 @@ def test_printable_quiz_includes_the_passage_and_escapes_user_text():
     assert "&lt;script&gt;bad()&lt;/script&gt;" in student and "<script>" not in student
     assert "المرشح يحجز الأوراق." in student and "Understand &lt;the filter&gt;." in student
     assert "<strong>Answer /" not in student and "<strong>Answer /" in key
+
+
+def test_teacher_revision_preserves_generation_and_removes_stale_qa():
+    import copy
+
+    from app import revise_question
+
+    original = {"question": "Who invented the panel?", "answer": "Lina", "language": "en",
+                "evidence": "Lina connected the panel.", "method": "learning_focused_hybrid",
+                "model_id": "Qwen/editor", "model_revision": "pinned", "draft_model_id": "T5/base",
+                "edit_recipe": "answer-role-v1", "qa_answer": "Lina", "qa_score": .9,
+                "answer_f1": 1., "answer_em": 1., "accepted": True, "review_reasons": [], "verifier": "original"}
+    saved = copy.deepcopy(original)
+    revised = revise_question(original, "Who connected the panel?")
+    assert original == saved and revised["answer"] == original["answer"]
+    assert revised["original_question"] == original["question"]
+    assert revised["model_id"] == "teacher_revision" and revised["generation_model_id"] == "Qwen/editor"
+    assert revised["generation_model_revision"] == "pinned" and revised["draft_model_id"] == "T5/base"
+    assert revised["generation_edit_recipe"] == "answer-role-v1" and revised["teacher_edited"]
+    assert not any(key in revised for key in ["qa_answer", "qa_score", "answer_f1", "answer_em", "accepted", "verifier"])
+    assert revise_question(original, original["question"]) == original
+
+
+def test_teacher_csv_keeps_revision_provenance_and_literal_formulas():
+    import csv
+    import io
+
+    from app import classroom_csv, revise_question
+
+    row = {"question": "=unsafe()", "answer": "Lina", "language": "en", "evidence": "Lina connected the panel.",
+           "method": "learning_focused_hybrid", "model_id": "Qwen/editor", "learning_goal": "Understand the action."}
+    data = classroom_csv([revise_question(row, "Who connected the panel?")])
+    exported = next(csv.DictReader(io.StringIO(data.lstrip("\ufeff"), newline="")))
+    assert data.startswith("\ufeff") and exported["original_question"] == "'=unsafe()"
+    assert exported["question"] == "Who connected the panel?" and exported["teacher_edited"] == "True"
+    assert exported["model_id"] == "teacher_revision" and exported["generation_model_id"] == "Qwen/editor"
+
+
+def test_editing_wording_resets_export_selection_and_keeps_the_generated_record():
+    import copy
+
+    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
+    app.sidebar.selectbox[1].select("Template baseline")
+    app.sidebar.toggle[0].set_value(False)
+    app.run()
+    app.text_area[1].input("Lina")
+    app.button[1].click().run()
+    original = copy.deepcopy(app.session_state["questions"])
+    next(area for area in app.text_area if area.label == "Revised question").input("Who planted the seeds in the tray?").run()
+    assert not app.exception and app.session_state["questions"] == original
+    pick = next(box for box in app.checkbox if box.label == "Include in quiz exports")
+    assert not pick.value
+    pick.check().run()
+    assert any("Selected 1 of 1" in text.value for text in app.markdown)
+    next(area for area in app.text_area if area.label == "Revised question").input("Which student planted the seeds?").run()
+    assert not next(box for box in app.checkbox if box.label == "Include in quiz exports").value
+    next(area for area in app.text_area if area.label == "Revised question").input("").run()
+    assert not app.exception and app.error
+    assert next(box for box in app.checkbox if box.label == "Include in quiz exports").disabled
+    assert app.session_state["questions"] == original
 
 
 @pytest.mark.integration

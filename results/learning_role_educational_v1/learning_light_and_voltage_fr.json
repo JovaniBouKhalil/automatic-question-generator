@@ -1,0 +1,324 @@
+{
+  "case_id": "learning:light_and_voltage:fr",
+  "language": "fr",
+  "group": "learning:light_and_voltage",
+  "context": "Un panneau solaire convertit la lumière en énergie électrique. Dans une expérience en classe, le panneau a produit six volts en plein soleil. Un écran en carton a réduit la lumière atteignant le panneau, et la tension mesurée est tombée à deux volts. L'écran servait à comparer la production du panneau sous différentes quantités de lumière.",
+  "source_case": "results/learning_focus_educational_4b_v1/learning_light_and_voltage_fr.json",
+  "source_case_sha256": "5e99d260597d46e0587b61e3c5cce17ecf4ce820e272395a98942b7e299a1c59",
+  "outputs": {
+    "planned_t5": [
+      {
+        "question": "Que servait l'écran ?",
+        "answer": "comparer la production du panneau sous différentes quantités de lumière",
+        "answer_start": 269,
+        "evidence": "L'écran servait à comparer la production du panneau sous différentes quantités de lumière.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 103,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Comprendre la fonction du panneau, la comparaison expérimentale et l'effet indiqué de l'ombre.",
+        "question_type": "function",
+        "lexical_relevance": 0.3849001794597505,
+        "answer_leak": false,
+        "qa_answer": "comparer la production du panneau sous différentes quantités de lumière.",
+        "qa_score": 0.33411090448498726,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "En quoi convertit la lumière ?",
+        "answer": "énergie électrique",
+        "answer_start": 43,
+        "evidence": "Un panneau solaire convertit la lumière en énergie électrique.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 103,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Comprendre la fonction du panneau, la comparaison expérimentale et l'effet indiqué de l'ombre.",
+        "question_type": "function",
+        "lexical_relevance": 0.47140452079103173,
+        "answer_leak": false,
+        "qa_answer": "énergie électrique.",
+        "qa_score": 0.9616050012409687,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ],
+    "baseline_hybrid": [
+      {
+        "question": "Pourquoi l'écran en carton a-t-il été utilisé dans l'expérience ?",
+        "answer": "comparer la production du panneau sous différentes quantités de lumière",
+        "answer_start": 269,
+        "evidence": "L'écran servait à comparer la production du panneau sous différentes quantités de lumière.",
+        "language": "fr",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 103,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Comprendre la fonction du panneau, la comparaison expérimentale et l'effet indiqué de l'ombre.",
+        "question_type": "function",
+        "draft_question": "Que servait l'écran ?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/mt5-small-frquad-qg",
+        "lexical_relevance": 0.11785113019775793,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "réduit la lumière atteignant le panneau,",
+        "qa_score": 0.2895883470773697,
+        "answer_f1": 0.375,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "En quoi la lumière est-elle convertie par le panneau solaire ?",
+        "answer": "énergie électrique",
+        "answer_start": 43,
+        "evidence": "Un panneau solaire convertit la lumière en énergie électrique.",
+        "language": "fr",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 103,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Comprendre la fonction du panneau, la comparaison expérimentale et l'effet indiqué de l'ombre.",
+        "question_type": "function",
+        "draft_question": "En quoi convertit la lumière ?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/mt5-small-frquad-qg",
+        "lexical_relevance": 0.5477225575051661,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "énergie électrique.",
+        "qa_score": 0.9618288390338421,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ],
+    "role_hybrid": [
+      {
+        "question": "Quel était le but de l'écran en carton dans l'expérience ?",
+        "answer": "comparer la production du panneau sous différentes quantités de lumière",
+        "answer_start": 269,
+        "evidence": "L'écran servait à comparer la production du panneau sous différentes quantités de lumière.",
+        "language": "fr",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 103,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Comprendre la fonction du panneau, la comparaison expérimentale et l'effet indiqué de l'ombre.",
+        "question_type": "function",
+        "draft_question": "Que servait l'écran ?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/mt5-small-frquad-qg",
+        "edit_recipe": "answer-role-v1",
+        "lexical_relevance": 0.14907119849998599,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "réduit la lumière atteignant le panneau,",
+        "qa_score": 0.471144113689661,
+        "answer_f1": 0.375,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "En quoi la lumière est-elle convertie par le panneau solaire ?",
+        "answer": "énergie électrique",
+        "answer_start": 43,
+        "evidence": "Un panneau solaire convertit la lumière en énergie électrique.",
+        "language": "fr",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 103,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Comprendre la fonction du panneau, la comparaison expérimentale et l'effet indiqué de l'ombre.",
+        "question_type": "function",
+        "draft_question": "En quoi convertit la lumière ?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/mt5-small-frquad-qg",
+        "edit_recipe": "answer-role-v1",
+        "lexical_relevance": 0.5477225575051661,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "énergie électrique.",
+        "qa_score": 0.9618288390338421,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ]
+  },
+  "error": null,
+  "edit_payload": {
+    "language": "Français",
+    "learning_objective": "Comprendre la fonction du panneau, la comparaison expérimentale et l'effet indiqué de l'ombre.",
+    "passage": "Un panneau solaire convertit la lumière en énergie électrique. Dans une expérience en classe, le panneau a produit six volts en plein soleil. Un écran en carton a réduit la lumière atteignant le panneau, et la tension mesurée est tombée à deux volts. L'écran servait à comparer la production du panneau sous différentes quantités de lumière.",
+    "facts": [
+      {
+        "learning_goal": "Comprendre la fonction du panneau, la comparaison expérimentale et l'effet indiqué de l'ombre.",
+        "question_type": "function",
+        "answer": "comparer la production du panneau sous différentes quantités de lumière",
+        "evidence": "L'écran servait à comparer la production du panneau sous différentes quantités de lumière.",
+        "answer_start": 269,
+        "index": 0,
+        "answer_focus": "Intended use or purpose: ask what the thing/data is used for. Do not phrase the data as an agent using another object. Arabic pattern: ما الغرض من استخدام ...؟",
+        "draft_question": "Que servait l'écran ?"
+      },
+      {
+        "learning_goal": "Comprendre la fonction du panneau, la comparaison expérimentale et l'effet indiqué de l'ombre.",
+        "question_type": "function",
+        "answer": "énergie électrique",
+        "evidence": "Un panneau solaire convertit la lumière en énergie électrique.",
+        "answer_start": 43,
+        "index": 1,
+        "answer_focus": "Conversion output: ask what the source device converts its input into. The target names the resulting output, not the converting device.",
+        "draft_question": "En quoi convertit la lumière ?"
+      }
+    ]
+  },
+  "planning_report": {
+    "version": "answer-role-v1",
+    "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+    "planner_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 2,
+    "rejected_facts": [
+      {
+        "index": 2,
+        "item": 5,
+        "reason": "duplicate evidence statement"
+      }
+    ],
+    "candidate_pool": [
+      {
+        "candidate_id": 0,
+        "answer": "énergie électrique",
+        "answer_start": 43,
+        "evidence": "Un panneau solaire convertit la lumière en énergie électrique.",
+        "question_type": "function",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 1,
+        "answer": "comparer la production du panneau sous différentes quantités de lumière",
+        "answer_start": 269,
+        "evidence": "L'écran servait à comparer la production du panneau sous différentes quantités de lumière.",
+        "question_type": "function",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 2,
+        "answer": "Un panneau solaire convertit la lumière en énergie électrique",
+        "answer_start": 0,
+        "evidence": "Un panneau solaire convertit la lumière en énergie électrique.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 3,
+        "answer": "Dans une expérience en classe, le panneau a produit six volts en plein soleil",
+        "answer_start": 63,
+        "evidence": "Dans une expérience en classe, le panneau a produit six volts en plein soleil.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 4,
+        "answer": "Un écran en carton a réduit la lumière atteignant le panneau, et la tension mesurée est tombée à deux volts",
+        "answer_start": 142,
+        "evidence": "Un écran en carton a réduit la lumière atteignant le panneau, et la tension mesurée est tombée à deux volts.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 5,
+        "answer": "L'écran servait à comparer la production du panneau sous différentes quantités de lumière",
+        "answer_start": 251,
+        "evidence": "L'écran servait à comparer la production du panneau sous différentes quantités de lumière.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      }
+    ],
+    "raw_plan": "[1, 0, 5]",
+    "raw_edit": "[\n  {\n    \"index\": 0,\n    \"question\": \"Quel était le but de l'écran en carton dans l'expérience ?\"\n  },\n  {\n    \"index\": 1,\n    \"question\": \"En quoi la lumière est-elle convertie par le panneau solaire ?\"\n  }\n]",
+    "facts": [
+      {
+        "learning_goal": "Comprendre la fonction du panneau, la comparaison expérimentale et l'effet indiqué de l'ombre.",
+        "question_type": "function",
+        "answer": "comparer la production du panneau sous différentes quantités de lumière",
+        "evidence": "L'écran servait à comparer la production du panneau sous différentes quantités de lumière.",
+        "answer_start": 269
+      },
+      {
+        "learning_goal": "Comprendre la fonction du panneau, la comparaison expérimentale et l'effet indiqué de l'ombre.",
+        "question_type": "function",
+        "answer": "énergie électrique",
+        "evidence": "Un panneau solaire convertit la lumière en énergie électrique.",
+        "answer_start": 43
+      }
+    ],
+    "drafts": [
+      {
+        "question": "Que servait l'écran ?",
+        "answer": "comparer la production du panneau sous différentes quantités de lumière",
+        "answer_start": 269,
+        "evidence": "L'écran servait à comparer la production du panneau sous différentes quantités de lumière.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 103,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Comprendre la fonction du panneau, la comparaison expérimentale et l'effet indiqué de l'ombre.",
+        "question_type": "function"
+      },
+      {
+        "question": "En quoi convertit la lumière ?",
+        "answer": "énergie électrique",
+        "answer_start": 43,
+        "evidence": "Un panneau solaire convertit la lumière en énergie électrique.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 103,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Comprendre la fonction du panneau, la comparaison expérimentale et l'effet indiqué de l'ombre.",
+        "question_type": "function"
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "Comprendre la fonction du panneau, la comparaison expérimentale et l'effet indiqué de l'ombre.",
+    "educational_quality_status": "not_human_rated",
+    "returned": 2,
+    "seconds": 96.04887620000227,
+    "baseline_raw_edit": "[\n  {\n    \"index\": 0,\n    \"question\": \"Pourquoi l'écran en carton a-t-il été utilisé dans l'expérience ?\"\n  },\n  {\n    \"index\": 1,\n    \"question\": \"En quoi la lumière est-elle convertie par le panneau solaire ?\"\n  }\n]",
+    "refinement_variant": "edit",
+    "edit_recipe": "answer-role-v1"
+  },
+  "seconds": 83.69565409999632
+}

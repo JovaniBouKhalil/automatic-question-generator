@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import csv
 import hashlib
 import html
 import io
@@ -73,6 +74,42 @@ def classroom_worksheet(rows, context, include_answers=False):
     return page.replace("<ol>", goal + passage + "<h2>Questions</h2><ol>", 1)
 
 
+def revise_question(row, wording):
+    """Preserve the generated record; an edited question cannot inherit its QA result."""
+    wording = wording.strip()
+    revised = dict(row)
+    if wording == row["question"].strip():
+        return revised
+    revised.update(question=wording, original_question=row["question"], teacher_edited=True,
+                   generation_method=row["method"], method="teacher_revision",
+                   generation_model_id=row.get("model_id", ""), model_id="teacher_revision",
+                   generation_model_revision=row.get("model_revision", ""),
+                   generation_edit_recipe=row.get("edit_recipe", ""), edit_recipe="teacher-wording-revision",
+                   educational_quality_status="teacher_edited_unrated")
+    for key in ["qa_answer", "qa_score", "answer_f1", "answer_em", "accepted", "review_reasons",
+                "verifier", "model_revision"]:
+        revised.pop(key, None)
+    revised["lexical_relevance"] = lexical_relevance(wording, row["evidence"], row["language"])
+    revised["answer_leak"] = leaks_answer(wording, row["answer"], row["language"])
+    return revised
+
+
+def classroom_csv(rows):
+    base = learning_csv(rows) if any(row.get("learning_goal") for row in rows) else as_csv(rows)
+    reader = csv.DictReader(io.StringIO(base.lstrip("\ufeff"), newline=""))
+    extra = ["model_id", "teacher_edited", "original_question", "generation_method", "generation_model_id",
+             "generation_model_revision", "generation_edit_recipe"]
+    stream = io.StringIO(newline="")
+    writer = csv.DictWriter(stream, [*reader.fieldnames, *[key for key in extra if key not in reader.fieldnames]])
+    writer.writeheader()
+    for exported, original in zip(reader, rows):
+        for key in extra:
+            value = original.get(key, False if key == "teacher_edited" else "")
+            exported[key] = "'" + value if isinstance(value, str) and value.lstrip().startswith(("=", "+", "-", "@")) else value
+        writer.writerow(exported)
+    return "\ufeff" + stream.getvalue()
+
+
 def main():
     st.set_page_config(page_title="QuestionForge · From passage to practice", page_icon="✦", layout="wide")
     st.markdown("""<style>
@@ -104,6 +141,7 @@ def main():
                                                     "Learning-focused hybrid 4B (experimental)"])
         learning_mode = method.startswith("Learning-focused")
         quality_mode = "4B" in method
+        role_guidance = True
         if learning_mode:
             if "hybrid" in method:
                 st.caption("Selects important facts, creates T5 drafts, then edits questions for understanding. The local editor takes longer.")
@@ -147,6 +185,9 @@ def main():
                                                   help="The science adapter was selected on SciQ validation loss. Compare its questions with the original model.")
                         if adaptation == "Educational science":
                             checkpoint = str(ROOT / science["selected_checkpoint"])
+        if quality_mode:
+            role_guidance = st.toggle("Guide the target answer's role", value=True,
+                                      help="Adds cues for functions, purposes, limitations and comparisons. Disable to compare the original 4B editor; both styles need source review.")
         count = st.slider("Questions to create", 1, 8, 3)
         st.divider()
         st.markdown("**Works locally. No paid API.**")
@@ -198,7 +239,7 @@ def main():
             st.caption(f"{len(passage):,} characters · Questions stay in the selected language.")
         with right:
             st.subheader("02 / Choose your facts")
-            st.write("Add exact answers from the passage, one per line. Leave this blank to suggest key facts automatically.")
+            st.write("Add short, exact answer phrases from the passage, one per line. Leave this blank to suggest key facts automatically.")
             manual = st.text_area("Target answers (optional)", key=f"answers_{language}", height=130,
                                    placeholder=({"en": "update a model's weights\nchoose hyperparameters",
                                                  "fr": "mettre à jour les poids d'un modèle\nchoisir les hyperparamètres",
@@ -250,7 +291,8 @@ def main():
                             create = (create_quality_quiz if quality_mode else create_learning_quiz) if "hybrid" in method else create_learning_t5_quiz
                             rows, learning_report = create(passage, language, count,
                                         objective=objective, manual_answers=answers, beams=beams,
-                                        checkpoint=checkpoint, progress=st.write)
+                                        checkpoint=checkpoint, progress=st.write,
+                                        **({"role_focus": role_guidance} if quality_mode else {}))
                             st.session_state["learning_report"] = learning_report
                             for row in rows:
                                 row["learning_objective"] = objective
@@ -296,16 +338,28 @@ def main():
             a.metric("Questions", len(rows))
             b.metric("Generation + checks", f"{st.session_state.get('elapsed', 0):.1f} s")
             if st.session_state.get("verified"):
-                c.metric("QA answer agreement (token F1)", f"{100 * sum(r.get('answer_f1', 0) for r in rows) / len(rows):.0f}%")
-                st.caption("QA checks answer recovery. It does not measure educational usefulness or establish factual support.")
+                c.metric("Original QA answer agreement (token F1)", f"{100 * sum(r.get('answer_f1', 0) for r in rows) / len(rows):.0f}%")
+                st.caption("Scores describe the original generated questions. Edited wording is unchecked. QA recovery does not establish factual support or educational usefulness.")
             else:
                 c.metric("Answerability checks", "Not run")
             show_answers = st.toggle("Show answers and evidence", value=True)
             export_rows = []
             st.caption("Choose questions for the exported quiz. QA-flagged questions start unselected; inspect their evidence before including them.")
-            for i, row in enumerate(rows, 1):
+            for i, generated_row in enumerate(rows, 1):
                 with st.container(border=True):
-                    st.caption(f"QUESTION {i:02d} · {LANGUAGES[row['language']]} · {row['method']}")
+                    st.caption(f"QUESTION {i:02d} · {LANGUAGES[generated_row['language']]} · {generated_row['method']}")
+                    with st.expander("Edit question wording"):
+                        st.caption("Changing the wording clears its previous answerability scores. Inspect the source before including an edit.")
+                        wording = st.text_area("Revised question", value=generated_row["question"], height=95,
+                                               max_chars=400, key=f"wording_{st.session_state.get('quiz_revision', 0)}_{i}")
+                    row = revise_question(generated_row, wording)
+                    edited = row.get("teacher_edited", False)
+                    if edited:
+                        st.info("Wording edited · unchecked. Select it for export after reviewing the source.")
+                        with st.expander("Original generated question"):
+                            st.write(generated_row["question"])
+                    if not row["question"]:
+                        st.error("Question wording cannot be empty.")
                     st.markdown(f"<div class='question' dir='auto'>{html.escape(row['question'])}</div>", unsafe_allow_html=True)
                     if row.get("learning_goal"):
                         st.write("**Learning goal:** " + row["learning_goal"])
@@ -326,8 +380,10 @@ def main():
                                           "QA span score (uncalibrated)": round(row["qa_score"], 3),
                                           "Lexical relevance (cosine)": round(row["lexical_relevance"], 3)})
                                 st.caption("Agreement supports review; it does not establish factual correctness. A low score can also reflect a weak QA verifier.")
-                    if st.checkbox("Include in quiz exports", value=bool(row.get("accepted", True)),
-                                   key=f"export_pick_{st.session_state.get('quiz_revision', 0)}_{i}"):
+                    wording_id = hashlib.sha256(row["question"].encode("utf-8")).hexdigest()[:12]
+                    if st.checkbox("Include in quiz exports", value=not edited and bool(row.get("accepted", True)),
+                                   disabled=not row["question"],
+                                   key=f"export_pick_{st.session_state.get('quiz_revision', 0)}_{i}_{wording_id}") and row["question"]:
                         export_rows.append(row)
             st.subheader("Take it to class")
             st.write(f"Selected {len(export_rows)} of {len(rows)} questions for export.")
@@ -335,7 +391,7 @@ def main():
                 st.info("Select at least one question to enable quiz exports.")
             formats = st.columns(5)
             formats[0].download_button("JSON", as_json(export_rows), "questionforge.json", "application/json", disabled=not export_rows)
-            csv_output = learning_csv(export_rows) if any(row.get("learning_goal") for row in export_rows) else as_csv(export_rows)
+            csv_output = classroom_csv(export_rows)
             formats[1].download_button("CSV", csv_output, "questionforge.csv", "text/csv", disabled=not export_rows)
             context = st.session_state.get("quiz_context", "")
             formats[2].download_button("Worksheet", classroom_worksheet(export_rows, context), "worksheet.html", "text/html", disabled=not export_rows)

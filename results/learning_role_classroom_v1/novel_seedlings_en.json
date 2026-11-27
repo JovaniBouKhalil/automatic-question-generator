@@ -1,0 +1,416 @@
+{
+  "case_id": "novel:seedlings:en",
+  "language": "en",
+  "group": "novel:seedlings",
+  "context": "In a classroom experiment, Lina planted twelve bean seeds in a tray. She watered the tray every morning for eight days. Nine seeds germinated during the experiment.",
+  "source_case": "results/learning_focus_dev_4b_v1/novel_seedlings_en.json",
+  "source_case_sha256": "535f286a308f217951a352572ae02c7fc67ff613695c53b3a748600a54696eb2",
+  "outputs": {
+    "planned_t5": [
+      {
+        "question": "How many bean seeds did Lina plant in a tray?",
+        "answer": "Nine seeds germinated during the experiment",
+        "answer_start": 120,
+        "evidence": "Nine seeds germinated during the experiment.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 45,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "lexical_relevance": 0.15811388300841897,
+        "answer_leak": false,
+        "qa_answer": "twelve",
+        "qa_score": 0.9783309163176455,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "How long did Lina water the tray every morning?",
+        "answer": "She watered the tray every morning for eight days",
+        "answer_start": 69,
+        "evidence": "She watered the tray every morning for eight days.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 45,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "lexical_relevance": 0.4008918628686366,
+        "answer_leak": false,
+        "qa_answer": "eight days.",
+        "qa_score": 0.9912082720547915,
+        "answer_f1": 0.4,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "How many bean seeds did Lina plant in a tray?",
+        "answer": "In a classroom experiment, Lina planted twelve bean seeds in a tray",
+        "answer_start": 0,
+        "evidence": "In a classroom experiment, Lina planted twelve bean seeds in a tray.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 45,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "lexical_relevance": 0.5,
+        "answer_leak": false,
+        "qa_answer": "twelve",
+        "qa_score": 0.9783309163176455,
+        "answer_f1": 0.18181818181818182,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "baseline_hybrid": [
+      {
+        "question": "How many seeds germinated during the experiment?",
+        "answer": "Nine seeds germinated during the experiment",
+        "answer_start": 120,
+        "evidence": "Nine seeds germinated during the experiment.",
+        "language": "en",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 45,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "draft_question": "How many bean seeds did Lina plant in a tray?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/t5-small-squad-qg",
+        "lexical_relevance": 0.7302967433402214,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "Nine",
+        "qa_score": 0.9403880772006232,
+        "answer_f1": 0.3333333333333333,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "For how many days did Lina water the tray every morning?",
+        "answer": "She watered the tray every morning for eight days",
+        "answer_start": 69,
+        "evidence": "She watered the tray every morning for eight days.",
+        "language": "en",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 45,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "draft_question": "How long did Lina water the tray every morning?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/t5-small-squad-qg",
+        "lexical_relevance": 0.5039526306789696,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "eight",
+        "qa_score": 0.7932626605033875,
+        "answer_f1": 0.2222222222222222,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "What did Lina do in a classroom experiment involving bean seeds?",
+        "answer": "In a classroom experiment, Lina planted twelve bean seeds in a tray",
+        "answer_start": 0,
+        "evidence": "In a classroom experiment, Lina planted twelve bean seeds in a tray.",
+        "language": "en",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 45,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "draft_question": "How many bean seeds did Lina plant in a tray?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/t5-small-squad-qg",
+        "lexical_relevance": 0.5892556509887896,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "planted",
+        "qa_score": 0.8790798751288094,
+        "answer_f1": 0.18181818181818182,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "role_hybrid": [
+      {
+        "question": "How many bean seeds germinated during the experiment?",
+        "answer": "Nine seeds germinated during the experiment",
+        "answer_start": 120,
+        "evidence": "Nine seeds germinated during the experiment.",
+        "language": "en",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 45,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "draft_question": "How many bean seeds did Lina plant in a tray?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/t5-small-squad-qg",
+        "edit_recipe": "answer-role-v1",
+        "lexical_relevance": 0.6761234037828132,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "Nine",
+        "qa_score": 0.9462182930437848,
+        "answer_f1": 0.3333333333333333,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "How often and for how long did Lina water the tray?",
+        "answer": "She watered the tray every morning for eight days",
+        "answer_start": 69,
+        "evidence": "She watered the tray every morning for eight days.",
+        "language": "en",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 45,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "draft_question": "How long did Lina water the tray every morning?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/t5-small-squad-qg",
+        "edit_recipe": "answer-role-v1",
+        "lexical_relevance": 0.11952286093343936,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "eight days.",
+        "qa_score": 0.9848873764276505,
+        "answer_f1": 0.4,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "What did Lina do in a classroom experiment involving bean seeds?",
+        "answer": "In a classroom experiment, Lina planted twelve bean seeds in a tray",
+        "answer_start": 0,
+        "evidence": "In a classroom experiment, Lina planted twelve bean seeds in a tray.",
+        "language": "en",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 45,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "draft_question": "How many bean seeds did Lina plant in a tray?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/t5-small-squad-qg",
+        "edit_recipe": "answer-role-v1",
+        "lexical_relevance": 0.5892556509887896,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "planted",
+        "qa_score": 0.8790798751288094,
+        "answer_f1": 0.18181818181818182,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ]
+  },
+  "error": null,
+  "edit_payload": {
+    "language": "English",
+    "learning_objective": "",
+    "passage": "In a classroom experiment, Lina planted twelve bean seeds in a tray. She watered the tray every morning for eight days. Nine seeds germinated during the experiment.",
+    "facts": [
+      {
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "answer": "Nine seeds germinated during the experiment",
+        "evidence": "Nine seeds germinated during the experiment.",
+        "answer_start": 120,
+        "index": 0,
+        "answer_focus": "Ask for the specific stated fact supplied as the target; keep subjects, predicates, scope and exceptions faithful.",
+        "draft_question": "How many bean seeds did Lina plant in a tray?"
+      },
+      {
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "answer": "She watered the tray every morning for eight days",
+        "evidence": "She watered the tray every morning for eight days.",
+        "answer_start": 69,
+        "index": 1,
+        "answer_focus": "Ask for the specific stated fact supplied as the target; keep subjects, predicates, scope and exceptions faithful.",
+        "draft_question": "How long did Lina water the tray every morning?"
+      },
+      {
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "answer": "In a classroom experiment, Lina planted twelve bean seeds in a tray",
+        "evidence": "In a classroom experiment, Lina planted twelve bean seeds in a tray.",
+        "answer_start": 0,
+        "index": 2,
+        "answer_focus": "Ask for the specific stated fact supplied as the target; keep subjects, predicates, scope and exceptions faithful.",
+        "draft_question": "How many bean seeds did Lina plant in a tray?"
+      }
+    ]
+  },
+  "planning_report": {
+    "version": "answer-role-v1",
+    "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+    "planner_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 3,
+    "rejected_facts": [],
+    "candidate_pool": [
+      {
+        "candidate_id": 0,
+        "answer": "In a classroom experiment, Lina planted twelve bean seeds in a tray",
+        "answer_start": 0,
+        "evidence": "In a classroom experiment, Lina planted twelve bean seeds in a tray.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 1,
+        "answer": "She watered the tray every morning for eight days",
+        "answer_start": 69,
+        "evidence": "She watered the tray every morning for eight days.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 2,
+        "answer": "Nine seeds germinated during the experiment",
+        "answer_start": 120,
+        "evidence": "Nine seeds germinated during the experiment.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      }
+    ],
+    "raw_plan": "[2, 1, 0]",
+    "raw_edit": "[\n  {\n    \"index\": 0,\n    \"question\": \"How many bean seeds germinated during the experiment?\"\n  },\n  {\n    \"index\": 1,\n    \"question\": \"How often and for how long did Lina water the tray?\"\n  },\n  {\n    \"index\": 2,\n    \"question\": \"What did Lina do in a classroom experiment involving bean seeds?\"\n  }\n]",
+    "facts": [
+      {
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "answer": "Nine seeds germinated during the experiment",
+        "evidence": "Nine seeds germinated during the experiment.",
+        "answer_start": 120
+      },
+      {
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "answer": "She watered the tray every morning for eight days",
+        "evidence": "She watered the tray every morning for eight days.",
+        "answer_start": 69
+      },
+      {
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "answer": "In a classroom experiment, Lina planted twelve bean seeds in a tray",
+        "evidence": "In a classroom experiment, Lina planted twelve bean seeds in a tray.",
+        "answer_start": 0
+      }
+    ],
+    "drafts": [
+      {
+        "question": "How many bean seeds did Lina plant in a tray?",
+        "answer": "Nine seeds germinated during the experiment",
+        "answer_start": 120,
+        "evidence": "Nine seeds germinated during the experiment.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 45,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept"
+      },
+      {
+        "question": "How long did Lina water the tray every morning?",
+        "answer": "She watered the tray every morning for eight days",
+        "answer_start": 69,
+        "evidence": "She watered the tray every morning for eight days.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 45,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept"
+      },
+      {
+        "question": "How many bean seeds did Lina plant in a tray?",
+        "answer": "In a classroom experiment, Lina planted twelve bean seeds in a tray",
+        "answer_start": 0,
+        "evidence": "In a classroom experiment, Lina planted twelve bean seeds in a tray.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 45,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept"
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "",
+    "educational_quality_status": "not_human_rated",
+    "returned": 3,
+    "seconds": 103.12195000000065,
+    "baseline_raw_edit": "[\n  {\n    \"index\": 0,\n    \"question\": \"How many seeds germinated during the experiment?\"\n  },\n  {\n    \"index\": 1,\n    \"question\": \"For how many days did Lina water the tray every morning?\"\n  },\n  {\n    \"index\": 2,\n    \"question\": \"What did Lina do in a classroom experiment involving bean seeds?\"\n  }\n]",
+    "refinement_variant": "edit",
+    "edit_recipe": "answer-role-v1"
+  },
+  "seconds": 92.70947129999695
+}

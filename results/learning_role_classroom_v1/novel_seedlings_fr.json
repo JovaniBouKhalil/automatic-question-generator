@@ -1,0 +1,417 @@
+{
+  "case_id": "novel:seedlings:fr",
+  "language": "fr",
+  "group": "novel:seedlings",
+  "context": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac. Elle a arrosé le bac chaque matin pendant huit jours. Neuf graines ont germé pendant l'expérience.",
+  "source_case": "results/learning_focus_dev_4b_v1/novel_seedlings_fr.json",
+  "source_case_sha256": "c09c5d2dc324ba14053084c4bc639e76d7005a63c6b8a7eb1e36f8d9ac89e51c",
+  "outputs": {
+    "planned_t5": [
+      {
+        "question": "Quand a-t-elle arrosé les graines de haricot ?",
+        "answer": "Neuf graines ont germé pendant l'expérience",
+        "answer_start": 137,
+        "evidence": "Neuf graines ont germé pendant l'expérience.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 62,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept",
+        "lexical_relevance": 0.16666666666666666,
+        "answer_leak": false,
+        "qa_answer": "chaque matin",
+        "qa_score": 0.643873393535614,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "Pendant combien de temps a-t-elle arrosé les graines de haricot ?",
+        "answer": "Elle a arrosé le bac chaque matin pendant huit jours",
+        "answer_start": 83,
+        "evidence": "Elle a arrosé le bac chaque matin pendant huit jours.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 62,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept",
+        "lexical_relevance": 0.375,
+        "answer_leak": false,
+        "qa_answer": "huit jours.",
+        "qa_score": 0.9722061492502689,
+        "answer_f1": 0.3333333333333333,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "Où a-t-elle planté trois graines de haricot ?",
+        "answer": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac",
+        "answer_start": 0,
+        "evidence": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 61,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept",
+        "lexical_relevance": 0.5039526306789696,
+        "answer_leak": false,
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      }
+    ],
+    "baseline_hybrid": [
+      {
+        "question": "Combien de graines de haricot ont germé pendant l'expérience ?",
+        "answer": "Neuf graines ont germé pendant l'expérience",
+        "answer_start": 137,
+        "evidence": "Neuf graines ont germé pendant l'expérience.",
+        "language": "fr",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 62,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept",
+        "draft_question": "Quand a-t-elle arrosé les graines de haricot ?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/mt5-small-frquad-qg",
+        "lexical_relevance": 0.7715167498104595,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "Neuf",
+        "qa_score": 0.9044697082135826,
+        "answer_f1": 0.25,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "Pendant combien de jours Lina a-t-elle arrosé le bac chaque matin ?",
+        "answer": "Elle a arrosé le bac chaque matin pendant huit jours",
+        "answer_start": 83,
+        "evidence": "Elle a arrosé le bac chaque matin pendant huit jours.",
+        "language": "fr",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 62,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept",
+        "draft_question": "Pendant combien de temps a-t-elle arrosé les graines de haricot ?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/mt5-small-frquad-qg",
+        "lexical_relevance": 0.7826237921249264,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "huit",
+        "qa_score": 0.6744059105840279,
+        "answer_f1": 0.18181818181818182,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "Dans quelle situation Lina a-t-elle planté douze graines de haricot dans un bac ?",
+        "answer": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac",
+        "answer_start": 0,
+        "evidence": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac.",
+        "language": "fr",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 61,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept",
+        "draft_question": "Où a-t-elle planté trois graines de haricot ?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/mt5-small-frquad-qg",
+        "lexical_relevance": 0.7378647873726218,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "une expérience en classe,",
+        "qa_score": 0.5702453954145312,
+        "answer_f1": 0.42105263157894735,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "role_hybrid": [
+      {
+        "question": "Combien de graines de haricot ont germé pendant l'expérience ?",
+        "answer": "Neuf graines ont germé pendant l'expérience",
+        "answer_start": 137,
+        "evidence": "Neuf graines ont germé pendant l'expérience.",
+        "language": "fr",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 62,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept",
+        "draft_question": "Quand a-t-elle arrosé les graines de haricot ?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/mt5-small-frquad-qg",
+        "edit_recipe": "answer-role-v1",
+        "lexical_relevance": 0.7715167498104595,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "Neuf",
+        "qa_score": 0.9044697082135826,
+        "answer_f1": 0.25,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "Quand et pendant combien de temps Lina a-t-elle arrosé le bac ?",
+        "answer": "Elle a arrosé le bac chaque matin pendant huit jours",
+        "answer_start": 83,
+        "evidence": "Elle a arrosé le bac chaque matin pendant huit jours.",
+        "language": "fr",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 62,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept",
+        "draft_question": "Pendant combien de temps a-t-elle arrosé les graines de haricot ?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/mt5-small-frquad-qg",
+        "edit_recipe": "answer-role-v1",
+        "lexical_relevance": 0.47140452079103173,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "huit jours.",
+        "qa_score": 0.9257819578051567,
+        "answer_f1": 0.3333333333333333,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "Dans quelle situation Lina a-t-elle planté douze graines de haricot dans un bac ?",
+        "answer": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac",
+        "answer_start": 0,
+        "evidence": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac.",
+        "language": "fr",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 61,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept",
+        "draft_question": "Où a-t-elle planté trois graines de haricot ?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/mt5-small-frquad-qg",
+        "edit_recipe": "answer-role-v1",
+        "lexical_relevance": 0.7378647873726218,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "une expérience en classe,",
+        "qa_score": 0.5702453954145312,
+        "answer_f1": 0.42105263157894735,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ]
+  },
+  "error": null,
+  "edit_payload": {
+    "language": "Français",
+    "learning_objective": "",
+    "passage": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac. Elle a arrosé le bac chaque matin pendant huit jours. Neuf graines ont germé pendant l'expérience.",
+    "facts": [
+      {
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept",
+        "answer": "Neuf graines ont germé pendant l'expérience",
+        "evidence": "Neuf graines ont germé pendant l'expérience.",
+        "answer_start": 137,
+        "index": 0,
+        "answer_focus": "Ask for the specific stated fact supplied as the target; keep subjects, predicates, scope and exceptions faithful.",
+        "draft_question": "Quand a-t-elle arrosé les graines de haricot ?"
+      },
+      {
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept",
+        "answer": "Elle a arrosé le bac chaque matin pendant huit jours",
+        "evidence": "Elle a arrosé le bac chaque matin pendant huit jours.",
+        "answer_start": 83,
+        "index": 1,
+        "answer_focus": "Ask for the specific stated fact supplied as the target; keep subjects, predicates, scope and exceptions faithful.",
+        "draft_question": "Pendant combien de temps a-t-elle arrosé les graines de haricot ?"
+      },
+      {
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept",
+        "answer": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac",
+        "evidence": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac.",
+        "answer_start": 0,
+        "index": 2,
+        "answer_focus": "Ask for the specific stated fact supplied as the target; keep subjects, predicates, scope and exceptions faithful.",
+        "draft_question": "Où a-t-elle planté trois graines de haricot ?"
+      }
+    ]
+  },
+  "planning_report": {
+    "version": "answer-role-v1",
+    "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+    "planner_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 3,
+    "rejected_facts": [],
+    "candidate_pool": [
+      {
+        "candidate_id": 0,
+        "answer": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac",
+        "answer_start": 0,
+        "evidence": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 1,
+        "answer": "Elle a arrosé le bac chaque matin pendant huit jours",
+        "answer_start": 83,
+        "evidence": "Elle a arrosé le bac chaque matin pendant huit jours.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 2,
+        "answer": "Neuf graines ont germé pendant l'expérience",
+        "answer_start": 137,
+        "evidence": "Neuf graines ont germé pendant l'expérience.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      }
+    ],
+    "raw_plan": "[2, 1, 0]",
+    "raw_edit": "[\n  {\n    \"index\": 0,\n    \"question\": \"Combien de graines de haricot ont germé pendant l'expérience ?\"\n  },\n  {\n    \"index\": 1,\n    \"question\": \"Quand et pendant combien de temps Lina a-t-elle arrosé le bac ?\"\n  },\n  {\n    \"index\": 2,\n    \"question\": \"Dans quelle situation Lina a-t-elle planté douze graines de haricot dans un bac ?\"\n  }\n]",
+    "facts": [
+      {
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept",
+        "answer": "Neuf graines ont germé pendant l'expérience",
+        "evidence": "Neuf graines ont germé pendant l'expérience.",
+        "answer_start": 137
+      },
+      {
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept",
+        "answer": "Elle a arrosé le bac chaque matin pendant huit jours",
+        "evidence": "Elle a arrosé le bac chaque matin pendant huit jours.",
+        "answer_start": 83
+      },
+      {
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept",
+        "answer": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac",
+        "evidence": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac.",
+        "answer_start": 0
+      }
+    ],
+    "drafts": [
+      {
+        "question": "Quand a-t-elle arrosé les graines de haricot ?",
+        "answer": "Neuf graines ont germé pendant l'expérience",
+        "answer_start": 137,
+        "evidence": "Neuf graines ont germé pendant l'expérience.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 62,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept"
+      },
+      {
+        "question": "Pendant combien de temps a-t-elle arrosé les graines de haricot ?",
+        "answer": "Elle a arrosé le bac chaque matin pendant huit jours",
+        "answer_start": 83,
+        "evidence": "Elle a arrosé le bac chaque matin pendant huit jours.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 62,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept"
+      },
+      {
+        "question": "Où a-t-elle planté trois graines de haricot ?",
+        "answer": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac",
+        "answer_start": 0,
+        "evidence": "Dans une expérience en classe, Lina a planté douze graines de haricot dans un bac.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 61,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "Comprendre le fait sélectionné dans son contexte.",
+        "question_type": "concept"
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "",
+    "educational_quality_status": "not_human_rated",
+    "returned": 3,
+    "seconds": 138.30146580000292,
+    "baseline_raw_edit": "[\n  {\n    \"index\": 0,\n    \"question\": \"Combien de graines de haricot ont germé pendant l'expérience ?\"\n  },\n  {\n    \"index\": 1,\n    \"question\": \"Pendant combien de jours Lina a-t-elle arrosé le bac chaque matin ?\"\n  },\n  {\n    \"index\": 2,\n    \"question\": \"Dans quelle situation Lina a-t-elle planté douze graines de haricot dans un bac ?\"\n  }\n]",
+    "refinement_variant": "edit",
+    "edit_recipe": "answer-role-v1"
+  },
+  "seconds": 119.98795600001176
+}

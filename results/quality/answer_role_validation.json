@@ -1,0 +1,7 @@
+{
+  "pilot_responses": 12,
+  "localized_probe_responses": 3,
+  "paired_case_inputs_verified": 18,
+  "source_snapshots_and_selection_hashes_match": true,
+  "interpretation": "Provenance and identical inputs verified. This does not establish question accuracy or usefulness."
+}

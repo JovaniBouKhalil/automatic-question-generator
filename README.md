@@ -22,6 +22,9 @@ Choose the questions to include in the exported quiz. QA-flagged questions start
 and can be included after reviewing their evidence. The printable worksheet includes the
 reading passage and, when provided, the learning objective. Export choices do not remove
 questions from saved experimental results or change the displayed QA statistics.
+Expand **Edit question wording** to revise a draft. Edits clear its old QA scores and
+start unselected for export. JSON/CSV retain the original wording and model provenance;
+the revised writer is labeled `teacher_revision`. Empty revisions cannot be exported.
 
 On Windows, you can also double-click `run_app.bat` after installation.
 

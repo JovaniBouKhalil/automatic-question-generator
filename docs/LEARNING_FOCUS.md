@@ -74,6 +74,52 @@ The separate [answer-role refinement protocol](ANSWER_ROLE_PROTOCOL.md) holds th
 facts and T5 drafts fixed when testing revised writing instructions. All baseline outputs
 remain intact, including rejected questions.
 
+## Answer-role editing recipe
+
+The optional 4B mode now uses **answer-role-v1**. Source-derived cues tell the editor
+whether the target is a conversion output, purpose/reason, missing information,
+recorded information, criterion or explicit comparison. The model must ask for that
+role rather than another endpoint of the same relation. These cues guide generation;
+they are not an entailment checker or a trained usefulness classifier.
+
+A six-case, two-variant pilot compared editing with and without the saved T5 draft.
+Both repaired an Arabic validation-purpose question and an English weight-contrast
+question. Keeping the draft gave a more specific English voltage-effect question.
+Removing it did not repair malformed Arabic conversion wording. An additional
+three-response grammatical-frame probe also failed to repair the conversion; its
+extra instruction was discarded. Full responses and inspection rationale are in
+`results/quality/learning_4b_role_focus_pilot.json`,
+`results/quality/learning_4b_arabic_role_probe.json` and
+`results/learning_focus/refinement_selection.json`.
+
+The recipe is frozen before the paired re-edits and additional topic audit. Those
+re-edits retain every original fact, offset, objective and T5 draft; only the editing
+recipe changes. The additional topics run automatic selection too and receive no
+further prompt tuning. Their source data are synthetic, not human test references.
+The Arabic solar conversion is still rejected for leakage; no successful repair is
+claimed. Review broad statement targets and Arabic grammar even when QA agrees.
+
+For a fresh reproduction folder:
+
+```powershell
+python -m scripts.reedit_saved_learning --source results/learning_focus_educational_4b_v1 --output outputs/role_replay --variant edit
+python -m scripts.run_learning_focus_study --source educational --planner quality --data data/authoring/learning_challenge.json --output outputs/new_topic_audit
+```
+
+Disable **Guide the target answer's role** in the 4B sidebar to compare the original
+batch editor. Role guidance can help purpose/comparison questions while changing
+already-supported simple questions unfavorably; neither style is universally best.
+The Python option `create_quality_quiz(..., role_focus=False)` also retains that editor.
+The study CLI also accepts `--original-edit --planner quality` in a fresh folder.
+Neither option overwrites the recorded baseline studies or changes the selected
+science adapter. The smaller 1.5B hybrid continues using its original recipe.
+
+In **Question library**, expand **Edit question wording** to correct a draft before
+export. The revised item starts unselected and its previous QA scores are cleared.
+JSON/CSV preserve the original generated question and model separately; the revised
+writer is labeled `teacher_revision`. Rechecking source support remains your decision.
+Stored experiment predictions and the app's original-generation summary stay unchanged.
+
 The planner chooses IDs from source-derived relation spans and complete statements.
 Code resolves the exact answers and evidence; generated answer paraphrases are not used.
 T5 generates drafts for those targets;

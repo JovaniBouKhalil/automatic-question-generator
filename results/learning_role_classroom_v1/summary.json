@@ -1,0 +1,26 @@
+{
+  "scope": "Paired synthetic development re-edit. No fresh-test or human-quality claim.",
+  "planned_passage_language_pairs": 9,
+  "passage_language_pairs": 9,
+  "study_complete": true,
+  "cases_with_execution_error": 0,
+  "fixed_planned_facts": 25,
+  "human_learning_value_ratings": "pending",
+  "methods": {
+    "planned_t5": {
+      "returned_questions": 25,
+      "mean_qa_answer_f1_diagnostic": 0.41203320655952247,
+      "interpretation": "Coverage and conditional QA recovery do not establish question quality."
+    },
+    "baseline_hybrid": {
+      "returned_questions": 25,
+      "mean_qa_answer_f1_diagnostic": 0.4879848861149171,
+      "interpretation": "Coverage and conditional QA recovery do not establish question quality."
+    },
+    "role_hybrid": {
+      "returned_questions": 25,
+      "mean_qa_answer_f1_diagnostic": 0.45937882550885656,
+      "interpretation": "Coverage and conditional QA recovery do not establish question quality."
+    }
+  }
+}
