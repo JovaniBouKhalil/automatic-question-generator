@@ -208,7 +208,46 @@ human_path = ROOT / 'results/human_evaluation/summary.json'
 if human_path.exists():
     print('Human evaluation:', json.loads(human_path.read_text(encoding='utf-8'))['status'])
 """)
-    markdown("""## 8. Demonstrate and explain
+    markdown("""## 8. Train native adapters on larger human datasets
+
+The expanded study uses SQuAD, NewsQuAD-fr and ARCD plus native Arabic TyDiQA-GoldP.
+It reserves published evaluation sources and uses larger development sets. Training rows
+seen by a selected checkpoint can be fewer than rows seen by the entire early-stopped run.
+Arabic targets retain the checkpoint's native `question:` prefix during training; display
+generation removes it. Checkpoint/app selection uses development loss, not test scores.
+The original and expanded blind-review booklets remain pending genuine human annotation.
+""")
+    code("""expanded_path = ROOT / 'results/expanded_training/summary.json'
+if expanded_path.exists():
+    expanded = json.loads(expanded_path.read_text(encoding='utf-8'))
+    display(pd.DataFrame([{'language': lang,
+                          **{key: info[key] for key in ['training_examples','development_examples','steps','best_step',
+                             'unique_training_ids_seen','saved_checkpoint_unique_examples_seen','initial_dev_loss','best_dev_loss']}}
+                         for lang, info in expanded['languages'].items()]))
+    display(pd.DataFrame(expanded['evaluations']))
+    display(Image(filename=str(expanded_path.parent / 'development_loss.png'), width=1000))
+    display(Image(filename=str(expanded_path.parent / 'comparison.png'), width=900))
+    print('App adapter selection:', {lang: info['selected_app_adapter'] for lang, info in expanded['languages'].items()})
+    print('Results are follow-up measurements on previously inspected tests; QA F1 is a proxy, not human question accuracy.')
+    paired_cases = ROOT / 'results/expanded_training/before_after_cases.json'
+    if paired_cases.exists():
+        cases = json.loads(paired_cases.read_text(encoding='utf-8'))
+        print(cases['scope'])
+        display(pd.DataFrame(cases['cases'])[['language','original_case_category','before_question','after_question',
+                                             'before_answer_f1','after_answer_f1']])
+    trained_examples = []
+    if RUN_NEURAL:
+        for row in examples:
+            selected = expanded['languages'][row['language']]['selected_app_adapter']
+            result = generate_question(row['context'], row['answer'], row['language'],
+                                       answer_start=row['answer_start'], beams=4, checkpoint=selected)
+            trained_examples.append({'language': row['language'], 'question': result.question,
+                                     'answer': row['answer'], 'adapter': selected or 'unadapted'})
+        display(pd.DataFrame(trained_examples))
+else:
+    print('Expanded training is not complete; no additional results are claimed.')
+""")
+    markdown("""## 9. Demonstrate and explain
 
 Launch `python -m streamlit run app.py`. Choose a language, paste a passage, supply exact
 answers or use TF-IDF suggestions, and inspect the questions and evidence. Export a

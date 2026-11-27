@@ -6,7 +6,10 @@ import shutil
 from pathlib import Path
 
 from pptx import Presentation
+from pptx.opc.constants import RELATIONSHIP_TYPE as RT
+from pptx.opc.packuri import PackURI
 from pptx.oxml.xmlchemy import OxmlElement
+from pptx.parts.slide import SlidePart
 from pptx.util import Inches
 
 from scripts.build_presentation import (
@@ -22,6 +25,32 @@ from scripts.build_presentation import (
 
 ROOT = Path(__file__).resolve().parents[1]
 NAME = "QuestionForge-robustness-v2"
+
+
+def append_blank_slide(deck):
+    """Avoid python-pptx's count-based part-name collision after deleting a middle slide."""
+    used = {part.partname for part in deck.part.package.iter_parts()}
+    number = 1
+    while PackURI(f"/ppt/slides/slide{number}.xml") in used:
+        number += 1
+    layout = deck.slide_layouts[6]
+    part = SlidePart.new(PackURI(f"/ppt/slides/slide{number}.xml"), deck.part.package, layout.part)
+    relationship = deck.part.relate_to(part, RT.SLIDE)
+    slide = part.slide
+    slide.shapes.clone_layout_placeholders(layout)
+    deck.slides._sldIdLst.add_sldId(relationship)
+    return slide
+
+
+def generated_results_slide(slide):
+    """PowerPoint may rename imported slides, so identify our generated content too."""
+    if slide.name in {NAME, "QuestionForge-expanded-v3"}:
+        return True
+    titles = {"Check stability. Challenge the verifier.", "Train on more data. Measure the result."}
+    if any(shape.has_text_frame and shape.text.strip() in titles for shape in slide.shapes):
+        return True
+    frame = slide.notes_slide.notes_text_frame
+    return frame is not None and frame.text.startswith(("Protocol: docs/EXTENSION_PROTOCOL.md", "Protocol: docs/EXPANDED_TRAINING_PROTOCOL.md"))
 
 
 def notes_frame(slide):
@@ -53,13 +82,13 @@ def main():
         shutil.copy2(path, backup)
     deck = Presentation(path)
     for current in list(deck.slides):
-        if current.name == NAME:
+        if generated_results_slide(current):
             entry = next(entry for entry in deck.slides._sldIdLst if int(entry.id) == current.slide_id)
             deck.part.drop_rel(entry.rId)
             deck.slides._sldIdLst.remove(entry)
     if len(deck.slides) != 11:
         raise ValueError("Expected eleven original slides; preserve and inspect custom deck changes.")
-    slide = deck.slides.add_slide(deck.slide_layouts[6])
+    slide = append_blank_slide(deck)
     slide.name = NAME
     slide.background.fill.solid()
     slide.background.fill.fore_color.rgb = color(CREAM)

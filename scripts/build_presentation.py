@@ -237,6 +237,9 @@ def main():
            for name in ["seed_study", "verification_study", "article_sensitivity"]):
         from scripts.extend_presentation import main as extend
         extend()
+    if (ROOT / "results/expanded_training/summary.json").exists():
+        from scripts.expanded_training_slides import update
+        update(output / "QuestionForge.pptx", output / "QuestionForge.pptx")
     print(f"Created {len(Presentation(output / 'QuestionForge.pptx').slides)} slides: presentation/QuestionForge.pptx")
 
 

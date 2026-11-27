@@ -8,3 +8,6 @@
 /docs/EXTENSION_PROTOCOL.md text eol=lf
 /scripts/study_verifiers.py text eol=lf
 /questionforge/verification.py text eol=lf
+/docs/EXPANDED_TRAINING_PROTOCOL.md text eol=lf
+/docs/ARABIC_TARGET_FORMAT.md text eol=lf
+/scripts/train_expanded_lora.py text eol=lf

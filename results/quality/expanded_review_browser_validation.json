@@ -1,0 +1,7 @@
+{
+  "browser": "Microsoft Edge headless",
+  "prepared_items": 36,
+  "zero_score_preserved": true,
+  "multiline_unicode_csv_roundtrip": true,
+  "test_data_not_human_ratings": true
+}

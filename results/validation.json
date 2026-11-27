@@ -1,7 +1,7 @@
 {
-  "regular_tests_passed": 46,
-  "neural_integration_tests_passed": 8,
-  "executed_notebook_code_cells": 8,
+  "regular_tests_passed": 53,
+  "neural_integration_tests_passed": 10,
+  "executed_notebook_code_cells": 9,
   "notebook_errors": 0,
   "presentation_slides": 12,
   "presentation_pdf_pages": 12,
@@ -24,6 +24,36 @@
     {
       "name": "benchmark_test",
       "rows": 600,
+      "source_hashes_match": true
+    },
+    {
+      "name": "expanded_ar_classroom_test",
+      "rows": 96,
+      "source_hashes_match": true
+    },
+    {
+      "name": "expanded_ar_public_test",
+      "rows": 160,
+      "source_hashes_match": true
+    },
+    {
+      "name": "expanded_en_classroom_test",
+      "rows": 96,
+      "source_hashes_match": true
+    },
+    {
+      "name": "expanded_en_public_test",
+      "rows": 160,
+      "source_hashes_match": true
+    },
+    {
+      "name": "expanded_fr_classroom_test",
+      "rows": 96,
+      "source_hashes_match": true
+    },
+    {
+      "name": "expanded_fr_public_test",
+      "rows": 160,
       "source_hashes_match": true
     },
     {
@@ -82,7 +112,7 @@
       "source_hashes_match": true
     }
   ],
-  "generation_experiments_with_matching_core_source_hashes": 15,
+  "generation_experiments_with_matching_core_source_hashes": 21,
   "adapter_fingerprints_match_saved_configurations": true,
   "verifier_study_rows": 720,
   "verifier_study_execution_errors": 0,
@@ -93,5 +123,17 @@
     42,
     73
   ],
-  "article_isolated_training_rows": 577
+  "article_isolated_training_rows": 577,
+  "expanded_training": {
+    "languages": [
+      "en",
+      "fr",
+      "ar"
+    ],
+    "all_training_sources_and_adapter_hashes_match": true,
+    "native_arabic_target_prefix_verified": true,
+    "application_selection_uses_shared_development_loss": true,
+    "human_review_items_prepared": 36,
+    "complete_human_rating_rows": 0
+  }
 }

@@ -40,7 +40,7 @@ py -3.11 -m venv .venv
 ```
 
 Linux/macOS: create a Python environment and replace `.\.venv\Scripts\python.exe` with
-`.venv/bin/python`. Training dependencies are optional for unadapted inference; adapters require PEFT. Downloads resume after
+`.venv/bin/python`. PEFT is installed with the app for adapter inference. Downloads resume after
 interruption, pin Hub commits, and check LFS SHA-256 hashes. About **3.7 GB** of inference weights
 go into ignored `models/`. Allow additional space for packages. Weights and course materials
 are excluded from GitHub and the submission.
@@ -56,7 +56,8 @@ are excluded from GitHub and the submission.
   removal, and checks that evaluation paragraphs do not enter training.
 - chrF++, BLEU, Unicode ROUGE-L, QA token F1/EM, coverage, latency, judge controls, and
   paragraph-group bootstrap confidence intervals. Failures stay in metric denominators.
-- A small English LoRA training experiment with development-only checkpoint selection.
+- Original English LoRA experiments plus larger native English/French/Arabic training runs,
+  with development-only checkpoint selection and resumable optimizer states.
 - Arabic text direction, text/PDF input, student/teacher views, and classroom exports.
 
 ## Reproduce experiments
@@ -160,6 +161,35 @@ were tuned using this probe.
 
 The supplied rubric requires **8–12 slides and no standalone technical report**. The presentation
 generator creates 12 slides when the follow-up studies are present, with notes, figures, limits and source links.
+
+## Larger native-language training
+
+The app offers a development-selected trained adapter when the expanded study is available.
+Enable **Use adapted … generator** to compare it with the original default checkpoint. Selection
+includes the previous English adapter and the unadapted model; test results do not choose it.
+
+Prepared training subsets contain 5,000 English, 1,000 French and 1,990 Arabic QA pairs, with
+200/60/150 development examples. Arabic adds native human [TyDiQA-GoldP](https://huggingface.co/datasets/google-research-datasets/tydiqa)
+data to ARCD. All published evaluation sources remain reserved, including unusable-offset
+examples. Ten additional Arabic training passages were excluded in the full-pool audit.
+
+English early stopping selects step 350 from a 600-update run. Its saved checkpoint saw 2,800
+distinct examples; the complete run saw 4,800. French selects step 224 from 256 updates.
+The Arabic run models the checkpoint's native `question:` target prefix. Actual Arabic
+updates, all test differences and intervals are in [the measured training findings](docs/EXPANDED_TRAINING_RESULTS.md).
+The selected checkpoint and the complete run must not be credited with the same exposure.
+Held-out gains are mixed, so the new adapters are optional comparisons rather than an
+assertion that extra training universally improves factual questions.
+
+```powershell
+python -m scripts.run_expanded_study
+python -m scripts.expanded_training_status
+```
+
+This preserves completed adapters and resumes compatible interrupted runs. Small adapter
+bundles include exact trainer snapshots; full backbone/data/optimizer files are excluded.
+The **Review study** tab offers a separate 36-item blinded original/expanded comparison;
+its human ratings remain pending. Original results and the 54-item decoding study are retained.
 
 ## Follow-up robustness studies
 

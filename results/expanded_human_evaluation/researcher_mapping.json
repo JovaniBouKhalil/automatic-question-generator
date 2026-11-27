@@ -1,0 +1,290 @@
+[
+  {
+    "item_id": "3549bbf4be18",
+    "language": "en",
+    "dataset": "public",
+    "source_id": "en:57112686b654c5140001fbd7",
+    "group": "2236bb2a43be95ef66f0c554bee870ba6e644e17f89e6196f6c30f1b7ee836c0",
+    "method": "beam4"
+  },
+  {
+    "item_id": "8e01a7b3d906",
+    "language": "en",
+    "dataset": "public",
+    "source_id": "en:57112686b654c5140001fbd7",
+    "group": "2236bb2a43be95ef66f0c554bee870ba6e644e17f89e6196f6c30f1b7ee836c0",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "f7b21a9f49a7",
+    "language": "en",
+    "dataset": "public",
+    "source_id": "en:56bebc383aeaaa14008c931f",
+    "group": "84ce5ad76179daec8188e5db54bd196c22b0aaab70b5fbfb1c8d7c818b1f3a75",
+    "method": "beam4"
+  },
+  {
+    "item_id": "51f6534b9744",
+    "language": "en",
+    "dataset": "public",
+    "source_id": "en:56bebc383aeaaa14008c931f",
+    "group": "84ce5ad76179daec8188e5db54bd196c22b0aaab70b5fbfb1c8d7c818b1f3a75",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "a4df2177e38c",
+    "language": "en",
+    "dataset": "public",
+    "source_id": "en:57269c06708984140094cba3",
+    "group": "662a3caa9008e0caf4e2d0d9528c4670c9cc41ba4a650c68e8c42d0a262100df",
+    "method": "beam4"
+  },
+  {
+    "item_id": "944db94a4038",
+    "language": "en",
+    "dataset": "public",
+    "source_id": "en:57269c06708984140094cba3",
+    "group": "662a3caa9008e0caf4e2d0d9528c4670c9cc41ba4a650c68e8c42d0a262100df",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "05f1ac84c464",
+    "language": "fr",
+    "dataset": "public",
+    "source_id": "fr:2717",
+    "group": "a70bfbcc9216cf260a6de944de837bbd4b9d2e8efbeed85072933ee305548974",
+    "method": "beam4"
+  },
+  {
+    "item_id": "ea50ec609a75",
+    "language": "fr",
+    "dataset": "public",
+    "source_id": "fr:2717",
+    "group": "a70bfbcc9216cf260a6de944de837bbd4b9d2e8efbeed85072933ee305548974",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "7e0b99c455ac",
+    "language": "fr",
+    "dataset": "public",
+    "source_id": "fr:2703",
+    "group": "784cc1b61ff59bce619475e5a9597851980f82cd020c1ec9978c8789f810699c",
+    "method": "beam4"
+  },
+  {
+    "item_id": "ad65ad2db180",
+    "language": "fr",
+    "dataset": "public",
+    "source_id": "fr:2703",
+    "group": "784cc1b61ff59bce619475e5a9597851980f82cd020c1ec9978c8789f810699c",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "bdc5fd217a5b",
+    "language": "fr",
+    "dataset": "public",
+    "source_id": "fr:2652",
+    "group": "70f98429112e880e11a0403313ec85e35c28f26901eafc05bfe7ba1d819239ef",
+    "method": "beam4"
+  },
+  {
+    "item_id": "00fca745fa5b",
+    "language": "fr",
+    "dataset": "public",
+    "source_id": "fr:2652",
+    "group": "70f98429112e880e11a0403313ec85e35c28f26901eafc05bfe7ba1d819239ef",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "0ed31ef4028b",
+    "language": "ar",
+    "dataset": "public",
+    "source_id": "ar:25304657387",
+    "group": "ca5c973a89a2e63e1d5700a142e8b81e9a00ac8d14453f373650f783314d3af4",
+    "method": "beam4"
+  },
+  {
+    "item_id": "d08895b303c6",
+    "language": "ar",
+    "dataset": "public",
+    "source_id": "ar:25304657387",
+    "group": "ca5c973a89a2e63e1d5700a142e8b81e9a00ac8d14453f373650f783314d3af4",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "70cdd14dc153",
+    "language": "ar",
+    "dataset": "public",
+    "source_id": "ar:886523824840",
+    "group": "3ed4c3f81824167f419e598ff1d1432bae17e81232b8111614858df4c612aca2",
+    "method": "beam4"
+  },
+  {
+    "item_id": "8716906f427d",
+    "language": "ar",
+    "dataset": "public",
+    "source_id": "ar:886523824840",
+    "group": "3ed4c3f81824167f419e598ff1d1432bae17e81232b8111614858df4c612aca2",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "63eb794bbc7e",
+    "language": "ar",
+    "dataset": "public",
+    "source_id": "ar:247853330363",
+    "group": "ce6fb819850686c7de6adb8f501803ce0dff5e6fcfd723f4060449950a84e312",
+    "method": "beam4"
+  },
+  {
+    "item_id": "f56f62d07f3c",
+    "language": "ar",
+    "dataset": "public",
+    "source_id": "ar:247853330363",
+    "group": "ce6fb819850686c7de6adb8f501803ce0dff5e6fcfd723f4060449950a84e312",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "755db83da6b3",
+    "language": "en",
+    "dataset": "classroom",
+    "source_id": "novel:archive:en:0",
+    "group": "novel:archive",
+    "method": "beam4"
+  },
+  {
+    "item_id": "31a2f74f644f",
+    "language": "en",
+    "dataset": "classroom",
+    "source_id": "novel:archive:en:0",
+    "group": "novel:archive",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "c3dc9bab6287",
+    "language": "en",
+    "dataset": "classroom",
+    "source_id": "novel:robot_route:en:0",
+    "group": "novel:robot_route",
+    "method": "beam4"
+  },
+  {
+    "item_id": "b84d04350597",
+    "language": "en",
+    "dataset": "classroom",
+    "source_id": "novel:robot_route:en:0",
+    "group": "novel:robot_route",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "dfb1863bfb56",
+    "language": "en",
+    "dataset": "classroom",
+    "source_id": "novel:sound:en:0",
+    "group": "novel:sound",
+    "method": "beam4"
+  },
+  {
+    "item_id": "8822627ec8bb",
+    "language": "en",
+    "dataset": "classroom",
+    "source_id": "novel:sound:en:0",
+    "group": "novel:sound",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "9f781b4c8da5",
+    "language": "fr",
+    "dataset": "classroom",
+    "source_id": "novel:archive:fr:0",
+    "group": "novel:archive",
+    "method": "beam4"
+  },
+  {
+    "item_id": "20e6ff8e3171",
+    "language": "fr",
+    "dataset": "classroom",
+    "source_id": "novel:archive:fr:0",
+    "group": "novel:archive",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "4ec25ee9cfcb",
+    "language": "fr",
+    "dataset": "classroom",
+    "source_id": "novel:robot_route:fr:0",
+    "group": "novel:robot_route",
+    "method": "beam4"
+  },
+  {
+    "item_id": "54b8350aa095",
+    "language": "fr",
+    "dataset": "classroom",
+    "source_id": "novel:robot_route:fr:0",
+    "group": "novel:robot_route",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "830d3ed6891b",
+    "language": "fr",
+    "dataset": "classroom",
+    "source_id": "novel:sound:fr:0",
+    "group": "novel:sound",
+    "method": "beam4"
+  },
+  {
+    "item_id": "221b7a28dd82",
+    "language": "fr",
+    "dataset": "classroom",
+    "source_id": "novel:sound:fr:0",
+    "group": "novel:sound",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "c8563270bac7",
+    "language": "ar",
+    "dataset": "classroom",
+    "source_id": "novel:archive:ar:0",
+    "group": "novel:archive",
+    "method": "beam4"
+  },
+  {
+    "item_id": "1c652f528bab",
+    "language": "ar",
+    "dataset": "classroom",
+    "source_id": "novel:archive:ar:0",
+    "group": "novel:archive",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "3b4a4a7fd09a",
+    "language": "ar",
+    "dataset": "classroom",
+    "source_id": "novel:robot_route:ar:0",
+    "group": "novel:robot_route",
+    "method": "beam4"
+  },
+  {
+    "item_id": "99404abccc5b",
+    "language": "ar",
+    "dataset": "classroom",
+    "source_id": "novel:robot_route:ar:0",
+    "group": "novel:robot_route",
+    "method": "lora_beam4"
+  },
+  {
+    "item_id": "2484eab3a58d",
+    "language": "ar",
+    "dataset": "classroom",
+    "source_id": "novel:sound:ar:0",
+    "group": "novel:sound",
+    "method": "beam4"
+  },
+  {
+    "item_id": "fc76a13c8d88",
+    "language": "ar",
+    "dataset": "classroom",
+    "source_id": "novel:sound:ar:0",
+    "group": "novel:sound",
+    "method": "lora_beam4"
+  }
+]

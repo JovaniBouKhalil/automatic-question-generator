@@ -1,0 +1,73 @@
+{
+  "dataset_sha256": "f3f7bae15a112dca0112e839dc33d3f6f2bc9d2828290b7b87eae0729f13d0fc",
+  "methods": [
+    "beam4",
+    "lora_beam4"
+  ],
+  "languages": [
+    "fr"
+  ],
+  "device": "cpu",
+  "verify": true,
+  "limit": null,
+  "seed": 42,
+  "input_tokens": 384,
+  "max_new_tokens": 64,
+  "no_repeat_ngram_size": 3,
+  "do_sample": false,
+  "checkpoint": "artifacts/expanded/fr",
+  "checkpoint_files": {
+    "adapter_config.json": "7dd1433fe60768ea1db15e17ec266b9f271c248552e984c4fd03bb7da49f074a",
+    "adapter_model.safetensors": "3a819638f5d66f488cd5b07afe10b0fa3c32e675519055fdcad255522e0b4fc2",
+    "history.json": "de7889fbf75255569fa8d1f70df318a0a61e0629b45e7a1a6af708c89059431e",
+    "README.md": "f30c13a3fd09dfa29ed8898236030e3717e4ea2374b6e628ed5676fdc86a0f72",
+    "training_manifest.json": "26e61a195e112464fcfbb0d4f35894cb22e4b1fa9a207160cff85081131cbd74",
+    "training_source.py": "35808b47ae4a88b81e82f81736ab46bb83ab43e32f7a0eb916414b3cfa90cdf1"
+  },
+  "generators": {
+    "en": {
+      "model_id": "lmqg/t5-small-squad-qg",
+      "revision": "57d0de8c285d3f89e01b5c607e22a24269fc5cc7",
+      "prompt_style": "en_highlight",
+      "license": "CC-BY-4.0"
+    },
+    "fr": {
+      "model_id": "lmqg/mt5-small-frquad-qg",
+      "revision": "1b4229a905dc759b3ebeeb22b1520398d1a2e818",
+      "prompt_style": "fr_highlight",
+      "license": "CC-BY-4.0"
+    },
+    "ar": {
+      "model_id": "Mihakram/AraT5-base-question-generation",
+      "revision": "1dc5a02543bcd9ce1f24cc404770ce11ddd39d74",
+      "prompt_style": "context_answer",
+      "license": "Unspecified; research demonstration only"
+    }
+  },
+  "verifier": {
+    "model_id": "deepset/xlm-roberta-base-squad2-distilled",
+    "revision": "c1bbfe57bc3335c37960a48c5628ba26d7e9e3b7",
+    "prompt_style": "extractive_qa",
+    "license": "MIT"
+  },
+  "quality_thresholds": {
+    "min_answer_f1": 0.5,
+    "min_span_score": 0.1
+  },
+  "version": 1,
+  "code_sha256": {
+    "baseline.py": "9bf672087f705af2eea24477cab03014973253d105aa4f2fb030e4207a0af9e1",
+    "candidates.py": "7b7fdfe59a1bbf930794f25fd22fd830a6be0b478a8c6b7bff3cb82d59dcda92",
+    "cli.py": "dc091209a7b22760860779fe40e0b3e02008805d7f65792dd4d8a594d1b9cdb1",
+    "data.py": "de44b05086800bc14cf0e52c05f0fcc84e05dad9ed0ed98a4271cbfbde97fa86",
+    "experiment.py": "74b84b99a36339f558d5214377d330e742976b15f8387fa39d4dc3e7489457a9",
+    "export.py": "b34e15e474049c1eaa3581cb6e3d25003f5c64f9675629ec974891fcb3b59024",
+    "metrics.py": "64a83578331afb11fc51d1a90908452e70a70b1d808f7e079bae742d0f5f8a75",
+    "models.py": "2e01ba40843e8adcdf6801ad7e00920a9027dad18d2489fc17abc4567b4743ba",
+    "registry.py": "47d8888cd92faf65e3e81c0d936b6dbc0c9d35e0841e37e65df3de1923ed471e",
+    "review.py": "08757c0a3fa7ed80dee1fbc771129f43b1ad05a11849140ff627e2a674689b20",
+    "text.py": "b454a3ee27ce5d02407cb6776db7f4c911c722fc014c8405ec223550c3cb6b58",
+    "verification.py": "0afe21469cead9539b440110dc416aea248b2f4422f5f348dda97c497ea8a8b3",
+    "__init__.py": "ab2b984136b0f83fe00df36b313485ed946ef04981b3caf9ce994a631214b236"
+  }
+}

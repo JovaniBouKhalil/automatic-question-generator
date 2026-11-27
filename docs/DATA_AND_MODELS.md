@@ -127,10 +127,26 @@ previously inspected test sets. The quantified overlap audit reports remaining s
 titles and an Arabic development near-duplicate candidate rather than claiming complete
 article/semantic isolation. Original datasets, metrics and experiment records are preserved.
 
-## Redistribution details
+## Expanded native training
+
+`docs/EXPANDED_TRAINING_PROTOCOL.md` specifies the larger data/optimization budgets.
+Arabic adds Google Research's TyDiQA-GoldP revision
+`da78f23f9119363459acbaf46bf89426ff26c259` (Apache-2.0 metadata, underlying Wikipedia
+attribution retained). Exact-span validation keeps 8,497 Arabic training and 508 source
+validation records; 6,308/413 respective records fail and are not silently realigned.
+All 921 source validation records reserve their paragraphs and known titles regardless of answer validity.
+
+The selected Arabic preparation contains 1,990 training examples after the full-pool
+article filter. English/French use source training data from the existing pinned datasets.
+The original public/classroom tests are unchanged. Prepared JSONL bytes are deterministic
+across platforms. `docs/ARABIC_TARGET_FORMAT.md` records the native decoder-prefix correction;
+`docs/EXPANDED_TRAINING_RESULTS.md` reports actual exposure, checkpoints and held-out changes.
+
+## Redistribution of source material
 
 Full downloaded datasets and backbone weights are ignored locally. Prediction artifacts contain
 small source excerpts for auditability; the named dataset licenses and source URLs apply to them.
 French excerpts are noncommercial/share-alike. No blanket permissive license is assigned to
-third-party data/weights. Arabic checkpoint weights are not redistributed. Course notebooks and
+third-party data/weights. Downloaded Arabic backbone weights are not redistributed; the small
+project-trained adapter updates include provenance rather than copied backbone weights. Course notebooks and
 the instructor's PDF were reviewed locally and are not republished.

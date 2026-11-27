@@ -95,11 +95,21 @@ def main():
                                     help="The experimental checker has multilingual QA training. Both can miss unsupported premises.")
         checkpoint = None
         study_path = ROOT / "results/seed_study/summary.json"
-        if language == "en" and method == "Pretrained Transformer" and study_path.exists():
+        expanded_path = ROOT / "results/expanded_training/summary.json"
+        selected = None
+        use_by_default = False
+        if expanded_path.exists() and method == "Pretrained Transformer":
+            expanded = json.loads(expanded_path.read_text(encoding="utf-8"))
+            selection = expanded["languages"][language]["selected_app_adapter"]
+            if selection:
+                selected = ROOT / selection
+        elif language == "en" and method == "Pretrained Transformer" and study_path.exists():
             study = json.loads(study_path.read_text(encoding="utf-8"))
             selected = ROOT / study["optional_app_adapter"]
-            if selected.is_dir() and st.toggle("Use adapted English generator", value=False,
-                                               help="LoRA checkpoint selected using development loss, with all three training seeds reported."):
+        if selected is not None and selected.is_dir():
+            label = {"en": "Use adapted English generator", "fr": "Use adapted French generator", "ar": "Use adapted Arabic generator"}[language]
+            if st.toggle(label, value=use_by_default, key=f"use_adapter_{language}",
+                         help="Checkpoint selected using development loss. Disable to compare the original pretrained generator."):
                 checkpoint = str(selected)
         count = st.slider("Questions to create", 1, 8, 3)
         st.divider()
@@ -237,6 +247,15 @@ def main():
             st.caption("chrF++, ROUGE-L and QA agreement are shown on 0–100 scales. Acceptance is rule-based coverage, not accuracy. Reference and unrelated questions diagnose the verifier.")
         st.markdown("**Fair comparison:** identical passages and target answers for the baseline, greedy decoding, and beam search. The main experiment supplies target answers; automatic answer selection is a separate demonstration feature.")
         st.markdown("**Known limits:** lexical overlap misses good paraphrases; automatic QA is an imperfect judge; checkpoint training exposure is partly unknown; multilingual checkpoints differ in size and training data.")
+        if expanded_path.exists():
+            with st.expander("Expanded training in English, French and Arabic", expanded=True):
+                expanded = json.loads(expanded_path.read_text(encoding="utf-8"))
+                st.dataframe([{"language": lang, "training_examples": info["training_examples"],
+                               "development_examples": info["development_examples"], "updates": info["steps"],
+                               "initial_dev_loss": info["initial_dev_loss"], "best_dev_loss": info["best_dev_loss"]}
+                              for lang, info in expanded["languages"].items()], hide_index=True)
+                st.image(str(expanded_path.parent / "comparison.png"))
+                st.caption("Each language has its own trained adapter. App selection uses development loss, including the unadapted model and the previous English adapter as candidates. Test scores are not selection criteria.")
         if study_path.exists():
             with st.expander("Training stability across three seeds"):
                 study = json.loads(study_path.read_text(encoding="utf-8"))
@@ -256,19 +275,24 @@ def main():
         st.subheader("Independent review of question quality")
         st.write("Rate relevance, answerability and fluency with the passage in view. The offline booklet hides model names and automatic scores.")
         folder = ROOT / "results/human_evaluation"
+        expanded_review = ROOT / "results/expanded_human_evaluation"
+        if (expanded_review / "review_booklet.html").exists():
+            study_label = st.selectbox("Review comparison", ["Expanded native adapters", "Original baseline and decoding"])
+            if study_label == "Expanded native adapters":
+                folder = expanded_review
         if not (folder / "items.json").exists():
             st.info("Prepare the review sample with python -m scripts.prepare_human_review.")
         else:
             items = json.loads((folder / "items.json").read_text(encoding="utf-8"))
             mapping = json.loads((folder / "researcher_mapping.json").read_text(encoding="utf-8"))
             st.download_button("Download offline review booklet", (folder / "review_booklet.html").read_bytes(),
-                               "questionforge-review.html", "text/html")
+                               f"questionforge-review-{folder.name}.html", "text/html")
             st.caption(f"{len(items)} questions prepared. Open the downloaded HTML file in a browser, rate languages you can judge, and export a CSV. No human study is claimed until ratings are supplied.")
             with st.expander("Scoring instructions"):
                 for dimension, explanation in GUIDE.items():
                     st.write(f"**{dimension.title()}:** {explanation}")
             uploads = st.file_uploader("Import reviewer CSVs for analysis", type=["csv"], accept_multiple_files=True,
-                                       key="review_csvs")
+                                       key=f"review_csvs_{folder.name}")
             if uploads:
                 try:
                     rows = []

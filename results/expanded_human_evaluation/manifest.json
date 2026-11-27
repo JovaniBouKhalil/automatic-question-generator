@@ -1,0 +1,15 @@
+{
+  "items": 36,
+  "sampling_seed": 42,
+  "items_sha256": "c0d5bf5b4ad5d7eb95232b86174e7e5cb56101cf092d4293aa8b117e0dcb6992",
+  "source_sha256": {
+    "results/expanded_en_public_test/predictions.jsonl": "b9880ed7af8c9a84615b6b96c3a086d5ac1d8f306e4625238445058756a39cdf",
+    "results/expanded_fr_public_test/predictions.jsonl": "30a4991c5de5344463df36c41c0c796ee04bda2412e94073210bd9f65bdcff2a",
+    "results/expanded_ar_public_test/predictions.jsonl": "8b2896e3ab2f8ad27c1e6af924805b01b6f05fed22c2f433d4ed0c54185e0938",
+    "results/expanded_en_classroom_test/predictions.jsonl": "0698725df342f84aa7d09a996dad8d54fd21cdbbc4d78037785bdeb9696eccb0",
+    "results/expanded_fr_classroom_test/predictions.jsonl": "6761558b4418f5ea647f9defeccfc2639dd9258194853cf918e66c3287132c31",
+    "results/expanded_ar_classroom_test/predictions.jsonl": "1717741bcb18a507b5a1758b83a0458440fe53c1a8db19ebc60dfb8ac449e5fe"
+  },
+  "blinding": "Original/expanded checkpoint identity, references and QA scores are hidden in the offline booklet.",
+  "status": "prepared; genuine human ratings pending"
+}

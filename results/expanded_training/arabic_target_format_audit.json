@@ -1,0 +1,18 @@
+{
+  "scope": "Development-only native output-prefix audit, not generation quality or test selection",
+  "n": 8,
+  "ids": [
+    "ar:413347809130",
+    "ar:847971565478",
+    "ar:745859207309",
+    "ar:332211526625",
+    "ar:tydiqa:arabic-1170668986492410039-2",
+    "ar:tydiqa:arabic-2705206941714563181-0",
+    "ar:tydiqa:arabic-7497646146868978545-5",
+    "ar:tydiqa:arabic-6807997262535075275-18"
+  ],
+  "plain_target_token_loss": 16.943632799784343,
+  "native_question_prefix_token_loss": 4.5574993170224705,
+  "development_file_sha256": "58346203b799487293023e8af20867bbb3be5a6fd5f688b814d24a3ac0671171",
+  "note": "Measured on the original pinned unadapted Arabic QG checkpoint; full-development losses are reported separately."
+}

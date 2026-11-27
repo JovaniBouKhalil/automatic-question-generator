@@ -1,0 +1,239 @@
+{
+  "scope": "Expanded native-language LoRA training; previously inspected held-out sets; no test-based selection.",
+  "languages": {
+    "en": {
+      "adapter": "artifacts/expanded/en",
+      "selected_app_adapter": "artifacts/expanded/en",
+      "selected_by": "minimum token loss on the SAME expanded development rows; test scores unused",
+      "selected_app_dev_loss": 1.3364410119885457,
+      "training_examples": 5000,
+      "development_examples": 200,
+      "steps": 600,
+      "best_step": 350,
+      "initial_dev_loss": 1.4221251109190534,
+      "best_dev_loss": 1.3364410119885457,
+      "previous_english_adapter_dev_loss": 1.3553957266541108,
+      "unique_training_ids_seen": 4800,
+      "examples_seen": 4800,
+      "training_loop_seconds": 1118.701509599996,
+      "prepared_training_examples": 5000,
+      "saved_checkpoint_examples_seen": 2800,
+      "saved_checkpoint_unique_examples_seen": 2800,
+      "checkpoint_files": {
+        "adapter_config.json": "c0e11582ae451c0c9750e2d54756f16d5b91f813872dab4980d955700b134bc6",
+        "adapter_model.safetensors": "5d5996b5c05837c260fc5f243e87e6eb44603463f9d48151817b340d1066f993",
+        "history.json": "bf9ca30f119bbecfa71e04c64973e515edb136cb81b755802f416adf9f7514d8",
+        "README.md": "3eaa0c9311202bdc98e17523b7c97f697450ac82bf9402e9732f4ad51550a2ea",
+        "training_manifest.json": "7c7de59207d96782ad3fec0567ca01395ce49eaa1fbae204a39f27131b655939",
+        "training_source.py": "35808b47ae4a88b81e82f81736ab46bb83ab43e32f7a0eb916414b3cfa90cdf1"
+      }
+    },
+    "fr": {
+      "adapter": "artifacts/expanded/fr",
+      "selected_app_adapter": "artifacts/expanded/fr",
+      "selected_by": "minimum token loss on the SAME expanded development rows; test scores unused",
+      "selected_app_dev_loss": 1.9272810452285853,
+      "training_examples": 1000,
+      "development_examples": 60,
+      "steps": 256,
+      "best_step": 224,
+      "initial_dev_loss": 2.058667030279664,
+      "best_dev_loss": 1.9272810452285853,
+      "previous_english_adapter_dev_loss": null,
+      "unique_training_ids_seen": 1000,
+      "examples_seen": 2048,
+      "training_loop_seconds": 598.970871599995,
+      "prepared_training_examples": 1000,
+      "saved_checkpoint_examples_seen": 1792,
+      "saved_checkpoint_unique_examples_seen": 1000,
+      "checkpoint_files": {
+        "adapter_config.json": "7dd1433fe60768ea1db15e17ec266b9f271c248552e984c4fd03bb7da49f074a",
+        "adapter_model.safetensors": "3a819638f5d66f488cd5b07afe10b0fa3c32e675519055fdcad255522e0b4fc2",
+        "history.json": "de7889fbf75255569fa8d1f70df318a0a61e0629b45e7a1a6af708c89059431e",
+        "README.md": "f30c13a3fd09dfa29ed8898236030e3717e4ea2374b6e628ed5676fdc86a0f72",
+        "training_manifest.json": "26e61a195e112464fcfbb0d4f35894cb22e4b1fa9a207160cff85081131cbd74",
+        "training_source.py": "35808b47ae4a88b81e82f81736ab46bb83ab43e32f7a0eb916414b3cfa90cdf1"
+      }
+    },
+    "ar": {
+      "adapter": "artifacts/expanded/ar",
+      "selected_app_adapter": "artifacts/expanded/ar",
+      "selected_by": "minimum token loss on the SAME expanded development rows; test scores unused",
+      "selected_app_dev_loss": 1.242664683865995,
+      "training_examples": 1990,
+      "development_examples": 150,
+      "steps": 512,
+      "best_step": 512,
+      "initial_dev_loss": 3.267311630624064,
+      "best_dev_loss": 1.242664683865995,
+      "previous_english_adapter_dev_loss": null,
+      "unique_training_ids_seen": 1990,
+      "examples_seen": 4096,
+      "training_loop_seconds": 2157.656279499999,
+      "prepared_training_examples": 1990,
+      "saved_checkpoint_examples_seen": 4096,
+      "saved_checkpoint_unique_examples_seen": 1990,
+      "checkpoint_files": {
+        "adapter_config.json": "2c53757ca18f8a7b07b0d02ed568c7363574aba8bb2990326cda6bf510c0e635",
+        "adapter_model.safetensors": "7a38b4a9662775087abfae651a8ec1edd61faa1ace72ce74ce00c0497862f22d",
+        "history.json": "603afadb6bf69035379ba6785164ac2678eff8daa180bdce47c4f22de3aa938b",
+        "README.md": "a3c052fdccfb707254fe64d5fc3bac59e8f1de57b49fa8c6a4152a485484de15",
+        "training_manifest.json": "e753bcbf64537b01f62cc08814974efc93f0d1c491387e28ff7eba2489098ae5",
+        "training_source.py": "8562f1d6e5aeaa851c6aec41758856aefb97add582696e2b8d3bcb1fb8b19ea4"
+      }
+    }
+  },
+  "evaluations": [
+    {
+      "language": "en",
+      "dataset": "public",
+      "n_unique_inputs": 40,
+      "independent_groups": 40,
+      "base_qa_f1": 86.87135176651307,
+      "adapted_qa_f1": 89.37135176651307,
+      "qa_f1_delta_pp": 2.5,
+      "paired_topic_ci95_pp": [
+        0.0,
+        7.5
+      ],
+      "base_rouge_l": 50.581709872677706,
+      "adapted_rouge_l": 50.08888032288725,
+      "base_chrf_pp": 47.55276381141534,
+      "adapted_chrf_pp": 46.802356178222446,
+      "base_answer_leak_pct": 0.0,
+      "adapted_answer_leak_pct": 0.0,
+      "base_automatic_acceptance_pct": 90.0,
+      "adapted_automatic_acceptance_pct": 92.5,
+      "improved_inputs": 1,
+      "worsened_inputs": 0,
+      "previous_adapter_qa_f1": 89.6352813852814,
+      "expanded_minus_previous_qa_f1_pp": -0.2639296187683285,
+      "expanded_minus_previous_ci95_pp": [
+        -0.7917888563049854,
+        0.0
+      ]
+    },
+    {
+      "language": "en",
+      "dataset": "classroom",
+      "n_unique_inputs": 24,
+      "independent_groups": 12,
+      "base_qa_f1": 71.52777777777779,
+      "adapted_qa_f1": 73.61111111111111,
+      "qa_f1_delta_pp": 2.0833333333333286,
+      "paired_topic_ci95_pp": [
+        0.0,
+        6.25
+      ],
+      "base_rouge_l": 63.75785594264696,
+      "adapted_rouge_l": 62.232008868038285,
+      "base_chrf_pp": 61.82757610032659,
+      "adapted_chrf_pp": 62.585784923999796,
+      "base_answer_leak_pct": 4.166666666666667,
+      "adapted_answer_leak_pct": 4.166666666666667,
+      "base_automatic_acceptance_pct": 75.0,
+      "adapted_automatic_acceptance_pct": 75.0,
+      "improved_inputs": 1,
+      "worsened_inputs": 0,
+      "previous_adapter_qa_f1": 76.38888888888889,
+      "expanded_minus_previous_qa_f1_pp": -2.7777777777777772,
+      "expanded_minus_previous_ci95_pp": [
+        -12.5,
+        4.166666666666667
+      ]
+    },
+    {
+      "language": "fr",
+      "dataset": "public",
+      "n_unique_inputs": 40,
+      "independent_groups": 40,
+      "base_qa_f1": 58.375,
+      "adapted_qa_f1": 51.12301587301589,
+      "qa_f1_delta_pp": -7.251984126984112,
+      "paired_topic_ci95_pp": [
+        -17.749255952380956,
+        2.708333333333333
+      ],
+      "base_rouge_l": 31.33068799161982,
+      "adapted_rouge_l": 28.766105067028814,
+      "base_chrf_pp": 30.989971718179483,
+      "adapted_chrf_pp": 28.215074705568256,
+      "base_answer_leak_pct": 0.0,
+      "adapted_answer_leak_pct": 0.0,
+      "base_automatic_acceptance_pct": 62.5,
+      "adapted_automatic_acceptance_pct": 52.5,
+      "improved_inputs": 2,
+      "worsened_inputs": 6
+    },
+    {
+      "language": "fr",
+      "dataset": "classroom",
+      "n_unique_inputs": 24,
+      "independent_groups": 12,
+      "base_qa_f1": 53.27228327228327,
+      "adapted_qa_f1": 61.46672771672772,
+      "qa_f1_delta_pp": 8.19444444444445,
+      "paired_topic_ci95_pp": [
+        -1.388888888888889,
+        19.86111111111111
+      ],
+      "base_rouge_l": 54.48746306987658,
+      "adapted_rouge_l": 51.16910717278366,
+      "base_chrf_pp": 50.170718495007335,
+      "adapted_chrf_pp": 44.6675858063432,
+      "base_answer_leak_pct": 0.0,
+      "adapted_answer_leak_pct": 0.0,
+      "base_automatic_acceptance_pct": 54.166666666666664,
+      "adapted_automatic_acceptance_pct": 66.66666666666667,
+      "improved_inputs": 3,
+      "worsened_inputs": 1
+    },
+    {
+      "language": "ar",
+      "dataset": "public",
+      "n_unique_inputs": 40,
+      "independent_groups": 40,
+      "base_qa_f1": 38.246703499752286,
+      "adapted_qa_f1": 39.51464144416082,
+      "qa_f1_delta_pp": 1.267937944408537,
+      "paired_topic_ci95_pp": [
+        -3.4939668174962293,
+        6.21492673992674
+      ],
+      "base_rouge_l": 31.907980711874238,
+      "adapted_rouge_l": 31.459255825649347,
+      "base_chrf_pp": 34.39229317638187,
+      "adapted_chrf_pp": 34.493567465085455,
+      "base_answer_leak_pct": 0.0,
+      "adapted_answer_leak_pct": 0.0,
+      "base_automatic_acceptance_pct": 40.0,
+      "adapted_automatic_acceptance_pct": 40.0,
+      "improved_inputs": 4,
+      "worsened_inputs": 1
+    },
+    {
+      "language": "ar",
+      "dataset": "classroom",
+      "n_unique_inputs": 24,
+      "independent_groups": 12,
+      "base_qa_f1": 66.2037037037037,
+      "adapted_qa_f1": 64.81481481481481,
+      "qa_f1_delta_pp": -1.3888888888888857,
+      "paired_topic_ci95_pp": [
+        -11.145833333333329,
+        5.555555555555558
+      ],
+      "base_rouge_l": 44.431669909611095,
+      "adapted_rouge_l": 45.431287122463594,
+      "base_chrf_pp": 47.41811612845936,
+      "adapted_chrf_pp": 47.11537697594111,
+      "base_answer_leak_pct": 0.0,
+      "adapted_answer_leak_pct": 0.0,
+      "base_automatic_acceptance_pct": 70.83333333333333,
+      "adapted_automatic_acceptance_pct": 66.66666666666667,
+      "improved_inputs": 2,
+      "worsened_inputs": 2
+    }
+  ],
+  "interpretation": "One seed per language. Larger datasets, validation sets and training budgets change together. QA agreement and overlap do not establish factuality or fluency; human review is pending."
+}

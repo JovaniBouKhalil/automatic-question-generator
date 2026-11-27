@@ -41,6 +41,8 @@ def test_arabic_workflow_and_invalid_answer_feedback():
 def test_real_english_model_through_the_application():
     app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=120).run()
     app.sidebar.toggle[0].set_value(False)
+    if len(app.sidebar.toggle) > 1:
+        app.sidebar.toggle[1].set_value(False)
     app.run()
     app.text_area[1].input("Lina")
     app.button[1].click().run(timeout=120)
@@ -57,7 +59,13 @@ def test_development_selected_adapter_through_the_application():
     import json
 
     root = Path(__file__).resolve().parents[1]
-    study = json.loads((root / "results/seed_study/summary.json").read_text(encoding="utf-8"))
+    expanded = root / "results/expanded_training/summary.json"
+    if expanded.exists():
+        study = json.loads(expanded.read_text(encoding="utf-8"))
+        selected_path = study["languages"]["en"]["selected_app_adapter"]
+    else:
+        study = json.loads((root / "results/seed_study/summary.json").read_text(encoding="utf-8"))
+        selected_path = study["optional_app_adapter"]
     app = AppTest.from_file(root / "app.py", default_timeout=120).run()
     app.sidebar.toggle[0].set_value(False)
     app.run()
@@ -70,4 +78,33 @@ def test_development_selected_adapter_through_the_application():
     assert not app.error
     row = app.session_state["questions"][0]
     assert row["question"].strip()
-    assert Path(row["model_id"]) == root / study["optional_app_adapter"]
+    assert Path(row["model_id"]) == root / selected_path
+
+
+@pytest.mark.integration
+@pytest.mark.parametrize("language,answer", [("fr", "Lina"), ("ar", "لينا")])
+def test_expanded_native_adapter_through_the_application(language, answer):
+    import json
+
+    root = Path(__file__).resolve().parents[1]
+    path = root / "results/expanded_training/summary.json"
+    if not path.exists():
+        pytest.skip("Expanded training has not completed.")
+    study = json.loads(path.read_text(encoding="utf-8"))
+    selected = study["languages"][language]["selected_app_adapter"]
+    if selected is None:
+        pytest.skip("Development selection preferred the unadapted generator.")
+    app = AppTest.from_file(root / "app.py", default_timeout=120).run()
+    app.sidebar.selectbox[0].select(language)
+    app.sidebar.toggle[0].set_value(False)
+    app.run()
+    app.sidebar.toggle[1].set_value(True)
+    app.run()
+    app.text_area[1].input(answer)
+    app.button[1].click().run(timeout=120)
+    assert not app.exception
+    assert not app.error
+    row = app.session_state["questions"][0]
+    assert row["question"].strip()
+    assert row["language"] == language
+    assert Path(row["model_id"]) == root / selected

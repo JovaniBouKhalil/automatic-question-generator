@@ -107,14 +107,34 @@ overstate the evidence. The optional app checkpoint is chosen using development 
 articles. The audit found English development titles in training. The sensitivity excludes
 23 training paragraphs sharing held-out titles. It also reduces training coverage, so the
 result does not isolate the causal effect of isolation. Arabic title/near-duplicate risks
-are reported separately; the only adapters trained here are English.
+are reported separately. That sensitivity trains English only; the larger native-language study is separate.
 
-**Is the human evaluation complete?** No. Fifty-four blinded items, a browser-tested booklet,
-CSV validation and paired/inter-rater analysis are prepared. Only actual reviewer CSVs can
+**Is the human evaluation complete?** No. The original 54-item decoding booklet and new 36-item
+adapter comparison, CSV validation and paired/inter-rater analysis are prepared. Only actual reviewer CSVs can
 turn that preparation into human evidence. Constructed controls and explanatory source
 inspections do not replace those ratings.
 
-## Human review procedure and booklet
+## Larger-training questions
+
+**Why does Arabic train on an English `question:` prefix?** That control prefix is part of
+the pinned Arabic checkpoint's decoder target format. It does not translate the question.
+The author removes it from decoded output. A development-only audit exposed the mismatch;
+the final run trains with the native format and the existing generator strips it for display.
+
+**Did the saved English model see all 5,000 prepared training examples?** No. The whole run
+saw 4,800 before stopping at update 600, but its best checkpoint is step 350 and saw 2,800
+distinct examples. Later updates are discarded. The metadata/report distinguish preparation,
+actual optimization and selected-checkpoint exposure.
+
+**Why exclude source validation examples whose offsets are unusable?** Their passages and
+article facts are still held out. Filtering unusable answers does not release those sources
+for training. The full-pool audit removes ten additional Arabic training passages by title.
+
+**How is the app checkpoint chosen?** Compare development token loss on identical rows,
+including the unadapted model and the previous English adapter. Test generation is evaluated
+after selection. Lower loss does not guarantee better human-rated question quality.
+
+## Human review procedure
 
 Annotate relevance, answerability and fluency independently on a 0–2 scale: 0 = poor, 1 = partial,
 2 = good. Use the passage and intended answer, not just the reference wording. Label errors such

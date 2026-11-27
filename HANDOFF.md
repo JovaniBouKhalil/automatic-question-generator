@@ -23,13 +23,37 @@ Export a worksheet, answer key, CSV, JSON or Moodle XML. Full setup/reproduction
   presentation and small trained adapter; excludes environments, full weights and course files.
 - `presentation/QuestionForge.pptx` — **12 editable slides**, with sources and technical speaker notes.
 - `presentation/QuestionForge.pdf` — readable slide export; PNG previews are in `presentation/preview/`.
-- `notebooks/QuestionForge.ipynb` — **8 executed code cells**, including real generation in all three languages.
+- `notebooks/QuestionForge.ipynb` — **9 executed code cells**, including original and trained generation in all three languages.
 - `docs/DEFENSE_GUIDE.md` — demo steps, course connections and technical questions to prepare.
 - `docs/RUBRIC_CHECKLIST.md` — evidence mapped to the 100-point rubric.
 
-No standalone technical report was prepared, as the rubric does not require one.
+The rubric does not require a separate written report.
 
-## What the experiments show
+## Latest larger-data training
+
+Three native adapters are now trained and available through **Use adapted … generator** in the app.
+The original model remains the default for comparison because held-out gains are mixed.
+
+| Language | Prepared training / development | Run updates | Saved step | Distinct examples used by saved checkpoint |
+|---|---:|---:|---:|---:|
+| English | 5,000 / 200 | 600 | 350 | 2,800 |
+| French | 1,000 / 60 | 256 | 224 | 1,000 |
+| Arabic | 1,990 / 150 | 512 | 512 | 1,990 |
+
+Arabic adds native human TyDiQA-GoldP data. Strict answer-span checks and the full published
+validation-source audit filter unusable annotations and ten additional training passages.
+Its native decoder prefix is handled explicitly; exact trainer snapshots accompany each adapter.
+
+QA F1 changes against unadapted beam-4: English +2.50 public / +2.08 classroom; French −7.25 /
++8.19; Arabic +1.27 / −1.39. Wording-overlap scores also vary; all paired intervals include zero.
+The previous smaller English adapter remains available and wins on some test metrics.
+Checkpoint selection uses shared development loss, not these test scores.
+
+Read `docs/EXPANDED_TRAINING_RESULTS.md` for actual exposure, intervals, sources and reproduction.
+The latest 36-item blinded adapter booklet is in `results/expanded_human_evaluation`; its human
+ratings remain pending. Ten paired cases revisit the original qualitative failures/successes.
+
+## Original benchmark results
 
 Public test subset: **40 paragraph groups per language**. A separate original synthetic
 classroom supplement has **24 test questions per language**. Together these are 192 distinct
@@ -75,10 +99,10 @@ completed human evaluations. Teacher review of wording and factual support is pa
 
 ## Validation and reproducibility
 
-- **46 regular tests passed; 8 real neural integration tests passed.**
+- **53 regular tests passed; 10 real neural integration tests passed.**
 - Ruff checks passed; the notebook executed without errors.
 - A resumed copy of the LoRA test experiment retained all 200 prediction records with an
-  unchanged SHA-256. All 15 original/follow-up generation experiments match their recorded core source hashes.
+  unchanged SHA-256. All 21 original/follow-up generation experiments match their recorded core source hashes.
 - All original and follow-up generation/verification experiment records have zero execution errors.
 - Slides were rendered and visually inspected; PDF and ZIP integrity were checked.
 - Dataset preparation rejected invalid spans/duplicates and removed **15 Arabic training
