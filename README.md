@@ -47,6 +47,11 @@ are excluded from GitHub and the submission.
 
 ## What is implemented
 
+Learning-focused experiments target concepts, functions and explicit relationships.
+The app offers a T5-only mode and local planner/editor modes, with the original T5 draft
+visible for comparison. These remain experimental; exact source spans and QA agreement
+do not prove educational value. See [the learning-focused workflow](docs/LEARNING_FOCUS.md).
+
 - Native answer-aware sequence-to-sequence models for each language, correct checkpoint
   prompts, deterministic greedy/beam decoding, and answer-preserving cropping.
 - A transparent template baseline with the same passage and target answer.
@@ -61,6 +66,19 @@ are excluded from GitHub and the submission.
 - Arabic text direction, text/PDF input, student/teacher views, and classroom exports.
 
 ## Reproduce experiments
+
+For the educational training and stronger-model follow-up, see
+[the science training protocol](docs/SCIENCE_TRAINING_PROTOCOL.md) and
+[the learning-focused protocol](docs/LEARNING_FOCUS_PROTOCOL.md). Monitor local work with:
+
+```powershell
+python -m scripts.learning_status
+```
+
+The optional 4B editor requires `python -m scripts.download_quality_model` (8.04 GB).
+It runs on CPU with sufficient memory; the smaller original T5 workflow remains available.
+Do not launch a second training/downloader while one is active. Completed grid trials can
+be reused; an interrupted grid trial has no optimizer-resume support.
 
 Activate the environment or replace `python` with `.\.venv\Scripts\python.exe`:
 

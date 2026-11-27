@@ -156,6 +156,55 @@ for training. The full-pool audit removes ten additional Arabic training passage
 including the unadapted model and the previous English adapter. Test generation is evaluated
 after selection. Lower loss does not guarantee better human-rated question quality.
 
+## Learning-focused questions and educational training
+
+**Why can a correct question still be unhelpful?** It may ask about an incidental name,
+color or time while missing the concept the student should learn. Judge source support,
+clear wording and learning value separately. Question length and QA answer recovery do
+not measure importance. A simple definition can be useful when it is the lesson's subject.
+
+**Why not just ask more “why” questions?** A why-question needs an explanation in the
+passage. Otherwise it introduces an unsupported premise or requires outside knowledge.
+Functions, processes, limitations and explicit comparisons are other useful targets.
+
+**What does the new planner change?** It chooses IDs from source-derived answer/evidence
+candidates. Code resolves exact source quotes and offsets. T5 writes drafts for those
+targets; a local instruction model edits them against the passage and objective. This
+separates target selection from wording. Original TF-IDF targets may differ; planned T5
+and edited questions share targets, making that comparison easier to interpret.
+
+**Is the editor also an encoder–decoder model?** No. Qwen is decoder-only. The native
+T5/mT5/AraT5 generator remains the project's encoder–decoder system and controlled
+research baseline. The hybrid adds an inference-time planner/editor. Its final exports
+identify the editor and preserve the T5 draft model separately. Do not describe the final
+hybrid question as solely written by T5 or claim that Qwen was trained in this project.
+
+**What are the three tuned hyperparameters?** The science grid varies learning rate
+{1e-4, 3e-4}, LoRA rank {8, 16} and dropout {.05, .15}: eight combinations. Data order,
+seed, 256-update budget and validation protocol are held fixed. All results are retained.
+The unadapted step-zero checkpoint can win. One seed does not establish global optimality.
+
+**Why SciQ?** Its human-authored science questions provide an educational training domain.
+The preparation uses support passages and uniquely aligned answers, keeps published
+split roles, removes duplicate questions and protects all raw held-out support/question
+strings before sampling. This is an English-only curriculum study; it is not new Arabic
+or French training, and public pretraining exposure remains unknown.
+
+**Does the new training prove that questions are more useful?** No. Validation token loss
+selects weights; reserved test generation measures overlap and QA recovery after selection.
+Those are different from educational usefulness. Read generated development questions
+against their passages and obtain actual human usefulness ratings for stronger evidence.
+
+**Why keep the unsuccessful smaller-editor runs?** They expose real failure modes:
+unrelated output after one generic int8 conversion, fragile quote copying, wrong-language
+questions and reversed factual roles. Exact spans or valid JSON did not solve semantics.
+The stronger-model comparison changes capacity and retains the same planning/editing task.
+
+**How do I inspect the work locally?** Run `python -m scripts.learning_status` for progress.
+Use the source-linked comparison pages in `results/learning*` and the science development
+comparison. Human review templates remain empty until a person supplies ratings. Avoid
+starting a second training process while the first is active.
+
 ## Human review procedure
 
 Annotate relevance, answerability and fluency independently on a 0–2 scale: 0 = poor, 1 = partial,

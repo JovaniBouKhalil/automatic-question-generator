@@ -167,3 +167,55 @@ def test_expanded_native_adapter_through_the_application(language, answer):
     assert row["question"].strip()
     assert row["language"] == language
     assert Path(row["model_id"]) == root / selected
+
+
+@pytest.mark.integration
+def test_science_adapter_through_the_application():
+    import json
+
+    root = Path(__file__).resolve().parents[1]
+    selection_path = root / "results/science_training/selection.json"
+    if not selection_path.exists():
+        pytest.skip("Science training is still running.")
+    selection = json.loads(selection_path.read_text(encoding="utf-8"))
+    if not selection["selected_checkpoint"]:
+        pytest.skip("Validation selected the unadapted model.")
+    app = AppTest.from_file(root / "app.py", default_timeout=120).run()
+    app.sidebar.selectbox[1].select("Pretrained Transformer")
+    app.sidebar.toggle[0].set_value(False)
+    app.run()
+    app.sidebar.toggle[1].set_value(True)
+    app.run()
+    next(box for box in app.sidebar.selectbox if box.label == "English adaptation data").select("Educational science")
+    app.run()
+    app.text_area[0].input("Chlorophyll captures the light energy that plants use to make food.")
+    app.text_area[1].input("Chlorophyll")
+    app.button[1].click().run(timeout=120)
+    assert not app.exception and not app.error
+    row = app.session_state["questions"][0]
+    assert Path(row["model_id"]) == root / selection["selected_checkpoint"]
+    assert row["answer"] == "Chlorophyll" and row["question"].strip()
+
+
+@pytest.mark.integration
+def test_stronger_editor_through_the_application():
+    from questionforge.learning.quality import QUALITY_MODEL, local_quality_source
+
+    try:
+        local_quality_source()
+    except RuntimeError:
+        pytest.skip("The optional stronger editor is not downloaded.")
+    root = Path(__file__).resolve().parents[1]
+    app = AppTest.from_file(root / "app.py", default_timeout=600).run()
+    app.sidebar.selectbox[1].select("Learning-focused hybrid 4B (experimental)")
+    app.sidebar.toggle[0].set_value(False)
+    app.run()
+    app.text_area[0].input("A solar panel converts light into electrical energy. Shading the panel reduces its voltage.")
+    app.text_area[1].input("electrical energy")
+    app.text_area[2].input("Understand the panel's function.")
+    app.button[1].click().run(timeout=600)
+    assert not app.exception and not app.error
+    row = app.session_state["questions"][0]
+    assert row["model_id"] == QUALITY_MODEL.model_id
+    assert row["draft_model_id"] == "lmqg/t5-small-squad-qg" and row["draft_question"].strip()
+    assert row["answer"] == "electrical energy" and row["question"].strip()

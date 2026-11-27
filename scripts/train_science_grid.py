@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import gc
 import itertools
 import json
@@ -16,6 +17,11 @@ from questionforge.registry import GENERATORS
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path, default=Path("results/science_training"))
+    parser.add_argument("--adapters", type=Path, default=Path("artifacts/science_lora"))
+    parser.add_argument("--data-dir", type=Path, default=Path("data/processed/science"))
+    args = parser.parse_args()
     from peft import LoraConfig, TaskType, get_peft_model
     from transformers import (
         AutoModelForSeq2SeqLM,
@@ -24,10 +30,10 @@ def main():
         get_linear_schedule_with_warmup,
     )
 
-    root = Path("results/science_training")
+    root = args.output
     root.mkdir(parents=True, exist_ok=True)
-    data = Path("data/processed/science")
-    sources = [Path(__file__), Path("docs/SCIENCE_TRAINING_PROTOCOL.md"), Path("scripts/prepare_science_data.py")]
+    data = args.data_dir
+    sources = [Path(__file__).relative_to(Path.cwd()), Path("docs/SCIENCE_TRAINING_PROTOCOL.md"), Path("scripts/prepare_science_data.py")]
     config = {"seed": 42, "updates": 256, "batch_size": 2, "gradient_accumulation": 4,
               "grid": {"learning_rate": [1e-4, 3e-4], "rank": [8, 16], "dropout": [.05, .15]},
               "base_model": GENERATORS["en"].model_id, "base_revision": GENERATORS["en"].revision,
@@ -38,6 +44,8 @@ def main():
     if config_path.exists() and json.loads(config_path.read_text(encoding="utf-8")) != config:
         raise ValueError("Science grid changed; preserve this study and use a new version.")
     config_path.write_text(json.dumps(config, indent=2), encoding="utf-8")
+    if (data / "manifest.json").exists() and not (root / "data_manifest.json").exists():
+        (root / "data_manifest.json").write_bytes((data / "manifest.json").read_bytes())
     for path in sources:
         target = root / "source" / path.relative_to(Path.cwd()) if path.is_absolute() else root / "source" / path
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -66,7 +74,7 @@ def main():
     trials = []
     for lr, rank, dropout in itertools.product([1e-4, 3e-4], [8, 16], [.05, .15]):
         name = f"lr{lr:.0e}_r{rank}_d{dropout:.2f}"
-        output = Path("artifacts/science_lora") / name
+        output = args.adapters / name
         receipt = root / f"{name}.json"
         if receipt.exists():
             previous = json.loads(receipt.read_text(encoding="utf-8"))

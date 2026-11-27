@@ -1,0 +1,49 @@
+{
+  "dataset": "allenai/sciq",
+  "revision": "2c94ad3e1aafab77146f384e23536f97a4849815",
+  "license": "CC-BY-NC-3.0",
+  "seed": 42,
+  "published_counts": {
+    "train": 11679,
+    "validation": 1000,
+    "test": 1000
+  },
+  "exclusions": {
+    "train": {
+      "answer_missing_or_ambiguous": 4984,
+      "missing_support_answer_or_question": 1198,
+      "malformed_or_out_of_budget": 56,
+      "duplicate_support_group_or_question": 23,
+      "full_raw_heldout_support_or_question_overlap": 10
+    },
+    "validation": {
+      "missing_support_answer_or_question": 113,
+      "answer_missing_or_ambiguous": 410,
+      "malformed_or_out_of_budget": 9,
+      "full_raw_heldout_support_or_question_overlap": 0
+    },
+    "test": {
+      "answer_missing_or_ambiguous": 432,
+      "missing_support_answer_or_question": 116,
+      "malformed_or_out_of_budget": 3
+    }
+  },
+  "prepared_counts": {
+    "train": 2048,
+    "dev": 128,
+    "test": 200
+  },
+  "source_sha256": {
+    "data/train-00000-of-00001.parquet": "19644360954006d06e9ad3df07bddb34f8535c081b831d48f604603c713ac167",
+    "data/validation-00000-of-00001.parquet": "455dd9f1d725cd3ecbce369799a2fbbdbbfecf51ab84a86d56ba3370dc847b8a",
+    "data/test-00000-of-00001.parquet": "3a719356a29b127fc54ef3c7f51a034db4bd105d5717215e8c85d2aa58d60667"
+  },
+  "prepared_sha256": {
+    "train": "45c9c58636ad64a50d7bdb6d70b0c8936c0a86532b28a4f545c146f1c7cd8649",
+    "dev": "a335e7bbafa87693ce5458f6caeff8e56e7fcbbf8e982b71c751732ec75ca7f7",
+    "test": "962e2a384693fe564fe1d57728c9a935f6f52de7bebe387c53046eed7c8d708a"
+  },
+  "protocol_sha256": "57ac9e7131e70c2c28cbd11466e68decaa20f67d411638fcd85332d357a98ae3",
+  "all_published_heldout_support_and_questions_protected": true,
+  "test_used_for_training_or_selection": false
+}

@@ -1,0 +1,33 @@
+{
+  "split": "test",
+  "limit": 200,
+  "selection_sha256": "772ef21e0d52ecb298487d90c86db03f2d18051a2db3b00617a6a65565742fed",
+  "data_sha256": "962e2a384693fe564fe1d57728c9a935f6f52de7bebe387c53046eed7c8d708a",
+  "selected_checkpoint": "artifacts/science_lora/lr3e-04_r16_d0.05",
+  "beams": 4,
+  "seed": 42,
+  "checkpoint_files": {
+    "adapter_config.json": "e17697c79e13fd0c0212013b6136eca445a739def9ffab9bbba6a5b8d9f0fbc9",
+    "adapter_model.safetensors": "71af41cbb877bc91dccd26de9c0fb11a4063296f289e4d24bc75e6cef52253db",
+    "README.md": "6e61f589663879d0fd3a0be0214b378dce3a2763f1bbc69df0b1b05826de830f",
+    "training_manifest.json": "bf858fd4530b0bb907200e9d922ab898635f66fe93778f36ce843b681b2ad4dd"
+  },
+  "sources_sha256_normalized_utf8": {
+    "scripts/evaluate_science.py": "643e7ea9a36c8a3f90760b479337cd8747a5d2f140e4350de9f110e8ab849052",
+    "docs/SCIENCE_TRAINING_PROTOCOL.md": "57ac9e7131e70c2c28cbd11466e68decaa20f67d411638fcd85332d357a98ae3",
+    "questionforge/baseline.py": "9bf672087f705af2eea24477cab03014973253d105aa4f2fb030e4207a0af9e1",
+    "questionforge/candidates.py": "7b7fdfe59a1bbf930794f25fd22fd830a6be0b478a8c6b7bff3cb82d59dcda92",
+    "questionforge/cli.py": "dc091209a7b22760860779fe40e0b3e02008805d7f65792dd4d8a594d1b9cdb1",
+    "questionforge/data.py": "de44b05086800bc14cf0e52c05f0fcc84e05dad9ed0ed98a4271cbfbde97fa86",
+    "questionforge/experiment.py": "74b84b99a36339f558d5214377d330e742976b15f8387fa39d4dc3e7489457a9",
+    "questionforge/export.py": "b34e15e474049c1eaa3581cb6e3d25003f5c64f9675629ec974891fcb3b59024",
+    "questionforge/metrics.py": "64a83578331afb11fc51d1a90908452e70a70b1d808f7e079bae742d0f5f8a75",
+    "questionforge/models.py": "2e01ba40843e8adcdf6801ad7e00920a9027dad18d2489fc17abc4567b4743ba",
+    "questionforge/registry.py": "47d8888cd92faf65e3e81c0d936b6dbc0c9d35e0841e37e65df3de1923ed471e",
+    "questionforge/review.py": "08757c0a3fa7ed80dee1fbc771129f43b1ad05a11849140ff627e2a674689b20",
+    "questionforge/text.py": "b454a3ee27ce5d02407cb6776db7f4c911c722fc014c8405ec223550c3cb6b58",
+    "questionforge/verification.py": "0afe21469cead9539b440110dc416aea248b2f4422f5f348dda97c497ea8a8b3",
+    "questionforge/__init__.py": "ab2b984136b0f83fe00df36b313485ed946ef04981b3caf9ce994a631214b236"
+  },
+  "test_used_for_selection": false
+}

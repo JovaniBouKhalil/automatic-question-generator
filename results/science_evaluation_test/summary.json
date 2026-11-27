@@ -1,0 +1,75 @@
+{
+  "scope": "SciQ test; validation-only checkpoint selection, no completed human usefulness ratings.",
+  "question_answer_pairs": 200,
+  "prediction_records": 600,
+  "methods": {
+    "reference_control": {
+      "n": 200,
+      "bleu": 100.00000000000004,
+      "chrf_pp": 100.0,
+      "rouge_l": 100.0,
+      "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:intl|smooth:exp|version:2.6.0",
+      "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:2|space:no|version:2.6.0",
+      "answer_f1": 76.49603174603173,
+      "answer_em": 71.0,
+      "lexical_relevance": 46.8800272278269,
+      "answer_leak": 0.0,
+      "accepted": 78.5,
+      "generation_seconds_mean": 2.443999983370304e-06,
+      "unique_question_pct": 100.0,
+      "qa_f1_ci95": [
+        70.89470238095237,
+        82.17079365079364
+      ]
+    },
+    "original_t5": {
+      "n": 200,
+      "bleu": 31.832095098797005,
+      "chrf_pp": 50.90217335069982,
+      "rouge_l": 59.82939516237202,
+      "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:intl|smooth:exp|version:2.6.0",
+      "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:2|space:no|version:2.6.0",
+      "answer_f1": 72.62759360522519,
+      "answer_em": 62.0,
+      "lexical_relevance": 60.89460860298443,
+      "answer_leak": 0.0,
+      "accepted": 75.5,
+      "cropped": 7.0,
+      "generation_seconds_mean": 0.39101921749963364,
+      "unique_question_pct": 100.0,
+      "qa_f1_ci95": [
+        67.12728226817043,
+        77.93019641907799
+      ]
+    },
+    "selected_t5": {
+      "n": 200,
+      "bleu": 42.11034786880253,
+      "chrf_pp": 58.692432660986796,
+      "rouge_l": 64.1453793083686,
+      "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:intl|smooth:exp|version:2.6.0",
+      "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:2|space:no|version:2.6.0",
+      "answer_f1": 74.11121553884713,
+      "answer_em": 68.0,
+      "lexical_relevance": 69.07628738928435,
+      "answer_leak": 0.0,
+      "accepted": 76.0,
+      "cropped": 7.0,
+      "generation_seconds_mean": 0.4575516984994465,
+      "unique_question_pct": 100.0,
+      "qa_f1_ci95": [
+        68.28056077694235,
+        79.59783521303258
+      ]
+    }
+  },
+  "cases_with_execution_error": 0,
+  "human_usefulness_ratings": "pending",
+  "paired_qa_answer_f1_difference_pp": {
+    "mean": 1.4836219336219338,
+    "ci95": [
+      -2.3402110389610375,
+      5.600927128427127
+    ]
+  }
+}

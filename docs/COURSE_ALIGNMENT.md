@@ -15,7 +15,7 @@ of the classroom code, and conceptual alignment does not establish strong questi
 | `NLP_week_7_8_9 (2).pdf`, pp. 5–13 | Transfer learning, matching tokenizers, encoder-only / decoder-only / encoder–decoder families; T5 and BART explicitly appear on p. 11 | Pinned T5/mT5/AraT5 question-generation checkpoints with their own tokenizers and answer-aware input formats. Encoder–decoder generation directly matches the assigned seq2seq task. |
 | Same PDF, pp. 36–37, 52–58 | Small learning rates, training with validation, freezing versus full fine-tuning; class example is full fine-tuning a small BERT classifier using KerasHub | Teacher-forced question-token cross-entropy, AdamW, validation loss, checkpoint selection and early stopping. PyTorch/PEFT updates low-rank attention adapters while the base weights stay frozen. This is parameter-efficient adaptation, rather than the full-backbone class example. |
 | Same PDF, pp. 41–48; `GPT2_Coding_Exercise.ipynb` | Causal next-token generation and inference-time decoding choices | T5's decoder generates autoregressively while also attending to the encoder. Greedy and beam-4 are compared. The project does not train GPT-2 or compare top-k/top-p sampling. |
-| `Week 10 (3).pptx`, slides 5–24 | Parameters versus hyperparameters, learning rate, batch size, regularization, sequence length, validation-only model selection and KerasTuner | Fixed documented LoRA settings, development-selected checkpoints, multiple seeds and decoding comparisons. Learning rate, rank and dropout are configured, but have not been systematically searched. Multiple seeds are not a hyperparameter search. |
+| `Week 10 (3).pptx`, slides 5–24 | Parameters versus hyperparameters, learning rate, batch size, regularization, sequence length, validation-only model selection and KerasTuner | The original experiments use fixed LoRA settings and multiple seeds. The follow-up SciQ study now completes an equal-budget eight-setting search over learning rate, rank and dropout, selecting checkpoints on validation loss only. It uses PyTorch rather than KerasTuner. Multiple seeds alone are not a hyperparameter search. |
 | Same deck, slides 26–43 | Precision/recall/F1, thresholds, false positives/negatives, inspecting examples and fair comparisons | Reference-overlap metrics, answer-token F1/EM, positive/negative verifier controls, paired intervals and source-linked failure analysis. There are no representative human correctness labels from which to report generation accuracy or a natural-question correctness confusion matrix. |
 | `NLP_Week12_13 (2).pptx`, slides 5, 8, 13 | Systems combining components; Hugging Face Transformers; prompting at inference | A local generation/checking/export workflow using Hugging Face models. These task-tuned seq2seq checkpoints use their documented training prompts; they are not assumed to obey arbitrary chat instructions. |
 | Same deck, slides 14–20, 27–30 | RAG: overlapping document chunks, embeddings, semantic retrieval, evidence-based generation | The user supplies a passage; the model receives an answer-centered window. There is no vector database, embedding retriever or document-collection search. It should not be presented as the slides' RAG implementation. |
@@ -69,6 +69,29 @@ error sample or an estimate of error frequency. Predictions and aggregate numeri
 were preserved; correcting an explanatory annotation does not improve model weights.
 
 ## What would constitute a meaningful improvement?
+
+### Completed science follow-up
+
+The English SciQ study now implements the proposed three-hyperparameter search on a new
+educational source. It uses 2,043 usable training / 126 validation examples after token-budget
+filtering and reserves 200 published test examples. All eight trials receive 256 updates and
+the same example order. Validation selects learning rate 3e-4, rank 16 and dropout .05;
+token loss changes from 1.1829 to .9964. Exact source and all adapter bundles are retained.
+
+On the reserved science test, BLEU changes from 31.83 to 42.11 and ROUGE-L from 59.83 to
+64.15. QA answer F1 changes from 72.63 to 74.11; its paired 95% interval for the difference
+is [-2.34, 5.60] percentage points. This is better reference-wording agreement, without an
+established directional QA improvement or a human usefulness result. Development inspection
+finds clearer target focus in some questions and long copied/malformed cloze questions in
+others. The educational domain and adaptation both change; this is not an isolated causal
+test of data quantity. Source-level public pretraining exposure remains unknown.
+
+See [the measured science report](SCIENCE_TRAINING_RESULTS.md). The learning-focused
+candidate-selection and planner/editor comparisons are separate development experiments,
+documented in [the learning workflow](LEARNING_FOCUS.md). Neither exact spans nor QA
+agreement certifies logical relationships.
+
+### Recommendations retained from the initial audit
 
 The next experiment should address these observed errors, rather than extend training without
 a selection criterion. These are recommendations, not completed experiments:

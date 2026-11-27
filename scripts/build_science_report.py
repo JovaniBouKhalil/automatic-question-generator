@@ -2,24 +2,31 @@
 
 from __future__ import annotations
 
+import argparse
 import json
+import os
 from pathlib import Path
 
 from scripts.run_learning_focus_study import render_report
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--training-dir", type=Path, default=Path("results/science_training"))
+    parser.add_argument("--evaluation-prefix", type=Path, default=Path("results/science_evaluation"))
+    parser.add_argument("--output", type=Path, default=Path("docs/SCIENCE_TRAINING_RESULTS.md"))
+    args = parser.parse_args()
     import matplotlib
 
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    root = Path("results/science_training")
+    root = args.training_dir
     selection = json.loads((root / "selection.json").read_text(encoding="utf-8"))
     assert selection["complete"] and selection["trials"] == 8
     trials = sorted([json.loads(p.read_text(encoding="utf-8")) for p in root.glob("lr*.json")], key=lambda r: r["trial"])
     assert len(trials) == 8 and all(r["complete"] for r in trials)
-    labels = [f"{r['learning_rate']:.0e}\nr={r['rank']} d={r['dropout']:.2f}" for r in trials]
+    labels = [f"{r['learning_rate']:.0e}\nr={r['rank']}\nd={r['dropout']:.2f}" for r in trials]
     colors = ["#205c4a" if r["trial"] == selection["selected_trial"] else "#aac2ac" for r in trials]
     fig, axes = plt.subplots(1, 2, figsize=(13, 4.6), constrained_layout=True)
     axes[0].bar(range(8), [r["best_dev_loss"] for r in trials], color=colors)
@@ -67,7 +74,7 @@ def main():
               f"{selection['baseline_dev_loss']:.4f} → {selection['selected_dev_loss']:.4f}.",
               "Selection includes the unadapted step-zero model. One seed and one budget per setting do not",
               "establish a globally optimal configuration or isolate each hyperparameter's causal effect.", "",
-              "![Measured validation search](../results/science_training/validation_search.png)", "",
+              "![Measured validation search](" + os.path.relpath(root / "validation_search.png", args.output.parent).replace("\\", "/") + ")", "",
               "## Generation after selection", "",
               "Original and selected T5 receive identical exact answers/passages and beam-4 decoding.",
               "Question/answer pairs differ from the original project tests. These are public published",
@@ -75,7 +82,7 @@ def main():
               "| Split / method | Inputs | BLEU | chrF++ | ROUGE-L | QA answer F1 |",
               "|---|---:|---:|---:|---:|---:|"]
     for split in ["dev", "test"]:
-        folder = Path(f"results/science_evaluation_{split}")
+        folder = Path(str(args.evaluation_prefix) + "_" + split)
         summary = json.loads((folder / "summary.json").read_text(encoding="utf-8"))
         for method, score in summary["methods"].items():
             lines.append(f"| {split} / {method} | {score['n']} | {score['bleu']:.2f} | {score['chrf_pp']:.2f} | {score['rouge_l']:.2f} | {score['answer_f1']:.2f} |")
@@ -89,17 +96,30 @@ def main():
                       "outputs": {method: [r for r in predictions if r["id"] == key and r["method"] == method]
                                   for method in ["original_t5", "selected_t5"]}} for key in ids]
             render_report(folder, cases, write_template=True, methods=["original_t5", "selected_t5"])
+    review_path = root / "qualitative_development_review.json"
+    if review_path.exists():
+        review = json.loads(review_path.read_text(encoding="utf-8"))
+        lines += ["## Source-linked development inspection", "", review["scope"], ""]
+        lines += [f"- `{case['id']}`: {case['observation']}" for case in review["cases"]]
+        lines += [""]
     lines += ["QA F1 measures answer recovery, not question accuracy or educational value. Reference controls",
               "show the checker's performance on human questions from this domain. Overlap metrics depend on",
               "one reference wording. Inspect `results/science_evaluation_dev/comparison.html` for every saved",
               "development example; the review template is intentionally empty. Human ratings are pending.", "",
               "## Reproduce on your computer", "", "```powershell", "python -m scripts.prepare_science_data",
-              "python -m scripts.train_science_grid", "python -m scripts.evaluate_science --split dev",
-              "python -m scripts.evaluate_science --split test", "python -m scripts.build_science_report", "```", "",
+              "python -m scripts.train_science_grid --output outputs/science_reproduction --adapters outputs/science_adapters",
+              "python -m scripts.evaluate_science --split dev --training-dir outputs/science_reproduction --output outputs/science_eval_dev",
+              "python -m scripts.evaluate_science --split test --training-dir outputs/science_reproduction --output outputs/science_eval_test",
+              "python -m scripts.build_science_report --training-dir outputs/science_reproduction --evaluation-prefix outputs/science_eval --output outputs/science_report.md", "```", "",
               "Do not run a second training process concurrently. Completed compatible trials are reused;",
               "mid-trial optimizer resume is not implemented. Preserve an interrupted adapter rather than",
-              "silently overwrite it. Weights and exact source snapshots accompany all completed trials.", ""]
-    Path("docs/SCIENCE_TRAINING_RESULTS.md").write_text("\n".join(lines), encoding="utf-8")
+              "silently overwrite it. Weights and exact source snapshots accompany all completed trials.", "",
+              "In the app, enable **Use adapted English generator**, then choose **Educational science**",
+              "under **English adaptation data**. It is optional; original and general-reading adapters remain",
+              "available. Compare actual questions rather than assume that the validation winner is best for",
+              "every subject or learning goal.", ""]
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text("\n".join(lines), encoding="utf-8")
     print("Science report, validation figures and development comparison written.")
 
 

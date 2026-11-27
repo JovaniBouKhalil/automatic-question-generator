@@ -9,8 +9,8 @@ from dataclasses import asdict
 from pathlib import Path
 
 from questionforge.data import load_jsonl
-from questionforge.experiment import bootstrap_mean_ci, fingerprint_file
-from questionforge.metrics import aggregate
+from questionforge.experiment import bootstrap_mean_ci, environment_info, fingerprint_file
+from questionforge.metrics import aggregate, leaks_answer, lexical_relevance, quality_decision
 from questionforge.models import generate_question, verify_question
 from scripts.run_learning_focus_study import snapshot_sources, source_hash, write_json
 
@@ -18,15 +18,17 @@ from scripts.run_learning_focus_study import snapshot_sources, source_hash, writ
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--split", choices=["dev", "test"], default="test")
+    parser.add_argument("--training-dir", type=Path, default=Path("results/science_training"))
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
-    selection_path = Path("results/science_training/selection.json")
+    selection_path = args.training_dir / "selection.json"
     selection = json.loads(selection_path.read_text(encoding="utf-8"))
     assert selection["complete"] and selection["trials"] == 8 and not selection["test_used_for_selection"]
     sources = [Path(__file__).relative_to(Path.cwd()), Path("docs/SCIENCE_TRAINING_PROTOCOL.md"),
                *Path("questionforge").glob("*.py")]
     data_path = Path("data/processed/science") / f"{args.split}.jsonl"
     checkpoint = selection["selected_checkpoint"]
-    output = Path(f"results/science_evaluation_{args.split}")
+    output = args.output or Path(f"results/science_evaluation_{args.split}")
     output.mkdir(parents=True, exist_ok=True)
     config = {"split": args.split, "limit": 64 if args.split == "dev" else 200,
               "selection_sha256": fingerprint_file(selection_path), "data_sha256": fingerprint_file(data_path),
@@ -38,6 +40,8 @@ def main():
     if config_path.exists() and json.loads(config_path.read_text(encoding="utf-8")) != config:
         raise ValueError("Science evaluation changed. Preserve the current folder and choose another version.")
     write_json(config_path, config)
+    if not (output / "environment.json").exists():
+        write_json(output / "environment.json", environment_info())
     snapshot_sources(output, sources)
     records = load_jsonl(data_path)[:config["limit"]]
     path = output / "predictions.jsonl"
@@ -55,9 +59,16 @@ def main():
                         generated = generate_question(record["context"], record["answer"], "en", answer_start=record["answer_start"],
                                                       beams=4, checkpoint=checkpoint if method == "selected_t5" else None)
                         row.update(asdict(generated), method=method)
+                    row["generation_seconds"] = time.perf_counter() - started
+                    qa_started = time.perf_counter()
                     row.update(verify_question(row["question"], record["context"], record["answer"], "en"))
+                    row["verification_seconds"] = time.perf_counter() - qa_started
+                    row["answer_leak"] = leaks_answer(row["question"], row["answer"], "en")
+                    row["lexical_relevance"] = lexical_relevance(row["question"], row.get("evidence", row["context"]), "en")
+                    row["accepted"], row["review_reasons"] = quality_decision(row)
                 except Exception as exc:
                     row.update(error=f"{type(exc).__name__}: {exc}", question="", answer_f1=0., answer_em=0., qa_answer="", qa_score=0.)
+                    row.setdefault("generation_seconds", time.perf_counter() - started)
                 row["seconds"] = time.perf_counter() - started
                 # Unicode line separators in source passages must not split JSONL records.
                 stream.write(json.dumps(row, ensure_ascii=True) + "\n")

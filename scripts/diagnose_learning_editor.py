@@ -1,34 +1,38 @@
 """Paired FP32/int8 development controls before trusting the optional local editor."""
 
+import argparse
 import json
 import time
 from pathlib import Path
 
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-from questionforge.learning.pipeline import PLAN_SYSTEM, PLANNER
+from questionforge.learning.pipeline import PLANNER
 from questionforge.models import configure_torch, model_source
-from questionforge.text import sentences
 from scripts.run_learning_focus_study import source_hash, write_json
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path, default=Path("outputs/learning_runtime_replay.json"))
+    args = parser.parse_args()
+    if args.output.exists():
+        raise ValueError("Preserve the earlier diagnostic; choose another --output.")
+    args.output.parent.mkdir(parents=True, exist_ok=True)
     torch, device = configure_torch()
     source, kwargs = model_source(PLANNER)
     tokenizer = AutoTokenizer.from_pretrained(source, trust_remote_code=False, **kwargs)
     print("Loading unquantized FP32 editor for diagnosis", flush=True)
     model = AutoModelForCausalLM.from_pretrained(source, torch_dtype=torch.float32,
                                               trust_remote_code=False, **kwargs).to(device).eval()
-    scenarios = json.loads(Path("data/authoring/learning_passages.json").read_text(encoding="utf-8"))
-    solar = next(s["ar"] for s in scenarios if s["topic"] == "light_and_voltage")
-    probes = [("json_control", "Follow the user's instruction exactly.",
-               'Return ONLY a JSON array containing the word light. No other text.', 40),
-              ("arabic_single_fact", PLAN_SYSTEM, json.dumps({"language": "العربية", "count": 1,
-                "learning_objective": solar["objective"], "passage_sentences": [
-                    {"index": i, "text": p.text} for i, p in enumerate(sentences(solar["context"]))]}, ensure_ascii=False), 180)]
+    original_file = Path("results/quality/learning_editor_runtime_diagnostic.json")
+    original = json.loads(original_file.read_text(encoding="utf-8"))
+    assert original["model"] == PLANNER.model_id and original["revision"] == PLANNER.revision
+    probes = [(p["probe"], p["system"], p["user"], 40 if p["probe"] == "json_control" else 180)
+              for p in original["probes"] if p["precision"] == "float32"]
     results = {"model": PLANNER.model_id, "revision": PLANNER.revision,
-               "source_sha256": source_hash(Path(__file__)), "probes": []}
-    target = Path("results/quality/learning_editor_runtime_diagnostic.json")
+               "source_sha256": source_hash(Path(__file__)), "original_control_sha256": source_hash(original_file), "probes": []}
+    target = args.output
     for precision in ["float32", "dynamic_int8_fbgemm"]:
         if precision != "float32":
             print("Quantizing the same model", flush=True)

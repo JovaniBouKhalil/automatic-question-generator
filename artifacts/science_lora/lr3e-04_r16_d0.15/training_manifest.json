@@ -1,0 +1,66 @@
+{
+  "seed": 42,
+  "updates": 256,
+  "batch_size": 2,
+  "gradient_accumulation": 4,
+  "grid": {
+    "learning_rate": [
+      0.0001,
+      0.0003
+    ],
+    "rank": [
+      8,
+      16
+    ],
+    "dropout": [
+      0.05,
+      0.15
+    ]
+  },
+  "base_model": "lmqg/t5-small-squad-qg",
+  "base_revision": "57d0de8c285d3f89e01b5c607e22a24269fc5cc7",
+  "data_sha256": {
+    "train": "45c9c58636ad64a50d7bdb6d70b0c8936c0a86532b28a4f545c146f1c7cd8649",
+    "dev": "a335e7bbafa87693ce5458f6caeff8e56e7fcbbf8e982b71c751732ec75ca7f7",
+    "test": "962e2a384693fe564fe1d57728c9a935f6f52de7bebe387c53046eed7c8d708a"
+  },
+  "sources_sha256": {
+    "C:/Users/boukh/Desktop/NLP-final/automatic-question-generator/scripts/train_science_grid.py": "669b35929467895da883256850538cdc60400ac558c6879ed2e1f62f40689c37",
+    "docs/SCIENCE_TRAINING_PROTOCOL.md": "57ac9e7131e70c2c28cbd11466e68decaa20f67d411638fcd85332d357a98ae3",
+    "scripts/prepare_science_data.py": "d1ca15febe21261766aac95a8329d518a28a0de24e8f4d541ec07711d803a73e"
+  },
+  "test_opened_for_training_or_selection": false,
+  "precision": "float32",
+  "device": "cpu",
+  "trial": "lr3e-04_r16_d0.15",
+  "complete": true,
+  "learning_rate": 0.0003,
+  "rank": 16,
+  "dropout": 0.15,
+  "initial_dev_loss": 1.1828747574610432,
+  "best_dev_loss": 1.0008983771629534,
+  "best_step": 256,
+  "adapter": "artifacts/science_lora/lr3e-04_r16_d0.15",
+  "seconds": 300.8202797999984,
+  "unique_training_ids_seen": 2043,
+  "counts": {
+    "train": 2043,
+    "dev": 126
+  },
+  "excluded_overlong_targets": {
+    "train": [
+      "sciq:train:4163",
+      "sciq:train:2336",
+      "sciq:train:9118",
+      "sciq:train:6246",
+      "sciq:train:6283"
+    ],
+    "dev": [
+      "sciq:validation:84",
+      "sciq:validation:550"
+    ]
+  },
+  "trainable_parameters": 589824,
+  "adapter_sha256": "09a7a52accdcecca13075c60bb1fa28fb2203a5b037fcadc57f9c1b1bf1c2678",
+  "test_used_for_training_or_selection": false
+}

@@ -1,0 +1,14 @@
+{
+  "completed_trials": 8,
+  "trained_updates_per_trial": 256,
+  "selected_trial": "lr3e-04_r16_d0.05",
+  "source_and_adapter_hashes_checked": true,
+  "validation_only_selection_verified": true,
+  "prediction_records": {
+    "dev": 192,
+    "test": 600
+  },
+  "execution_errors": 0,
+  "human_usefulness_ratings": "pending",
+  "interpretation": "Artifact consistency does not establish factual support or educational value."
+}

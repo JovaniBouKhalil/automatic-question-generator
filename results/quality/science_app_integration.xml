@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="13.163" timestamp="2026-11-27T19:29:41.728881+02:00" hostname="LAPTOP-SPKJE9C5"><testcase classname="tests.test_app" name="test_science_adapter_through_the_application" time="12.562" /></testsuite></testsuites>

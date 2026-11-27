@@ -14,6 +14,7 @@ from pathlib import Path
 
 from questionforge.candidates import extract_candidates
 from questionforge.data import load_jsonl
+from questionforge.experiment import environment_info
 from questionforge.learning.pipeline import CPU_QUANTIZATION, PLANNER, VERSION, create_learning_quiz
 from questionforge.metrics import leaks_answer, lexical_relevance, quality_decision
 from questionforge.models import generate_question
@@ -123,6 +124,9 @@ def main():
     if config_path.exists() and json.loads(config_path.read_text(encoding="utf-8")) != config:
         raise ValueError("Study source/config differs. Preserve this run and choose a new --output directory.")
     write_json(config_path, config)
+    environment_path = directory / "environment.json"
+    if not environment_path.exists():
+        write_json(environment_path, environment_info())
     snapshot_sources(directory, sources)
     if args.source == "classroom":
         unique = {(r["language"], r["group"]): r for r in load_jsonl(data_path) if r["language"] in args.languages}

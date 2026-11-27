@@ -5,7 +5,10 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
+import threading
 import time
+import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -63,6 +66,31 @@ def main():
         for index in range((entry["size"] + block - 1) // block):
             jobs.append((entry, index))
 
+    redirects, redirect_lock = {}, threading.Lock()
+
+    class NoRedirect(urllib.request.HTTPRedirectHandler):
+        def redirect_request(self, *args):
+            return None
+
+    def download_url(name):
+        # Reuse the Hub's official signed CDN redirect, not a fresh resolve per block.
+        # Range/length and the final published SHA256 remain mandatory.
+        with redirect_lock:
+            if name in redirects and time.monotonic() - redirects[name][0] < 1200:
+                return redirects[name][1]
+            request = urllib.request.Request(prefix + name + "?download=true", method="HEAD")
+            try:
+                with urllib.request.build_opener(NoRedirect).open(request, timeout=20) as response:
+                    url = response.url
+            except urllib.error.HTTPError as exc:
+                if exc.code not in {301, 302, 303, 307, 308}:
+                    raise
+                url = exc.headers["Location"]
+            if not url.startswith("https://"):
+                raise ValueError("Expected HTTPS model download redirect")
+            redirects[name] = (time.monotonic(), url)
+            return url
+
     def fetch(job):
         entry, index = job
         name = entry["rfilename"]
@@ -72,20 +100,34 @@ def main():
             return end - start + 1
         for attempt in range(12):
             try:
-                url = prefix + name + f"?download=true&block=2m&offset={start}"
-                request = urllib.request.Request(url, headers={"Range": f"bytes={start}-{end}"})
-                with urllib.request.urlopen(request, timeout=60) as response:
+                request = urllib.request.Request(download_url(name), headers={"Range": f"bytes={start}-{end}"})
+                with urllib.request.urlopen(request, timeout=20) as response:
                     if response.status != 206 or not response.headers.get("Content-Range", "").startswith(f"bytes {start}-"):
                         raise ValueError("Unexpected weight range")
-                    content = response.read()
+                    parts, request_started = [], time.monotonic()
+                    while part := response.read(64 * 1024):
+                        parts.append(part)
+                        if time.monotonic() - request_started > 240:
+                            raise TimeoutError("Weight block exceeded four minutes")
+                    content = b"".join(parts)
                 if len(content) != end - start + 1:
                     raise ValueError("Incomplete weight range")
                 chunk.write_bytes(content)
                 return len(content)
-            except Exception:
+            except Exception as exc:
                 if attempt == 11:
                     raise
-                time.sleep(min(attempt + 1, 4))
+                delay = min(attempt + 1, 4)
+                if isinstance(exc, urllib.error.HTTPError) and exc.code == 429:
+                    retry = exc.headers.get("Retry-After", "")
+                    remaining = re.search(r"\bt=(\d+)", exc.headers.get("RateLimit", ""))
+                    delay = max(delay, int(retry) if retry.isdigit() else int(remaining[1]) if remaining else 60)
+                elif isinstance(exc, urllib.error.HTTPError) and exc.code == 403:
+                    with redirect_lock:
+                        redirects.pop(name, None)
+                if attempt in {0, 5}:
+                    print(f"Retry {name} block {index}: {type(exc).__name__}; waiting {delay}s", flush=True)
+                time.sleep(delay)
 
     print(f"Downloading {model.model_id}: {total / 1e9:.2f} GB; {len(jobs)} resumable blocks", flush=True)
     downloaded = sum(e["size"] for e in shards if e["rfilename"] in finished)

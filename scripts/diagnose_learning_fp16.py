@@ -1,5 +1,6 @@
 """Replay saved controls with FP16-packed linear weights and FP32 activations."""
 
+import argparse
 import json
 import time
 from pathlib import Path
@@ -12,6 +13,12 @@ from scripts.run_learning_focus_study import source_hash, write_json
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path, default=Path("outputs/learning_fp16_replay.json"))
+    args = parser.parse_args()
+    if args.output.exists():
+        raise ValueError("Preserve the earlier diagnostic; choose another --output.")
+    args.output.parent.mkdir(parents=True, exist_ok=True)
     torch, device = configure_torch()
     original_file = Path("results/quality/learning_editor_runtime_diagnostic.json")
     original = json.loads(original_file.read_text(encoding="utf-8"))
@@ -49,7 +56,7 @@ def main():
         except ValueError:
             row["format_grounding_control_pass"] = False
         output["probes"].append(row)
-        write_json(Path("results/quality/learning_fp16_control.json"), output)
+        write_json(args.output, output)
         print(json.dumps(row, ensure_ascii=False), flush=True)
 
 

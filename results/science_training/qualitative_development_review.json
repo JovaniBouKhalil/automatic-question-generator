@@ -1,0 +1,13 @@
+{
+  "scope": "Purposive source-linked development inspections, not human ratings, a representative error sample, or an estimate of educational benefit.",
+  "source_predictions": "results/science_evaluation_dev/predictions.jsonl",
+  "cases": [
+    {"id": "sciq:validation:240", "observation": "The original question ambiguously asks which tissue animals have. The adapted question supplies muscle tissue and asks for the other type, focusing the intended nervous-tissue answer."},
+    {"id": "sciq:validation:407", "observation": "The original asks vaguely what adding salt does. The adapted question explicitly asks about the boiling point, matching the relation and intended direction-of-change answer in the source."},
+    {"id": "sciq:validation:521", "observation": "The original asks for a drawback while the target is a reproduction type. The adapted question asks which type produces identical offspring, aligning the requested answer with the source."},
+    {"id": "sciq:validation:290", "observation": "Regression: the adapted output is a copied declarative sentence with a question mark. It does not ask for magnitude, the intended target. The original wording was also malformed."},
+    {"id": "sciq:validation:471", "observation": "The adapted output copies a long source sentence and its Primary Vesicles heading. Higher QA agreement does not repair the awkward wording or establish better learning value."},
+    {"id": "sciq:validation:415", "observation": "Regression: the adapted output ends with 'an what?' and copies a long component list. The human reference also contains a visible '8each' artifact; dataset authorship does not guarantee clean target wording."},
+    {"id": "sciq:validation:35", "observation": "The original incorrectly asks about helium. The adapted question asks about noble gases generally but omits the source's explicit helium exception. Partial QA agreement does not establish faithful scope."}
+  ]
+}

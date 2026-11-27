@@ -7,6 +7,7 @@
 | [SQuAD](https://huggingface.co/datasets/rajpurkar/squad) | English / Wikipedia | Human question + extractive answer span | CC-BY-SA-4.0 |
 | [NewsQuAD-fr](https://huggingface.co/datasets/lincoln/newsquadfr) | French / news | Human question + extractive answer span | CC-BY-NC-SA-4.0; noncommercial academic use |
 | [ARCD](https://huggingface.co/datasets/hsseinmz/arcd) | Arabic / Wikipedia | Human question + extractive answer span | MIT in Hub metadata; underlying source attribution also applies |
+| [SciQ](https://huggingface.co/datasets/allenai/sciq) | English / educational science | Human question, correct answer, support passage | CC-BY-NC-3.0; academic noncommercial use |
 
 Pinned revisions and file paths are in `questionforge/data.py`. No dataset script or remote
 repository code is executed. QA datasets are repurposed for question generation: the model
@@ -150,6 +151,27 @@ The optional learning-focused planner/editor uses
 backbone weights are downloaded locally, not included in the submission. CPU inference
 uses FP32; this is inference, not fine-tuning. An attempted generic dynamic-int8 conversion
 failed paired controls, so it is not used by the application.
+
+The stronger experimental planner/editor is
+[Qwen3-4B-Instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507), revision
+`cdbee75f17c01a7cc42f958dc650907174af0554` (Apache-2.0). Its three safetensors shards
+total about 8.04 GB; all are verified against published SHA-256 hashes by
+`scripts/download_quality_model.py`. The comparison uses FP32 CPU inference (about
+16 GB for model parameters, plus runtime memory), with a 6,000-token input limit.
+No backbone weights enter GitHub or the submission. This decoder-only planner/editor
+is separate from the native encoder–decoder T5 draft models and is not fine-tuned here.
+Final hybrid exports identify the editor as `model_id` and retain `draft_model_id`.
+
+SciQ curriculum preparation is pinned in `scripts/prepare_science_data.py` to revision
+`2c94ad3e1aafab77146f384e23536f97a4849815`. It preserves published split roles and
+protects the full raw held-out support/question pool before sampling. A unique,
+case-insensitive, word-bounded answer match supplies an exact original source span;
+ambiguous or missing matches are excluded. This differs from the supplied-offset
+policy of the earlier datasets and is explicitly recorded per row. The grid searches
+learning rate, LoRA rank and dropout; see `docs/SCIENCE_TRAINING_PROTOCOL.md`.
+The small science adapters are for this noncommercial academic demonstration; their
+base model and dataset attribution remain applicable. Generated educational examples
+are not substituted for the human-authored SciQ training questions.
 
 `data/authoring/learning_passages.json` contains three original educational development/demo
 topics in English, French and Arabic. They are synthetic, have not received human ratings,
