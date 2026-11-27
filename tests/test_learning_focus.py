@@ -99,3 +99,28 @@ def test_partial_report_does_not_freeze_an_incomplete_review_template(tmp_path):
     original = target.read_bytes()
     render_report(tmp_path, [first], write_template=True)
     assert target.read_bytes() == original
+
+
+@pytest.mark.parametrize("language,context,expected", [
+    ("en", "The article stays in one split to avoid sharing facts.", "avoid sharing facts"),
+    ("fr", "L'article reste dans une partition pour éviter de partager ses faits.", "éviter de partager ses faits"),
+    ("ar", "تبقى مجموعة الاختبار منفصلة حتى التقييم النهائي حتى لا تؤثر نتيجتها في الاختيار.", "لا تؤثر نتيجتها في الاختيار"),
+])
+def test_purpose_selection_preserves_prevention_and_negation(language, context, expected):
+    from questionforge.learning.rules import plan_learning_facts
+
+    facts = plan_learning_facts(context, language, 1)
+    assert facts[0]["answer"] == expected
+    start = facts[0]["answer_start"]
+    assert context[start:start + len(expected)] == expected
+
+
+def test_focus_keeps_antecedent_but_drops_later_distracting_subject():
+    from questionforge.learning.rules import focused_evidence
+
+    passage = "Bag-of-words counts words. It does not preserve word order. TF-IDF weights terms."
+    answer = "word order"
+    window, left = focused_evidence(passage, answer, passage.index(answer), "en")
+    assert "Bag-of-words" in window and "TF-IDF" not in window
+    offset = passage.index(answer) - left
+    assert window[offset:offset + len(answer)] == answer

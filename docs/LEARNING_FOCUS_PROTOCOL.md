@@ -53,4 +53,14 @@ Default promotion requires inspecting actual outputs in all three languages. If 
 small model fails, retain the mode as experimental or abstain rather than claim a
 verified improvement. Preserve the original mode and all frozen experiments.
 
+## Development addendum after the initial T5-only comparison
+
+The v1 rule comparison returned 24/27 requested items with zero execution errors.
+Inspection found relation/negation mistakes, particularly in French/Arabic. Preserve
+that run and its exact source snapshots. In v2, retain the prevention word in “avoid” /
+“éviter” targets and use the evidence sentence, adding up to two predecessors when it
+begins with an anaphoric expression. This changes target boundaries and context together;
+do not attribute any outcome to one change alone. Repeat the same development examples
+in a new folder, without claiming fresh-test performance or completed human assessment.
+
 Source: [official model card](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct).

@@ -1,0 +1,179 @@
+{
+  "case_id": "learning:light_and_voltage:en",
+  "language": "en",
+  "context": "A solar panel converts light into electrical energy. In a classroom experiment, the panel produced six volts under direct sunlight. A cardboard screen reduced the light reaching the panel, and the measured voltage fell to two volts. The purpose of the screen was to compare the panel's output under different amounts of light.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "How many volts did a solar panel produce under direct sunlight?",
+        "answer": "six volts",
+        "answer_start": 99,
+        "evidence": "In a classroom experiment, the panel produced six volts under direct sunlight.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 73,
+        "cropped": false,
+        "lexical_relevance": 0.5270462766947299,
+        "answer_leak": false,
+        "qa_answer": "six",
+        "qa_score": 0.8366507887840271,
+        "answer_f1": 0.6666666666666666,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "How many volts did the measured voltage fall to?",
+        "answer": "two volts",
+        "answer_start": 222,
+        "evidence": "A cardboard screen reduced the light reaching the panel, and the measured voltage fell to two volts.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 74,
+        "cropped": false,
+        "lexical_relevance": 0.3418817293789138,
+        "answer_leak": false,
+        "qa_answer": "two",
+        "qa_score": 0.6200472116470337,
+        "answer_f1": 0.6666666666666666,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "What does a solar panel convert to electrical energy?",
+        "answer": "solar panel converts",
+        "answer_start": 2,
+        "evidence": "A solar panel converts light into electrical energy.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 73,
+        "cropped": false,
+        "lexical_relevance": 0.5714285714285714,
+        "answer_leak": false,
+        "qa_answer": "light",
+        "qa_score": 0.9948951601982117,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "planned_t5": [
+      {
+        "question": "A solar panel converts light into what?",
+        "answer": "electrical energy",
+        "answer_start": 34,
+        "evidence": "A solar panel converts light into electrical energy.",
+        "language": "en",
+        "method": "learning_focused_t5",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 17,
+        "cropped": false,
+        "context_selection": "evidence_with_antecedent",
+        "source_context_start": 0,
+        "learning_goal": "Understand the function described in the passage.",
+        "question_type": "function",
+        "planner": "explicit_relation_rules",
+        "answer_leak": false,
+        "lexical_relevance": 0.7715167498104595,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "electrical energy.",
+        "qa_score": 0.9954350235984748,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "What was the purpose of the screen?",
+        "answer": "compare the panel's output under different amounts of light",
+        "answer_start": 266,
+        "evidence": "The purpose of the screen was to compare the panel's output under different amounts of light.",
+        "language": "en",
+        "method": "learning_focused_t5",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 26,
+        "cropped": false,
+        "context_selection": "evidence_with_antecedent",
+        "source_context_start": 233,
+        "learning_goal": "Understand the function described in the passage.",
+        "question_type": "function",
+        "planner": "explicit_relation_rules",
+        "answer_leak": false,
+        "lexical_relevance": 0.3651483716701107,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "to compare the panel's output under different amounts of light.",
+        "qa_score": 0.751882191747427,
+        "answer_f1": 0.9473684210526315,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-t5-v2",
+    "planner": "explicit_relation_rules",
+    "requested": 3,
+    "planned": 2,
+    "facts": [
+      {
+        "answer": "electrical energy",
+        "answer_start": 34,
+        "evidence": "A solar panel converts light into electrical energy.",
+        "question_type": "function",
+        "learning_goal": "Understand the function described in the passage.",
+        "priority": 4
+      },
+      {
+        "answer": "compare the panel's output under different amounts of light",
+        "answer_start": 266,
+        "evidence": "The purpose of the screen was to compare the panel's output under different amounts of light.",
+        "question_type": "function",
+        "learning_goal": "Understand the function described in the passage.",
+        "priority": 4
+      }
+    ],
+    "drafts": [
+      {
+        "question": "A solar panel converts light into what?",
+        "answer": "electrical energy",
+        "answer_start": 34,
+        "evidence": "A solar panel converts light into electrical energy.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 17,
+        "cropped": false,
+        "context_selection": "evidence_with_antecedent",
+        "source_context_start": 0
+      },
+      {
+        "question": "What was the purpose of the screen?",
+        "answer": "compare the panel's output under different amounts of light",
+        "answer_start": 266,
+        "evidence": "The purpose of the screen was to compare the panel's output under different amounts of light.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 26,
+        "cropped": false,
+        "context_selection": "evidence_with_antecedent",
+        "source_context_start": 233
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "Understand the panel's function, the experimental comparison and the stated effect of shading.",
+    "educational_quality_status": "not_human_rated",
+    "returned": 2,
+    "seconds": 0.5232780999940587
+  },
+  "seconds": 2.6231595999997808
+}

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import time
@@ -11,11 +12,14 @@ from pathlib import Path
 from questionforge.candidates import extract_candidates
 from questionforge.learning.rules import create_learning_t5_quiz
 from questionforge.models import generate_question
-from scripts.run_learning_focus_study import diagnostics, render_report, source_hash, write_json
+from scripts.run_learning_focus_study import diagnostics, render_report, snapshot_sources, source_hash, write_json
 
 
 def main():
-    folder = Path("results/learning_t5_educational_v1")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path, default=Path("results/learning_t5_educational_v2"))
+    args = parser.parse_args()
+    folder = args.output
     folder.mkdir(parents=True, exist_ok=True)
     data = Path("data/authoring/learning_passages.json")
     paths = [*Path("questionforge/learning").glob("*.py"), Path(__file__).relative_to(Path.cwd()),
@@ -27,6 +31,7 @@ def main():
     if target.exists() and json.loads(target.read_text(encoding="utf-8")) != config:
         raise ValueError("Preserve this study before changing its source or configuration.")
     write_json(target, config)
+    snapshot_sources(folder, paths)
     cases = []
     for scenario in json.loads(data.read_text(encoding="utf-8")):
         for lang in ["en", "fr", "ar"]:

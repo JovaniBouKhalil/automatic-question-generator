@@ -1,0 +1,237 @@
+{
+  "case_id": "learning:text_representation:ar",
+  "language": "ar",
+  "context": "يسجل تمثيل حقيبة الكلمات عدد مرات ظهور كل كلمة من المفردات في الوثيقة. لكنه لا يحتفظ بترتيب الكلمات. يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق. تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر. يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "كيف يتم تسجيل تكرار الكلمات في الوثيقة؟",
+        "answer": "يحتفظ بترتيب الكلمات",
+        "answer_start": 79,
+        "evidence": "لكنه لا يحتفظ بترتيب الكلمات.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 83,
+        "cropped": false,
+        "lexical_relevance": 0.20412414523193154,
+        "answer_leak": false,
+        "qa_answer": "أسلوب TF-IDF",
+        "qa_score": 0.19022151827812195,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "ما الذي يحدد عدد مرات ظهور الكلمات في الوثيقة؟",
+        "answer": "تحصل الكلمات",
+        "answer_start": 172,
+        "evidence": "تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 82,
+        "cropped": false,
+        "lexical_relevance": 0.16012815380508713,
+        "answer_leak": false,
+        "qa_answer": "تمثيل حقيبة الكلمات",
+        "qa_score": 0.7418856218573637,
+        "answer_f1": 0.4,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "ما الذي يمكن أن يسببه تكرار الكلمات في وثيقة؟",
+        "answer": "إبراز الكلمات",
+        "answer_start": 299,
+        "evidence": "يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 82,
+        "cropped": false,
+        "lexical_relevance": 0.3651483716701107,
+        "answer_leak": false,
+        "qa_answer": "انتشار كل كلمة في مجموعة الوثائق.",
+        "qa_score": 0.17959299683570862,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "planned_t5": [
+      {
+        "question": "ما الذي يحتفظ به الممثل في وثيقة؟",
+        "answer": "ترتيب الكلمات",
+        "answer_start": 86,
+        "evidence": "لكنه لا يحتفظ بترتيب الكلمات.",
+        "language": "ar",
+        "method": "learning_focused_t5",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 29,
+        "cropped": false,
+        "context_selection": "evidence_with_antecedent",
+        "source_context_start": 0,
+        "learning_goal": "فهم خاصية أو قيد مهم.",
+        "question_type": "concept",
+        "planner": "explicit_relation_rules",
+        "answer_leak": false,
+        "lexical_relevance": 0.25,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      },
+      {
+        "question": "كيف يتم تغيير التكرار؟",
+        "answer": "انتشار كل كلمة في مجموعة الوثائق",
+        "answer_start": 138,
+        "evidence": "يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق.",
+        "language": "ar",
+        "method": "learning_focused_t5",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 30,
+        "cropped": false,
+        "context_selection": "evidence_with_antecedent",
+        "source_context_start": 101,
+        "learning_goal": "فهم الوظيفة الموصوفة في النص.",
+        "question_type": "function",
+        "planner": "explicit_relation_rules",
+        "answer_leak": false,
+        "lexical_relevance": 0.0,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      },
+      {
+        "question": "ما هو الهدف من TF-IDF؟",
+        "answer": "إبراز الكلمات التي تميز وثيقة عن غيرها",
+        "answer_start": 299,
+        "evidence": "يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+        "language": "ar",
+        "method": "learning_focused_t5",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 67,
+        "cropped": false,
+        "context_selection": "evidence_with_antecedent",
+        "source_context_start": 101,
+        "learning_goal": "فهم الوظيفة الموصوفة في النص.",
+        "question_type": "function",
+        "planner": "explicit_relation_rules",
+        "answer_leak": false,
+        "lexical_relevance": 0.0,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق.",
+        "qa_score": 0.45824509859085083,
+        "answer_f1": 0.125,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-t5-v2",
+    "planner": "explicit_relation_rules",
+    "requested": 3,
+    "planned": 3,
+    "facts": [
+      {
+        "answer": "ترتيب الكلمات",
+        "answer_start": 86,
+        "evidence": "لكنه لا يحتفظ بترتيب الكلمات.",
+        "question_type": "concept",
+        "learning_goal": "فهم خاصية أو قيد مهم.",
+        "priority": 4
+      },
+      {
+        "answer": "انتشار كل كلمة في مجموعة الوثائق",
+        "answer_start": 138,
+        "evidence": "يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق.",
+        "question_type": "function",
+        "learning_goal": "فهم الوظيفة الموصوفة في النص.",
+        "priority": 3
+      },
+      {
+        "answer": "إبراز الكلمات التي تميز وثيقة عن غيرها",
+        "answer_start": 299,
+        "evidence": "يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+        "question_type": "function",
+        "learning_goal": "فهم الوظيفة الموصوفة في النص.",
+        "priority": 3
+      }
+    ],
+    "drafts": [
+      {
+        "question": "ما الذي يحتفظ به الممثل في وثيقة؟",
+        "answer": "ترتيب الكلمات",
+        "answer_start": 86,
+        "evidence": "لكنه لا يحتفظ بترتيب الكلمات.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 29,
+        "cropped": false,
+        "context_selection": "evidence_with_antecedent",
+        "source_context_start": 0
+      },
+      {
+        "question": "كيف يتم تغيير التكرار؟",
+        "answer": "انتشار كل كلمة في مجموعة الوثائق",
+        "answer_start": 138,
+        "evidence": "يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 30,
+        "cropped": false,
+        "context_selection": "evidence_with_antecedent",
+        "source_context_start": 101
+      },
+      {
+        "question": "ما هو الهدف من TF-IDF؟",
+        "answer": "إبراز الكلمات التي تميز وثيقة عن غيرها",
+        "answer_start": 299,
+        "evidence": "يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 67,
+        "cropped": false,
+        "context_selection": "evidence_with_antecedent",
+        "source_context_start": 101
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "فهم المعلومات التي يفقدها تمثيل حقيبة الكلمات وسبب خفض وزن الكلمات الشائعة في TF-IDF.",
+    "educational_quality_status": "not_human_rated",
+    "returned": 3,
+    "seconds": 3.3279611999969347
+  },
+  "seconds": 7.800650600001973
+}

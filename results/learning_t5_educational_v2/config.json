@@ -1,0 +1,18 @@
+{
+  "data_sha256": "6d4bb67c1fb424f67b26800da314c0d44461852881f0151f083d7ca164640de9",
+  "count": 3,
+  "beams": 4,
+  "device": "cpu",
+  "native_adapters": false,
+  "sources": {
+    "questionforge/learning/pipeline.py": "c756861cd11147659ecc48c4e2b9f9706a698e1f4837c1e1c966b8584c8f892d",
+    "questionforge/learning/rules.py": "5b7bbeaef05d6ba44b59dbe87b9374bb55e8147bad12ccf5992f7e4b00f787d5",
+    "questionforge/learning/__init__.py": "3048dc41f62d658304a560989114c9398e1aebb46f3ade9a1999d76bbf35dfca",
+    "scripts/run_learning_t5_study.py": "5bd1d91d8593c9d266409bcdbf8daa95b161c5b6f9bd71b5e23c9c9def8662ca",
+    "scripts/run_learning_focus_study.py": "37b9d01733747fc3a5bdf1ade0b9e3cbadc4b72b9f9e9c17496bad689768cfd0",
+    "questionforge/candidates.py": "7b7fdfe59a1bbf930794f25fd22fd830a6be0b478a8c6b7bff3cb82d59dcda92",
+    "questionforge/models.py": "2e01ba40843e8adcdf6801ad7e00920a9027dad18d2489fc17abc4567b4743ba",
+    "docs/LEARNING_FOCUS_PROTOCOL.md": "20d6ea10fcf753ab8484b9c646e71763874086a9b60f8dc64c6746e6c63ef003"
+  },
+  "split": "synthetic_educational_development"
+}

@@ -1,0 +1,11 @@
+{
+  "scope": "Synthetic development/demo passages; target selection changes. No measured human usefulness improvement.",
+  "passage_language_pairs": 9,
+  "requested_per_method": 27,
+  "execution_errors": 0,
+  "human_learning_value_ratings": "pending",
+  "returned": {
+    "recall_t5": 27,
+    "planned_t5": 24
+  }
+}

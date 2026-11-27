@@ -16,16 +16,19 @@ from questionforge.text import evidence_for, normalize_answer, sentences, valida
 
 from .pipeline import question_issue
 
+VERSION = "learning-t5-v2"
 PATTERNS = {
     "en": [
-        ("cause_effect", r"\b(?:because(?: of)?|so that|in order to|to avoid)\s+(?P<answer>[^.!?;]+)", 5),
+        ("cause_effect", r"\b(?:because(?: of)?|so that|in order to)\s+(?P<answer>[^.!?;]+)", 5),
+        ("cause_effect", r"\bto\s+(?P<answer>avoid\s+[^.!?;]+)", 5),
         ("function", r"\b(?:is used to|are used to|used to|designed to|purpose .{0,30}? was to|helps)\s+(?P<answer>[^.!?;]+)", 4),
         ("concept", r"\bdoes not preserve\s+(?P<answer>[^.!?;]+)", 4),
         ("function", r"\brecords\s+(?P<answer>[^.!?;]+)", 3),
         ("function", r"\bconverts .{1,60}? into\s+(?P<answer>[^.!?;]+)", 4),
     ],
     "fr": [
-        ("cause_effect", r"\b(?:parce que|afin que|afin de|pour éviter)\s+(?P<answer>[^.!?;]+)", 5),
+        ("cause_effect", r"\b(?:parce que|afin que|afin de)\s+(?P<answer>[^.!?;]+)", 5),
+        ("cause_effect", r"\bpour\s+(?P<answer>éviter\s+[^.!?;]+)", 5),
         ("function", r"\b(?:servent à|sert à|servait à|permet de|permettent de)\s+(?P<answer>[^.!?;]+)", 4),
         ("concept", r"\bne conserve pas\s+(?P<answer>[^.!?;]+)", 4),
         ("function", r"\benregistre\s+(?P<answer>[^.!?;]+)", 3),
@@ -99,14 +102,17 @@ def create_learning_t5_quiz(context: str, language: str, count: int = 3, *, obje
         facts = [{"answer": answer, "answer_start": context.find(answer),
                   "evidence": evidence_for(context, answer).text, "question_type": "concept",
                   "learning_goal": GOALS[language]["concept"]} for answer in dict.fromkeys(manual_answers[:count])]
-    report = {"version": "learning-t5-v1", "planner": "explicit_relation_rules", "requested": count,
+    report = {"version": VERSION, "planner": "explicit_relation_rules", "requested": count,
               "planned": len(facts), "facts": facts, "drafts": [], "rejected_questions": [],
               "learning_objective": objective, "educational_quality_status": "not_human_rated"}
     rows = []
     for index, fact in enumerate(facts):
         notice(f"Generating T5 question {index + 1}/{len(facts)}…")
-        generated = asdict(generate_question(context, fact["answer"], language, answer_start=fact["answer_start"],
+        window, left = focused_evidence(context, fact["answer"], fact["answer_start"], language)
+        generated = asdict(generate_question(window, fact["answer"], language, answer_start=fact["answer_start"] - left,
                                              beams=beams, checkpoint=checkpoint, device=device))
+        generated.update(answer_start=fact["answer_start"], evidence=fact["evidence"],
+                         context_selection="evidence_with_antecedent", source_context_start=left)
         report["drafts"].append(generated)
         issue = question_issue(generated["question"], fact["answer"], language)
         if issue:
@@ -119,3 +125,17 @@ def create_learning_t5_quiz(context: str, language: str, count: int = 3, *, obje
                      "educational_quality_status": "not_human_rated"})
     report.update(returned=len(rows), seconds=time.perf_counter() - started)
     return rows, report
+
+
+def focused_evidence(context: str, answer: str, start: int, language: str) -> tuple[str, int]:
+    """Keep the evidence sentence and at most two predecessors for an initial anaphor."""
+    parts = sentences(context)
+    for index, part in enumerate(parts):
+        if part.start <= start and start + len(answer) <= part.end:
+            pointers = {"en": r"^(?:it|this|that|these|those|they|he|she)\b",
+                        "fr": r"^(?:il|elle|ils|elles|cela|ce|cette|ces|cet)\b",
+                        "ar": r"^(?:لكنه|لكنها|هذا|ذلك|وهذا|وذلك|يساعد ذلك)"}
+            prior = max(0, index - 2) if re.match(pointers[language], part.text, re.IGNORECASE) else index
+            left = parts[prior].start
+            return context[left:part.end], left
+    return context, 0

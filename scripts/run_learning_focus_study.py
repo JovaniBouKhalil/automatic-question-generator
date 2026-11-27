@@ -28,6 +28,16 @@ def write_json(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def snapshot_sources(directory, sources):
+    for path in sources:
+        target = directory / "source" / path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if target.exists() and source_hash(target) != source_hash(path):
+            raise ValueError(f"Saved source snapshot differs: {path}")
+        if not target.exists():
+            target.write_bytes(path.read_bytes())
+
+
 def diagnostics(row, context, language):
     row = {**row, "lexical_relevance": lexical_relevance(row["question"], row["evidence"], language),
            "answer_leak": leaks_answer(row["question"], row["answer"], language)}
@@ -101,6 +111,7 @@ def main():
     if config_path.exists() and json.loads(config_path.read_text(encoding="utf-8")) != config:
         raise ValueError("Study source/config differs. Preserve this run and choose a new --output directory.")
     write_json(config_path, config)
+    snapshot_sources(directory, sources)
     if args.source == "classroom":
         unique = {(r["language"], r["group"]): r for r in load_jsonl(data_path) if r["language"] in args.languages}
     else:
