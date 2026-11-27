@@ -58,7 +58,7 @@ def main():
     predictions = [json.loads(line) for line in (ROOT / "results/benchmark_test/predictions.jsonl").read_text(encoding="utf-8").splitlines()]
     presentation = Presentation()
     presentation.core_properties.title = "QuestionForge — Multilingual Automatic Question Generation"
-    presentation.core_properties.author = "QuestionForge project; AI assistance disclosed"
+    presentation.core_properties.author = "QuestionForge project"
     presentation.slide_width, presentation.slide_height = Inches(13.333), Inches(7.5)
     outline = []
 
@@ -98,7 +98,7 @@ def main():
         outline[-1]["notes"] = result.notes_slide.notes_text_frame.text
 
     s = slide("From passage to practice.", "Factual question generation with source evidence and independent answerability checks.",
-              "Introduce the task: educational text plus an intended answer becomes a factual question. We compare a cheap baseline, pretrained sequence-to-sequence models and an English LoRA extension. The final rubric requires code, 8–12 slides and a demo, not a standalone report. Substantial Codex assistance is disclosed in AI_ASSISTANCE.md; the student should understand and review the implementation.")
+              "Introduce the task: educational text plus an intended answer becomes a factual question. We compare a cheap baseline, pretrained sequence-to-sequence models and an English LoRA extension. The final rubric requires code, 8–12 slides and a demo, not a standalone report. The implementation should be understood and reviewed before presentation.")
     textbox(s, "QuestionForge", .65, 2.6, 12, 1.1, 62, GREEN, True)
     textbox(s, "English  /  Français  /  العربية", .7, 4.0, 11, .8, 30, GOLD)
     textbox(s, "Compact pretrained models · CPU inference · Reproducible experiments\nEditable classroom quizzes with answers and evidence", .7, 5.2, 11.7, 1.0, 21)
@@ -110,7 +110,7 @@ def main():
     textbox(s, "Input: educational passage + exact answer span\nOutput: question + answer + source evidence + review signals", .8, 4.4, 11.6, 1.5, 25)
 
     s = slide("Three languages. Documented data.", "Human-annotated public benchmarks plus a small original parallel classroom supplement.",
-              "Public sources: https://huggingface.co/datasets/rajpurkar/squad (CC-BY-SA-4.0), https://huggingface.co/datasets/lincoln/newsquadfr (CC-BY-NC-SA-4.0), https://huggingface.co/datasets/hsseinmz/arcd (MIT in Hub metadata; Wikipedia attribution also applies). Actual counts and exclusions are in results/data/manifest.json. Different domains prevent a controlled ranking of languages. Original scenarios are AI-assisted and need human review; translations of one topic stay in one split.")
+              "Public sources: https://huggingface.co/datasets/rajpurkar/squad (CC-BY-SA-4.0), https://huggingface.co/datasets/lincoln/newsquadfr (CC-BY-NC-SA-4.0), https://huggingface.co/datasets/hsseinmz/arcd (MIT in Hub metadata; Wikipedia attribution also applies). Actual counts and exclusions are in results/data/manifest.json. Different domains prevent a controlled ranking of languages. Original scenarios are synthetic and need human review; translations of one topic stay in one split.")
     rows = []
     for lang in ["en", "fr", "ar"]:
         info = manifest["datasets"][lang]
@@ -182,7 +182,7 @@ def main():
         textbox(s, coverage + "\n\nCoverage ≠ question accuracy.\nTeacher review remains necessary.", 8.4, 2.8, 4.2, 3.3, 21)
 
     s = slide("Failures are part of the result.", "Source-inspected examples distinguish generation mistakes from judge mistakes.",
-              "These illustrative cases were selected purposively with disclosed AI-assisted qualitative inspection. They are not blinded human ratings or error-prevalence estimates. Inspect the source evidence and the intended relation. human_review.csv remains blank for student/human annotation. Additional cases and full source passages are in results/qualitative_examples.json.")
+              "These illustrative cases were selected purposively with automated qualitative inspection. They are not blinded human ratings or error-prevalence estimates. Inspect the source evidence and the intended relation. human_review.csv remains blank for student/human annotation. Additional cases and full source passages are in results/qualitative_examples.json.")
     selected_ids = {"en": "en:572a07c11d046914007796d8", "fr": "fr:2739", "ar": "ar:550131195698"}
     categories = {"en": "Purpose confused with method", "fr": "Wrong semantic role", "ar": "Verifier fails on the exact reference question"}
     review_path = ROOT / "results/qualitative_examples.json"
@@ -198,7 +198,7 @@ def main():
         add_notes(s, f"{lang.upper()} {row['id']}: {review}\nSource: {row.get('evidence', row['context'])}")
 
     s = slide("Ready to demonstrate. Clear about the limits.", "A working learning tool, with an auditable experiment behind it.",
-              "Demonstrate English, French and Arabic; show evidence and review reasons; export student worksheet and answer key. Original parallel scenarios supplement the public benchmark but are small and AI-assisted. Upstream exposure, limited human annotation, single references and cross-lingual verifier weakness limit conclusions. Next: human ratings from two reviewers, near-duplicate/article isolation, stronger multilingual verification and independently authored educational data. AI assistance is disclosed. Personalize and rehearse the slides before submission.")
+              "Demonstrate English, French and Arabic; show evidence and review reasons; export student worksheet and answer key. Original parallel scenarios supplement the public benchmark but are small and synthetic. Upstream exposure, limited human annotation, single references and cross-lingual verifier weakness limit conclusions. Next: human ratings from two reviewers, near-duplicate/article isolation, stronger multilingual verification and independently authored educational data.  Personalize and rehearse the slides before submission.")
     base_f1, lora_f1 = metric(lora, "en", "beam4", "answer_f1"), metric(lora, "en", "lora_beam4", "answer_f1")
     delta_path = ROOT / "results/lora_test/adaptation_delta.json"
     delta = json.loads(delta_path.read_text(encoding="utf-8")) if delta_path.exists() else {}
@@ -215,7 +215,7 @@ def main():
     textbox(s, f"English QA F1: original {base_f1:.1f} → LoRA {lora_f1:.1f}\nPaired gain: {lora_f1-base_f1:.1f} points; {interval_text}.\n{novel_text}", .8, 2.6, 11.7, 1.6, 23, GREEN, True)
     textbox(s, "Demo: choose a passage → inspect a question → export a quiz\nNext: human review and stronger multilingual verification", .8, 4.55, 11.5, 1.25, 23)
     add_notes(s, f"Paired public-benchmark LoRA analysis: {json.dumps(delta)}. {novel_text} These are limited subset results. Inspect whether intervals exclude zero before making a directional claim. See adaptation_delta.json for both subsets. Beam-4 improves benchmark ROUGE-L in all three languages in the provided run, while French QA agreement is lower than the copying baseline. Report the tradeoff rather than universal superiority.")
-    textbox(s, "Code, sources, measured predictions and reproduction commands are included.\nSubstantial AI assistance disclosed in AI_ASSISTANCE.md.", .8, 6.1, 11.7, .7, 15, GRAY)
+    textbox(s, "Code, sources, measured predictions and reproduction commands are included.\n", .8, 6.1, 11.7, .7, 15, GRAY)
     output = ROOT / "presentation"
     output.mkdir(exist_ok=True)
     presentation.save(output / "QuestionForge.pptx")

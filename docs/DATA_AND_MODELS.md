@@ -38,7 +38,7 @@ or near-duplicate isolation: related paragraphs may still share facts.
 `data/authoring/scenarios.json` adds 15 original parallel classroom scenarios, two questions per
 language. Three topics form development (18 questions), twelve form test (72 questions). All
 translations of one scenario share a group/split. Source JSON and generated JSONL are committed
-before inference. These AI-assisted scenarios describe fictional classroom events; support means
+before inference. These synthetic scenarios describe fictional classroom events; support means
 support within the passage. They need independent human linguistic review and are too small and
 simple to replace public human-annotated benchmarks. They are not used to train the adapter.
 

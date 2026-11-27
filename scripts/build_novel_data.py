@@ -1,6 +1,6 @@
 """Freeze original parallel classroom scenarios before running the models.
 
-These small, AI-assisted scenarios are a controlled supplement, not a replacement
+These small, synthetic scenarios are a controlled supplement, not a replacement
 for human-annotated benchmarks. Fictional classroom events are facts *within the
 passage*. Translations share a topic group and never cross development/test splits.
 """

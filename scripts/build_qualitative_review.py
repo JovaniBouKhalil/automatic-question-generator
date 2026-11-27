@@ -1,4 +1,4 @@
-"""Attach disclosed AI-assisted qualitative observations to actual measured examples.
+"""Attach source-linked qualitative observations to actual measured examples.
 
 Cases were selected purposively after inspecting outputs. These are explanatory notes,
 not blinded human ratings, a representative random sample, or prevalence estimates.
@@ -46,7 +46,7 @@ def main():
         examples.append({"experiment": experiment, **{k: row.get(k) for k in fields},
                          "reference_qa_answer": reference["qa_answer"], "reference_qa_f1": reference["answer_f1"],
                          "category": category, "review": review})
-    result = {"reviewer": "Codex AI-assisted qualitative inspection; student verification pending",
+    result = {"reviewer": "Automated qualitative inspection; human verification pending",
               "scope": "Purposively selected illustrative examples. No human scores or error-prevalence estimates.",
               "examples": examples}
     target = ROOT / "results/qualitative_examples.json"

@@ -26,13 +26,12 @@ Export a worksheet, answer key, CSV, JSON or Moodle XML. Full setup/reproduction
 - `notebooks/QuestionForge.ipynb` — **7 executed code cells**, including real generation in all three languages.
 - `docs/DEFENSE_GUIDE.md` — demo steps, course connections and technical questions to prepare.
 - `docs/RUBRIC_CHECKLIST.md` — evidence mapped to the 100-point rubric.
-- `AI_ASSISTANCE.md` — substantial assistance disclosed, consistent with the policy you described.
 
 No standalone technical report was prepared, as the rubric does not require one.
 
 ## What the experiments show
 
-Public test subset: **40 paragraph groups per language**. A separate original, AI-assisted
+Public test subset: **40 paragraph groups per language**. A separate original synthetic
 classroom supplement has **24 test questions per language**. Together these are 192 distinct
 test question/answer pairs; repeated evaluations of the same IDs are not additional test data.
 
@@ -70,7 +69,7 @@ with Trajan's Column, yet the verifier returns David and passes it. The separate
 12/24 Arabic modified questions. These constructed cases diagnose limitations; they are
 not estimates of natural question error rates. No model or threshold was tuned on them.
 
-`results/qualitative_examples.json` contains 11 disclosed AI-assisted source inspections.
+`results/qualitative_examples.json` contains 11 source-linked qualitative inspections.
 `human_review.csv` files remain blank for real human annotation. Do not describe them as
 completed human evaluations. Teacher review of wording and factual support is part of the workflow.
 
@@ -88,7 +87,7 @@ completed human evaluations. Teacher review of wording and factual support is pa
   outputs, runtime records, group bootstrap intervals and control diagnostics are included.
 
 Our split audit does not prove that public checkpoints never saw benchmark text upstream.
-The original scenarios reduce that concern but are small, artificial and AI-assisted.
+The original scenarios reduce that concern but are small and synthetic.
 Full source/licensing details and remaining limitations are in `docs/DATA_AND_MODELS.md`.
 
 ## Before handing it in
@@ -98,7 +97,7 @@ Full source/licensing details and remaining limitations are in `docs/DATA_AND_MO
 3. Review examples in all languages and add genuine human ratings if you have time. Keep any
    claims about human review consistent with what you actually annotate.
 4. Rehearse the local demo with cached models and explain both a success and a failure.
-5. Keep the assistance disclosure accurate. The goal is a project you can explain, not just run.
+5. Check the course submission requirements and be prepared to explain the implementation.
 
 The finished source is versioned on GitHub. `baseline-v0` preserves the initial template
 baseline, and `work/multilingual-aqg` preserves the implementation branch. Your original

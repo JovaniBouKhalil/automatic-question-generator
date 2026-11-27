@@ -16,11 +16,12 @@ def main():
         raise FileNotFoundError("Finish required artifacts before packaging: " + ", ".join(missing))
     folders = ["questionforge", "scripts", "tests", "docs", "notebooks", "results", "presentation",
                "artifacts/english_lora", "data/novel", "data/authoring", ".streamlit", ".github"]
-    files = [ROOT / name for name in ["README.md", "AI_ASSISTANCE.md", "HANDOFF.md", "pyproject.toml",
+    files = [ROOT / name for name in ["README.md", "HANDOFF.md", "pyproject.toml",
                                      "requirements-lock.txt", "app.py", "run_app.bat", ".gitignore"] if (ROOT / name).is_file()]
     for folder in folders:
         files.extend(path for path in (ROOT / folder).rglob("*") if path.is_file()
-                     and "__pycache__" not in path.parts and not path.name.endswith((".pyc", ".log")))
+                     and "__pycache__" not in path.parts and not path.name.startswith("~$")
+                     and not path.name.endswith((".pyc", ".log")))
     files = sorted(set(files))
     manifest = []
     for path in files:

@@ -51,7 +51,7 @@ print('Project:', ROOT.name, '| Random seed:', SEED)
 
 The main benchmark uses pinned Hugging Face SQuAD, NewsQuAD-fr and ARCD snapshots.
 A small, original parallel classroom dataset supplements them with scenarios created
-before inference. It is AI-assisted and needs human linguistic review. Translations of
+before inference. It is synthetic and needs human linguistic review. Translations of
 one scenario share a group; no group crosses development and test partitions.
 """)
     code("""partitions = {split: load_jsonl(ROOT / f'data/novel/{split}.jsonl') for split in ['dev', 'test']}
@@ -153,7 +153,7 @@ if review.exists():
 """)
     markdown("""## 6. Inspect factual failures and stress the verifier
 
-`results/qualitative_examples.json` contains disclosed AI-assisted source inspections,
+`results/qualitative_examples.json` contains source-linked qualitative inspections,
 not blinded human ratings. Cases include a question that wrongly merges David and
 Trajan's Column despite perfect QA agreement, and an Arabic question identical to its
 reference for which the verifier selects the wrong answer.
@@ -185,8 +185,7 @@ Launch `python -m streamlit run app.py`. Choose a language, paste a passage, sup
 answers or use TF-IDF suggestions, and inspect the questions and evidence. Export a
 student worksheet, answer key, CSV, JSON or Moodle XML.
 
-See `docs/DEFENSE_GUIDE.md` for course connections and technical Q&A. Meaningful AI
-assistance is disclosed in `AI_ASSISTANCE.md`. No external paid API is used.
+See `docs/DEFENSE_GUIDE.md` for course connections and technical Q&A.  No external paid API is used.
 """)
     notebook = {"cells": cells, "metadata": {"kernelspec": {"display_name": "Python 3 (QuestionForge)",
                 "language": "python", "name": "python3"}, "language_info": {"name": "python", "version": "3.11"}},

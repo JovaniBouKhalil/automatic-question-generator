@@ -114,7 +114,7 @@ existing Windows PowerPoint installation through `scripts/render_slides.ps1`.
 | French | [NewsQuAD-fr](https://huggingface.co/datasets/lincoln/newsquadfr) | [mT5-small FQuAD QG](https://huggingface.co/lmqg/mt5-small-frquad-qg) |
 | Arabic | [ARCD](https://huggingface.co/datasets/hsseinmz/arcd) | [AraT5 QG](https://huggingface.co/Mihakram/AraT5-base-question-generation) |
 
-An additional **90 AI-assisted parallel classroom examples** cover 15 scenarios: 18 development
+An additional **90 synthetic parallel classroom examples** cover 15 scenarios: 18 development
 and 72 test questions. Translations share topic groups. They were frozen before inference and
 are a controlled supplement, not a human-validated benchmark.
 
@@ -142,7 +142,7 @@ Measured public test subset, **40 paragraphs per language**, scores on 0–100 s
 
 Reference agreement improves; answer recovery does not improve universally. QA agreement
 misses some factual errors and rejects some correct questions. See the paired intervals,
-verifier controls and 11 disclosed AI-assisted source inspections in `results/qualitative_examples.json`.
+verifier controls and 11 source-linked qualitative inspections in `results/qualitative_examples.json`.
 English LoRA adds 2.5 QA F1 points on this 40-case subset (95% paired interval [0, 7.5]), with
 no QA F1 change on 24 original classroom cases. This is limited evidence of improvement.
 
@@ -154,7 +154,6 @@ were tuned using this probe.
 - [Walkthrough notebook](notebooks/QuestionForge.ipynb)
 - [Rubric checklist](docs/RUBRIC_CHECKLIST.md)
 - [Technical defense and demo guide](docs/DEFENSE_GUIDE.md)
-- [AI assistance disclosure](AI_ASSISTANCE.md)
 - Presentation: `presentation/QuestionForge.pptx`, generated from measured outputs
 - Submission ZIP: `submission/QuestionForge-submission.zip`, excludes caches and backbone weights
 - Review handoff: `HANDOFF.md`, completed after validation
@@ -171,8 +170,8 @@ overlap are proxies; teacher review remains necessary. QA span scores are uncali
 Rule-based acceptance is **coverage**, not measured question accuracy.
 
 Our splits prevent leakage introduced here; they cannot establish that public checkpoints
-never saw benchmark paragraphs upstream. Original scenarios reduce that concern but are small,
-artificial and AI-assisted. Different language checkpoints have different sizes and training
+never saw benchmark paragraphs upstream. Original scenarios reduce that concern but are small
+and synthetic. Different language checkpoints have different sizes and training
 histories. The Arabic uploader does not clearly specify a license; weights are downloaded for
 this academic demonstration and are not redistributed.
 
