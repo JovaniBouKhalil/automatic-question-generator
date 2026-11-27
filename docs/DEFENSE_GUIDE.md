@@ -14,6 +14,12 @@ inference works. The template baseline with checks disabled is an explicitly lab
 
 ## Course connections
 
+The supplied slides have now been checked directly. See [the course alignment audit](COURSE_ALIGNMENT.md)
+for exact page references, implementation differences, and the generation weaknesses that remain.
+The implementation follows the transfer-learning workflow, but does not copy the Keras labs:
+it uses PyTorch, encoder-decoder generation and LoRA adaptation. Do not describe the current
+experiments as a three-hyperparameter search or the application as a full RAG system.
+
 | Course material | Connection |
 |---|---|
 | Weeks 1–3: vectorization, entities and exploratory work | Inspect lengths and source spans; automatic answer selection ranks TF-IDF phrases and simple name/number heuristics. These heuristics are not a trained NER system. |
@@ -21,10 +27,10 @@ inference works. The template baseline with checks disabled is an explicitly lab
 | Week 5: baseline and mistake inspection | A transparent baseline and per-example review precede claims about advanced models. |
 | Week 6: RNN/LSTM and overfitting | Contrast recurrent sequential state with attention; development selection avoids test tuning. |
 | Transformers notebook | Token representations, attention, residuals, normalization and feed-forward blocks appear in pretrained T5. |
-| Weeks 7–8: BERT | Independent extractive QA uses an encoder architecture, unlike the QG encoder–decoder. |
+| Weeks 7–9: pretrained model families and fine-tuning | The supplied PDF explicitly includes T5/BART encoder–decoder models (p. 11). We reuse matching pretrained tokenizers and task checkpoints. The class fine-tunes BERT in Keras; our generator adapts T5-family models with PyTorch/LoRA. |
 | GPT-2 exercise | Autoregressive next-token decoding and greedy/beam choices; T5 additionally conditions through encoder cross-attention. |
-| Week 10: hyperparameters | Parameters are learned weights; beams/input length/rank/learning rate are hyperparameters. Use development, not test, for selection. |
-| Weeks 12–13: RAG | Source-grounded evidence, chunking and validation are related ideas. This project does not claim a full retrieval-augmented knowledge system. |
+| Week 10: hyperparameters and evaluation | Shared splits, development selection, early stopping and error inspection follow the slides. Greedy/beam and adapter comparisons are implemented; systematic learning-rate/rank/dropout search is not. Classification F1 differs from our answer-token F1. |
+| Weeks 12–13: modern NLP systems and RAG | Hugging Face inference and a generator/checker workflow follow the system-level discussion. Supplying a passage and cropping around an answer is not the slides' embedding/vector-retrieval RAG pipeline. |
 
 ## Questions you should be able to answer
 

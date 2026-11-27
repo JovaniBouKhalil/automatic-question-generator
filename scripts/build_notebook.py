@@ -24,6 +24,11 @@ This notebook demonstrates the Python project; reproducible full experiments liv
 `results/`. See `README.md` for installation and `docs/DATA_AND_MODELS.md` for sources,
 licenses, partitions and checkpoint exposure limitations.
 
+The supplied course slides are compared with the actual implementation in
+`docs/COURSE_ALIGNMENT.md`. T5 matches the encoder-decoder material; our PyTorch/LoRA
+training differs from the Keras full-fine-tuning lab. The audit also records observed
+generation and automatic target-selection failures.
+
 Install the project in a Python 3.11 environment, then select that environment as this
 notebook's kernel. The neural cell downloads public checkpoints on first use; run
 `python scripts/download_models.py` beforehand for an offline demonstration.
@@ -157,6 +162,11 @@ if review.exists():
 not blinded human ratings. Cases include a question that wrongly merges David and
 Trajan's Column despite perfect QA agreement, and an Arabic question identical to its
 reference for which the verifier selects the wrong answer.
+
+The Arabic solar-panel question asks who **invented** the lamp, although its passage
+only describes connecting a panel to a lamp. Its perfect QA agreement is a false
+positive. An earlier explanatory annotation incorrectly called it a supported
+connection question; the annotation is corrected without changing predictions or scores.
 
 An **exploratory post-hoc** probe appends an unsupported 'on Mars' qualifier to original
 classroom questions. It measures whether the fixed review rules can miss unsupported

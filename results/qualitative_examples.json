@@ -186,8 +186,8 @@
       "accepted": true,
       "reference_qa_answer": "رامي",
       "reference_qa_f1": 1.0,
-      "category": "Supported Arabic classroom question",
-      "review": "The generated Arabic question asks who connected the solar panel to the lamp, which matches the source's statement about Rami. This is a qualitative success example; automatic scores remain proxy measurements."
+      "category": "Unsupported invention claim; verifier false positive",
+      "review": "The generated Arabic question asks who invented the lamp, but the passage only says Rami connected a solar panel to a lamp. Inventing and connecting are different relations. The QA model still returns Rami with F1=1 and the automatic rules accept it. Both the original and expanded generators produce this same unsupported question. An earlier explanatory note incorrectly translated the generated question as asking who connected the panel; this note corrects that interpretation without changing predictions or scores."
     }
   ]
 }

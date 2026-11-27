@@ -1,5 +1,12 @@
 # Ready for your review — 27 November 2026
 
+The newly supplied course slides have been checked against the implementation. See
+[the course alignment audit](docs/COURSE_ALIGNMENT.md) for exact references and remaining gaps.
+The Arabic solar-panel example was previously described incorrectly: it asks who invented
+the lamp, although the passage only says Rami connected a panel to it. Its explanatory note
+is now corrected; perfect QA agreement had missed the unsupported relation. This correction
+does not change model weights, predictions or scores.
+
 The project was built from the empty repository against your rubric. It includes native
 English, French and Arabic question generation, real measured comparisons, a working local
 demonstration, an executed notebook, slides and a submission ZIP. No paid API is used.

@@ -28,8 +28,8 @@ CASES = [
      "The source says a rain gauge measured rainfall. The question instead asks which rain gauge was measured, changing the measured object, while mentioning a near-synonym of the intended answer. The exact-token leakage rule misses this morphological variation and QA F1=2/3 still passes. This is an illustrative rule limitation, not a measured category prevalence."),
     ("novel_test", "novel:solar_lab:en:0", "beam4", "Supported classroom question",
      "The generated question asks who connected the solar panel to the lamp. The source names Rami as that actor. The target and extracted answer agree and the relation is supported by the passage."),
-    ("novel_test", "novel:solar_lab:ar:0", "beam4", "Supported Arabic classroom question",
-     "The generated Arabic question asks who connected the solar panel to the lamp, which matches the source's statement about Rami. This is a qualitative success example; automatic scores remain proxy measurements."),
+    ("novel_test", "novel:solar_lab:ar:0", "beam4", "Unsupported invention claim; verifier false positive",
+     "The generated Arabic question asks who invented the lamp, but the passage only says Rami connected a solar panel to a lamp. Inventing and connecting are different relations. The QA model still returns Rami with F1=1 and the automatic rules accept it. Both the original and expanded generators produce this same unsupported question. An earlier explanatory note incorrectly translated the generated question as asking who connected the panel; this note corrects that interpretation without changing predictions or scores."),
 ]
 
 

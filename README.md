@@ -232,6 +232,11 @@ the resume guard deliberately refuses incompatible folders.
 
 ## Interpretation limits
 
+The [course alignment and question-quality audit](docs/COURSE_ALIGNMENT.md) compares the
+supplied slides with the actual implementation. It documents the PyTorch/LoRA versus Keras
+classroom differences and concrete generation/answer-selection failures. Course alignment
+and passing software checks do not establish dependable multilingual question quality.
+
 The main experiment supplies a target answer to both methods. It measures **answer-conditioned
 generation**, not end-to-end automatic answer selection. The UI's TF-IDF selector is a separate
 heuristic. Single-reference overlap can penalize valid paraphrases. QA agreement and lexical
