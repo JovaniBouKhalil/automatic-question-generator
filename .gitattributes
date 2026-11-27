@@ -1,0 +1,10 @@
+# Checksum-bearing experiment artifacts must retain their exact recorded bytes.
+* text=auto
+/artifacts/** -text
+/results/** -text
+/data/** -text
+
+# These source files also have raw-byte hashes in the verifier study protocol.
+/docs/EXTENSION_PROTOCOL.md text eol=lf
+/scripts/study_verifiers.py text eol=lf
+/questionforge/verification.py text eol=lf

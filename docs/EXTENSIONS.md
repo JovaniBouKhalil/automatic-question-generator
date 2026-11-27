@@ -117,3 +117,5 @@ audit are in `results/quality` and `results/validation.json`.
 Original experiment folders contain frozen source/configuration hashes. Use fresh output
 folders if reproducing them from an extended source checkout; incompatible resume attempts
 are deliberately rejected. Existing modules used for the original runs are unchanged.
+`.gitattributes` preserves checksum-bearing data/artifact/result bytes across Git platforms;
+the verifier protocol and its raw-hashed source files explicitly use LF line endings.
