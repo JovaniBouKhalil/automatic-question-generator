@@ -1,0 +1,35 @@
+{
+  "version": "learning-v4",
+  "split": "educational_development",
+  "count": 3,
+  "languages": [
+    "en",
+    "fr",
+    "ar"
+  ],
+  "seed": 42,
+  "beams": 4,
+  "native_adapters": false,
+  "device": "cpu",
+  "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+  "planner_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+  "cpu_quantization": "none-float32",
+  "source_sha256_normalized_utf8": {
+    "docs/LEARNING_FOCUS_PROTOCOL.md": "1231599e0ca6935846a1f01d75a8934847767b75408ffc2735bac8a1e464574a",
+    "scripts/run_learning_focus_study.py": "8f5b793f2f25d4b51d6031e4af83fb5f9803bdfa10950e4c98ecb566f44799d7",
+    "questionforge/learning/exports.py": "77c51db24c002db9e35f377ab90ccbb33f213add27670563e878d5706ac5f8a0",
+    "questionforge/learning/pipeline.py": "d42883b3f3ffc630e331a69077ef5074501fcfab4a66977aabcc36c49825ee4a",
+    "questionforge/learning/planning.py": "46676e20ffa5c3805e250a620d51ea4c646cd6d5ee55f70ad35a6ae807c3745a",
+    "questionforge/learning/quality.py": "818941bbf7fc7448055b3c599b6ac2bbe1243554152470fa51bf679999590f06",
+    "questionforge/learning/rules.py": "5b7bbeaef05d6ba44b59dbe87b9374bb55e8147bad12ccf5992f7e4b00f787d5",
+    "questionforge/learning/__init__.py": "3048dc41f62d658304a560989114c9398e1aebb46f3ade9a1999d76bbf35dfca",
+    "questionforge/candidates.py": "7b7fdfe59a1bbf930794f25fd22fd830a6be0b478a8c6b7bff3cb82d59dcda92",
+    "questionforge/models.py": "2e01ba40843e8adcdf6801ad7e00920a9027dad18d2489fc17abc4567b4743ba",
+    "questionforge/registry.py": "47d8888cd92faf65e3e81c0d936b6dbc0c9d35e0841e37e65df3de1923ed471e",
+    "questionforge/text.py": "b454a3ee27ce5d02407cb6776db7f4c911c722fc014c8405ec223550c3cb6b58",
+    "questionforge/metrics.py": "64a83578331afb11fc51d1a90908452e70a70b1d808f7e079bae742d0f5f8a75",
+    "questionforge/verification.py": "0afe21469cead9539b440110dc416aea248b2f4422f5f348dda97c497ea8a8b3"
+  },
+  "data_sha256": "6d4bb67c1fb424f67b26800da314c0d44461852881f0151f083d7ca164640de9",
+  "interpretation": "Target selection differs across recall/planned methods. QA F1 is not usefulness or accuracy."
+}

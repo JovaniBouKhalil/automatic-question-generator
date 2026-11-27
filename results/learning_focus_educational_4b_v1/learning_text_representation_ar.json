@@ -1,0 +1,382 @@
+{
+  "case_id": "learning:text_representation:ar",
+  "language": "ar",
+  "group": "learning:text_representation",
+  "context": "يسجل تمثيل حقيبة الكلمات عدد مرات ظهور كل كلمة من المفردات في الوثيقة. لكنه لا يحتفظ بترتيب الكلمات. يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق. تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر. يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "كيف يتم تسجيل تكرار الكلمات في الوثيقة؟",
+        "answer": "يحتفظ بترتيب الكلمات",
+        "answer_start": 79,
+        "evidence": "لكنه لا يحتفظ بترتيب الكلمات.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 83,
+        "cropped": false,
+        "lexical_relevance": 0.20412414523193154,
+        "answer_leak": false,
+        "qa_answer": "أسلوب TF-IDF",
+        "qa_score": 0.19022151827812195,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "ما الذي يحدد عدد مرات ظهور الكلمات في الوثيقة؟",
+        "answer": "تحصل الكلمات",
+        "answer_start": 172,
+        "evidence": "تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 82,
+        "cropped": false,
+        "lexical_relevance": 0.16012815380508713,
+        "answer_leak": false,
+        "qa_answer": "تمثيل حقيبة الكلمات",
+        "qa_score": 0.7418856218573637,
+        "answer_f1": 0.4,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "ما الذي يمكن أن يسببه تكرار الكلمات في وثيقة؟",
+        "answer": "إبراز الكلمات",
+        "answer_start": 299,
+        "evidence": "يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 82,
+        "cropped": false,
+        "lexical_relevance": 0.3651483716701107,
+        "answer_leak": false,
+        "qa_answer": "انتشار كل كلمة في مجموعة الوثائق.",
+        "qa_score": 0.17959299683570862,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "planned_t5": [
+      {
+        "question": "كيف يتم تكرار الكلمات في وثيقة؟",
+        "answer": "انتشار كل كلمة في مجموعة الوثائق",
+        "answer_start": 138,
+        "evidence": "يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 86,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم المعلومات التي يفقدها تمثيل حقيبة الكلمات وسبب خفض وزن الكلمات الشائعة في TF-IDF.",
+        "question_type": "function",
+        "lexical_relevance": 0.2581988897471611,
+        "answer_leak": false,
+        "qa_answer": "بحسب انتشار كل كلمة في مجموعة الوثائق.",
+        "qa_score": 0.30661578476428986,
+        "answer_f1": 0.9230769230769231,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "ما الذي يمكن أن يسببه تكرار الكلمات في وثيقة؟",
+        "answer": "تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر",
+        "answer_start": 172,
+        "evidence": "تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 104,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم المعلومات التي يفقدها تمثيل حقيبة الكلمات وسبب خفض وزن الكلمات الشائعة في TF-IDF.",
+        "question_type": "concept",
+        "lexical_relevance": 0.2631174057921088,
+        "answer_leak": false,
+        "qa_answer": "انتشار كل كلمة في مجموعة الوثائق.",
+        "qa_score": 0.17959299683570862,
+        "answer_f1": 0.07407407407407407,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "ما الذي يساعد في تحسين تكرار الكلمات في وثيقة؟",
+        "answer": "إبراز الكلمات التي تميز وثيقة عن غيرها",
+        "answer_start": 299,
+        "evidence": "يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 87,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "فهم المعلومات التي يفقدها تمثيل حقيبة الكلمات وسبب خفض وزن الكلمات الشائعة في TF-IDF.",
+        "question_type": "function",
+        "lexical_relevance": 0.5477225575051661,
+        "answer_leak": false,
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      }
+    ],
+    "learning_hybrid": [
+      {
+        "question": "ما الذي يُستخدم لتعديل تكرار الكلمات في أسلوب TF-IDF؟",
+        "answer": "انتشار كل كلمة في مجموعة الوثائق",
+        "answer_start": 138,
+        "evidence": "يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 86,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم المعلومات التي يفقدها تمثيل حقيبة الكلمات وسبب خفض وزن الكلمات الشائعة في TF-IDF.",
+        "question_type": "function",
+        "draft_question": "كيف يتم تكرار الكلمات في وثيقة؟",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "Mihakram/AraT5-base-question-generation",
+        "lexical_relevance": 0.5103103630798288,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "انتشار كل كلمة في مجموعة الوثائق.",
+        "qa_score": 0.725692356005311,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "ما هو تأثير الانتشار الواسع للكلمات في مجموعة الوثائق على وزنها؟",
+        "answer": "تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر",
+        "answer_start": 172,
+        "evidence": "تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 104,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم المعلومات التي يفقدها تمثيل حقيبة الكلمات وسبب خفض وزن الكلمات الشائعة في TF-IDF.",
+        "question_type": "concept",
+        "draft_question": "ما الذي يمكن أن يسببه تكرار الكلمات في وثيقة؟",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "Mihakram/AraT5-base-question-generation",
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "أقل،",
+        "qa_score": 0.6833800049498677,
+        "answer_f1": 0.09090909090909091,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "ما هو الفائدة من تقليل وزن الكلمات الشائعة في TF-IDF؟",
+        "answer": "إبراز الكلمات التي تميز وثيقة عن غيرها",
+        "answer_start": 299,
+        "evidence": "يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 87,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "فهم المعلومات التي يفقدها تمثيل حقيبة الكلمات وسبب خفض وزن الكلمات الشائعة في TF-IDF.",
+        "question_type": "function",
+        "draft_question": "ما الذي يساعد في تحسين تكرار الكلمات في وثيقة؟",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "Mihakram/AraT5-base-question-generation",
+        "lexical_relevance": 0.1543033499620919,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "إبراز الكلمات التي تميز وثيقة عن غيرها.",
+        "qa_score": 0.39312512427568436,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-v4",
+    "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+    "planner_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 3,
+    "rejected_facts": [],
+    "candidate_pool": [
+      {
+        "candidate_id": 0,
+        "answer": "ترتيب الكلمات",
+        "answer_start": 86,
+        "evidence": "لكنه لا يحتفظ بترتيب الكلمات.",
+        "question_type": "concept",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 1,
+        "answer": "انتشار كل كلمة في مجموعة الوثائق",
+        "answer_start": 138,
+        "evidence": "يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق.",
+        "question_type": "function",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 2,
+        "answer": "إبراز الكلمات التي تميز وثيقة عن غيرها",
+        "answer_start": 299,
+        "evidence": "يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+        "question_type": "function",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 3,
+        "answer": "يسجل تمثيل حقيبة الكلمات عدد مرات ظهور كل كلمة من المفردات في الوثيقة",
+        "answer_start": 0,
+        "evidence": "يسجل تمثيل حقيبة الكلمات عدد مرات ظهور كل كلمة من المفردات في الوثيقة.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 4,
+        "answer": "لكنه لا يحتفظ بترتيب الكلمات",
+        "answer_start": 71,
+        "evidence": "لكنه لا يحتفظ بترتيب الكلمات.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 5,
+        "answer": "يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق",
+        "answer_start": 101,
+        "evidence": "يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 6,
+        "answer": "تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر",
+        "answer_start": 172,
+        "evidence": "تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 7,
+        "answer": "يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها",
+        "answer_start": 285,
+        "evidence": "يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      }
+    ],
+    "raw_plan": "[1, 6, 2]",
+    "raw_edit": "[\n  {\n    \"index\": 0,\n    \"question\": \"ما الذي يُستخدم لتعديل تكرار الكلمات في أسلوب TF-IDF؟\"\n  },\n  {\n    \"index\": 1,\n    \"question\": \"ما هو تأثير الانتشار الواسع للكلمات في مجموعة الوثائق على وزنها؟\"\n  },\n  {\n    \"index\": 2,\n    \"question\": \"ما هو الفائدة من تقليل وزن الكلمات الشائعة في TF-IDF؟\"\n  }\n]",
+    "facts": [
+      {
+        "learning_goal": "فهم المعلومات التي يفقدها تمثيل حقيبة الكلمات وسبب خفض وزن الكلمات الشائعة في TF-IDF.",
+        "question_type": "function",
+        "answer": "انتشار كل كلمة في مجموعة الوثائق",
+        "evidence": "يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق.",
+        "answer_start": 138
+      },
+      {
+        "learning_goal": "فهم المعلومات التي يفقدها تمثيل حقيبة الكلمات وسبب خفض وزن الكلمات الشائعة في TF-IDF.",
+        "question_type": "concept",
+        "answer": "تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر",
+        "evidence": "تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر.",
+        "answer_start": 172
+      },
+      {
+        "learning_goal": "فهم المعلومات التي يفقدها تمثيل حقيبة الكلمات وسبب خفض وزن الكلمات الشائعة في TF-IDF.",
+        "question_type": "function",
+        "answer": "إبراز الكلمات التي تميز وثيقة عن غيرها",
+        "evidence": "يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+        "answer_start": 299
+      }
+    ],
+    "drafts": [
+      {
+        "question": "كيف يتم تكرار الكلمات في وثيقة؟",
+        "answer": "انتشار كل كلمة في مجموعة الوثائق",
+        "answer_start": 138,
+        "evidence": "يعدل أسلوب TF-IDF تكرار الكلمات بحسب انتشار كل كلمة في مجموعة الوثائق.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 86,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم المعلومات التي يفقدها تمثيل حقيبة الكلمات وسبب خفض وزن الكلمات الشائعة في TF-IDF.",
+        "question_type": "function"
+      },
+      {
+        "question": "ما الذي يمكن أن يسببه تكرار الكلمات في وثيقة؟",
+        "answer": "تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر",
+        "answer_start": 172,
+        "evidence": "تحصل الكلمات الموجودة في وثائق كثيرة على وزن أقل، بينما يمكن أن تحصل الكلمات المتركزة في وثائق أقل على وزن أكبر.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 104,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم المعلومات التي يفقدها تمثيل حقيبة الكلمات وسبب خفض وزن الكلمات الشائعة في TF-IDF.",
+        "question_type": "concept"
+      },
+      {
+        "question": "ما الذي يساعد في تحسين تكرار الكلمات في وثيقة؟",
+        "answer": "إبراز الكلمات التي تميز وثيقة عن غيرها",
+        "answer_start": 299,
+        "evidence": "يساعد ذلك على إبراز الكلمات التي تميز وثيقة عن غيرها.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 87,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "فهم المعلومات التي يفقدها تمثيل حقيبة الكلمات وسبب خفض وزن الكلمات الشائعة في TF-IDF.",
+        "question_type": "function"
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "فهم المعلومات التي يفقدها تمثيل حقيبة الكلمات وسبب خفض وزن الكلمات الشائعة في TF-IDF.",
+    "educational_quality_status": "not_human_rated",
+    "returned": 3,
+    "seconds": 161.25111399999878
+  },
+  "seconds": 165.10065409999515
+}

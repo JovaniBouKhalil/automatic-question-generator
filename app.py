@@ -64,6 +64,15 @@ def marked_evidence(row):
     return html.escape(evidence[:offset]) + "<mark>" + html.escape(answer) + "</mark>" + html.escape(evidence[offset + len(answer):])
 
 
+def classroom_worksheet(rows, context, include_answers=False):
+    page = worksheet_html(rows, include_answers)
+    objective = next((row.get("learning_objective") for row in rows if row.get("learning_objective")), "")
+    goal = f"<p><strong>Learning objective:</strong> {html.escape(objective)}</p>" if objective else ""
+    passage = ("<section dir='auto' style='white-space:pre-wrap;line-height:1.8;border:1px solid #ccd5d9;padding:18px'>"
+               "<strong>Reading passage / Texte / النص</strong><br>" + html.escape(context) + "</section>") if context else ""
+    return page.replace("<ol>", goal + passage + "<h2>Questions</h2><ol>", 1)
+
+
 def main():
     st.set_page_config(page_title="QuestionForge · From passage to practice", page_icon="✦", layout="wide")
     st.markdown("""<style>
@@ -220,6 +229,7 @@ def main():
             if st.button("Generate questions →", type="primary", use_container_width=True):
                 # A failed new request must not leave an earlier quiz looking current.
                 st.session_state["questions"] = []
+                st.session_state["quiz_revision"] = st.session_state.get("quiz_revision", 0) + 1
                 st.session_state.pop("learning_report", None)
                 try:
                     if not passage.strip():
@@ -291,6 +301,8 @@ def main():
             else:
                 c.metric("Answerability checks", "Not run")
             show_answers = st.toggle("Show answers and evidence", value=True)
+            export_rows = []
+            st.caption("Choose questions for the exported quiz. QA-flagged questions start unselected; inspect their evidence before including them.")
             for i, row in enumerate(rows, 1):
                 with st.container(border=True):
                     st.caption(f"QUESTION {i:02d} · {LANGUAGES[row['language']]} · {row['method']}")
@@ -314,14 +326,21 @@ def main():
                                           "QA span score (uncalibrated)": round(row["qa_score"], 3),
                                           "Lexical relevance (cosine)": round(row["lexical_relevance"], 3)})
                                 st.caption("Agreement supports review; it does not establish factual correctness. A low score can also reflect a weak QA verifier.")
+                    if st.checkbox("Include in quiz exports", value=bool(row.get("accepted", True)),
+                                   key=f"export_pick_{st.session_state.get('quiz_revision', 0)}_{i}"):
+                        export_rows.append(row)
             st.subheader("Take it to class")
+            st.write(f"Selected {len(export_rows)} of {len(rows)} questions for export.")
+            if not export_rows:
+                st.info("Select at least one question to enable quiz exports.")
             formats = st.columns(5)
-            formats[0].download_button("JSON", as_json(rows), "questionforge.json", "application/json")
-            csv_output = learning_csv(rows) if any(row.get("learning_goal") for row in rows) else as_csv(rows)
-            formats[1].download_button("CSV", csv_output, "questionforge.csv", "text/csv")
-            formats[2].download_button("Worksheet", worksheet_html(rows), "worksheet.html", "text/html")
-            formats[3].download_button("Answer key", worksheet_html(rows, True), "answer-key.html", "text/html")
-            formats[4].download_button("Moodle XML", moodle_xml(rows), "questionforge.xml", "application/xml")
+            formats[0].download_button("JSON", as_json(export_rows), "questionforge.json", "application/json", disabled=not export_rows)
+            csv_output = learning_csv(export_rows) if any(row.get("learning_goal") for row in export_rows) else as_csv(export_rows)
+            formats[1].download_button("CSV", csv_output, "questionforge.csv", "text/csv", disabled=not export_rows)
+            context = st.session_state.get("quiz_context", "")
+            formats[2].download_button("Worksheet", classroom_worksheet(export_rows, context), "worksheet.html", "text/html", disabled=not export_rows)
+            formats[3].download_button("Answer key", classroom_worksheet(export_rows, context, True), "answer-key.html", "text/html", disabled=not export_rows)
+            formats[4].download_button("Moodle XML", moodle_xml(export_rows), "questionforge.xml", "application/xml", disabled=not export_rows)
             st.caption("Print the HTML worksheet from your browser. Moodle imports one exact short-answer variant; review acceptable alternatives.")
     with research:
         science_folder = ROOT / "results/science_training"

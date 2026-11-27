@@ -20,6 +20,11 @@ def test_create_quiz_with_baseline_and_no_verifier():
     assert app.session_state["questions"][0]["answer"] == "Lina"
     assert app.session_state["questions"][0]["method"] == "baseline"
     assert "qa_score" not in app.session_state["questions"][0]
+    pick = next(box for box in app.checkbox if box.label == "Include in quiz exports")
+    assert pick.value
+    pick.uncheck().run()
+    assert any("Select at least one question" in element.value for element in app.info)
+    assert len(app.session_state["questions"]) == 1
 
 
 def test_arabic_workflow_and_invalid_answer_feedback():
@@ -91,6 +96,39 @@ def test_demo_goal_updates_without_overwriting_a_users_goal():
     app.text_area[0].input("A tank stores water.")
     app.run()
     assert app.text_area[2].value == "Understand the filter's function."
+
+
+def test_qa_flagged_questions_start_excluded_and_can_be_included_after_review(monkeypatch):
+    from questionforge import verification
+
+    monkeypatch.setattr(verification, "check_answer", lambda *args, **kwargs:
+                        {"qa_answer": "unrelated", "qa_score": .01, "answer_f1": 0., "answer_em": 0.})
+    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
+    app.sidebar.selectbox[1].select("Template baseline")
+    app.run()
+    app.text_area[1].input("Lina")
+    app.button[1].click().run()
+    assert not app.exception and not app.error
+    pick = next(box for box in app.checkbox if box.label == "Include in quiz exports")
+    assert not pick.value and not app.session_state["questions"][0]["accepted"]
+    pick.check().run()
+    assert any("Selected 1 of 1" in element.value for element in app.markdown)
+    assert not app.session_state["questions"][0]["accepted"]
+    app.button[1].click().run()
+    assert not next(box for box in app.checkbox if box.label == "Include in quiz exports").value
+
+
+def test_printable_quiz_includes_the_passage_and_escapes_user_text():
+    from app import classroom_worksheet
+
+    rows = [{"question": "What does the mesh catch?", "answer": "leaves", "evidence": "The mesh catches leaves.",
+             "learning_objective": "Understand <the filter>."}]
+    passage = "<script>bad()</script>\nالمرشح يحجز الأوراق."
+    student = classroom_worksheet(rows, passage)
+    key = classroom_worksheet(rows, passage, True)
+    assert "&lt;script&gt;bad()&lt;/script&gt;" in student and "<script>" not in student
+    assert "المرشح يحجز الأوراق." in student and "Understand &lt;the filter&gt;." in student
+    assert "<strong>Answer /" not in student and "<strong>Answer /" in key
 
 
 @pytest.mark.integration

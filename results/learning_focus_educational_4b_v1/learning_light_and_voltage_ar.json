@@ -1,0 +1,275 @@
+{
+  "case_id": "learning:light_and_voltage:ar",
+  "language": "ar",
+  "group": "learning:light_and_voltage",
+  "context": "يحول اللوح الشمسي الضوء إلى طاقة كهربائية. في تجربة صفية، أنتج اللوح ستة فولتات تحت ضوء الشمس المباشر. قلل حاجز من الورق المقوى الضوء الواصل إلى اللوح، فانخفض الجهد المقاس إلى فولتين. كان الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "كم من ضوء الشمس تم إنتاجه تحت ضوء الشمس؟",
+        "answer": "ستة فولتات",
+        "answer_start": 69,
+        "evidence": "في تجربة صفية، أنتج اللوح ستة فولتات تحت ضوء الشمس المباشر.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 70,
+        "cropped": false,
+        "lexical_relevance": 0.4767312946227962,
+        "answer_leak": false,
+        "qa_answer": "ستة فولتات",
+        "qa_score": 0.7576946305780439,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "كيف يتم تحويل الضوء إلى طاقة كهربائية؟",
+        "answer": "يحول اللوح الشمسي",
+        "answer_start": 0,
+        "evidence": "يحول اللوح الشمسي الضوء إلى طاقة كهربائية.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 70,
+        "cropped": false,
+        "lexical_relevance": 0.5,
+        "answer_leak": false,
+        "qa_answer": "اللوح الشمسي",
+        "qa_score": 0.6997165679931641,
+        "answer_f1": 0.8,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "ما هو الهدف من الحاجز؟",
+        "answer": "الحاجز مقارنة إنتاج",
+        "answer_start": 197,
+        "evidence": "كان الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 69,
+        "cropped": false,
+        "lexical_relevance": 0.47140452079103173,
+        "answer_leak": false,
+        "qa_answer": "مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+        "qa_score": 0.8264885079115629,
+        "answer_f1": 0.36363636363636365,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "planned_t5": [
+      {
+        "question": "ما الذي يحول الضوء إلى طاقة؟",
+        "answer": "طاقة كهربائية",
+        "answer_start": 28,
+        "evidence": "يحول اللوح الشمسي الضوء إلى طاقة كهربائية.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 68,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم وظيفة اللوح والمقارنة التجريبية والأثر المذكور للتظليل.",
+        "question_type": "function",
+        "lexical_relevance": 0.7071067811865476,
+        "answer_leak": false,
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      },
+      {
+        "question": "ما هو الهدف من الحاجز؟",
+        "answer": "مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء",
+        "answer_start": 204,
+        "evidence": "كان الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 74,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم وظيفة اللوح والمقارنة التجريبية والأثر المذكور للتظليل.",
+        "question_type": "function",
+        "lexical_relevance": 0.47140452079103173,
+        "answer_leak": false,
+        "qa_answer": "مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+        "qa_score": 0.8264885079115629,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ],
+    "learning_hybrid": [
+      {
+        "question": "ما هو الهدف من الحاجز في التجربة؟",
+        "answer": "مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء",
+        "answer_start": 204,
+        "evidence": "كان الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 74,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم وظيفة اللوح والمقارنة التجريبية والأثر المذكور للتظليل.",
+        "question_type": "function",
+        "draft_question": "ما هو الهدف من الحاجز؟",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "Mihakram/AraT5-base-question-generation",
+        "lexical_relevance": 0.3849001794597505,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+        "qa_score": 0.7583531923592091,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-v4",
+    "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+    "planner_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 2,
+    "rejected_facts": [
+      {
+        "index": 2,
+        "item": 5,
+        "reason": "duplicate evidence statement"
+      }
+    ],
+    "candidate_pool": [
+      {
+        "candidate_id": 0,
+        "answer": "طاقة كهربائية",
+        "answer_start": 28,
+        "evidence": "يحول اللوح الشمسي الضوء إلى طاقة كهربائية.",
+        "question_type": "function",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 1,
+        "answer": "مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء",
+        "answer_start": 204,
+        "evidence": "كان الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+        "question_type": "function",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 2,
+        "answer": "يحول اللوح الشمسي الضوء إلى طاقة كهربائية",
+        "answer_start": 0,
+        "evidence": "يحول اللوح الشمسي الضوء إلى طاقة كهربائية.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 3,
+        "answer": "في تجربة صفية، أنتج اللوح ستة فولتات تحت ضوء الشمس المباشر",
+        "answer_start": 43,
+        "evidence": "في تجربة صفية، أنتج اللوح ستة فولتات تحت ضوء الشمس المباشر.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 4,
+        "answer": "قلل حاجز من الورق المقوى الضوء الواصل إلى اللوح، فانخفض الجهد المقاس إلى فولتين",
+        "answer_start": 103,
+        "evidence": "قلل حاجز من الورق المقوى الضوء الواصل إلى اللوح، فانخفض الجهد المقاس إلى فولتين.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 5,
+        "answer": "كان الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء",
+        "answer_start": 184,
+        "evidence": "كان الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      }
+    ],
+    "raw_plan": "[0, 1, 5]",
+    "raw_edit": "[\n  {\n    \"index\": 0,\n    \"question\": \"ما الذي يحول الضوء إلى طاقة كهربائية؟\"\n  },\n  {\n    \"index\": 1,\n    \"question\": \"ما هو الهدف من الحاجز في التجربة؟\"\n  }\n]",
+    "facts": [
+      {
+        "learning_goal": "فهم وظيفة اللوح والمقارنة التجريبية والأثر المذكور للتظليل.",
+        "question_type": "function",
+        "answer": "طاقة كهربائية",
+        "evidence": "يحول اللوح الشمسي الضوء إلى طاقة كهربائية.",
+        "answer_start": 28
+      },
+      {
+        "learning_goal": "فهم وظيفة اللوح والمقارنة التجريبية والأثر المذكور للتظليل.",
+        "question_type": "function",
+        "answer": "مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء",
+        "evidence": "كان الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+        "answer_start": 204
+      }
+    ],
+    "drafts": [
+      {
+        "question": "ما الذي يحول الضوء إلى طاقة؟",
+        "answer": "طاقة كهربائية",
+        "answer_start": 28,
+        "evidence": "يحول اللوح الشمسي الضوء إلى طاقة كهربائية.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 68,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم وظيفة اللوح والمقارنة التجريبية والأثر المذكور للتظليل.",
+        "question_type": "function"
+      },
+      {
+        "question": "ما هو الهدف من الحاجز؟",
+        "answer": "مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء",
+        "answer_start": 204,
+        "evidence": "كان الهدف من الحاجز مقارنة إنتاج اللوح تحت كميات مختلفة من الضوء.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 74,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم وظيفة اللوح والمقارنة التجريبية والأثر المذكور للتظليل.",
+        "question_type": "function"
+      }
+    ],
+    "rejected_questions": [
+      {
+        "item": {
+          "index": 0,
+          "question": "ما الذي يحول الضوء إلى طاقة كهربائية؟"
+        },
+        "reason": "target answer appears in question"
+      }
+    ],
+    "learning_objective": "فهم وظيفة اللوح والمقارنة التجريبية والأثر المذكور للتظليل.",
+    "educational_quality_status": "not_human_rated",
+    "returned": 1,
+    "seconds": 98.69198289999622
+  },
+  "seconds": 115.08766950000427
+}

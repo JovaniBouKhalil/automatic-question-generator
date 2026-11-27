@@ -1,0 +1,26 @@
+{
+  "scope": "Development-only synthetic educational passages. No fresh-test or human-quality claim.",
+  "planned_passage_language_pairs": 9,
+  "study_complete": true,
+  "passage_language_pairs": 9,
+  "requested_questions_per_method": 27,
+  "cases_with_execution_error": 0,
+  "human_learning_value_ratings": "pending",
+  "methods": {
+    "recall_t5": {
+      "returned_questions": 27,
+      "mean_qa_answer_f1_diagnostic": 0.36693656138100583,
+      "interpretation": "QA recovery and output count do not establish educational usefulness."
+    },
+    "planned_t5": {
+      "returned_questions": 25,
+      "mean_qa_answer_f1_diagnostic": 0.5002666438022475,
+      "interpretation": "QA recovery and output count do not establish educational usefulness."
+    },
+    "learning_hybrid": {
+      "returned_questions": 24,
+      "mean_qa_answer_f1_diagnostic": 0.7182611594440799,
+      "interpretation": "QA recovery and output count do not establish educational usefulness."
+    }
+  }
+}

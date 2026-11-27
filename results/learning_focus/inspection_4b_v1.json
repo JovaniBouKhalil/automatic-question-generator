@@ -1,0 +1,15 @@
+{
+  "scope": "Source-linked development observations of the nine educational cases. These are not human ratings, an accuracy estimate or proof of learning benefit.",
+  "study": "results/learning_focus_educational_4b_v1",
+  "cases": [
+    {"case_id": "learning:light_and_voltage:ar", "observation": "The screen-purpose question and answer are supported. A proposed conversion question asks for the converting device while its intended target is electrical energy; the answer-leak rule rejects it. The final quiz therefore loses this useful conversion item."},
+    {"case_id": "learning:text_representation:ar", "observation": "The questions now remain Arabic and ask about the adjustment criterion, word weighting and distinguishing terms. The purpose question uses the awkward gender agreement 'ما هو الفائدة'. The contrast target is longer than the shortest sufficient answer."},
+    {"case_id": "learning:training_and_evaluation:ar", "observation": "The test-isolation and article-grouping why-questions preserve the explicitly stated prevention reasons. The validation item still asks 'ما الذي تستخدمه بيانات التحقق؟', which poorly expresses the intended use-purpose relation."},
+    {"case_id": "learning:light_and_voltage:en", "observation": "The three items ask about the screen purpose, conversion output and measured voltage change. They refer to stated experimental relationships; the voltage target includes more context than the minimal answer."},
+    {"case_id": "learning:text_representation:en", "observation": "The writer correctly changes the T5 draft's TF-IDF subject to bag-of-words for the missing-order property. The weight question asks why, but its assigned target states a contrast rather than the purpose supplied in the following sentence. This is a question-target mismatch even though a why-question could be answered elsewhere in the passage."},
+    {"case_id": "learning:training_and_evaluation:en", "observation": "The training-use, validation-use and test-isolation questions already have supported T5 drafts; retaining those drafts is appropriate. Editing need not change a correct draft."},
+    {"case_id": "learning:light_and_voltage:fr", "observation": "The writer repairs incomplete T5 wording into clear screen-purpose and conversion-output questions. The planner returns two facts rather than the requested maximum of three."},
+    {"case_id": "learning:text_representation:fr", "observation": "The missing-order, TF-IDF purpose and weighting-comparison questions match their source relations. They replace T5 drafts that confuse frequency, distinguishing terms and weighting."},
+    {"case_id": "learning:training_and_evaluation:fr", "observation": "The writer repairs the draft's validation/test entity confusion and changes a generic test-result question to the explicitly stated reason for keeping the test separate. Initial A should carry the French accent in À quoi."}
+  ]
+}

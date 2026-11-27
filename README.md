@@ -18,6 +18,11 @@ and supply exact target answers (one per line) or use automatic TF-IDF suggestio
 Review questions beside their answers and source evidence. Export a printable student
 worksheet, answer key, CSV, JSON, or Moodle short-answer XML.
 
+Choose the questions to include in the exported quiz. QA-flagged questions start unselected
+and can be included after reviewing their evidence. The printable worksheet includes the
+reading passage and, when provided, the learning objective. Export choices do not remove
+questions from saved experimental results or change the displayed QA statistics.
+
 On Windows, you can also double-click `run_app.bat` after installation.
 
 The first neural run downloads pretrained weights. Cached models work offline. The template
