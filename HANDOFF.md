@@ -1,5 +1,27 @@
 # Ready for your review — 27 November 2026
 
+The educational-science follow-up is complete: eight English T5 adapter settings now
+search learning rate, rank and dropout. Validation selected `3e-4 / 16 / .05` at 256
+updates. On 200 reserved science examples, BLEU changes **31.83 → 42.11**, ROUGE-L
+**59.83 → 64.15**, and QA answer F1 **72.63 → 74.11**. The paired QA difference interval
+includes zero. Some development questions gain clearer target focus; others become long
+copied or malformed cloze questions. Training has not established better human learning value.
+
+Read [the science findings](docs/SCIENCE_TRAINING_RESULTS.md) and open
+[all 64 source-linked development comparisons](results/science_evaluation_dev/comparison.html).
+In the app, enable **Use adapted English generator**, then select **Educational science**.
+Original/general-reading adapters remain available for comparison.
+
+Learning-focused T5 and local planner/editor modes add explicit concept/function/reason
+targets, optional objectives and visible T5 drafts. The smaller editor still makes factual-role
+errors and remains experimental. The stronger 4B model is downloading; it has no completed
+question-quality result yet. `python -m scripts.learning_status` reports current local progress.
+The queued evaluations do not automatically promote a mode or fill human ratings.
+
+The notebook now has **11 executed code cells** and the **12-slide** presentation includes
+the science search and test findings. Your already-open presentation was snapshotted and
+left untouched; the updated workspace deck/PDF are separate files.
+
 The newly supplied course slides have been checked against the implementation. See
 [the course alignment audit](docs/COURSE_ALIGNMENT.md) for exact references and remaining gaps.
 The Arabic solar-panel example was previously described incorrectly: it asks who invented
@@ -30,13 +52,13 @@ Export a worksheet, answer key, CSV, JSON or Moodle XML. Full setup/reproduction
   presentation and small trained adapter; excludes environments, full weights and course files.
 - `presentation/QuestionForge.pptx` — **12 editable slides**, with sources and technical speaker notes.
 - `presentation/QuestionForge.pdf` — readable slide export; PNG previews are in `presentation/preview/`.
-- `notebooks/QuestionForge.ipynb` — **9 executed code cells**, including original and trained generation in all three languages.
+- `notebooks/QuestionForge.ipynb` — **11 executed code cells**, including original/trained multilingual generation, learning-focused inspection and the science search.
 - `docs/DEFENSE_GUIDE.md` — demo steps, course connections and technical questions to prepare.
 - `docs/RUBRIC_CHECKLIST.md` — evidence mapped to the 100-point rubric.
 
 The rubric does not require a separate written report.
 
-## Latest larger-data training
+## Earlier larger native-language training
 
 Three native adapters are now trained and available through **Use adapted … generator** in the app.
 The original model remains the default for comparison because held-out gains are mixed.
@@ -106,7 +128,7 @@ completed human evaluations. Teacher review of wording and factual support is pa
 
 ## Validation and reproducibility
 
-- **53 regular tests passed; 10 real neural integration tests passed.**
+- **85 regular checks and 11 real-model integration checks passed.** The optional 4B app test is skipped until its weights are ready.
 - Ruff checks passed; the notebook executed without errors.
 - A resumed copy of the LoRA test experiment retained all 200 prediction records with an
   unchanged SHA-256. All 21 original/follow-up generation experiments match their recorded core source hashes.

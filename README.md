@@ -42,7 +42,8 @@ py -3.11 -m venv .venv
 Linux/macOS: create a Python environment and replace `.\.venv\Scripts\python.exe` with
 `.venv/bin/python`. PEFT is installed with the app for adapter inference. Downloads resume after
 interruption, pin Hub commits, and check LFS SHA-256 hashes. About **3.7 GB** of inference weights
-go into ignored `models/`. Allow additional space for packages. Weights and course materials
+go into ignored `models/` for the core models. Optional planners/editors add separate weights.
+Allow additional space for packages. Weights and course materials
 are excluded from GitHub and the submission.
 
 ## What is implemented
@@ -66,6 +67,15 @@ do not prove educational value. See [the learning-focused workflow](docs/LEARNIN
 - Arabic text direction, text/PDF input, student/teacher views, and classroom exports.
 
 ## Reproduce experiments
+
+The [completed science training study](docs/SCIENCE_TRAINING_RESULTS.md) uses 2,043
+usable English training examples and eight settings for learning rate, rank and dropout.
+On 200 reserved science inputs, BLEU changes 31.83 → 42.11 and ROUGE-L 59.83 → 64.15.
+QA answer F1 changes 72.63 → 74.11, with a paired difference interval crossing zero.
+Development outputs include improved target focus and copied/malformed cloze regressions.
+Human educational value remains unmeasured. Select **Educational science** under the
+English adaptation control to compare it in the app; inspect all eight settings in
+**Experiment results**.
 
 For the educational training and stronger-model follow-up, see
 [the science training protocol](docs/SCIENCE_TRAINING_PROTOCOL.md) and
@@ -250,7 +260,7 @@ the resume guard deliberately refuses incompatible folders.
 
 ## Interpretation limits
 
-Two experimental [learning-focused modes](docs/LEARNING_FOCUS.md) address the difference
+Experimental [learning-focused modes](docs/LEARNING_FOCUS.md) address the difference
 between answer recovery and a useful classroom question. T5-only mode targets explicit
 relations; hybrid mode uses a local fact planner and question editor around T5. Both
 show learning goals and preserve source evidence. The first T5-only comparisons still

@@ -35,6 +35,22 @@ generic int8 conversion failed paired instruction-following controls and was dis
 The app still runs locally without a paid API. This
 mode takes longer than T5 alone and performs inference, not additional fine-tuning.
 
+**Learning-focused hybrid 4B (experimental)** uses the stronger
+[Qwen3-4B-Instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507), revision
+`cdbee75f17c01a7cc42f958dc650907174af0554`. Its 8.04 GB of weights are optional and
+still downloading on the development computer; no completed 4B quality result is claimed.
+Prepare it with `python -m scripts.download_quality_model`. The downloader preserves partial
+files and checks every complete shard. If the Hugging Face transfer stalls, the alternate
+`--source modelscope` uses a pinned Qwen repository whose three published shard checksums
+must match the pinned Hugging Face metadata exactly. Runtime parameters alone need roughly
+16 GB in FP32, plus inference memory. The original mode remains the default.
+
+When ready, `scripts.run_learning_followups` runs the paired precision controls and both
+fixed nine-passage/language development comparisons. Read their actual questions before
+recommending a mode. The queue does not change application defaults or invent human scores.
+Completed reports appear in the app's Experiment results tab. The [science adapter
+training study](SCIENCE_TRAINING_RESULTS.md) is a separate English-only experiment.
+
 The planner chooses IDs from source-derived relation spans and complete statements.
 Code resolves the exact answers and evidence; generated answer paraphrases are not used.
 T5 generates drafts for those targets;

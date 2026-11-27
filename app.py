@@ -15,6 +15,7 @@ import streamlit as st
 from questionforge.baseline import template_question
 from questionforge.candidates import extract_candidates
 from questionforge.export import as_csv, as_json, moodle_xml, worksheet_html
+from questionforge.learning.exports import learning_csv
 from questionforge.learning.pipeline import PLANNER, create_learning_quiz
 from questionforge.learning.quality import QUALITY_MODEL, create_quality_quiz
 from questionforge.learning.rules import create_learning_t5_quiz
@@ -316,16 +317,41 @@ def main():
             st.subheader("Take it to class")
             formats = st.columns(5)
             formats[0].download_button("JSON", as_json(rows), "questionforge.json", "application/json")
-            formats[1].download_button("CSV", as_csv(rows), "questionforge.csv", "text/csv")
+            csv_output = learning_csv(rows) if any(row.get("learning_goal") for row in rows) else as_csv(rows)
+            formats[1].download_button("CSV", csv_output, "questionforge.csv", "text/csv")
             formats[2].download_button("Worksheet", worksheet_html(rows), "worksheet.html", "text/html")
             formats[3].download_button("Answer key", worksheet_html(rows, True), "answer-key.html", "text/html")
             formats[4].download_button("Moodle XML", moodle_xml(rows), "questionforge.xml", "application/xml")
             st.caption("Print the HTML worksheet from your browser. Moodle imports one exact short-answer variant; review acceptable alternatives.")
     with research:
+        science_folder = ROOT / "results/science_training"
+        science_test = ROOT / "results/science_evaluation_test/summary.json"
+        if science_test.exists() and (science_folder / "selection.json").exists():
+            with st.expander("Educational science training: all eight settings", expanded=False):
+                science_selection = json.loads((science_folder / "selection.json").read_text(encoding="utf-8"))
+                science_results = json.loads(science_test.read_text(encoding="utf-8"))
+                st.write("Eight equal-budget settings vary learning rate, LoRA rank and dropout. Checkpoint selection uses validation loss only.")
+                st.write("Selected setting: " + science_selection["selected_trial"])
+                trials = [json.loads(path.read_text(encoding="utf-8")) for path in sorted(science_folder.glob("lr*.json"))]
+                st.dataframe([{key: trial[key] for key in ["learning_rate", "rank", "dropout", "updates", "best_step", "best_dev_loss"]}
+                              for trial in trials], hide_index=True)
+                figure = science_folder / "validation_search.png"
+                if figure.exists():
+                    st.image(str(figure))
+                st.write("Reserved science test: 200 passage/question/answer inputs, evaluated after selection.")
+                st.dataframe([{"method": name, **{key: score[key] for key in ["bleu", "chrf_pp", "rouge_l", "answer_f1"]}}
+                              for name, score in science_results["methods"].items() if name != "reference_control"], hide_index=True)
+                st.caption("Reference-wording agreement improves; QA improvement is uncertain. Some outputs copy long cloze sentences. These scores do not measure educational usefulness.")
+                comparison = ROOT / "results/science_evaluation_dev/comparison.html"
+                if comparison.exists():
+                    st.download_button("Inspect all science development questions", comparison.read_bytes(),
+                                       "science-development-comparison.html", "text/html")
         learning_studies = {label: ROOT / folder for label, folder in [
             ("T5 with relation targets", "results/learning_t5_educational_v2"),
             ("Hybrid: educational passages", "results/learning_focus_educational_v3"),
-            ("Hybrid: classroom passages", "results/learning_focus_dev_v3")]
+            ("Hybrid: classroom passages", "results/learning_focus_dev_v3"),
+            ("4B hybrid: educational passages", "results/learning_focus_educational_4b_v1"),
+            ("4B hybrid: classroom passages", "results/learning_focus_dev_4b_v1")]
             if (ROOT / folder / "summary.json").exists()}
         if learning_studies:
             with st.expander("Inspect learning-focused questions", expanded=True):

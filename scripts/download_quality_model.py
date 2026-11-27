@@ -23,6 +23,8 @@ SMALL_FILES = {"config.json", "generation_config.json", "merges.txt", "tokenizer
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--workers", type=int, default=24)
+    parser.add_argument("--source", choices=["huggingface", "modelscope"], default="huggingface")
+    parser.add_argument("--mode", choices=["stream", "blocks"], default="stream")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     model = QUALITY_MODEL
@@ -51,6 +53,16 @@ def main():
             actual_blob = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
             assert actual_blob == entry["blobId"], entry["rfilename"]
     shards = [e for e in metadata["siblings"] if e["rfilename"].endswith(".safetensors")]
+    alternate_revision = "74f64356d5145f21fd3d02f65bbb1d4a2fa0a7cf"
+    if args.source == "modelscope":
+        url = f"https://modelscope.cn/api/v1/models/{model.model_id}/repo/files?Revision={alternate_revision}&Recursive=true"
+        with urllib.request.urlopen(url, timeout=30) as response:
+            alternate = json.load(response)
+        entries = {e["Name"]: e for e in alternate["Data"]["Files"]}
+        for entry in shards:
+            other = entries[entry["rfilename"]]
+            assert other["Sha256"] == entry["lfs"]["sha256"] and other["Size"] == entry["size"]
+        (directory / "modelscope_transport_metadata.json").write_text(json.dumps(alternate, indent=2), encoding="utf-8")
     block = 2 * 1024 * 1024
     jobs, directories, finished = [], {}, {}
     total = sum(e["size"] for e in shards)
@@ -73,6 +85,8 @@ def main():
             return None
 
     def download_url(name):
+        if args.source == "modelscope":
+            return f"https://modelscope.cn/api/v1/models/{model.model_id}/repo?Revision={alternate_revision}&FilePath={name}"
         # Reuse the Hub's official signed CDN redirect, not a fresh resolve per block.
         # Range/length and the final published SHA256 remain mandatory.
         with redirect_lock:
@@ -129,13 +143,64 @@ def main():
                     print(f"Retry {name} block {index}: {type(exc).__name__}; waiting {delay}s", flush=True)
                 time.sleep(delay)
 
-    print(f"Downloading {model.model_id}: {total / 1e9:.2f} GB; {len(jobs)} resumable blocks", flush=True)
+    if args.mode == "stream":
+        for entry in shards:
+            name = entry["rfilename"]
+            if name in finished:
+                continue
+            target = directory / name
+            pending = target.with_suffix(".safetensors.partial")
+            if not pending.exists():
+                with pending.open("wb") as stream:
+                    for index in range((entry["size"] + block - 1) // block):
+                        chunk = directories[name] / f"{index:05d}.bin"
+                        expected = min(block, entry["size"] - index * block)
+                        if not chunk.exists() or chunk.stat().st_size != expected:
+                            break
+                        stream.write(chunk.read_bytes())
+            for attempt in range(30):
+                offset = pending.stat().st_size
+                if offset == entry["size"]:
+                    break
+                if offset > entry["size"]:
+                    raise ValueError("Partial model shard exceeds its published size")
+                headers = {"Range": f"bytes={offset}-"} if offset else {}
+                print(f"Streaming {name}: resume {offset / 1e9:.3f}/{entry['size'] / 1e9:.3f} GB", flush=True)
+                try:
+                    request = urllib.request.Request(download_url(name), headers=headers)
+                    with urllib.request.urlopen(request, timeout=180) as response, pending.open("ab") as stream:
+                        if offset and (response.status != 206 or not response.headers.get("Content-Range", "").startswith(f"bytes {offset}-")):
+                            raise ValueError("Server did not honor the model resume offset")
+                        last = time.monotonic()
+                        while content := response.read1(64 * 1024):
+                            stream.write(content)
+                            if time.monotonic() - last >= 40:
+                                stream.flush()
+                                print(f"Stream progress {name}: {stream.tell() / 1e9:.3f} GB", flush=True)
+                                last = time.monotonic()
+                except Exception as exc:
+                    print(f"Stream retry {name}: {type(exc).__name__}; partial bytes preserved", flush=True)
+                    if attempt == 29:
+                        raise
+                    time.sleep(10)
+            if pending.stat().st_size != entry["size"] or sha256(pending) != entry["lfs"]["sha256"]:
+                raise ValueError(f"Incomplete or incorrect model shard: {name}; preserved for inspection")
+            pending.replace(target)
+            finished[name] = entry["lfs"]["sha256"]
+            print("SHA256 verified:", name, flush=True)
+        jobs = []
+    print(f"Downloading {model.model_id} via {args.source}: {total / 1e9:.2f} GB; {len(jobs)} resumable blocks remaining", flush=True)
     downloaded = sum(e["size"] for e in shards if e["rfilename"] in finished)
     last_report = time.monotonic()
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
         futures = [pool.submit(fetch, job) for job in jobs]
         for future in as_completed(futures):
-            downloaded += future.result()
+            try:
+                downloaded += future.result()
+            except BaseException:
+                for pending_future in futures:
+                    pending_future.cancel()
+                raise
             if time.monotonic() - last_report >= 40:
                 print(f"Quality model: {downloaded / 1e9:.2f}/{total / 1e9:.2f} GB", flush=True)
                 last_report = time.monotonic()
@@ -156,7 +221,9 @@ def main():
         finished[name] = digest.hexdigest()
         print("SHA256 verified:", name, flush=True)
     receipt = {"model": model.model_id, "revision": model.revision, "weight_sha256": finished,
-               "all_weights_verified": True}
+               "all_weights_verified": True, "download_transport": args.source,
+               "alternate_revision": alternate_revision if args.source == "modelscope" else None,
+               "cache_note": "Resumed blocks may come from earlier attempts; every complete shard matches the pinned Hugging Face SHA256."}
     (directory / "download_receipt.json").write_text(json.dumps(receipt, indent=2), encoding="utf-8")
     print("Stronger learning model ready; every shard verified.", flush=True)
 

@@ -198,3 +198,22 @@ def test_selector_cannot_supply_new_answer_wording_or_duplicate_the_same_fact():
     proposed, rejected = resolve_candidate_choices(choices, candidates, "en", 3)
     assert len(proposed) == 1 and len(rejected) == 3
     assert proposed[0]["answer"] == "update weights"
+
+
+def test_teacher_csv_preserves_objectives_draft_provenance_and_literal_formulas():
+    import csv
+    import io
+
+    from questionforge.learning.exports import learning_csv
+
+    source = {"question": "ما وظيفة المرشح؟", "answer": "حجز الأوراق", "language": "ar",
+              "evidence": "يستخدم المرشح لحجز الأوراق.", "method": "learning_focused_hybrid",
+              "learning_goal": "فهم الوظيفة، ثم المقارنة\nبالدليل", "learning_objective": "=1+1",
+              "model_id": "Qwen/editor", "draft_model_id": "T5/adapter", "draft_question": "+unsafe()"}
+    output = learning_csv([source])
+    exported = next(csv.DictReader(io.StringIO(output.lstrip("\ufeff"), newline="")))
+    assert output.startswith("\ufeff")
+    assert exported["learning_goal"] == source["learning_goal"]
+    assert exported["learning_objective"] == "'=1+1" and exported["draft_question"] == "'+unsafe()"
+    assert exported["model_id"] == "Qwen/editor" and exported["draft_model_id"] == "T5/adapter"
+    assert exported["question"] == source["question"]

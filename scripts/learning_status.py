@@ -30,7 +30,13 @@ def main():
     else:
         total = 8044982000
         blocks = root / ".cache/quality-model-blocks"
-        downloaded = sum(p.stat().st_size for p in blocks.rglob("*.bin")) if blocks.exists() else 0
+        downloaded = 0
+        for index in range(1, 4):
+            name = f"model-{index:05d}-of-00003.safetensors"
+            cached = sum(p.stat().st_size for p in (blocks / name).glob("*.bin"))
+            full, partial = model / name, model / (name + ".partial")
+            downloaded += max(cached, full.stat().st_size if full.exists() else 0,
+                              partial.stat().st_size if partial.exists() else 0)
         print(f"Stronger model download: {downloaded / 1e9:.2f}/{total / 1e9:.2f} GB cached ({100 * downloaded / total:.1f}%)")
     for folder in ["science_evaluation_dev", "science_evaluation_test", "learning_focus_educational_4b_v1", "learning_focus_dev_4b_v1"]:
         summary = root / "results" / folder / "summary.json"

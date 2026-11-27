@@ -160,7 +160,8 @@ total about 8.04 GB; all are verified against published SHA-256 hashes by
 16 GB for model parameters, plus runtime memory), with a 6,000-token input limit.
 No backbone weights enter GitHub or the submission. This decoder-only planner/editor
 is separate from the native encoder–decoder T5 draft models and is not fine-tuned here.
-Final hybrid exports identify the editor as `model_id` and retain `draft_model_id`.
+Hybrid JSON and learning CSV exports identify the editor as `model_id` and retain
+`draft_model_id`, the learning objective and the original T5 draft.
 
 SciQ curriculum preparation is pinned in `scripts/prepare_science_data.py` to revision
 `2c94ad3e1aafab77146f384e23536f97a4849815`. It preserves published split roles and

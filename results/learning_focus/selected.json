@@ -1,0 +1,7 @@
+{
+  "study_path": "results/learning_focus_educational_v3",
+  "recommendation": null,
+  "selection_scope": "Readable development inspection only; this does not promote the smaller hybrid model.",
+  "reason": "The 1.5B model still reverses relations, produces wrong-language text and copies faulty drafts. The stronger 4B checkpoint is downloading; no generated 4B quality result is claimed yet.",
+  "human_learning_value_ratings": "pending"
+}
