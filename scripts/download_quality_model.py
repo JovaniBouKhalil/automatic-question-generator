@@ -171,18 +171,31 @@ def main():
                     with urllib.request.urlopen(request, timeout=180) as response, pending.open("ab") as stream:
                         if offset and (response.status != 206 or not response.headers.get("Content-Range", "").startswith(f"bytes {offset}-")):
                             raise ValueError("Server did not honor the model resume offset")
-                        last = time.monotonic()
+                        last = connection_started = window_started = time.monotonic()
+                        window_bytes = 0
                         while content := response.read1(64 * 1024):
                             stream.write(content)
+                            window_bytes += len(content)
                             if time.monotonic() - last >= 40:
                                 stream.flush()
                                 print(f"Stream progress {name}: {stream.tell() / 1e9:.3f} GB", flush=True)
                                 last = time.monotonic()
+                            elapsed = time.monotonic() - window_started
+                            if time.monotonic() - connection_started >= 900 or (elapsed >= 120 and window_bytes / elapsed < 8192):
+                                print("Reconnecting at the saved offset to refresh the transfer", flush=True)
+                                break
+                            if elapsed >= 120:
+                                window_started, window_bytes = time.monotonic(), 0
                 except Exception as exc:
                     print(f"Stream retry {name}: {type(exc).__name__}; partial bytes preserved", flush=True)
                     if attempt == 29:
                         raise
-                    time.sleep(10)
+                    delay = 10
+                    if isinstance(exc, urllib.error.HTTPError) and exc.code == 429:
+                        retry = exc.headers.get("Retry-After", "")
+                        remaining = re.search(r"\bt=(\d+)", exc.headers.get("RateLimit", ""))
+                        delay = max(delay, int(retry) if retry.isdigit() else int(remaining[1]) if remaining else 60)
+                    time.sleep(delay)
             if pending.stat().st_size != entry["size"] or sha256(pending) != entry["lfs"]["sha256"]:
                 raise ValueError(f"Incomplete or incorrect model shard: {name}; preserved for inspection")
             pending.replace(target)
