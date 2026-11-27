@@ -1,0 +1,277 @@
+{
+  "case_id": "novel:school_bus:ar",
+  "language": "ar",
+  "group": "novel:school_bus",
+  "context": "غادرت الحافلة المدرسية المكتبة في السابعة صباحا. قاد عمر الحافلة إلى متحف العلوم. استغرقت الرحلة أربعين دقيقة بسبب أعمال صيانة الطريق.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "كم من الوقت استغرقت الرحلة؟",
+        "answer": "أربعين دقيقة",
+        "answer_start": 97,
+        "evidence": "استغرقت الرحلة أربعين دقيقة بسبب أعمال صيانة الطريق.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 33,
+        "cropped": false,
+        "lexical_relevance": 0.35355339059327373,
+        "answer_leak": false,
+        "qa_answer": "أربعين دقيقة",
+        "qa_score": 0.9794115849945229,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "من الذي قاد الحافلة إلى متحف العلوم؟",
+        "answer": "عمر",
+        "answer_start": 53,
+        "evidence": "قاد عمر الحافلة إلى متحف العلوم.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 32,
+        "cropped": false,
+        "lexical_relevance": 0.8944271909999159,
+        "answer_leak": false,
+        "qa_answer": "عمر",
+        "qa_score": 0.9943525791168213,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "ما الذي أدى إلى مغادرة المكتبة في السابعة صباحا؟",
+        "answer": "غادرت الحافلة المدرسية",
+        "answer_start": 0,
+        "evidence": "غادرت الحافلة المدرسية المكتبة في السابعة صباحا.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 34,
+        "cropped": false,
+        "lexical_relevance": 0.5477225575051661,
+        "answer_leak": false,
+        "qa_answer": "الحافلة المدرسية",
+        "qa_score": 0.3699534982442856,
+        "answer_f1": 0.8,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ],
+    "planned_t5": [
+      {
+        "question": "ما الذي أدى إلى مغادرة الحافلات إلى متحف العلوم؟",
+        "answer": "أعمال صيانة الطريق",
+        "answer_start": 115,
+        "evidence": "استغرقت الرحلة أربعين دقيقة بسبب أعمال صيانة الطريق.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 34,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم سبب أو هدف مذكور في النص.",
+        "question_type": "cause_effect",
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "qa_answer": "أعمال صيانة الطريق.",
+        "qa_score": 0.9642291944473982,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "أين غادرت الحافلة المدرسة؟",
+        "answer": "قاد عمر الحافلة إلى متحف العلوم",
+        "answer_start": 49,
+        "evidence": "قاد عمر الحافلة إلى متحف العلوم.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 37,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "lexical_relevance": 0.22360679774997896,
+        "answer_leak": false,
+        "qa_answer": "المكتبة",
+        "qa_score": 0.9501917539600981,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "learning_hybrid": [
+      {
+        "question": "ما الذي سبب استغراب الرحلة أربعين دقيقة؟",
+        "answer": "أعمال صيانة الطريق",
+        "answer_start": 115,
+        "evidence": "استغرقت الرحلة أربعين دقيقة بسبب أعمال صيانة الطريق.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 34,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم سبب أو هدف مذكور في النص.",
+        "question_type": "cause_effect",
+        "draft_question": "ما الذي أدى إلى مغادرة الحافلات إلى متحف العلوم؟",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "Mihakram/AraT5-base-question-generation",
+        "lexical_relevance": 0.4743416490252569,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "أعمال صيانة الطريق.",
+        "qa_score": 0.9672730434685946,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "من قاد الحافلة إلى متحف العلوم؟",
+        "answer": "قاد عمر الحافلة إلى متحف العلوم",
+        "answer_start": 49,
+        "evidence": "قاد عمر الحافلة إلى متحف العلوم.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 37,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "draft_question": "أين غادرت الحافلة المدرسة؟",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "Mihakram/AraT5-base-question-generation",
+        "lexical_relevance": 0.8944271909999159,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "عمر",
+        "qa_score": 0.9937853217124939,
+        "answer_f1": 0.2857142857142857,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-v4",
+    "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+    "planner_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 2,
+    "rejected_facts": [
+      {
+        "index": 2,
+        "item": 3,
+        "reason": "duplicate evidence statement"
+      }
+    ],
+    "candidate_pool": [
+      {
+        "candidate_id": 0,
+        "answer": "أعمال صيانة الطريق",
+        "answer_start": 115,
+        "evidence": "استغرقت الرحلة أربعين دقيقة بسبب أعمال صيانة الطريق.",
+        "question_type": "cause_effect",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 1,
+        "answer": "غادرت الحافلة المدرسية المكتبة في السابعة صباحا",
+        "answer_start": 0,
+        "evidence": "غادرت الحافلة المدرسية المكتبة في السابعة صباحا.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 2,
+        "answer": "قاد عمر الحافلة إلى متحف العلوم",
+        "answer_start": 49,
+        "evidence": "قاد عمر الحافلة إلى متحف العلوم.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 3,
+        "answer": "استغرقت الرحلة أربعين دقيقة بسبب أعمال صيانة الطريق",
+        "answer_start": 82,
+        "evidence": "استغرقت الرحلة أربعين دقيقة بسبب أعمال صيانة الطريق.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      }
+    ],
+    "raw_plan": "[0, 2, 3]",
+    "raw_edit": "[\n  {\n    \"index\": 0,\n    \"question\": \"ما الذي سبب استغراب الرحلة أربعين دقيقة؟\"\n  },\n  {\n    \"index\": 1,\n    \"question\": \"من قاد الحافلة إلى متحف العلوم؟\"\n  }\n]",
+    "facts": [
+      {
+        "learning_goal": "فهم سبب أو هدف مذكور في النص.",
+        "question_type": "cause_effect",
+        "answer": "أعمال صيانة الطريق",
+        "evidence": "استغرقت الرحلة أربعين دقيقة بسبب أعمال صيانة الطريق.",
+        "answer_start": 115
+      },
+      {
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept",
+        "answer": "قاد عمر الحافلة إلى متحف العلوم",
+        "evidence": "قاد عمر الحافلة إلى متحف العلوم.",
+        "answer_start": 49
+      }
+    ],
+    "drafts": [
+      {
+        "question": "ما الذي أدى إلى مغادرة الحافلات إلى متحف العلوم؟",
+        "answer": "أعمال صيانة الطريق",
+        "answer_start": 115,
+        "evidence": "استغرقت الرحلة أربعين دقيقة بسبب أعمال صيانة الطريق.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 34,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "فهم سبب أو هدف مذكور في النص.",
+        "question_type": "cause_effect"
+      },
+      {
+        "question": "أين غادرت الحافلة المدرسة؟",
+        "answer": "قاد عمر الحافلة إلى متحف العلوم",
+        "answer_start": 49,
+        "evidence": "قاد عمر الحافلة إلى متحف العلوم.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 37,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "فهم الحقيقة المختارة في سياقها.",
+        "question_type": "concept"
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "",
+    "educational_quality_status": "not_human_rated",
+    "returned": 2,
+    "seconds": 88.7624763000058
+  },
+  "seconds": 91.70306159999745
+}

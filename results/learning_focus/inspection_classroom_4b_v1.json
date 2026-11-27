@@ -1,0 +1,15 @@
+{
+  "scope": "Source-linked development observations, not human ratings or an estimate of question accuracy. All nine classroom cases were inspected.",
+  "study": "results/learning_focus_dev_4b_v1",
+  "cases": [
+    {"case_id": "novel:book_club:ar", "observation": "Place, discussion leader and reading material are supported. The leader question has awkward grammatical agreement. Targets are whole statements, broader than the minimal answers to where/who/what questions."},
+    {"case_id": "novel:school_bus:ar", "observation": "The road-repair cause is appropriate, but the question substitutes the unrelated word 'استغراب' for the journey taking time. The driver item is supported with a broader-than-needed statement target."},
+    {"case_id": "novel:seedlings:ar", "observation": "Germination count and watering duration are supported. The planting question repeats 'ما هو ما' awkwardly and asks a broad action question. All three statement targets exceed the shortest sufficient answers."},
+    {"case_id": "novel:book_club:en", "observation": "Place, reading material and recorded suggestions are supported. The record item has a focused answer; the other two use whole statements. The passage offers limited conceptual material, so these are relevant recall questions rather than evidence of deep understanding."},
+    {"case_id": "novel:school_bus:en", "observation": "The journey-duration why-question uses the stated road-repair reason. The destination question is supported, although its statement target includes the driver and action as well as the museum."},
+    {"case_id": "novel:seedlings:en", "observation": "Germination count, watering duration and planting action are source-supported. Statement targets are broader than minimal answers. The planting item is less focused than the count/duration items."},
+    {"case_id": "novel:book_club:fr", "observation": "Meeting place, Salma's role and reading material are supported and readable. Statement targets are broad but contain the requested facts."},
+    {"case_id": "novel:school_bus:fr", "observation": "Departure time and driver are supported. The duration-and-cause item is a two-part question, matching a two-fact statement target but less focused than one question per fact."},
+    {"case_id": "novel:seedlings:fr", "observation": "Count and duration questions are clear and supported. The planting item asks for the situation, testing a relatively incidental classroom setting rather than the experimental action. It also copies much of its long target into the question; whole-answer leakage checks do not detect partial-answer copying."}
+  ]
+}

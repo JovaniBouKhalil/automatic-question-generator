@@ -1,0 +1,273 @@
+{
+  "case_id": "novel:school_bus:en",
+  "language": "en",
+  "group": "novel:school_bus",
+  "context": "The school bus left the library at seven in the morning. Omar drove the bus to the science museum. The journey lasted forty minutes because of road repairs.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "Who drove the bus to the science museum?",
+        "answer": "Omar",
+        "answer_start": 57,
+        "evidence": "Omar drove the bus to the science museum.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 39,
+        "cropped": false,
+        "lexical_relevance": 0.8,
+        "answer_leak": false,
+        "qa_answer": "Omar",
+        "qa_score": 0.9978380799293518,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "How long did the bus take to the science museum?",
+        "answer": "forty minutes",
+        "answer_start": 118,
+        "evidence": "The journey lasted forty minutes because of road repairs.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 39,
+        "cropped": false,
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "qa_answer": "forty minutes",
+        "qa_score": 0.9852931936329696,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "How many hours did the bus leave the library in the morning?",
+        "answer": "seven",
+        "answer_start": 35,
+        "evidence": "The school bus left the library at seven in the morning.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 39,
+        "cropped": false,
+        "lexical_relevance": 0.43301270189221935,
+        "answer_leak": false,
+        "qa_answer": "seven",
+        "qa_score": 0.9876391887664795,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ],
+    "planned_t5": [
+      {
+        "question": "Why did the school bus leave the library?",
+        "answer": "road repairs",
+        "answer_start": 143,
+        "evidence": "The journey lasted forty minutes because of road repairs.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 40,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Understand a stated reason or purpose.",
+        "question_type": "cause_effect",
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "qa_answer": "road repairs.",
+        "qa_score": 0.8381741294870153,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "Where did Omar drive the school bus to?",
+        "answer": "Omar drove the bus to the science museum",
+        "answer_start": 57,
+        "evidence": "Omar drove the bus to the science museum.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 40,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "lexical_relevance": 0.3651483716701107,
+        "answer_leak": false,
+        "qa_answer": "the science museum.",
+        "qa_score": 0.6964736189693213,
+        "answer_f1": 0.5,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ],
+    "learning_hybrid": [
+      {
+        "question": "Why did the journey last forty minutes?",
+        "answer": "road repairs",
+        "answer_start": 143,
+        "evidence": "The journey lasted forty minutes because of road repairs.",
+        "language": "en",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 40,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Understand a stated reason or purpose.",
+        "question_type": "cause_effect",
+        "draft_question": "Why did the school bus leave the library?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/t5-small-squad-qg",
+        "lexical_relevance": 0.4629100498862757,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "road repairs.",
+        "qa_score": 0.5985409114509821,
+        "answer_f1": 1.0,
+        "answer_em": 1.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "Where did Omar drive the school bus to?",
+        "answer": "Omar drove the bus to the science museum",
+        "answer_start": 57,
+        "evidence": "Omar drove the bus to the science museum.",
+        "language": "en",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 40,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "draft_question": "Where did Omar drive the school bus to?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/t5-small-squad-qg",
+        "lexical_relevance": 0.3651483716701107,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "the science museum.",
+        "qa_score": 0.6964736189693213,
+        "answer_f1": 0.5,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-v4",
+    "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+    "planner_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 2,
+    "rejected_facts": [
+      {
+        "index": 2,
+        "item": 3,
+        "reason": "duplicate evidence statement"
+      }
+    ],
+    "candidate_pool": [
+      {
+        "candidate_id": 0,
+        "answer": "road repairs",
+        "answer_start": 143,
+        "evidence": "The journey lasted forty minutes because of road repairs.",
+        "question_type": "cause_effect",
+        "selection_source": "explicit_relation"
+      },
+      {
+        "candidate_id": 1,
+        "answer": "The school bus left the library at seven in the morning",
+        "answer_start": 0,
+        "evidence": "The school bus left the library at seven in the morning.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 2,
+        "answer": "Omar drove the bus to the science museum",
+        "answer_start": 57,
+        "evidence": "Omar drove the bus to the science museum.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 3,
+        "answer": "The journey lasted forty minutes because of road repairs",
+        "answer_start": 99,
+        "evidence": "The journey lasted forty minutes because of road repairs.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      }
+    ],
+    "raw_plan": "[0, 2, 3]",
+    "raw_edit": "[\n  {\n    \"index\": 0,\n    \"question\": \"Why did the journey last forty minutes?\"\n  },\n  {\n    \"index\": 1,\n    \"question\": \"Where did Omar drive the school bus to?\"\n  }\n]",
+    "facts": [
+      {
+        "learning_goal": "Understand a stated reason or purpose.",
+        "question_type": "cause_effect",
+        "answer": "road repairs",
+        "evidence": "The journey lasted forty minutes because of road repairs.",
+        "answer_start": 143
+      },
+      {
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "answer": "Omar drove the bus to the science museum",
+        "evidence": "Omar drove the bus to the science museum.",
+        "answer_start": 57
+      }
+    ],
+    "drafts": [
+      {
+        "question": "Why did the school bus leave the library?",
+        "answer": "road repairs",
+        "answer_start": 143,
+        "evidence": "The journey lasted forty minutes because of road repairs.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 40,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Understand a stated reason or purpose.",
+        "question_type": "cause_effect"
+      },
+      {
+        "question": "Where did Omar drive the school bus to?",
+        "answer": "Omar drove the bus to the science museum",
+        "answer_start": 57,
+        "evidence": "Omar drove the bus to the science museum.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 40,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept"
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "",
+    "educational_quality_status": "not_human_rated",
+    "returned": 2,
+    "seconds": 71.44090459999279
+  },
+  "seconds": 72.41300570000021
+}
