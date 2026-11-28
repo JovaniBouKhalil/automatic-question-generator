@@ -134,6 +134,10 @@ a grade or claim that software checks establish educational usefulness.
 
 ## Week 10 and the unused-data audit
 
+The final app now presents one fixed Qwen 4B/native T5/original QA workflow. Older
+model, adapter and decoder alternatives discussed in the historical audits remain
+research configurations and saved comparisons. See [the final workflow](FINAL_WORKFLOW.md).
+
 Physical slides 7/11 cover dropout/early stopping, slide 19 separates training,
 validation and final test roles, slide 20 discusses configuration search, and slides
 41/42 motivate error analysis and fair comparisons. The existing eight-setting grid

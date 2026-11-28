@@ -20,9 +20,9 @@ could then fill with headings/fragments before reaching later explanatory materi
 - Refuse outline-only automatic generation. An explicit multi-item request paired with
   an obviously incomplete short target is excluded, even if a QA checker accepts it.
   This narrow structural check is not a semantic correctness classifier.
-- When the verified 4B weights are installed, the app initially selects the hybrid.
-  T5-only comparison mode explicitly states that Qwen is not running. Existing quizzes
-  retain their original method; changing the menu requires generating a new quiz.
+- The final app uses one fixed 4B hybrid with independent QA checks. Missing Qwen
+  weights disable generation with setup instructions. Existing quizzes retain their
+  provenance and are labeled for regeneration after the workflow consolidation.
 
 The private development reproduction supplied 36 eligible candidates after preparation.
 The hybrid selected the complete four-item list for its four-domain question and repaired

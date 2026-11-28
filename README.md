@@ -7,21 +7,21 @@ reproducible experimental comparison, and presentation. No paid API or GPU is re
 
 ## Current application version
 
-**[submission-v5](https://github.com/JovaniBouKhalil/automatic-question-generator/tree/submission-v5) · Classroom input and generalization update · 28 November 2026.**
+**Final application · One generation workflow · 28 November 2026.**
 The current application is on `main`; earlier submission tags remain available for comparison.
 
-When verified local weights are available, **Learning-focused hybrid 4B (experimental)**
-is selected initially. Qwen3-4B selects source facts, native T5/mT5/AraT5 generates
-drafts, and Qwen refines the wording. These steps run sequentially. An optional
-separate QA model checks answer recovery; teacher review and corrections follow.
-T5-only comparison modes explicitly identify that Qwen is not running.
+The app has one fixed workflow: **Qwen3-4B selects facts → native T5/mT5/AraT5
+drafts questions → Qwen refines them → independent QA flags answers for review.**
+These steps run sequentially. Choose a language and question count; no model-version
+menu is needed. Teacher review and wording corrections follow. Earlier model/adapter
+comparisons remain in Experiment results and the notebook. See [the final workflow](docs/FINAL_WORKFLOW.md).
 
 This update prepares wrapped document text, excludes outline headings from automatic
 targets, retains complete list answers, and rejects obvious list/count mismatches.
 The original passage is preserved alongside the prepared source. No model weights
 are changed for this repair. See [the input regression](docs/CLASSROOM_INPUT_FIX.md).
 
-Validation: **114 regular checks and 13 real-model integration checks**, with no skips.
+Validation: **115 regular checks and 14 real-model integration checks**, with no skips.
 The notebook has **11 executed code cells** and the presentation has **12 slides**.
 These verify implementation, not question quality. A frozen audit uses **12 unused
 human-authored multilingual paragraphs and 50 additional SciQ test pairs**, keeping
@@ -52,9 +52,9 @@ the revised writer is labeled `teacher_revision`. Empty revisions cannot be expo
 
 On Windows, you can also double-click `run_app.bat` after installation.
 
-The first neural run downloads pretrained weights. Cached models work offline. The template
-baseline with answerability checks disabled works without model downloads. Automatic checks
-suggest questions for review; they do not certify correctness.
+Install the core and Qwen weights using the setup commands below. Cached models work
+offline. Generation is disabled with a setup message if the required Qwen weights are
+missing. Automatic checks suggest questions for review; they do not certify correctness.
 
 ## Install on another computer
 
@@ -80,34 +80,33 @@ py -3.11 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
 .\.venv\Scripts\python.exe -m pip install -e ".[dev,train]"
 .\.venv\Scripts\python.exe scripts/download_models.py
+.\.venv\Scripts\python.exe -m scripts.download_quality_model
 .\.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
 Linux/macOS: create a Python environment and replace `.\.venv\Scripts\python.exe` with
 `.venv/bin/python`. PEFT is installed with the app for adapter inference. Downloads resume after
 interruption, pin Hub commits, and check LFS SHA-256 hashes. About **3.7 GB** of inference weights
-go into ignored `models/` for the core models. Optional planners/editors add separate weights.
+go into ignored `models/` for the core models. The final app also requires the 4B planner/editor weights.
 Allow additional space for packages. Weights and course materials
 are excluded from GitHub and the submission.
 
-To enable the current optional Qwen 4B mode after installing the core models:
+The Qwen setup command, included above, is:
 
 ```powershell
 .\.venv\Scripts\python.exe -m scripts.download_quality_model
 .\.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-The app selects **Learning-focused hybrid 4B (experimental)** initially once its verified
-weights are available; you can also choose it in the sidebar. This adds an
-**8.04 GB** model download. FP32 model parameters alone need about **16 GB RAM**, plus
-runtime memory; CPU generation can take several minutes. The basic T5 modes work
-without downloading Qwen. No paid API key is required.
+This adds an **8.04 GB** model download. FP32 Qwen parameters alone need about
+**16 GB RAM**, plus the generator/checker and runtime memory; allow substantial
+additional RAM. CPU generation can take several minutes. No paid API key is required.
 
 ## What is implemented
 
 Learning-focused experiments target concepts, functions and explicit relationships.
-The app offers a T5-only mode and local planner/editor modes, with the original T5 draft
-visible for comparison. These remain experimental; exact source spans and QA agreement
+The final app uses one local planner/T5/editor/checker workflow, with the original T5 draft
+visible for inspection. Exact source spans and QA agreement
 do not prove educational value. See [the learning-focused workflow](docs/LEARNING_FOCUS.md).
 
 - Native answer-aware sequence-to-sequence models for each language, correct checkpoint
@@ -130,9 +129,8 @@ usable English training examples and eight settings for learning rate, rank and 
 On 200 reserved science inputs, BLEU changes 31.83 → 42.11 and ROUGE-L 59.83 → 64.15.
 QA answer F1 changes 72.63 → 74.11, with a paired difference interval crossing zero.
 Development outputs include improved target focus and copied/malformed cloze regressions.
-Human educational value remains unmeasured. Select **Educational science** under the
-English adaptation control to compare it in the app; inspect all eight settings in
-**Experiment results**.
+Human educational value remains unmeasured. Inspect all eight settings in **Experiment
+results**; adapters remain reproducible research configurations, not alternate quiz modes.
 
 A later frozen audit of 50 additional unused SciQ pairs shows mixed transfer:
 BLEU **38.09 → 41.20**, but QA answer F1 **72.39 → 67.50** (paired difference
@@ -148,8 +146,8 @@ For the educational training and stronger-model follow-up, see
 python -m scripts.learning_status
 ```
 
-The optional 4B editor requires `python -m scripts.download_quality_model` (8.04 GB).
-It runs on CPU with sufficient memory; the smaller original T5 workflow remains available.
+The final app requires `python -m scripts.download_quality_model` (8.04 GB).
+It runs on CPU with sufficient memory; earlier models remain available through research scripts.
 Do not launch a second training/downloader while one is active. Completed grid trials can
 be reused; an interrupted grid trial has no optimizer-resume support.
 
@@ -255,9 +253,9 @@ generator creates 12 slides when the follow-up studies are present, with notes, 
 
 ## Larger native-language training
 
-The app offers a development-selected trained adapter when the expanded study is available.
-Enable **Use adapted … generator** to compare it with the original default checkpoint. Selection
-includes the previous English adapter and the unadapted model; test results do not choose it.
+Development-selected trained adapters are retained for research and reproduction.
+Selection includes the previous English adapter and the unadapted model; test results
+do not choose it. The final quiz app uses native unadapted drafts with Qwen refinement.
 
 Prepared training subsets contain 5,000 English, 1,000 French and 1,990 Arabic QA pairs, with
 200/60/150 development examples. Arabic adds native human [TyDiQA-GoldP](https://huggingface.co/datasets/google-research-datasets/tydiqa)
@@ -323,16 +321,16 @@ the resume guard deliberately refuses incompatible folders.
 
 ## Interpretation limits
 
-Experimental [learning-focused modes](docs/LEARNING_FOCUS.md) address the difference
-between answer recovery and a useful classroom question. T5-only mode targets explicit
-relations; hybrid mode uses a local fact planner and question editor around T5. Both
-show learning goals and preserve source evidence. The first T5-only comparisons still
+The [learning-focused experiments](docs/LEARNING_FOCUS.md) address the difference
+between answer recovery and a useful classroom question. The T5-only research variant
+targets explicit relations; the final app uses a local fact planner and question editor
+around T5, followed by QA checks. The first T5-only comparisons still
 contain relation and negation errors. Human learning-value ratings remain pending.
 
 The completed [answer-role study](docs/ANSWER_ROLE_RESULTS.md) compares 18 fixed-target
 cases and inspects nine additional synthetic topic cases. Purpose/comparison repairs
 coexist with wording regressions, incomplete coverage and unsupported premises. The
-4B sidebar can compare both editing styles; wording edits are tracked separately from
+research scripts can compare both editing styles; wording edits are tracked separately from
 model predictions and clear their previous QA scores.
 
 The [course alignment and question-quality audit](docs/COURSE_ALIGNMENT.md) compares the

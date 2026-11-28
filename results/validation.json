@@ -1,6 +1,6 @@
 {
-  "regular_tests_passed": 114,
-  "neural_integration_tests_passed": 13,
+  "regular_tests_passed": 115,
+  "neural_integration_tests_passed": 14,
   "executed_notebook_code_cells": 11,
   "notebook_errors": 0,
   "presentation_slides": 12,
@@ -132,7 +132,7 @@
     ],
     "all_training_sources_and_adapter_hashes_match": true,
     "native_arabic_target_prefix_verified": true,
-    "application_selection_uses_shared_development_loss": true,
+    "recorded_study_adapter_selection_uses_shared_development_loss": true,
     "human_review_items_prepared": 36,
     "complete_human_rating_rows": 0
   }

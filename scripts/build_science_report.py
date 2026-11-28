@@ -114,10 +114,10 @@ def main():
               "Do not run a second training process concurrently. Completed compatible trials are reused;",
               "mid-trial optimizer resume is not implemented. Preserve an interrupted adapter rather than",
               "silently overwrite it. Weights and exact source snapshots accompany all completed trials.", "",
-              "In the app, enable **Use adapted English generator**, then choose **Educational science**",
-              "under **English adaptation data**. It is optional; original and general-reading adapters remain",
-              "available. Compare actual questions rather than assume that the validation winner is best for",
-              "every subject or learning goal.", ""]
+              "Science and general-reading adapters remain research configurations, available through",
+              "the reproduction commands and saved comparisons. The final quiz app uses one native",
+              "unadapted T5/Qwen workflow. Compare actual questions rather than assume that a validation",
+              "winner is best for every subject or learning goal.", ""]
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text("\n".join(lines), encoding="utf-8")
     print("Science report, validation figures and development comparison written.")

@@ -1,29 +1,28 @@
 # Ready for your review — 28 November 2026
 
-The classroom update now prepares PDF line wraps, excludes outline-only targets
-and rejects obvious list/count mismatches. With verified local 4B weights installed,
-the app initially selects the hybrid; regenerate an existing quiz to use the new mode.
-No model weights were trained on the user-reported lecture. Its raw text stays private.
-Read [the generic input repair](docs/CLASSROOM_INPUT_FIX.md) and
-[the frozen unused-data audit](docs/GENERALIZATION_RESULTS.md). That audit retains
-coverage/wording failures and mixed adapter results; human usefulness ratings are pending.
+The final app now has **one generation workflow**: Qwen 4B selects source facts,
+native T5/mT5/AraT5 drafts questions, Qwen refines them, and independent QA flags answers
+for review. There is no model/version, adapter, decoder or verifier selector. Choose
+English, French or Arabic and a maximum question count, then review/export your quiz.
+See [the final workflow](docs/FINAL_WORKFLOW.md). If Qwen is missing, generation is
+disabled with setup instructions rather than switching to an older model.
 
-The stronger 4B model is downloaded and checksum verified. For lesson concepts and
-relationships, choose **Learning-focused hybrid 4B (experimental)** and try **Training
-And Evaluation** in English, French or Arabic. Its answer-role guidance repairs some
-purpose/comparison mismatches, but also changes some simple questions unfavorably.
-Disable **Guide the target answer's role** to compare the original 4B editing style.
+The same classroom preparation and answer-scope checks remain active. No model weights,
+prompts or quality thresholds change in this consolidation. The frozen unused-data
+audit still applies, including its wording/coverage failures and mixed training results.
+Read [the input repair](docs/CLASSROOM_INPUT_FIX.md) and
+[the unused-data findings](docs/GENERALIZATION_RESULTS.md). Human usefulness ratings remain pending.
 
-You can now correct wording in **Question library → Edit question wording** before
-export. Edits clear old QA scores, start unselected, and preserve the original question
-and model in JSON/CSV. Worksheets include the source passage and optional objective.
-These actions leave benchmark records and original-generation statistics intact.
+Use **Question library → Edit question wording** before export. Edits clear old QA
+scores, start unselected, and preserve the original question/model in JSON/CSV.
+
+## Research evidence retained for the rubric
 
 The 18 fixed-target re-edits are complete: 49 questions from 50 retained targets, with
 zero execution errors. Source inspection finds real repairs and remaining grammar,
 premise and coverage problems. The nine additional-topic cases also finish without
 execution errors, returning 25 questions; all 27 cases have source-linked observations.
-Read [the measured findings](docs/ANSWER_ROLE_RESULTS.md). All **114 regular and 13
+Read [the measured findings](docs/ANSWER_ROLE_RESULTS.md). All **115 regular and 14
 real-model integration checks pass**, including the 4B app mode. The notebook has
 **11 executed code cells** without errors; the PPTX/PDF both contain **12 slides**.
 
@@ -36,8 +35,8 @@ copied or malformed cloze questions. Training has not established better human l
 
 Read [the science findings](docs/SCIENCE_TRAINING_RESULTS.md) and open
 [all 64 source-linked development comparisons](results/science_evaluation_dev/comparison.html).
-In the app, enable **Use adapted English generator**, then select **Educational science**.
-Original/general-reading adapters remain available for comparison.
+The final app uses native unadapted drafts. Science/general-reading adapters remain
+available through the reproduction scripts and saved experiment comparisons.
 
 Learning-focused T5 and local planner/editor modes add explicit concept/function/reason
 targets, optional objectives and visible T5 drafts. The smaller editor still makes factual-role
@@ -46,7 +45,7 @@ and failed probes are retained separately. See [the learning-mode guide](docs/LE
 No automatic score or generated goal is treated as a human usefulness rating.
 
 The notebook now has **11 executed code cells** and the **12-slide** presentation includes
-the science search, test findings and optional planner/editor path. Your already-open presentation was snapshotted and
+the science search, test findings and final planner/T5/editor/checker path. Your already-open presentation was snapshotted and
 left untouched; the updated workspace deck/PDF are separate files.
 
 The newly supplied course slides have been checked against the implementation. See
@@ -87,8 +86,8 @@ The rubric does not require a separate written report.
 
 ## Earlier larger native-language training
 
-Three native adapters are now trained and available through **Use adapted … generator** in the app.
-The original model remains the default for comparison because held-out gains are mixed.
+Three native adapters are trained and retained for reproducible research.
+The final app uses native unadapted drafts with Qwen refinement; held-out adapter gains are mixed.
 
 | Language | Prepared training / development | Run updates | Saved step | Distinct examples used by saved checkpoint |
 |---|---:|---:|---:|---:|
@@ -155,7 +154,7 @@ completed human evaluations. Teacher review of wording and factual support is pa
 
 ## Validation and reproducibility
 
-- **114 regular and 13 real-model integration checks passed**, with no skips, including
+- **115 regular and 14 real-model integration checks passed**, with no skips, including
   the 4B editor through the actual app. These checks establish software behavior, not question accuracy.
 - Ruff checks passed; the notebook executed without errors.
 - A resumed copy of the LoRA test experiment retained all 200 prediction records with an

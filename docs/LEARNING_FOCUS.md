@@ -6,52 +6,38 @@ functions, processes, causes/effects and comparisons. Each question displays the
 objective or a generic goal assigned from its relation type. Users can also specify exact
 target answers. These labels do not establish that the question meets the objective.
 
-**Learning-focused T5** is a second, faster option using explicit relation markers and
+**Learning-focused T5** remains a research comparison using explicit relation markers and
 an evidence window. It needs only the existing T5 checkpoints. An entered objective is
 saved for review in this option; it does not instruct T5 or alter automatic rule selection.
 Use manual targets to control the selected facts. The first two development versions
 still contain logical errors, especially in French/Arabic, and remain experimental.
 
-The original recall and template modes remain available. Remembering a definition,
+The original recall and template approaches remain research comparisons. Remembering a definition,
 important date or central entity can be useful; the aim is to avoid incidental trivia,
 not to force every question to start with “why.” Explanations must be in the passage.
 
-## Run it
+## Run the final application
 
 ```powershell
-python -m scripts.download_models planner
+python -m scripts.download_models
+python -m scripts.download_quality_model
 python -m streamlit run app.py
 ```
 
-Choose **Learning-focused hybrid (experimental)** in the generation-method menu.
-Try the new passages on data splitting, text representation or light and voltage.
-Optionally enter what students should understand. Leave target answers blank to let
-the planner select facts; manual answers constrain the quiz to your chosen facts.
-Inspect the source evidence and expand **Compare with the T5 draft** for each question.
+The app has one fixed Qwen 4B/native T5/QA workflow. Choose a language and question
+count, then paste a passage. Optional objectives and exact targets guide the quiz.
+Inspect source evidence and **Compare with the T5 draft** before reviewing/exporting.
+See [the fixed configuration and setup limits](FINAL_WORKFLOW.md).
 
-The extra checkpoint is [Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct),
-revision `989aa7980e4cf806f80c7fef2b1adb7bc71aa306` (Apache-2.0). The download is about
-3.1 GB and stays in ignored `models/`. The editor uses full-precision FP32 on CPU. A
-generic int8 conversion failed paired instruction-following controls and was discarded.
-The app still runs locally without a paid API. This
-mode takes longer than T5 alone and performs inference, not additional fine-tuning.
+The pinned Qwen3-4B-Instruct-2507 checkpoint has 8.04 GB of weights and uses FP32 CPU
+inference. Parameters alone need roughly 16 GB RAM plus the generator/checker and runtime
+memory. The downloader preserves partial files and verifies every shard. Its alternate
+`--source modelscope` source must match the pinned Hugging Face shard checksums.
 
-**Learning-focused hybrid 4B (experimental)** uses the stronger
-[Qwen3-4B-Instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507), revision
-`cdbee75f17c01a7cc42f958dc650907174af0554`. Its 8.04 GB of weights are optional and
-fully downloaded on the development computer, with all three shard checksums verified.
-Prepare it with `python -m scripts.download_quality_model`. The downloader preserves partial
-files and checks every complete shard. If the Hugging Face transfer stalls, the alternate
-`--source modelscope` uses a pinned Qwen repository whose three published shard checksums
-must match the pinned Hugging Face metadata exactly. Runtime parameters alone need roughly
-16 GB in FP32, plus inference memory. The classroom update initially selects the 4B
-hybrid when verified local weights are available; otherwise it selects original T5.
-
-The paired precision controls and both fixed nine-passage/language development comparisons
-are complete. The main comparisons use FP32; the three control responses alone do not prove
-that reduced precision preserves all questions. These precision probes do not supply human scores.
-Completed reports appear in the app's Experiment results tab. The [science adapter
-training study](SCIENCE_TRAINING_RESULTS.md) is a separate English-only experiment.
+The older Qwen2.5-1.5B planner/editor and T5-only variants are retained in research
+scripts and saved comparisons, rather than in the quiz-generation menu. They are not
+additional final app versions. The precision probes below are historical development
+evidence; main comparisons use FP32 and human ratings remain pending.
 
 ## Completed larger-model development comparison
 
@@ -77,7 +63,7 @@ remain intact, including rejected questions.
 
 ## Answer-role editing recipe
 
-The optional 4B mode now uses **answer-role-v1**. Source-derived cues tell the editor
+The final 4B workflow uses **answer-role-v1**. Source-derived cues tell the editor
 whether the target is a conversion output, purpose/reason, missing information,
 recorded information, criterion or explicit comparison. The model must ask for that
 role rather than another endpoint of the same relation. These cues guide generation;
@@ -112,8 +98,7 @@ python -m scripts.reedit_saved_learning --source results/learning_focus_educatio
 python -m scripts.run_learning_focus_study --source educational --planner quality --data data/authoring/learning_challenge.json --output outputs/new_topic_audit
 ```
 
-Disable **Guide the target answer's role** in the 4B sidebar to compare the original
-batch editor. Role guidance can help purpose/comparison questions while changing
+Research scripts can compare the original batch editor with the final answer-role recipe. Role guidance can help purpose/comparison questions while changing
 already-supported simple questions unfavorably; neither style is universally best.
 The Python option `create_quality_quiz(..., role_focus=False)` also retains that editor.
 The study CLI also accepts `--original-edit --planner quality` in a fresh folder.

@@ -1,14 +1,14 @@
 {
   "date": "2026-11-28",
-  "release": "submission-v5",
+  "release": "final-single-workflow",
   "validated_working_tree_source_sha256_normalized_utf8": {
-    "app.py": "5cefcc93d755775b1b441b18b0dd4bc3bb1de50441ac3c43c5782c99ad9aa857",
+    "app.py": "c71678a720f9e098f030aa04a23ca1ed07c8dedaed926a801eaed90765871aec",
     "questionforge/classroom/material.py": "bf1e39c6ccbadc3a127cdf1e692b23dc73314143e4ad47326fc233fdf77ce3c1",
     "questionforge/learning/pipeline.py": "b1f367ad0cd206d2edb963376aa5d952026dd59647cdb569b8eb1dda54ddeb30",
     "scripts/run_generalization_holdout.py": "e4aa6af44d092095384be6d3c2cf041757a6d5d2a1d3014fd9dd5658045bc916"
   },
-  "regular_tests": 114,
-  "real_model_integration_tests": 13,
+  "regular_tests": 115,
+  "real_model_integration_tests": 14,
   "skipped_checks": 0,
   "executed_notebook_code_cells": 11,
   "presentation_slides": 12,
@@ -22,5 +22,9 @@
   "source_inspected_automatic_case_records": 39,
   "test_used_for_tuning": false,
   "human_learning_value_ratings": "pending",
-  "interpretation": "Software, provenance and artifact consistency verified. Sealed unused-data results retain mixed adapter results, wording failures and zero-output coverage failures. No question-accuracy percentage or human learning gain is claimed."
+  "interpretation": "Software, provenance and artifact consistency verified. Sealed unused-data results retain mixed adapter results, wording failures and zero-output coverage failures. No question-accuracy percentage or human learning gain is claimed.",
+  "final_app_profile": "classroom-hybrid-4b-v1",
+  "final_app_generation_workflows": 1,
+  "generation_settings_or_model_weights_changed": false,
+  "research_alternatives_exposed_as_quiz_modes": false
 }

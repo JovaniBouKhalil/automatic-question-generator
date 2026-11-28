@@ -195,6 +195,10 @@ the instructor's PDF were reviewed locally and are not republished.
 
 ## Additional frozen generalization audit
 
+The final app fixes the native unadapted draft models, pinned 4B planner/editor and
+original QA checker in one workflow. Alternate models/adapters remain research
+artifacts rather than quiz-generation options; see [the configuration](FINAL_WORKFLOW.md).
+
 `results/generalization_v1` retains 12 additional human-authored paragraphs (four each
 from pinned SQuAD validation, NewsQuAD-fr validation and Arabic-only TyDiQA-GoldP
 validation) and 50 additional published SciQ test pairs. The source licenses and

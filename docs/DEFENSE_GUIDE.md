@@ -10,7 +10,7 @@
 6. Open measured experiment results and compare baseline, greedy and beam decoding.
 
 Have cached models and the executed notebook ready. If the network is unavailable, cached
-inference works. The template baseline with checks disabled is an explicitly labeled alternative.
+inference works. The final app has one fixed Qwen/T5/QA workflow; prepare all its weights before the demo.
 
 ## Course connections
 
@@ -40,16 +40,16 @@ score perfectly without testing the passage's main idea. The learning-focused ex
 targets concepts, functions and explicit relationships, with a separate proposed learning
 goal. Its usefulness needs direct review; it cannot be established by QA F1.
 
-**Which model writes the new questions?** In learning-focused T5 mode, the native T5 model
-writes the question after a transparent relation-span selector chooses a target. In hybrid
-mode, Qwen plans targets, T5 writes drafts, and Qwen edits them against the passage and goal.
+**Which model writes the new questions?** In the final app, Qwen plans targets, native
+T5/mT5/AraT5 writes drafts, and Qwen edits them against the passage and goal. The older
+T5-only approach remains a research comparison.
 Final hybrid questions therefore include a decoder-only model's contribution. The app
 shows the T5 draft so this contribution is inspectable. Qwen is used with frozen pretrained
 weights, not described as newly trained; CPU quantization is a runtime choice.
 
-**Does the learning-objective field change both modes?** In hybrid mode it conditions the
-planner and editor. In T5-only mode it is recorded for review; automatic selection follows
-explicit relation markers. Manual exact targets control either mode.
+**Does the learning-objective field affect generation?** It conditions the final app
+planner and editor. Optional exact targets constrain the selected facts. In historical
+T5-only research, the objective was recorded rather than used to instruct T5.
 
 **Why T5 instead of GPT-2?** The task maps a given passage/answer to a question. Encoder–decoder
 models directly support conditional sequence generation, and compact task-tuned checkpoints exist.

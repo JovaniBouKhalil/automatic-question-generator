@@ -1,4 +1,4 @@
-"""Streamlit workflow smoke tests use the honest offline baseline; no model downloads."""
+"""Final app workflow checks use explicit model stubs; integration cases run real weights."""
 
 from pathlib import Path
 
@@ -8,18 +8,48 @@ pytest.importorskip("streamlit")
 from streamlit.testing.v1 import AppTest  # noqa: E402
 
 
-def test_create_quiz_with_baseline_and_no_verifier():
-    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
-    assert not app.exception
-    app.sidebar.selectbox[1].select("Template baseline")
-    app.sidebar.toggle[0].set_value(False)
-    app.run()
+@pytest.fixture(autouse=True)
+def local_model_stubs(request, monkeypatch):
+    if request.node.get_closest_marker("integration"):
+        return
+    from questionforge import verification
+    from questionforge.learning import quality
+    from questionforge.registry import GENERATORS
+    from questionforge.text import evidence_for
+
+    monkeypatch.setattr(quality, "local_quality_source", lambda: Path("models/test-stub"))
+
+    def fake(context, language, count, **kwargs):
+        answers = kwargs.get("manual_answers") or ["leaves"]
+        rows = []
+        for answer in answers[:count]:
+            question = {"en": "Who planted the seeds?", "fr": "Qui a planté les graines ?",
+                        "ar": "من زرع البذور؟"}[language]
+            rows.append({"question": question, "answer": answer, "answer_start": context.index(answer),
+                         "evidence": evidence_for(context, answer).text, "language": language,
+                         "method": "learning_focused_hybrid", "model_id": quality.QUALITY_MODEL.model_id,
+                         "draft_model_id": GENERATORS[language].model_id, "draft_question": question,
+                         "learning_goal": "Understand the stated fact.", "lexical_relevance": .5, "answer_leak": False})
+        return rows, {"returned": len(rows)}
+
+    monkeypatch.setattr(quality, "create_quality_quiz", fake)
+    monkeypatch.setattr(verification, "check_answer", lambda question, context, answer, language, verifier:
+                        {"qa_answer": answer, "qa_score": .9, "answer_f1": 1., "answer_em": 1.})
+
+
+def app_test():
+    return AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
+
+
+def test_create_quiz_with_the_single_workflow_and_answer_checks():
+    app = app_test()
+    app.text_area[0].input("Lina planted nine seeds in a tray.")
     app.text_area[1].input("Lina")
-    app.button[1].click().run(timeout=20)
-    assert not app.exception
-    assert app.session_state["questions"][0]["answer"] == "Lina"
-    assert app.session_state["questions"][0]["method"] == "baseline"
-    assert "qa_score" not in app.session_state["questions"][0]
+    app.button[1].click().run()
+    assert not app.exception and not app.error
+    row = app.session_state["questions"][0]
+    assert row["answer"] == "Lina" and row["method"] == "learning_focused_hybrid"
+    assert row["verifier"] == "original" and row["answer_f1"] == 1.
     pick = next(box for box in app.checkbox if box.label == "Include in quiz exports")
     assert pick.value
     pick.uncheck().run()
@@ -27,54 +57,69 @@ def test_create_quiz_with_baseline_and_no_verifier():
     assert len(app.session_state["questions"]) == 1
 
 
+def test_single_workflow_has_no_generation_or_adapter_switches():
+    app = app_test()
+    assert not app.exception
+    assert [box.label for box in app.sidebar.selectbox] == ["Passage language / Langue / اللغة"]
+    assert not list(app.sidebar.toggle) and not list(app.sidebar.select_slider)
+    assert [slider.label for slider in app.sidebar.slider] == ["Questions to create"]
+
+
+def test_missing_quality_model_blocks_generation_without_a_silent_fallback(monkeypatch):
+    from questionforge.learning import quality
+
+    def missing():
+        raise RuntimeError("not installed")
+
+    monkeypatch.setattr(quality, "local_quality_source", missing)
+    app = app_test()
+    assert not app.exception
+    assert next(button for button in app.button if button.label == "Generate questions →").disabled
+    assert any("not installed" in warning.value for warning in app.warning)
+    assert not any(box.label == "Generation method" for box in app.selectbox)
+
+
 def test_arabic_workflow_and_invalid_answer_feedback():
-    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
-    app.sidebar.selectbox[0].select("ar")
-    app.sidebar.selectbox[1].select("Template baseline")
-    app.sidebar.toggle[0].set_value(False)
-    app.run()
+    app = app_test()
+    app.sidebar.selectbox[0].select("ar").run()
+    app.text_area[0].input("زرعت لينا تسع بذور في وعاء.")
     app.text_area[1].input("لينا")
-    app.button[1].click().run(timeout=20)
+    app.button[1].click().run()
     assert not app.exception
     assert app.session_state["questions"][0]["question"].endswith("؟")
     app.text_area[1].input("This answer is absent")
-    app.button[1].click().run(timeout=20)
-    assert app.error
-    assert app.session_state["questions"] == []
+    app.button[1].click().run()
+    assert app.error and app.session_state["questions"] == []
 
 
 def test_multi_item_question_with_single_heading_answer_is_excluded(monkeypatch):
-    from questionforge import models
+    from questionforge.learning import quality
 
-    def generate(context, answer, language, **kwargs):
-        return models.GeneratedQuestion("Quels sont les 4 domaines du programme ?", answer,
-                                        context.index(answer), "7–9 ENVIRONNEMENT", "fr", "beam4", "test")
+    def fake(context, language, count, **kwargs):
+        return [{"question": "Quels sont les 4 domaines du programme ?", "answer": "ENVIRONNEMENT",
+                 "answer_start": context.index("ENVIRONNEMENT"), "evidence": "7–9 ENVIRONNEMENT",
+                 "language": "fr", "method": "learning_focused_hybrid", "lexical_relevance": .5,
+                 "answer_leak": False}], {"returned": 1}
 
-    monkeypatch.setattr(models, "generate_question", generate)
-    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
-    app.sidebar.selectbox[0].select("fr")
-    app.sidebar.selectbox[1].select("Pretrained Transformer")
-    app.sidebar.toggle[0].set_value(False)
-    app.run()
+    monkeypatch.setattr(quality, "create_quality_quiz", fake)
+    app = app_test()
+    app.sidebar.selectbox[0].select("fr").run()
     app.text_area[0].input("Les priorités organisent les actions du programme.\n7–9 ENVIRONNEMENT")
     app.text_area[1].input("ENVIRONNEMENT")
     app.button[1].click().run()
     assert not app.exception and not app.error
     assert not app.session_state["questions"]
-    assert len(app.session_state["structural_rejections"]) == 1
     assert "4 items" in app.session_state["structural_rejections"][0]["reason"]
 
 
 def test_outline_only_input_abstains_before_calling_the_generator(monkeypatch):
-    from questionforge import models
+    from questionforge.learning import quality
 
     def unexpected(*args, **kwargs):
         raise AssertionError("Outline-only text must not invoke a question generator.")
 
-    monkeypatch.setattr(models, "generate_question", unexpected)
-    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
-    app.sidebar.selectbox[1].select("Pretrained Transformer")
-    app.run()
+    monkeypatch.setattr(quality, "create_quality_quiz", unexpected)
+    app = app_test()
     app.text_area[0].input("CHAPTER TWO\n7–9 ENVIRONMENT\nSUMMARY")
     app.button[1].click().run()
     assert not app.exception and app.error
@@ -82,64 +127,47 @@ def test_outline_only_input_abstains_before_calling_the_generator(monkeypatch):
     assert not app.session_state["questions"]
 
 
-@pytest.mark.parametrize("stronger", [False, True])
-def test_learning_mode_passes_objective_and_shows_the_seq2seq_draft(monkeypatch, stronger):
-    from questionforge.learning import pipeline, quality
+def test_final_workflow_passes_objective_and_fixed_inference_settings(monkeypatch):
+    from questionforge.classroom.material import CLASSROOM_PLAN_SYSTEM, build_classroom_candidates
+    from questionforge.learning import quality
 
     calls = []
+    original = quality.create_quality_quiz
 
     def fake(context, language, count, **kwargs):
-        calls.append((context, language, count, kwargs))
-        return [{"question": "What does the mesh catch?", "answer": "leaves", "language": "en",
-                 "evidence": "A mesh catches leaves.", "method": "learning_focused_hybrid",
-                 "learning_goal": "Understand the mesh's function.",
-                 "draft_question": "What catches leaves?"}], {"returned": 1}
+        calls.append(kwargs)
+        return original(context, language, count, **kwargs)
 
-    monkeypatch.setattr(quality if stronger else pipeline, "create_quality_quiz" if stronger else "create_learning_quiz", fake)
-    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
-    app.sidebar.selectbox[1].select("Learning-focused hybrid 4B (experimental)" if stronger else "Learning-focused hybrid (experimental)")
-    app.sidebar.toggle[0].set_value(False)
-    app.run()
-    app.text_area[0].input("A mesh catches leaves.")
-    app.text_area[2].input("Understand how the filter works.")
-    app.button[1].click().run(timeout=20)
-    assert not app.exception and not app.error
-    assert calls[0][3]["objective"] == "Understand how the filter works."
-    assert app.session_state["questions"][0]["method"] == "learning_focused_hybrid"
-    assert any("Understand the mesh" in element.value for element in app.markdown)
-    if stronger:
-        assert calls[0][3]["role_focus"] is True
-        next(toggle for toggle in app.sidebar.toggle if toggle.label == "Guide the target answer's role").set_value(False)
-        app.run()
-        app.button[1].click().run()
-        assert not app.exception and calls[1][3]["role_focus"] is False
-
-
-def test_switching_learning_mode_keeps_the_users_passage_and_target():
-    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
-    app.sidebar.selectbox[1].select("Pretrained Transformer")
-    app.run()
+    monkeypatch.setattr(quality, "create_quality_quiz", fake)
+    app = app_test()
     app.text_area[0].input("A mesh catches leaves.")
     app.text_area[1].input("leaves")
-    app.run()
-    app.sidebar.selectbox[1].select("Learning-focused hybrid (experimental)")
-    app.run()
+    app.text_area[2].input("Understand how the filter works.")
+    app.button[1].click().run()
+    assert not app.exception and not app.error
+    assert calls[0]["objective"] == "Understand how the filter works."
+    assert calls[0]["role_focus"] is True and calls[0]["beams"] == 4 and calls[0]["checkpoint"] is None
+    assert calls[0]["candidate_builder"] is build_classroom_candidates
+    assert calls[0]["planning_system"] == CLASSROOM_PLAN_SYSTEM
+    assert any(element.label == "Compare with the T5 draft" for element in app.expander)
+
+
+def test_rerunning_the_final_workflow_keeps_the_users_passage_and_target():
+    app = app_test()
+    app.text_area[0].input("A mesh catches leaves.")
+    app.text_area[1].input("leaves")
+    app.sidebar.slider[0].set_value(2).run()
     assert not app.exception
-    assert app.text_area[0].value == "A mesh catches leaves."
-    assert app.text_area[1].value == "leaves"
+    assert app.text_area[0].value == "A mesh catches leaves." and app.text_area[1].value == "leaves"
 
 
 def test_demo_goal_updates_without_overwriting_a_users_goal():
-    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
-    app.sidebar.selectbox[1].select("Learning-focused hybrid (experimental)")
-    app.run()
+    app = app_test()
     assert "training, validation and test" in app.text_area[2].value
-    app.text_area[0].input("A mesh catches leaves.")
-    app.run()
+    app.text_area[0].input("A mesh catches leaves.").run()
     assert app.text_area[2].value == ""
     app.text_area[2].input("Understand the filter's function.")
-    app.text_area[0].input("A tank stores water.")
-    app.run()
+    app.text_area[0].input("A tank stores water.").run()
     assert app.text_area[2].value == "Understand the filter's function."
 
 
@@ -148,9 +176,8 @@ def test_qa_flagged_questions_start_excluded_and_can_be_included_after_review(mo
 
     monkeypatch.setattr(verification, "check_answer", lambda *args, **kwargs:
                         {"qa_answer": "unrelated", "qa_score": .01, "answer_f1": 0., "answer_em": 0.})
-    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
-    app.sidebar.selectbox[1].select("Template baseline")
-    app.run()
+    app = app_test()
+    app.text_area[0].input("Lina planted nine seeds in a tray.")
     app.text_area[1].input("Lina")
     app.button[1].click().run()
     assert not app.exception and not app.error
@@ -216,9 +243,7 @@ def test_editing_wording_resets_export_selection_and_keeps_the_generated_record(
     import copy
 
     app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
-    app.sidebar.selectbox[1].select("Template baseline")
-    app.sidebar.toggle[0].set_value(False)
-    app.run()
+    app.text_area[0].input("Lina planted nine seeds in a tray.")
     app.text_area[1].input("Lina")
     app.button[1].click().run()
     original = copy.deepcopy(app.session_state["questions"])
@@ -237,25 +262,7 @@ def test_editing_wording_resets_export_selection_and_keeps_the_generated_record(
 
 
 @pytest.mark.integration
-def test_real_english_model_through_the_application():
-    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=120).run()
-    app.sidebar.selectbox[1].select("Pretrained Transformer")
-    app.sidebar.toggle[0].set_value(False)
-    if len(app.sidebar.toggle) > 1:
-        app.sidebar.toggle[1].set_value(False)
-    app.run()
-    app.text_area[1].input("Lina")
-    app.button[1].click().run(timeout=120)
-    assert not app.exception
-    assert not app.error
-    row = app.session_state["questions"][0]
-    assert row["question"].strip()
-    assert row["model_id"] == "lmqg/t5-small-squad-qg"
-    assert row["input_tokens"] <= 384
-
-
-@pytest.mark.integration
-def test_development_selected_adapter_through_the_application():
+def test_saved_english_research_adapter():
     import json
 
     root = Path(__file__).resolve().parents[1]
@@ -266,25 +273,17 @@ def test_development_selected_adapter_through_the_application():
     else:
         study = json.loads((root / "results/seed_study/summary.json").read_text(encoding="utf-8"))
         selected_path = study["optional_app_adapter"]
-    app = AppTest.from_file(root / "app.py", default_timeout=120).run()
-    app.sidebar.selectbox[1].select("Pretrained Transformer")
-    app.sidebar.toggle[0].set_value(False)
-    app.run()
-    assert app.sidebar.toggle[1].label == "Use adapted English generator"
-    app.sidebar.toggle[1].set_value(True)
-    app.run()
-    app.text_area[1].input("Lina")
-    app.button[1].click().run(timeout=120)
-    assert not app.exception
-    assert not app.error
-    row = app.session_state["questions"][0]
-    assert row["question"].strip()
-    assert Path(row["model_id"]) == root / selected_path
+    from questionforge.models import generate_question
+
+    row = generate_question("Lina planted nine seeds in a tray.", "Lina", "en", beams=4,
+                            checkpoint=str(root / selected_path))
+    assert row.question.strip() and Path(row.model_id) == root / selected_path
+
 
 
 @pytest.mark.integration
 @pytest.mark.parametrize("language,answer", [("fr", "Lina"), ("ar", "لينا")])
-def test_expanded_native_adapter_through_the_application(language, answer):
+def test_saved_native_research_adapter(language, answer):
     import json
 
     root = Path(__file__).resolve().parents[1]
@@ -295,25 +294,16 @@ def test_expanded_native_adapter_through_the_application(language, answer):
     selected = study["languages"][language]["selected_app_adapter"]
     if selected is None:
         pytest.skip("Development selection preferred the unadapted generator.")
-    app = AppTest.from_file(root / "app.py", default_timeout=120).run()
-    app.sidebar.selectbox[1].select("Pretrained Transformer")
-    app.sidebar.selectbox[0].select(language)
-    app.sidebar.toggle[0].set_value(False)
-    app.run()
-    app.sidebar.toggle[1].set_value(True)
-    app.run()
-    app.text_area[1].input(answer)
-    app.button[1].click().run(timeout=120)
-    assert not app.exception
-    assert not app.error
-    row = app.session_state["questions"][0]
-    assert row["question"].strip()
-    assert row["language"] == language
-    assert Path(row["model_id"]) == root / selected
+    from questionforge.models import generate_question
+
+    text = {"fr": "Lina a planté neuf graines dans un bac.", "ar": "زرعت لينا تسع بذور في وعاء."}[language]
+    row = generate_question(text, answer, language, beams=4, checkpoint=str(root / selected))
+    assert row.question.strip() and row.language == language and Path(row.model_id) == root / selected
+
 
 
 @pytest.mark.integration
-def test_science_adapter_through_the_application():
+def test_saved_science_research_adapter():
     import json
 
     root = Path(__file__).resolve().parents[1]
@@ -323,25 +313,23 @@ def test_science_adapter_through_the_application():
     selection = json.loads(selection_path.read_text(encoding="utf-8"))
     if not selection["selected_checkpoint"]:
         pytest.skip("Validation selected the unadapted model.")
-    app = AppTest.from_file(root / "app.py", default_timeout=120).run()
-    app.sidebar.selectbox[1].select("Pretrained Transformer")
-    app.sidebar.toggle[0].set_value(False)
-    app.run()
-    app.sidebar.toggle[1].set_value(True)
-    app.run()
-    next(box for box in app.sidebar.selectbox if box.label == "English adaptation data").select("Educational science")
-    app.run()
-    app.text_area[0].input("Chlorophyll captures the light energy that plants use to make food.")
-    app.text_area[1].input("Chlorophyll")
-    app.button[1].click().run(timeout=120)
-    assert not app.exception and not app.error
-    row = app.session_state["questions"][0]
-    assert Path(row["model_id"]) == root / selection["selected_checkpoint"]
-    assert row["answer"] == "Chlorophyll" and row["question"].strip()
+    from questionforge.models import generate_question
+
+    text = "Chlorophyll captures the light energy that plants use to make food."
+    row = generate_question(text, "Chlorophyll", "en", beams=4,
+                            checkpoint=str(root / selection["selected_checkpoint"]))
+    assert row.question.strip() and row.answer == "Chlorophyll"
+    assert Path(row.model_id) == root / selection["selected_checkpoint"]
+
 
 
 @pytest.mark.integration
-def test_stronger_editor_through_the_application():
+@pytest.mark.parametrize("language,text,answer", [
+    ("en", "A solar panel converts light into electrical energy.", "electrical energy"),
+    ("fr", "Un panneau solaire convertit la lumière en énergie électrique.", "énergie électrique"),
+    ("ar", "تحول اللوحة الشمسية الضوء إلى طاقة كهربائية.", "طاقة كهربائية"),
+])
+def test_final_workflow_through_the_application(language, text, answer):
     from questionforge.learning.quality import QUALITY_MODEL, local_quality_source
 
     try:
@@ -350,18 +338,21 @@ def test_stronger_editor_through_the_application():
         pytest.skip("The optional stronger editor is not downloaded.")
     root = Path(__file__).resolve().parents[1]
     app = AppTest.from_file(root / "app.py", default_timeout=600).run()
-    app.sidebar.selectbox[1].select("Learning-focused hybrid 4B (experimental)")
-    app.sidebar.toggle[0].set_value(False)
     app.run()
-    app.text_area[0].input("A solar panel converts light into electrical energy. Shading the panel reduces its voltage.")
-    app.text_area[1].input("electrical energy")
+    app.sidebar.selectbox[0].select(language).run()
+    app.text_area[0].input(text)
+    app.text_area[1].input(answer)
     app.text_area[2].input("Understand the panel's function.")
     app.button[1].click().run(timeout=600)
     assert not app.exception and not app.error
     row = app.session_state["questions"][0]
     assert row["model_id"] == QUALITY_MODEL.model_id
-    assert row["draft_model_id"] == "lmqg/t5-small-squad-qg" and row["draft_question"].strip()
-    assert row["answer"] == "electrical energy" and row["question"].strip()
+    from questionforge.registry import GENERATORS
+
+    assert row["draft_model_id"] == GENERATORS[language].model_id and row["draft_question"].strip()
+    assert row["answer"] == answer and row["question"].strip()
+    assert row["verifier"] == "original" and 0 <= row["answer_f1"] <= 1
+    assert row["app_profile"] == "classroom-hybrid-4b-v1"
 
 
 @pytest.mark.integration
@@ -379,8 +370,6 @@ def test_french_slide_outline_through_the_automatic_hybrid_application():
               "Les contrôles réguliers permettent de repérer les erreurs avant la livraison.")
     app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=600).run()
     app.sidebar.selectbox[0].select("fr")
-    app.sidebar.selectbox[1].select("Learning-focused hybrid 4B (experimental)")
-    app.sidebar.toggle[0].set_value(False)
     app.run()
     app.text_area[0].input(source)
     app.text_area[1].input("")

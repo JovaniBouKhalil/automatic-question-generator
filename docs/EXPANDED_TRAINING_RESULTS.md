@@ -81,7 +81,7 @@ The runner preserves completed compatible adapters and resumes unfinished optimi
 Each submitted adapter contains its exact training source and metadata; full weights, full datasets,
 optimizer states and aborted attempts remain excluded. Prepared JSONL bytes are deterministic across platforms.
 
-The app offers development-selected native adapters through the Use adapted generator toggle. Original defaults are retained; held-out gains are mixed.
+Development-selected native adapters remain research configurations. The final quiz app uses one native T5/Qwen workflow; held-out adapter gains remain mixed.
 The new 36-item offline booklet in `results/expanded_human_evaluation` hides original/expanded model identity.
 Its relevance, answerability and fluency ratings remain pending until people supply CSVs. The original
 54-item baseline/decoding booklet is retained separately. No human score has been fabricated.

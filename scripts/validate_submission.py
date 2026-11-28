@@ -95,7 +95,7 @@ def main():
         expanded_receipt = {"languages": list(expanded["languages"]),
                             "all_training_sources_and_adapter_hashes_match": True,
                             "native_arabic_target_prefix_verified": True,
-                            "application_selection_uses_shared_development_loss": True}
+                            "recorded_study_adapter_selection_uses_shared_development_loss": True}
         human_expanded = json.loads((root / "results/expanded_human_evaluation/summary.json").read_text(encoding="utf-8"))
         expanded_receipt["human_review_items_prepared"] = human_expanded["prepared_items"]
         expanded_receipt["complete_human_rating_rows"] = human_expanded["complete_rating_rows"]

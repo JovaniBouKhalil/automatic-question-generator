@@ -8,45 +8,35 @@ import html
 import io
 import json
 import time
-from dataclasses import asdict
 from pathlib import Path
 
 import streamlit as st
 
-from questionforge.baseline import template_question
-from questionforge.candidates import extract_candidates
 from questionforge.classroom.material import (
     CLASSROOM_PLAN_SYSTEM,
     build_classroom_candidates,
     list_scope_issue,
     prepare_material,
-    select_classroom_targets,
 )
 from questionforge.classroom.material import (
     VERSION as MATERIAL_VERSION,
 )
 from questionforge.export import as_csv, as_json, moodle_xml, worksheet_html
 from questionforge.learning.exports import learning_csv
-from questionforge.learning.pipeline import PLANNER, create_learning_quiz
 from questionforge.learning.quality import QUALITY_MODEL, create_quality_quiz, local_quality_source
-from questionforge.learning.rules import create_learning_t5_quiz
 from questionforge.metrics import leaks_answer, lexical_relevance, quality_decision
-from questionforge.models import generate_question
 from questionforge.registry import GENERATORS
 from questionforge.review import GUIDE, ratings_csv, summarize_ratings, validate_ratings
 from questionforge.text import LANGUAGES, evidence_for
 from questionforge.verification import check_answer
 
 ROOT = Path(__file__).resolve().parent
+FINAL_PROFILE = "classroom-hybrid-4b-v1"
 
 
-def sample_passages(language, learning=False):
-    if learning:
-        source = json.loads((ROOT / "data/authoring/learning_passages.json").read_text(encoding="utf-8"))
-        return {scenario["topic"].replace("_", " ").title(): scenario[language]["context"] for scenario in source}
-    source = json.loads((ROOT / "data/authoring/scenarios.json").read_text(encoding="utf-8"))
-    return {scenario["topic"].replace("_", " ").title(): scenario[language][0]
-            for scenario in source if scenario["split"] == "dev"}
+def sample_passages(language):
+    source = json.loads((ROOT / "data/authoring/learning_passages.json").read_text(encoding="utf-8"))
+    return {scenario["topic"].replace("_", " ").title(): scenario[language]["context"] for scenario in source}
 
 
 def read_upload(upload):
@@ -145,75 +135,25 @@ def main():
         initial_language = initial_language if initial_language in LANGUAGES else "en"
         language = st.selectbox("Passage language / Langue / اللغة", list(LANGUAGES),
                                 index=list(LANGUAGES).index(initial_language), format_func=LANGUAGES.get)
+        st.markdown("**From source to questions**")
+        st.caption("Selects important facts, drafts and refines questions, then checks answer recovery.")
+        count = st.slider("Questions to create", 1, 8, 3)
         try:
             local_quality_source()
-            default_method = 4
+            model_ready = True
         except RuntimeError:
-            default_method = 0
-        method = st.selectbox("Generation method", ["Pretrained Transformer", "Template baseline",
-                                                    "Learning-focused T5 (experimental)",
-                                                    "Learning-focused hybrid (experimental)",
-                                                    "Learning-focused hybrid 4B (experimental)"], index=default_method)
-        learning_mode = method.startswith("Learning-focused")
-        quality_mode = "4B" in method
-        role_guidance = True
-        if method == "Pretrained Transformer":
-            st.caption("T5-only comparison mode. Qwen is not used here. For lesson concepts, try the 4B hybrid when its weights are installed.")
-        if learning_mode:
-            if "hybrid" in method:
-                st.caption("Selects important facts, creates T5 drafts, then edits questions for understanding. The local editor takes longer.")
-                if quality_mode:
-                    st.caption("Uses the stronger 4B planner/editor. CPU generation can take several minutes; inspect wording and source support.")
-            else:
-                st.caption("Targets explicitly stated purposes, functions and properties. Uses the existing T5 model and can return fewer questions.")
-        beams = st.select_slider("Decoding beams", options=[1, 4], value=4,
-                                  help="1 = greedy decoding. 4 = deterministic beam search.")
-        verify = st.toggle("Check answerability", value=True,
-                           help="An independent QA model attempts to recover the answer. This is an imperfect proxy.")
-        verifier = "original"
-        if verify:
-            verifier = st.selectbox("Answerability checker", ["original", "multilingual"],
-                                    format_func=lambda value: {"original": "Original QA checker",
-                                                              "multilingual": "Experimental multilingual QA"}[value],
-                                    help="The experimental checker has multilingual QA training. Both can miss unsupported premises.")
-        checkpoint = None
-        study_path = ROOT / "results/seed_study/summary.json"
-        expanded_path = ROOT / "results/expanded_training/summary.json"
-        selected = None
-        use_by_default = False
-        if expanded_path.exists() and (method == "Pretrained Transformer" or learning_mode):
-            expanded = json.loads(expanded_path.read_text(encoding="utf-8"))
-            selection = expanded["languages"][language]["selected_app_adapter"]
-            if selection:
-                selected = ROOT / selection
-        elif language == "en" and (method == "Pretrained Transformer" or learning_mode) and study_path.exists():
-            study = json.loads(study_path.read_text(encoding="utf-8"))
-            selected = ROOT / study["optional_app_adapter"]
-        if selected is not None and selected.is_dir():
-            label = {"en": "Use adapted English generator", "fr": "Use adapted French generator", "ar": "Use adapted Arabic generator"}[language]
-            if st.toggle(label, value=use_by_default, key=f"use_adapter_{language}",
-                         help="Checkpoint selected using development loss. Disable to compare the original pretrained generator."):
-                checkpoint = str(selected)
-                science_path = ROOT / "results/science_training/selection.json"
-                if language == "en" and science_path.exists():
-                    science = json.loads(science_path.read_text(encoding="utf-8"))
-                    if science.get("complete") and science.get("selected_checkpoint"):
-                        adaptation = st.selectbox("English adaptation data", ["General reading", "Educational science"],
-                                                  help="The science adapter was selected on SciQ validation loss. Compare its questions with the original model.")
-                        if adaptation == "Educational science":
-                            checkpoint = str(ROOT / science["selected_checkpoint"])
-        if quality_mode:
-            role_guidance = st.toggle("Guide the target answer's role", value=True,
-                                      help="Adds cues for functions, purposes, limitations and comparisons. Disable to compare the original 4B editor; both styles need source review.")
-        count = st.slider("Questions to create", 1, 8, 3)
+            model_ready = False
+            st.warning("Generation models are not installed on this computer. Complete the model setup in README before generating.")
+            with st.expander("Install the models"):
+                st.code("python -m scripts.download_models\npython -m scripts.download_quality_model", language="powershell")
         st.divider()
         st.markdown("**Works locally. No paid API.**")
-        st.caption("The first use downloads model weights. Once cached, generation works offline. CPU inference is supported.")
+        st.caption("CPU generation can take several minutes. Once the models are installed, generation works offline.")
         with st.expander("About the models"):
-            st.write(GENERATORS[language].model_id)
-            if learning_mode and "hybrid" in method:
-                st.write("Local planner/editor: " + (QUALITY_MODEL.model_id if quality_mode else PLANNER.model_id))
-            st.caption("Questions are drafts for teacher review. The original checker has English QA training; the experimental checker adds multilingual QA training. French remains zero-shot for both.")
+            st.write("Fact planning and refinement: " + QUALITY_MODEL.model_id)
+            st.write("Question drafts: " + GENERATORS[language].model_id)
+            st.write("Independent answerability check: distilled XLM-R SQuAD2")
+            st.caption("Questions are drafts for review. Answer recovery does not certify factual support or learning value.")
     direction = "rtl" if language == "ar" else "ltr"
     alignment = "right" if language == "ar" else "left"
     font_size = "18px" if language == "ar" else "15px"
@@ -226,20 +166,11 @@ def main():
         left, right = st.columns([3, 2], gap="large")
         with left:
             st.subheader("01 / Your learning material")
-            samples = sample_passages(language, learning_mode)
+            samples = sample_passages(language)
             sample = st.selectbox("Try a classroom passage", list(samples))
             passage_key = f"passage_{language}"
-            family_key = f"sample_family_{language}"
             if passage_key not in st.session_state:
                 st.session_state[passage_key] = samples[sample]
-            elif st.session_state.get(family_key, learning_mode) != learning_mode:
-                previous_samples = sample_passages(language, not learning_mode)
-                # Replace only an untouched demo. Keep pasted/uploaded material and chosen answers.
-                uploaded = st.session_state.get("upload_digest", "").endswith(language)
-                if (st.session_state[passage_key] in previous_samples.values() and not uploaded
-                        and not st.session_state.get(f"answers_{language}", "").strip()):
-                    st.session_state[passage_key] = samples[sample]
-            st.session_state[family_key] = learning_mode
             if st.button("Use this example"):
                 st.session_state[passage_key] = samples[sample]
             upload = st.file_uploader("Or upload a text document", type=["txt", "pdf"],
@@ -259,33 +190,26 @@ def main():
             st.subheader("02 / Choose your facts")
             st.write("Add short, exact answer phrases from the passage, one per line. Leave this blank to suggest key facts automatically.")
             manual = st.text_area("Target answers (optional)", key=f"answers_{language}", height=130,
-                                   placeholder=({"en": "update a model's weights\nchoose hyperparameters",
-                                                 "fr": "mettre à jour les poids d'un modèle\nchoisir les hyperparamètres",
-                                                 "ar": "تحديث أوزان النموذج\nاختيار المعلمات الفائقة"} if learning_mode else
-                                                {"en": "Lina\nNine", "fr": "Lina\nNeuf", "ar": "لينا\nتسع"})[language])
-            objective = ""
-            if learning_mode:
-                learning_examples = json.loads((ROOT / "data/authoring/learning_passages.json").read_text(encoding="utf-8"))
-                auto_goal = next((item[language]["objective"] for item in learning_examples
-                                  if item[language]["context"] == passage), "")
-                objective_key = f"learning_objective_{language}"
-                last_auto_key = f"last_auto_goal_{language}"
-                last_passage_key = f"objective_passage_{language}"
-                if (objective_key not in st.session_state or
-                        (st.session_state.get(last_passage_key) != passage and
-                         st.session_state[objective_key] == st.session_state.get(last_auto_key, ""))):
-                    st.session_state[objective_key] = auto_goal
-                st.session_state[last_auto_key] = auto_goal
-                st.session_state[last_passage_key] = passage
-                objective = st.text_area("What should students understand? (optional)", max_chars=500,
-                                         key=objective_key,
-                                         help="For example: how the components work, the steps of a process, or a cause stated in the passage.")
-                if "hybrid" not in method:
-                    st.caption("In T5 mode this goal is saved for your review; automatic selection follows explicit relation markers. Use manual targets to control the facts.")
-                st.caption("Focuses on concepts, functions and relationships stated in your passage. It may return fewer questions when there are too few useful facts.")
-            else:
-                st.caption("Automatic selection uses TF-IDF and simple span heuristics. Specific, short answers usually give clearer questions.")
-            if st.button("Generate questions →", type="primary", use_container_width=True):
+                                  placeholder={"en": "update a model's weights\nchoose hyperparameters",
+                                               "fr": "mettre à jour les poids d'un modèle\nchoisir les hyperparamètres",
+                                               "ar": "تحديث أوزان النموذج\nاختيار المعلمات الفائقة"}[language])
+            learning_examples = json.loads((ROOT / "data/authoring/learning_passages.json").read_text(encoding="utf-8"))
+            auto_goal = next((item[language]["objective"] for item in learning_examples
+                              if item[language]["context"] == passage), "")
+            objective_key = f"learning_objective_{language}"
+            last_auto_key = f"last_auto_goal_{language}"
+            last_passage_key = f"objective_passage_{language}"
+            if (objective_key not in st.session_state or
+                    (st.session_state.get(last_passage_key) != passage and
+                     st.session_state[objective_key] == st.session_state.get(last_auto_key, ""))):
+                st.session_state[objective_key] = auto_goal
+            st.session_state[last_auto_key] = auto_goal
+            st.session_state[last_passage_key] = passage
+            objective = st.text_area("What should students understand? (optional)", max_chars=500,
+                                     key=objective_key,
+                                     help="For example: how the components work, the steps of a process, or a cause stated in the passage.")
+            st.caption("Focuses on concepts, functions and relationships stated in your passage. It may return fewer questions when there are too few useful facts.")
+            if st.button("Generate questions →", type="primary", use_container_width=True, disabled=not model_ready):
                 # A failed new request must not leave an earlier quiz looking current.
                 st.session_state["questions"] = []
                 st.session_state["structural_rejections"] = []
@@ -303,51 +227,21 @@ def main():
                     for answer in answers:
                         evidence_for(prepared, answer)
                     passage = prepared
-                    if learning_mode:
-                        automatic = []
-                        if not answers and not build_classroom_candidates(passage, language):
-                            raise ValueError("No explanatory facts were found. Add complete statements beneath the headings.")
-                    elif method == "Template baseline":
-                        automatic = [(c.answer, c.start) for c in extract_candidates(passage, language, count)]
-                    else:
-                        automatic = [(c["answer"], c["answer_start"]) for c in select_classroom_targets(passage, language, count)]
-                    candidates = [] if learning_mode else ([(answer, passage.find(answer)) for answer in answers[:count]] if answers else automatic)
-                    if not candidates and not learning_mode:
-                        raise ValueError("No explanatory facts were found. Add complete statements beneath the headings, or select exact answers from an explanatory paragraph.")
-                    rows = []
+                    if not answers and not build_classroom_candidates(passage, language):
+                        raise ValueError("No explanatory facts were found. Add complete statements beneath the headings.")
                     started = time.perf_counter()
                     with st.status("Building your question set…", expanded=True) as status:
-                        if learning_mode:
-                            create = (create_quality_quiz if quality_mode else create_learning_quiz) if "hybrid" in method else create_learning_t5_quiz
-                            rows, learning_report = create(passage, language, count,
-                                        objective=objective, manual_answers=answers, beams=beams,
-                                        checkpoint=checkpoint, progress=st.write,
-                                        **({"candidate_builder": build_classroom_candidates,
-                                            "planning_system": CLASSROOM_PLAN_SYSTEM} if "hybrid" in method else {}),
-                                        **({"role_focus": role_guidance} if quality_mode else {}))
-                            st.session_state["learning_report"] = learning_report
-                            for row in rows:
-                                row["learning_objective"] = objective
-                                if verify:
-                                    row.update(check_answer(row["question"], passage, row["answer"], language, verifier))
-                                    row["verifier"] = verifier
-                                    row["accepted"], row["review_reasons"] = quality_decision(row)
-                        for index, (answer, start) in enumerate(candidates, 1):
-                            st.write(f"Question {index}/{len(candidates)}")
-                            if method == "Template baseline":
-                                row = {"question": template_question(passage, answer, language, start),
-                                       "answer": answer, "answer_start": start, "language": language,
-                                       "evidence": evidence_for(passage, answer, start).text, "method": "baseline"}
-                            else:
-                                row = asdict(generate_question(passage, answer, language, answer_start=start,
-                                                               beams=beams, checkpoint=checkpoint))
-                            row["lexical_relevance"] = lexical_relevance(row["question"], row["evidence"], language)
-                            row["answer_leak"] = leaks_answer(row["question"], answer, language)
-                            if verify:
-                                row.update(check_answer(row["question"], passage, answer, language, verifier))
-                                row["verifier"] = verifier
-                                row["accepted"], row["review_reasons"] = quality_decision(row)
-                            rows.append(row)
+                        rows, learning_report = create_quality_quiz(
+                            passage, language, count, objective=objective, manual_answers=answers,
+                            beams=4, checkpoint=None, progress=st.write, role_focus=True,
+                            candidate_builder=build_classroom_candidates, planning_system=CLASSROOM_PLAN_SYSTEM)
+                        st.session_state["learning_report"] = learning_report
+                        for row in rows:
+                            row["learning_objective"] = objective
+                            row["app_profile"] = FINAL_PROFILE
+                            row.update(check_answer(row["question"], passage, row["answer"], language, "original"))
+                            row["verifier"] = "original"
+                            row["accepted"], row["review_reasons"] = quality_decision(row)
                         visible, rejected = [], []
                         for row in rows:
                             issue = list_scope_issue(row["question"], row["answer"], language)
@@ -359,14 +253,14 @@ def main():
                         st.session_state["structural_rejections"] = rejected
                         status.update(label="Your question set is ready", state="complete", expanded=False)
                     st.session_state["questions"] = rows
-                    st.session_state["quiz_method"] = method
+                    st.session_state["quiz_profile"] = FINAL_PROFILE
                     st.session_state["quiz_context"] = passage
                     st.session_state["original_quiz_context"] = original_passage
                     st.session_state["elapsed"] = time.perf_counter() - started
-                    st.session_state["verified"] = verify
+                    st.session_state["verified"] = True
                     if rows:
                         st.success(f"Created {len(rows)} questions. Open Question library to review and export.")
-                        if learning_mode and len(rows) < count:
+                        if len(rows) < count:
                             st.info("The planner found fewer targets, or some drafts did not pass the checks. Review the selected facts and their evidence.")
                     else:
                         st.info("No suitable questions passed the checks. Try a paragraph that explains a concept or process, or supply a specific target answer.")
@@ -382,11 +276,8 @@ def main():
         if not rows:
             st.info("Your generated questions will appear here, with answers and source evidence.")
         else:
-            quiz_method = st.session_state.get("quiz_method")
-            if quiz_method is None and rows[0].get("method", "").startswith("transformer_"):
-                quiz_method = "Pretrained Transformer"
-            if quiz_method and quiz_method != method:
-                st.info(f"This quiz was generated with {quiz_method}. Generate questions again to use {method}.")
+            if st.session_state.get("quiz_profile") != FINAL_PROFILE:
+                st.info("This quiz was generated before the final workflow was selected. Generate a new quiz to use the current workflow.")
             a, b, c = st.columns(3)
             a.metric("Questions", len(rows))
             b.metric("Generation + checks", f"{st.session_state.get('elapsed', 0):.1f} s")
@@ -460,6 +351,17 @@ def main():
             formats[4].download_button("Moodle XML", moodle_xml(export_rows), "questionforge.xml", "application/xml", disabled=not export_rows)
             st.caption("Print the HTML worksheet from your browser. Moodle imports one exact short-answer variant; review acceptable alternatives.")
     with research:
+        st.caption("Saved research comparisons support the project evaluation. Quiz generation uses one fixed workflow.")
+        study_path = ROOT / "results/seed_study/summary.json"
+        expanded_path = ROOT / "results/expanded_training/summary.json"
+        holdout = ROOT / "results/generalization_v1"
+        if (holdout / "automatic_summary.json").exists():
+            with st.expander("Frozen evaluation on additional unused data", expanded=True):
+                automatic = json.loads((holdout / "automatic_summary.json").read_text(encoding="utf-8"))
+                st.write(f"{automatic['case_records']} multilingual passages; {automatic['methods']['classroom_hybrid']['returned_questions']} questions returned out of a maximum request of {automatic['requested_maximum_questions']}.")
+                st.caption("Wording and coverage failures remain. The selected science adapter had mixed results on 50 additional test pairs; these results did not change model selection.")
+                st.download_button("Inspect every unused-passage comparison", (holdout / "automatic/comparison.html").read_bytes(),
+                                   "unused-passage-comparison.html", "text/html")
         science_folder = ROOT / "results/science_training"
         science_test = ROOT / "results/science_evaluation_test/summary.json"
         if science_test.exists() and (science_folder / "selection.json").exists():
@@ -529,7 +431,7 @@ def main():
                                "initial_dev_loss": info["initial_dev_loss"], "best_dev_loss": info["best_dev_loss"]}
                               for lang, info in expanded["languages"].items()], hide_index=True)
                 st.image(str(expanded_path.parent / "comparison.png"))
-                st.caption("Each language has its own trained adapter. App selection uses development loss, including the unadapted model and the previous English adapter as candidates. Test scores are not selection criteria.")
+                st.caption("These trained adapters are retained for research. Checkpoint selection used development loss. The final quiz workflow uses native unadapted drafts.")
         if study_path.exists():
             with st.expander("Training stability across three seeds"):
                 study = json.loads(study_path.read_text(encoding="utf-8"))
@@ -537,7 +439,7 @@ def main():
                 figure = study_path.parent / "seed_stability.png"
                 if figure.exists():
                     st.image(str(figure))
-                st.caption("The same test inputs repeat across seeds; they are not additional independent examples. Checkpoints and the optional app adapter use development loss only.")
+                st.caption("The same test inputs repeat across seeds; they are not additional independent examples. Research checkpoints use development loss only; they are not additional quiz modes.")
         verification_path = ROOT / "results/verification_study/summary.json"
         if verification_path.exists():
             with st.expander("Verifier ablation on constructed controls"):

@@ -269,7 +269,7 @@ a local Qwen planner/editor around T5. Neither is a new training run. Synthetic
 development/demo passages and repeated comparisons do not establish fresh-test gains.
 See `docs/LEARNING_FOCUS.md` for the three-criterion review rubric and reproduction.
 
-The optional 4B mode adds source-derived answer-role cues. A question should request
+The final app uses one Qwen 4B/native T5/QA workflow with source-derived answer-role cues. A question should request
 the intended output, purpose, limitation or comparison, not another part of the same
 relation. The paired re-edit retains exact targets and T5 drafts. Additional synthetic
 topics are audited after the recipe is frozen, without further prompt tuning.
