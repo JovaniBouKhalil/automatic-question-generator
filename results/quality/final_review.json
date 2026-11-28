@@ -1,8 +1,14 @@
 {
   "date": "2026-11-28",
-  "validated_model_code_commit": "b4b3f5a0897e90c00480f82775ce25f1e3d05674",
-  "regular_tests": 95,
-  "real_model_integration_tests": 12,
+  "release": "submission-v5",
+  "validated_working_tree_source_sha256_normalized_utf8": {
+    "app.py": "5cefcc93d755775b1b441b18b0dd4bc3bb1de50441ac3c43c5782c99ad9aa857",
+    "questionforge/classroom/material.py": "bf1e39c6ccbadc3a127cdf1e692b23dc73314143e4ad47326fc233fdf77ce3c1",
+    "questionforge/learning/pipeline.py": "b1f367ad0cd206d2edb963376aa5d952026dd59647cdb569b8eb1dda54ddeb30",
+    "scripts/run_generalization_holdout.py": "e4aa6af44d092095384be6d3c2cf041757a6d5d2a1d3014fd9dd5658045bc916"
+  },
+  "regular_tests": 114,
+  "real_model_integration_tests": 13,
   "skipped_checks": 0,
   "executed_notebook_code_cells": 11,
   "presentation_slides": 12,
@@ -11,7 +17,10 @@
   "completed_science_training_trials": 8,
   "paired_role_case_records": 18,
   "additional_topic_case_records": 9,
-  "source_inspected_new_case_records": 27,
+  "sealed_automatic_case_records": 12,
+  "sealed_additional_science_pairs": 50,
+  "source_inspected_automatic_case_records": 39,
+  "test_used_for_tuning": false,
   "human_learning_value_ratings": "pending",
-  "interpretation": "Software, provenance and artifact consistency verified. Source inspections retain repairs and failures; no question-accuracy percentage or human learning gain is claimed."
+  "interpretation": "Software, provenance and artifact consistency verified. Sealed unused-data results retain mixed adapter results, wording failures and zero-output coverage failures. No question-accuracy percentage or human learning gain is claimed."
 }

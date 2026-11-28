@@ -1,0 +1,19 @@
+{
+  "case_records": 12,
+  "planned_case_records": 12,
+  "complete": true,
+  "execution_errors": 0,
+  "requested_maximum_questions": 36,
+  "test_used_for_tuning": false,
+  "human_quality_ratings": "pending",
+  "methods": {
+    "planned_t5": {
+      "returned_questions": 26,
+      "mean_qa_answer_f1_diagnostic": 0.2729342115941579
+    },
+    "classroom_hybrid": {
+      "returned_questions": 26,
+      "mean_qa_answer_f1_diagnostic": 0.33363580913756063
+    }
+  }
+}

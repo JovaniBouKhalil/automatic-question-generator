@@ -18,7 +18,8 @@ The supplied slides have now been checked directly. See [the course alignment au
 for exact page references, implementation differences, and the generation weaknesses that remain.
 The implementation follows the transfer-learning workflow, but does not copy the Keras labs:
 it uses PyTorch, encoder-decoder generation and LoRA adaptation. Do not describe the current
-experiments as a three-hyperparameter search or the application as a full RAG system.
+application as a full RAG system. The later science study does implement an eight-setting
+learning-rate/rank/dropout search; this is separate from the original short adaptation run.
 
 | Course material | Connection |
 |---|---|
@@ -29,7 +30,7 @@ experiments as a three-hyperparameter search or the application as a full RAG sy
 | Transformers notebook | Token representations, attention, residuals, normalization and feed-forward blocks appear in pretrained T5. |
 | Weeks 7–9: pretrained model families and fine-tuning | The supplied PDF explicitly includes T5/BART encoder–decoder models (p. 11). We reuse matching pretrained tokenizers and task checkpoints. The class fine-tunes BERT in Keras; our generator adapts T5-family models with PyTorch/LoRA. |
 | GPT-2 exercise | Autoregressive next-token decoding and greedy/beam choices; T5 additionally conditions through encoder cross-attention. |
-| Week 10: hyperparameters and evaluation | Shared splits, development selection, early stopping and error inspection follow the slides. Greedy/beam and adapter comparisons are implemented; systematic learning-rate/rank/dropout search is not. Classification F1 differs from our answer-token F1. |
+| Week 10: hyperparameters and evaluation | Shared splits, validation-only selection and error inspection follow the slides. The later eight-setting science grid searches learning rate/rank/dropout and restores the best validation checkpoint within each fixed budget; this is distinct from patience-based early termination. The frozen unused-data audit retains mixed results. Classification F1 differs from our answer-token F1. |
 | Weeks 12–13: modern NLP systems and RAG | Hugging Face inference and a generator/checker workflow follow the system-level discussion. Supplying a passage and cropping around an answer is not the slides' embedding/vector-retrieval RAG pipeline. |
 
 ## Questions you should be able to answer
@@ -65,9 +66,12 @@ sizes/data differ, so cross-language performance is not an architecture-controll
 It uses the same input information as the Transformer but lacks learned syntax and paraphrasing.
 It is an honest cheap comparison, although its grammar is limited.
 
-**What is TF-IDF used for?** Suggesting candidate answer phrases in the app. It does not learn the
-question generator. Controlled benchmark scores use provided answers, so they do not measure
-automatic answer-selection quality. Do not describe those scores as fully end-to-end accuracy.
+**What is TF-IDF used for?** Ranking candidate answer phrases in the template/original
+selection workflow and as a fallback in native automatic mode. The classroom hybrid
+instead chooses source-supported relation/list/statement candidates with Qwen. TF-IDF
+does not learn the generator. Controlled benchmark scores use provided answers; the
+separate 12-case automatic audit tests selection and writing without a supplied answer.
+Neither QA recovery nor overlap scores are fully end-to-end correctness percentages.
 
 **Why not remove punctuation, lowercase everything or stem Arabic?** Pretrained tokenizers expect
 natural text; aggressive preprocessing loses information and corrupts source character offsets.

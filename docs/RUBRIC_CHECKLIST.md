@@ -9,9 +9,15 @@ This maps the supplied 100-point rubric to concrete artifacts. It is not a grade
 | Configuration, variations, fair comparison, reproducibility | 20 | Baseline/greedy/beam; original LoRA, three seeds and article sensitivity; larger 600/256/512-update runs; 21 original generation experiments; eight equal-budget SciQ trials varying learning rate/rank/dropout; validation-only selection; snapshots/hashes, exposure counts and recorded limitations of resume |
 | Suitable metrics, figures, failures, interpretation | 20 | chrF++, BLEU, Unicode ROUGE-L, QA F1/EM; intervals/seed dispersion; mixed outcomes preserved; SciQ reserved-test results; 18 fixed-target and nine additional-topic source inspections with regressions; original 54-item and 36-item blinded booklets (human ratings pending) |
 | Project-specific advanced component | 10 | Independent QA/relevance and review rules; 720 two-verifier controls; source-ID planning and T5-draft/4B editing; 12-response role pilot and failed three-response Arabic probe; teacher wording revisions clear stale QA and retain provenance; no claim that exact spans or QA establish educational value |
-| Slides, working demonstration, technical Q&A | 10 | 12-slide PPTX/PDF with science search and learning path; native/science adapters, optional checker and editable selected exports; 11 executed code cells; defense guide; 95 regular and 12 real-model integration checks passed with no skips |
+| Slides, working demonstration, technical Q&A | 10 | 12-slide PPTX/PDF with science search and learning path; native/science adapters, optional checker and editable selected exports; 11 executed code cells; defense guide; 114 regular and 13 real-model integration checks passed with no skips |
 
 Before submission: annotate a representative sample as a human, personalize the slides, run the
 demo in each language, and confirm you can explain every model/input/metric choice. The rubric
 requires no standalone technical report. Multilingual support is an extension; experimental
 rigor and your understanding remain essential.
+
+The classroom follow-up adds generic layout/answer-scope repairs and a frozen audit
+of 12 unused human-authored multilingual paragraphs plus 50 additional SciQ pairs.
+The protocol, source/data hashes, all omissions and source-linked failure observations
+are retained. [Findings](GENERALIZATION_RESULTS.md) show why improved overlap scores
+alone do not demonstrate better questions; test results did not select new weights.

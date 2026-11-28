@@ -15,10 +15,20 @@ import streamlit as st
 
 from questionforge.baseline import template_question
 from questionforge.candidates import extract_candidates
+from questionforge.classroom.material import (
+    CLASSROOM_PLAN_SYSTEM,
+    build_classroom_candidates,
+    list_scope_issue,
+    prepare_material,
+    select_classroom_targets,
+)
+from questionforge.classroom.material import (
+    VERSION as MATERIAL_VERSION,
+)
 from questionforge.export import as_csv, as_json, moodle_xml, worksheet_html
 from questionforge.learning.exports import learning_csv
 from questionforge.learning.pipeline import PLANNER, create_learning_quiz
-from questionforge.learning.quality import QUALITY_MODEL, create_quality_quiz
+from questionforge.learning.quality import QUALITY_MODEL, create_quality_quiz, local_quality_source
 from questionforge.learning.rules import create_learning_t5_quiz
 from questionforge.metrics import leaks_answer, lexical_relevance, quality_decision
 from questionforge.models import generate_question
@@ -135,13 +145,20 @@ def main():
         initial_language = initial_language if initial_language in LANGUAGES else "en"
         language = st.selectbox("Passage language / Langue / اللغة", list(LANGUAGES),
                                 index=list(LANGUAGES).index(initial_language), format_func=LANGUAGES.get)
+        try:
+            local_quality_source()
+            default_method = 4
+        except RuntimeError:
+            default_method = 0
         method = st.selectbox("Generation method", ["Pretrained Transformer", "Template baseline",
                                                     "Learning-focused T5 (experimental)",
                                                     "Learning-focused hybrid (experimental)",
-                                                    "Learning-focused hybrid 4B (experimental)"])
+                                                    "Learning-focused hybrid 4B (experimental)"], index=default_method)
         learning_mode = method.startswith("Learning-focused")
         quality_mode = "4B" in method
         role_guidance = True
+        if method == "Pretrained Transformer":
+            st.caption("T5-only comparison mode. Qwen is not used here. For lesson concepts, try the 4B hybrid when its weights are installed.")
         if learning_mode:
             if "hybrid" in method:
                 st.caption("Selects important facts, creates T5 drafts, then edits questions for understanding. The local editor takes longer.")
@@ -237,6 +254,7 @@ def main():
                         st.error(str(exc))
             passage = st.text_area("Passage", key=passage_key, height=295, max_chars=20000)
             st.caption(f"{len(passage):,} characters · Questions stay in the selected language.")
+            st.caption("Use explanatory sentences beneath the headings. Headings alone may produce no questions.")
         with right:
             st.subheader("02 / Choose your facts")
             st.write("Add short, exact answer phrases from the passage, one per line. Leave this blank to suggest key facts automatically.")
@@ -270,6 +288,7 @@ def main():
             if st.button("Generate questions →", type="primary", use_container_width=True):
                 # A failed new request must not leave an earlier quiz looking current.
                 st.session_state["questions"] = []
+                st.session_state["structural_rejections"] = []
                 st.session_state["quiz_revision"] = st.session_state.get("quiz_revision", 0) + 1
                 st.session_state.pop("learning_report", None)
                 try:
@@ -278,12 +297,23 @@ def main():
                     answers = list(dict.fromkeys(line.strip() for line in manual.splitlines() if line.strip()))
                     if len(answers) > 8:
                         raise ValueError("Use at most eight manual answers per quiz.")
+                    original_passage = passage
+                    prepared = prepare_material(passage)
+                    # Keep the raw passage for review; all offsets refer to the prepared source.
                     for answer in answers:
-                        evidence_for(passage, answer)
-                    candidates = [] if learning_mode else ([(answer, passage.find(answer)) for answer in answers[:count]] if answers else
-                                  [(c.answer, c.start) for c in extract_candidates(passage, language, count)])
+                        evidence_for(prepared, answer)
+                    passage = prepared
+                    if learning_mode:
+                        automatic = []
+                        if not answers and not build_classroom_candidates(passage, language):
+                            raise ValueError("No explanatory facts were found. Add complete statements beneath the headings.")
+                    elif method == "Template baseline":
+                        automatic = [(c.answer, c.start) for c in extract_candidates(passage, language, count)]
+                    else:
+                        automatic = [(c["answer"], c["answer_start"]) for c in select_classroom_targets(passage, language, count)]
+                    candidates = [] if learning_mode else ([(answer, passage.find(answer)) for answer in answers[:count]] if answers else automatic)
                     if not candidates and not learning_mode:
-                        raise ValueError("No suitable facts were found. Enter an exact target answer from the passage.")
+                        raise ValueError("No explanatory facts were found. Add complete statements beneath the headings, or select exact answers from an explanatory paragraph.")
                     rows = []
                     started = time.perf_counter()
                     with st.status("Building your question set…", expanded=True) as status:
@@ -292,6 +322,8 @@ def main():
                             rows, learning_report = create(passage, language, count,
                                         objective=objective, manual_answers=answers, beams=beams,
                                         checkpoint=checkpoint, progress=st.write,
+                                        **({"candidate_builder": build_classroom_candidates,
+                                            "planning_system": CLASSROOM_PLAN_SYSTEM} if "hybrid" in method else {}),
                                         **({"role_focus": role_guidance} if quality_mode else {}))
                             st.session_state["learning_report"] = learning_report
                             for row in rows:
@@ -316,9 +348,20 @@ def main():
                                 row["verifier"] = verifier
                                 row["accepted"], row["review_reasons"] = quality_decision(row)
                             rows.append(row)
+                        visible, rejected = [], []
+                        for row in rows:
+                            issue = list_scope_issue(row["question"], row["answer"], language)
+                            if issue:
+                                rejected.append({"question": row["question"], "answer": row["answer"], "reason": issue})
+                            else:
+                                visible.append({**row, "source_preparation": MATERIAL_VERSION})
+                        rows = visible
+                        st.session_state["structural_rejections"] = rejected
                         status.update(label="Your question set is ready", state="complete", expanded=False)
                     st.session_state["questions"] = rows
+                    st.session_state["quiz_method"] = method
                     st.session_state["quiz_context"] = passage
+                    st.session_state["original_quiz_context"] = original_passage
                     st.session_state["elapsed"] = time.perf_counter() - started
                     st.session_state["verified"] = verify
                     if rows:
@@ -326,14 +369,24 @@ def main():
                         if learning_mode and len(rows) < count:
                             st.info("The planner found fewer targets, or some drafts did not pass the checks. Review the selected facts and their evidence.")
                     else:
-                        st.info("No suitable learning-focused questions passed the checks. Try a passage that explains a concept or process, or supply a specific target answer.")
+                        st.info("No suitable questions passed the checks. Try a paragraph that explains a concept or process, or supply a specific target answer.")
                 except Exception as exc:
                     st.error(f"Could not complete this quiz: {exc}")
     with results_tab:
         rows = st.session_state.get("questions", [])
+        rejected = st.session_state.get("structural_rejections", [])
+        if rejected:
+            st.warning(f"Excluded {len(rejected)} question(s) whose requested list did not match the target answer.")
+            with st.expander("Inspect excluded drafts"):
+                st.write(rejected)
         if not rows:
             st.info("Your generated questions will appear here, with answers and source evidence.")
         else:
+            quiz_method = st.session_state.get("quiz_method")
+            if quiz_method is None and rows[0].get("method", "").startswith("transformer_"):
+                quiz_method = "Pretrained Transformer"
+            if quiz_method and quiz_method != method:
+                st.info(f"This quiz was generated with {quiz_method}. Generate questions again to use {method}.")
             a, b, c = st.columns(3)
             a.metric("Questions", len(rows))
             b.metric("Generation + checks", f"{st.session_state.get('elapsed', 0):.1f} s")
@@ -344,6 +397,11 @@ def main():
                 c.metric("Answerability checks", "Not run")
             show_answers = st.toggle("Show answers and evidence", value=True)
             export_rows = []
+            context = st.session_state.get("quiz_context", "")
+            if context != st.session_state.get("original_quiz_context", context):
+                with st.expander("Passage used for generation"):
+                    st.write(context)
+                    st.caption("Wrapped lines were joined. Target offsets and worksheet evidence refer to this prepared passage; the original input is retained.")
             st.caption("Choose questions for the exported quiz. QA-flagged questions start unselected; inspect their evidence before including them.")
             for i, generated_row in enumerate(rows, 1):
                 with st.container(border=True):
@@ -360,6 +418,9 @@ def main():
                             st.write(generated_row["question"])
                     if not row["question"]:
                         st.error("Question wording cannot be empty.")
+                    scope_issue = list_scope_issue(row["question"], row["answer"], row["language"])
+                    if scope_issue:
+                        st.error(scope_issue)
                     st.markdown(f"<div class='question' dir='auto'>{html.escape(row['question'])}</div>", unsafe_allow_html=True)
                     if row.get("learning_goal"):
                         st.write("**Learning goal:** " + row["learning_goal"])
@@ -382,8 +443,8 @@ def main():
                                 st.caption("Agreement supports review; it does not establish factual correctness. A low score can also reflect a weak QA verifier.")
                     wording_id = hashlib.sha256(row["question"].encode("utf-8")).hexdigest()[:12]
                     if st.checkbox("Include in quiz exports", value=not edited and bool(row.get("accepted", True)),
-                                   disabled=not row["question"],
-                                   key=f"export_pick_{st.session_state.get('quiz_revision', 0)}_{i}_{wording_id}") and row["question"]:
+                                   disabled=not row["question"] or bool(scope_issue),
+                                   key=f"export_pick_{st.session_state.get('quiz_revision', 0)}_{i}_{wording_id}") and row["question"] and not scope_issue:
                         export_rows.append(row)
             st.subheader("Take it to class")
             st.write(f"Selected {len(export_rows)} of {len(rows)} questions for export.")

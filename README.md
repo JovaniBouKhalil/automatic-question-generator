@@ -7,20 +7,27 @@ reproducible experimental comparison, and presentation. No paid API or GPU is re
 
 ## Current application version
 
-**[submission-v4](https://github.com/JovaniBouKhalil/automatic-question-generator/tree/submission-v4) · 28 November 2026.**
+**[submission-v5](https://github.com/JovaniBouKhalil/automatic-question-generator/tree/submission-v5) · Classroom input and generalization update · 28 November 2026.**
 The current application is on `main`; earlier submission tags remain available for comparison.
 
-The optional **Learning-focused hybrid 4B (experimental)** uses Qwen3-4B to select
-source facts, native T5/mT5/AraT5 to generate drafts, and Qwen to refine the wording.
-These steps run sequentially. An optional separate QA model checks answer recovery;
-teacher review and wording corrections follow. The original T5-only modes remain available.
+When verified local weights are available, **Learning-focused hybrid 4B (experimental)**
+is selected initially. Qwen3-4B selects source facts, native T5/mT5/AraT5 generates
+drafts, and Qwen refines the wording. These steps run sequentially. An optional
+separate QA model checks answer recovery; teacher review and corrections follow.
+T5-only comparison modes explicitly identify that Qwen is not running.
 
-This version includes answer-role guidance, a switch to compare the original 4B editor,
-and editable quiz exports that clear stale QA scores and preserve the generated wording.
-Validation: **95 regular checks, 12 real-model integration checks, 11 executed notebook
-code cells and 12 presentation slides**. All 27 new development cases have source-linked
-inspection notes. These checks do not establish perfect question quality; see
-[the findings and remaining failures](docs/ANSWER_ROLE_RESULTS.md).
+This update prepares wrapped document text, excludes outline headings from automatic
+targets, retains complete list answers, and rejects obvious list/count mismatches.
+The original passage is preserved alongside the prepared source. No model weights
+are changed for this repair. See [the input regression](docs/CLASSROOM_INPUT_FIX.md).
+
+Validation: **114 regular checks and 13 real-model integration checks**, with no skips.
+The notebook has **11 executed code cells** and the presentation has **12 slides**.
+These verify implementation, not question quality. A frozen audit uses **12 unused
+human-authored multilingual paragraphs and 50 additional SciQ test pairs**, keeping
+failures and omissions. See [the generalization findings](docs/GENERALIZATION_RESULTS.md)
+and [the earlier development findings](docs/ANSWER_ROLE_RESULTS.md). Human usefulness
+ratings remain pending.
 
 ## Start the application
 
@@ -31,7 +38,7 @@ On this computer, run from the project folder:
 ```
 
 Open **http://localhost:8501**. Choose a language, paste a passage or upload a text PDF,
-and supply exact target answers (one per line) or use automatic TF-IDF suggestions.
+and supply exact target answers (one per line) or use automatic source-fact selection.
 Review questions beside their answers and source evidence. Export a printable student
 worksheet, answer key, CSV, JSON, or Moodle short-answer XML.
 
@@ -90,7 +97,8 @@ To enable the current optional Qwen 4B mode after installing the core models:
 .\.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-Choose **Learning-focused hybrid 4B (experimental)** in the sidebar. This adds an
+The app selects **Learning-focused hybrid 4B (experimental)** initially once its verified
+weights are available; you can also choose it in the sidebar. This adds an
 **8.04 GB** model download. FP32 model parameters alone need about **16 GB RAM**, plus
 runtime memory; CPU generation can take several minutes. The basic T5 modes work
 without downloading Qwen. No paid API key is required.
@@ -125,6 +133,12 @@ Development outputs include improved target focus and copied/malformed cloze reg
 Human educational value remains unmeasured. Select **Educational science** under the
 English adaptation control to compare it in the app; inspect all eight settings in
 **Experiment results**.
+
+A later frozen audit of 50 additional unused SciQ pairs shows mixed transfer:
+BLEU **38.09 → 41.20**, but QA answer F1 **72.39 → 67.50** (paired difference
+interval includes zero). This does not establish a general question-quality gain.
+The app retains the unadapted generator as the default backbone; adapter selection
+was not changed using these test results. See [the complete audit](docs/GENERALIZATION_RESULTS.md).
 
 For the educational training and stronger-model follow-up, see
 [the science training protocol](docs/SCIENCE_TRAINING_PROTOCOL.md) and
@@ -327,7 +341,7 @@ classroom differences and concrete generation/answer-selection failures. Course 
 and passing software checks do not establish dependable multilingual question quality.
 
 The main experiment supplies a target answer to both methods. It measures **answer-conditioned
-generation**, not end-to-end automatic answer selection. The UI's TF-IDF selector is a separate
+generation**, not end-to-end automatic answer selection. The UI's automatic source-fact selection is a separate
 heuristic. Single-reference overlap can penalize valid paraphrases. QA agreement and lexical
 overlap are proxies; teacher review remains necessary. QA span scores are uncalibrated.
 Rule-based acceptance is **coverage**, not measured question accuracy.

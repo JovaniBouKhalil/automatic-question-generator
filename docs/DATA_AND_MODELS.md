@@ -192,3 +192,20 @@ French excerpts are noncommercial/share-alike. No blanket permissive license is 
 third-party data/weights. Downloaded Arabic backbone weights are not redistributed; the small
 project-trained adapter updates include provenance rather than copied backbone weights. Course notebooks and
 the instructor's PDF were reviewed locally and are not republished.
+
+## Additional frozen generalization audit
+
+`results/generalization_v1` retains 12 additional human-authored paragraphs (four each
+from pinned SQuAD validation, NewsQuAD-fr validation and Arabic-only TyDiQA-GoldP
+validation) and 50 additional published SciQ test pairs. The source licenses and
+pinned revisions above apply. Deterministic headings/line wraps change layout only.
+Source questions/answers are retained for attribution and are never sent to automatic
+target selection. No new training occurs.
+
+Normalized paragraphs and reference-question strings are excluded against all previous
+prepared/evaluated data before inference. Known article titles are also excluded;
+French title identity is unavailable, so article-level isolation is not claimed there.
+Public pretrained-checkpoint exposure remains unknown. Manifests, sealed protection
+hashes, inference source snapshots and every result are retained. See the
+[frozen protocol](GENERALIZATION_PROTOCOL.md) and [mixed findings](GENERALIZATION_RESULTS.md).
+The user's full course passage and private reproduction stay outside the repository/ZIP.

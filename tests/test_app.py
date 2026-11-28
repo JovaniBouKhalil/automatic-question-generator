@@ -43,6 +43,45 @@ def test_arabic_workflow_and_invalid_answer_feedback():
     assert app.session_state["questions"] == []
 
 
+def test_multi_item_question_with_single_heading_answer_is_excluded(monkeypatch):
+    from questionforge import models
+
+    def generate(context, answer, language, **kwargs):
+        return models.GeneratedQuestion("Quels sont les 4 domaines du programme ?", answer,
+                                        context.index(answer), "7–9 ENVIRONNEMENT", "fr", "beam4", "test")
+
+    monkeypatch.setattr(models, "generate_question", generate)
+    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
+    app.sidebar.selectbox[0].select("fr")
+    app.sidebar.selectbox[1].select("Pretrained Transformer")
+    app.sidebar.toggle[0].set_value(False)
+    app.run()
+    app.text_area[0].input("Les priorités organisent les actions du programme.\n7–9 ENVIRONNEMENT")
+    app.text_area[1].input("ENVIRONNEMENT")
+    app.button[1].click().run()
+    assert not app.exception and not app.error
+    assert not app.session_state["questions"]
+    assert len(app.session_state["structural_rejections"]) == 1
+    assert "4 items" in app.session_state["structural_rejections"][0]["reason"]
+
+
+def test_outline_only_input_abstains_before_calling_the_generator(monkeypatch):
+    from questionforge import models
+
+    def unexpected(*args, **kwargs):
+        raise AssertionError("Outline-only text must not invoke a question generator.")
+
+    monkeypatch.setattr(models, "generate_question", unexpected)
+    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=20).run()
+    app.sidebar.selectbox[1].select("Pretrained Transformer")
+    app.run()
+    app.text_area[0].input("CHAPTER TWO\n7–9 ENVIRONMENT\nSUMMARY")
+    app.button[1].click().run()
+    assert not app.exception and app.error
+    assert "No explanatory facts" in app.error[0].value
+    assert not app.session_state["questions"]
+
+
 @pytest.mark.parametrize("stronger", [False, True])
 def test_learning_mode_passes_objective_and_shows_the_seq2seq_draft(monkeypatch, stronger):
     from questionforge.learning import pipeline, quality
@@ -323,3 +362,37 @@ def test_stronger_editor_through_the_application():
     assert row["model_id"] == QUALITY_MODEL.model_id
     assert row["draft_model_id"] == "lmqg/t5-small-squad-qg" and row["draft_question"].strip()
     assert row["answer"] == "electrical energy" and row["question"].strip()
+
+
+@pytest.mark.integration
+def test_french_slide_outline_through_the_automatic_hybrid_application():
+    from questionforge.classroom.material import VERSION, prepare_material
+    from questionforge.learning.quality import QUALITY_MODEL, local_quality_source
+
+    try:
+        local_quality_source()
+    except RuntimeError:
+        pytest.skip("The stronger editor is not downloaded.")
+    source = ("Projet Horizon\nLes quatre priorités\n1–2 QUALITÉ\n7–9 ENVIRONNEMENT\n\n"
+              "Une politique interne guide les actions pour encourager des décisions\nresponsables.\n"
+              "Le programme couvre quatre priorités : sécurité, qualité, transparence et environnement.\n"
+              "Les contrôles réguliers permettent de repérer les erreurs avant la livraison.")
+    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=600).run()
+    app.sidebar.selectbox[0].select("fr")
+    app.sidebar.selectbox[1].select("Learning-focused hybrid 4B (experimental)")
+    app.sidebar.toggle[0].set_value(False)
+    app.run()
+    app.text_area[0].input(source)
+    app.text_area[1].input("")
+    app.text_area[2].input("")
+    app.button[1].click().run(timeout=600)
+    assert not app.exception and not app.error
+    rows = app.session_state["questions"]
+    assert rows and app.session_state["original_quiz_context"] == source
+    assert app.session_state["quiz_context"] == prepare_material(source)
+    assert app.session_state["learning_report"]["candidate_source"] == "build_classroom_candidates"
+    for row in rows:
+        assert row["model_id"] == QUALITY_MODEL.model_id and row["draft_model_id"] == "lmqg/mt5-small-frquad-qg"
+        assert row["source_preparation"] == VERSION and row["answer"] not in {"QUALITÉ", "ENVIRONNEMENT"}
+        start = row["answer_start"]
+        assert app.session_state["quiz_context"][start:start + len(row["answer"])] == row["answer"]

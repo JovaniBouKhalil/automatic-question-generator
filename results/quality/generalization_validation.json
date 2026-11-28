@@ -1,0 +1,14 @@
+{
+  "automatic_cases": 12,
+  "science_fixed_answer_cases": 50,
+  "science_prediction_rows": 150,
+  "sealed_paragraph_and_question_overlap": 0,
+  "known_article_overlap": 0,
+  "french_article_identity": "unavailable",
+  "frozen_source_snapshots_and_current_hashes_match": true,
+  "automatic_execution_errors": 0,
+  "science_execution_errors": 0,
+  "upstream_checkpoint_exposure": "unknown",
+  "test_used_for_tuning": false,
+  "interpretation": "Project-level data separation and provenance checked; this is not proof of question correctness or absence of upstream public-data exposure."
+}

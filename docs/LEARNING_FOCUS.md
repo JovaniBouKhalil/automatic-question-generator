@@ -44,11 +44,12 @@ Prepare it with `python -m scripts.download_quality_model`. The downloader prese
 files and checks every complete shard. If the Hugging Face transfer stalls, the alternate
 `--source modelscope` uses a pinned Qwen repository whose three published shard checksums
 must match the pinned Hugging Face metadata exactly. Runtime parameters alone need roughly
-16 GB in FP32, plus inference memory. The original mode remains the default.
+16 GB in FP32, plus inference memory. The classroom update initially selects the 4B
+hybrid when verified local weights are available; otherwise it selects original T5.
 
 The paired precision controls and both fixed nine-passage/language development comparisons
 are complete. The main comparisons use FP32; the three control responses alone do not prove
-that reduced precision preserves all questions. The queue changes neither application defaults nor human scores.
+that reduced precision preserves all questions. These precision probes do not supply human scores.
 Completed reports appear in the app's Experiment results tab. The [science adapter
 training study](SCIENCE_TRAINING_RESULTS.md) is a separate English-only experiment.
 

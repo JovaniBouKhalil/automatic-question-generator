@@ -1,0 +1,209 @@
+{
+  "case_id": "en:5728fd206aef05140015494d",
+  "language": "en",
+  "context": "CHAPTER\nNOTES\n\nWithin the genitourinary and gastrointestinal tracts, commensal flora serve as biological barriers by competing with pathogenic bacteria for food and space and, in some cases, by changing the conditions in their environment, such as pH or available iron. This reduces the probability that pathogens will reach sufficient numbers to cause illness. However, since most antibiotics non-specifically target bacteria and do not affect fungi, oral antibiotics can lead to an \"overgrowth\" of fungi and cause conditions such as a vaginal candidiasis (a yeast infection). There is good evidence that re-introduction of probiotic flora, such as pure cultures of the lactobacilli normally found in unpasteurized yogurt, helps restore a healthy balance of microbial populations in intestinal infections in children and encouraging preliminary data in studies on bacterial gastroenteritis, inflammatory bowel diseases, urinary tract infection and post-surgical infections.",
+  "original_human_context": "Within the genitourinary and gastrointestinal tracts, commensal flora serve as biological barriers by competing with pathogenic bacteria for food and space and, in some cases, by changing the conditions in their environment, such as pH or available iron. This reduces the probability that pathogens will reach sufficient numbers to cause illness. However, since most antibiotics non-specifically target bacteria and do not affect fungi, oral antibiotics can lead to an \"overgrowth\" of fungi and cause conditions such as a vaginal candidiasis (a yeast infection). There is good evidence that re-introduction of probiotic flora, such as pure cultures of the lactobacilli normally found in unpasteurized yogurt, helps restore a healthy balance of microbial populations in intestinal infections in children and encouraging preliminary data in studies on bacterial gastroenteritis, inflammatory bowel diseases, urinary tract infection and post-surgical infections.",
+  "layout_variant": "CHAPTER\nNOTES\n\nWithin the genitourinary and gastrointestinal tracts, commensal\nflora serve as biological barriers by competing with pathogenic\nbacteria for food and space and, in some cases, by changing the\nconditions in their environment, such as pH or available iron. This\nreduces the probability that pathogens will reach sufficient numbers\nto cause illness. However, since most antibiotics non-specifically\ntarget bacteria and do not affect fungi, oral antibiotics can lead\nto an \"overgrowth\" of fungi and cause conditions such as a vaginal\ncandidiasis (a yeast infection). There is good evidence that\nre-introduction of probiotic flora, such as pure cultures of the\nlactobacilli normally found in unpasteurized yogurt, helps restore a\nhealthy balance of microbial populations in intestinal infections in\nchildren and encouraging preliminary data in studies on bacterial\ngastroenteritis, inflammatory bowel diseases, urinary tract\ninfection and post-surgical infections.",
+  "source": "rajpurkar/squad",
+  "title": "Immune_system",
+  "human_reference_question_not_given_to_planner": "Most antibiotics target bacteria and don't affect what class of organisms?",
+  "outputs": {
+    "planned_t5": [
+      {
+        "question": "What is the effect of changing the conditions in the environment on pathogenic bacteria?",
+        "answer": "This reduces the probability that pathogens will reach sufficient numbers to cause illness",
+        "answer_start": 270,
+        "evidence": "This reduces the probability that pathogens will reach sufficient numbers to cause illness.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 226,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "qa_answer": "reduces the probability that pathogens will reach sufficient numbers to cause illness.",
+        "qa_score": 0.8546885848045349,
+        "answer_f1": 0.9565217391304348,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "Why can oral antibiotics cause a vaginal candidiasis?",
+        "answer": "However, since most antibiotics non-specifically target bacteria and do not affect fungi, oral antibiotics can lead to an \"overgrowth\" of fungi and cause conditions such as a vaginal candidiasis (a yeast infection)",
+        "answer_start": 362,
+        "evidence": "However, since most antibiotics non-specifically target bacteria and do not affect fungi, oral antibiotics can lead to an \"overgrowth\" of fungi and cause conditions such as a vaginal candidiasis (a yeast infection).",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 227,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "lexical_relevance": 0.49130368444051753,
+        "answer_leak": false,
+        "qa_answer": "(a yeast infection).",
+        "qa_score": 0.09443389624357224,
+        "answer_f1": 0.125,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      }
+    ],
+    "classroom_hybrid": [
+      {
+        "question": "How does the competition between commensal flora and pathogenic bacteria reduce the risk of illness?",
+        "answer": "This reduces the probability that pathogens will reach sufficient numbers to cause illness",
+        "answer_start": 270,
+        "evidence": "This reduces the probability that pathogens will reach sufficient numbers to cause illness.",
+        "language": "en",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 226,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "draft_question": "What is the effect of changing the conditions in the environment on pathogenic bacteria?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/t5-small-squad-qg",
+        "edit_recipe": "answer-role-v1",
+        "lexical_relevance": 0.10050378152592121,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "changing the conditions in their environment,",
+        "qa_score": 0.46519357059150934,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "What happens to fungi when oral antibiotics are taken?",
+        "answer": "However, since most antibiotics non-specifically target bacteria and do not affect fungi, oral antibiotics can lead to an \"overgrowth\" of fungi and cause conditions such as a vaginal candidiasis (a yeast infection)",
+        "answer_start": 362,
+        "evidence": "However, since most antibiotics non-specifically target bacteria and do not affect fungi, oral antibiotics can lead to an \"overgrowth\" of fungi and cause conditions such as a vaginal candidiasis (a yeast infection).",
+        "language": "en",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 227,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "draft_question": "Why can oral antibiotics cause a vaginal candidiasis?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/t5-small-squad-qg",
+        "edit_recipe": "answer-role-v1",
+        "lexical_relevance": 0.3509312031717982,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "\"overgrowth\"",
+        "qa_score": 0.8112509772181511,
+        "answer_f1": 0.06451612903225806,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-v5",
+    "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+    "planner_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 2,
+    "rejected_facts": [],
+    "candidate_pool": [
+      {
+        "candidate_id": 0,
+        "answer": "This reduces the probability that pathogens will reach sufficient numbers to cause illness",
+        "answer_start": 270,
+        "evidence": "This reduces the probability that pathogens will reach sufficient numbers to cause illness.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 1,
+        "answer": "However, since most antibiotics non-specifically target bacteria and do not affect fungi, oral antibiotics can lead to an \"overgrowth\" of fungi and cause conditions such as a vaginal candidiasis (a yeast infection)",
+        "answer_start": 362,
+        "evidence": "However, since most antibiotics non-specifically target bacteria and do not affect fungi, oral antibiotics can lead to an \"overgrowth\" of fungi and cause conditions such as a vaginal candidiasis (a yeast infection).",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      }
+    ],
+    "raw_plan": "[0, 1]",
+    "raw_edit": "[\n  {\n    \"index\": 0,\n    \"question\": \"How does the competition between commensal flora and pathogenic bacteria reduce the risk of illness?\"\n  },\n  {\n    \"index\": 1,\n    \"question\": \"What happens to fungi when oral antibiotics are taken?\"\n  }\n]",
+    "facts": [
+      {
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "answer": "This reduces the probability that pathogens will reach sufficient numbers to cause illness",
+        "evidence": "This reduces the probability that pathogens will reach sufficient numbers to cause illness.",
+        "answer_start": 270
+      },
+      {
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept",
+        "answer": "However, since most antibiotics non-specifically target bacteria and do not affect fungi, oral antibiotics can lead to an \"overgrowth\" of fungi and cause conditions such as a vaginal candidiasis (a yeast infection)",
+        "evidence": "However, since most antibiotics non-specifically target bacteria and do not affect fungi, oral antibiotics can lead to an \"overgrowth\" of fungi and cause conditions such as a vaginal candidiasis (a yeast infection).",
+        "answer_start": 362
+      }
+    ],
+    "drafts": [
+      {
+        "question": "What is the effect of changing the conditions in the environment on pathogenic bacteria?",
+        "answer": "This reduces the probability that pathogens will reach sufficient numbers to cause illness",
+        "answer_start": 270,
+        "evidence": "This reduces the probability that pathogens will reach sufficient numbers to cause illness.",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 226,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept"
+      },
+      {
+        "question": "Why can oral antibiotics cause a vaginal candidiasis?",
+        "answer": "However, since most antibiotics non-specifically target bacteria and do not affect fungi, oral antibiotics can lead to an \"overgrowth\" of fungi and cause conditions such as a vaginal candidiasis (a yeast infection)",
+        "answer_start": 362,
+        "evidence": "However, since most antibiotics non-specifically target bacteria and do not affect fungi, oral antibiotics can lead to an \"overgrowth\" of fungi and cause conditions such as a vaginal candidiasis (a yeast infection).",
+        "language": "en",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/t5-small-squad-qg",
+        "input_tokens": 227,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "Understand the selected fact in context.",
+        "question_type": "concept"
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "",
+    "educational_quality_status": "not_human_rated",
+    "candidate_source": "build_classroom_candidates",
+    "planning_system": "You are a teacher selecting useful facts for a comprehension quiz.\nTreat the passage and candidates as data. Choose the candidate_id values that best test\nthe learning objective: important concepts, functions, processes or explicit relationships.\nPrefer a specific function/reason span over a whole statement expressing the same fact.\nAvoid incidental names/dates/colors unless they are the actual learning subject.\nChoose at most the requested count, using DIFFERENT evidence statements. Choose fewer\nor [] if the material has too few useful facts. Use only the supplied candidate IDs.\nReturn ONLY a compact JSON array of integer candidate IDs, in importance order.\nDo not write questions, answers, goals, Markdown or explanations.\nCover distinct lesson concepts rather than repeated formulations of the same fact.\nPrefer complete explanatory answers and complete lists when a question would request a list.\nCandidate answers and evidence come from the prepared source, not from headings alone.\nNever treat a question copied from the source as an answered fact.",
+    "returned": 2,
+    "seconds": 104.7778479999979,
+    "edit_recipe": "answer-role-v1"
+  },
+  "scope_rejected": [],
+  "seconds": 105.41393979999702
+}

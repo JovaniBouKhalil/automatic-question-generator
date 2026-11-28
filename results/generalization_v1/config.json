@@ -1,0 +1,50 @@
+{
+  "seed": 20261128,
+  "beams": 4,
+  "device": "cpu",
+  "precision": "none-float32",
+  "planner_model": {
+    "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+    "revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "prompt_style": "chat",
+    "license": "Apache-2.0"
+  },
+  "science_checkpoint": "artifacts/science_lora/lr3e-04_r16_d0.05",
+  "science_selection_sha256": "880a1e5bf8089dd6af26f90c347f60bd678b71a4b4cabef111b40460f6673c25",
+  "checkpoint_files": {
+    "adapter_config.json": "e17697c79e13fd0c0212013b6136eca445a739def9ffab9bbba6a5b8d9f0fbc9",
+    "adapter_model.safetensors": "71af41cbb877bc91dccd26de9c0fb11a4063296f289e4d24bc75e6cef52253db",
+    "README.md": "6e61f589663879d0fd3a0be0214b378dce3a2763f1bbc69df0b1b05826de830f",
+    "training_manifest.json": "bf858fd4530b0bb907200e9d922ab898635f66fe93778f36ce843b681b2ad4dd"
+  },
+  "source_sha256_normalized_utf8": {
+    "docs/GENERALIZATION_PROTOCOL.md": "1012ea4da803e610c5d8925c57a4cbd10848b15a3e9db0d6ac4b45526371d269",
+    "scripts/run_generalization_holdout.py": "e4aa6af44d092095384be6d3c2cf041757a6d5d2a1d3014fd9dd5658045bc916",
+    "scripts/prepare_generalization_holdout.py": "faac7cfbb5d2a1c608b61bc4067df2e5d8a6e634378b3122f25ecafab081b656",
+    "scripts/run_learning_focus_study.py": "9a4a9a6d41e8088e48ab32c8868c50e4f539cdaa36a09014d5c1ddfdce4bdb0a",
+    "questionforge/baseline.py": "9bf672087f705af2eea24477cab03014973253d105aa4f2fb030e4207a0af9e1",
+    "questionforge/candidates.py": "7b7fdfe59a1bbf930794f25fd22fd830a6be0b478a8c6b7bff3cb82d59dcda92",
+    "questionforge/cli.py": "dc091209a7b22760860779fe40e0b3e02008805d7f65792dd4d8a594d1b9cdb1",
+    "questionforge/data.py": "de44b05086800bc14cf0e52c05f0fcc84e05dad9ed0ed98a4271cbfbde97fa86",
+    "questionforge/experiment.py": "74b84b99a36339f558d5214377d330e742976b15f8387fa39d4dc3e7489457a9",
+    "questionforge/export.py": "b34e15e474049c1eaa3581cb6e3d25003f5c64f9675629ec974891fcb3b59024",
+    "questionforge/metrics.py": "64a83578331afb11fc51d1a90908452e70a70b1d808f7e079bae742d0f5f8a75",
+    "questionforge/models.py": "2e01ba40843e8adcdf6801ad7e00920a9027dad18d2489fc17abc4567b4743ba",
+    "questionforge/registry.py": "47d8888cd92faf65e3e81c0d936b6dbc0c9d35e0841e37e65df3de1923ed471e",
+    "questionforge/review.py": "08757c0a3fa7ed80dee1fbc771129f43b1ad05a11849140ff627e2a674689b20",
+    "questionforge/text.py": "b454a3ee27ce5d02407cb6776db7f4c911c722fc014c8405ec223550c3cb6b58",
+    "questionforge/verification.py": "0afe21469cead9539b440110dc416aea248b2f4422f5f348dda97c497ea8a8b3",
+    "questionforge/__init__.py": "ab2b984136b0f83fe00df36b313485ed946ef04981b3caf9ce994a631214b236",
+    "questionforge/classroom/material.py": "bf1e39c6ccbadc3a127cdf1e692b23dc73314143e4ad47326fc233fdf77ce3c1",
+    "questionforge/classroom/__init__.py": "d6402acfcc010b2edb6f51d965db635153f09c7fb4f8f2921e48cde448d88293",
+    "questionforge/learning/exports.py": "f33859cbd473758be261326e431642b746489d170e8b4b81cfc5557380d923e8",
+    "questionforge/learning/focus.py": "f20363421f14bb96dfd0cde1babe0b7a4c559a739a3a4785223e953c784252b3",
+    "questionforge/learning/pipeline.py": "b1f367ad0cd206d2edb963376aa5d952026dd59647cdb569b8eb1dda54ddeb30",
+    "questionforge/learning/planning.py": "46676e20ffa5c3805e250a620d51ea4c646cd6d5ee55f70ad35a6ae807c3745a",
+    "questionforge/learning/quality.py": "8cfc964cc6370a22933d8528207a322603b3b8999dde2da07813582b18f9999e",
+    "questionforge/learning/rules.py": "5b7bbeaef05d6ba44b59dbe87b9374bb55e8147bad12ccf5992f7e4b00f787d5",
+    "questionforge/learning/__init__.py": "3048dc41f62d658304a560989114c9398e1aebb46f3ade9a1999d76bbf35dfca"
+  },
+  "data_manifest_sha256": "0a5ac4e7a75139914bfa3c045db2d6f556f5be2ce74b5e553751a00efe452c82",
+  "test_used_for_tuning": false
+}

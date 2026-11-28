@@ -131,3 +131,18 @@ address parts of that plan; the remaining items are future work:
 The current implementation is a defensible course project with meaningful experiments. It
 has not demonstrated dependable multilingual question quality, and this audit does not assign
 a grade or claim that software checks establish educational usefulness.
+
+## Week 10 and the unused-data audit
+
+Physical slides 7/11 cover dropout/early stopping, slide 19 separates training,
+validation and final test roles, slide 20 discusses configuration search, and slides
+41/42 motivate error analysis and fair comparisons. The existing eight-setting grid
+varies learning rate/rank/dropout and restores validation-selected weights. Its fixed
+budget is not the same as patience-based early termination of every trial.
+
+The classroom repair changes structural input/answer selection, not learned weights.
+After that repair was frozen, another 12 human-authored multilingual paragraphs and
+50 SciQ pairs were evaluated without test-based tuning. The selected adapter improves
+BLEU but reduces QA recovery descriptively on the additional SciQ sample, with a
+paired interval crossing zero. This is mixed evidence, not a diagnosis of overfitting
+or proof that more training is better. See [all results](GENERALIZATION_RESULTS.md).

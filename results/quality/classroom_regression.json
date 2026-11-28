@@ -1,0 +1,11 @@
+{
+  "scope": "Private user-reported DEVELOPMENT regression; not independent test evidence.",
+  "raw_source_sha256": "15d7f09b5be08561ec0ce7580c91d8b9ef907f97bd2275a899d98e27a07b4101",
+  "source_preparation": "classroom-layout-v1",
+  "candidate_count": 36,
+  "returned_questions": 3,
+  "list_scope_rejections": 0,
+  "current_preparation_and_candidates_match_recorded_reproduction": true,
+  "model_weights_updated": false,
+  "raw_source_and_questions_published": false
+}

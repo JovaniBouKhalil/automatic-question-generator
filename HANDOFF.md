@@ -1,5 +1,13 @@
 # Ready for your review — 28 November 2026
 
+The classroom update now prepares PDF line wraps, excludes outline-only targets
+and rejects obvious list/count mismatches. With verified local 4B weights installed,
+the app initially selects the hybrid; regenerate an existing quiz to use the new mode.
+No model weights were trained on the user-reported lecture. Its raw text stays private.
+Read [the generic input repair](docs/CLASSROOM_INPUT_FIX.md) and
+[the frozen unused-data audit](docs/GENERALIZATION_RESULTS.md). That audit retains
+coverage/wording failures and mixed adapter results; human usefulness ratings are pending.
+
 The stronger 4B model is downloaded and checksum verified. For lesson concepts and
 relationships, choose **Learning-focused hybrid 4B (experimental)** and try **Training
 And Evaluation** in English, French or Arabic. Its answer-role guidance repairs some
@@ -15,7 +23,7 @@ The 18 fixed-target re-edits are complete: 49 questions from 50 retained targets
 zero execution errors. Source inspection finds real repairs and remaining grammar,
 premise and coverage problems. The nine additional-topic cases also finish without
 execution errors, returning 25 questions; all 27 cases have source-linked observations.
-Read [the measured findings](docs/ANSWER_ROLE_RESULTS.md). All **95 regular and 12
+Read [the measured findings](docs/ANSWER_ROLE_RESULTS.md). All **114 regular and 13
 real-model integration checks pass**, including the 4B app mode. The notebook has
 **11 executed code cells** without errors; the PPTX/PDF both contain **12 slides**.
 
@@ -147,7 +155,7 @@ completed human evaluations. Teacher review of wording and factual support is pa
 
 ## Validation and reproducibility
 
-- **95 regular and 12 real-model integration checks passed**, with no skips, including
+- **114 regular and 13 real-model integration checks passed**, with no skips, including
   the 4B editor through the actual app. These checks establish software behavior, not question accuracy.
 - Ruff checks passed; the notebook executed without errors.
 - A resumed copy of the LoRA test experiment retained all 200 prediction records with an

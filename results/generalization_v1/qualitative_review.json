@@ -1,0 +1,87 @@
+{
+  "scope": "Source-linked qualitative inspection after frozen inference. These are not independently supplied human ratings or a representative accuracy estimate.",
+  "science_examples": [
+    {
+      "id": "sciq:test:593",
+      "observation": "Regression: the original asks what has the stated goal, matching science. The adapted question asks for the goal of understanding, reversing the relation and no longer requesting the assigned target."
+    },
+    {
+      "id": "sciq:test:24",
+      "observation": "Regression on a fragmentary source: the original asks where chemical energy is stored. The adapted output repeats stored-in wording and becomes an unclear cloze."
+    },
+    {
+      "id": "sciq:test:572",
+      "observation": "Regression: the original asks what a codon stands for. The adapted output is a declarative sentence about properties of the genetic code, with no question and no match to the amino-acid target."
+    },
+    {
+      "id": "sciq:test:73",
+      "observation": "The adapted cloze recovers life cycles more exactly, but its wording is awkward. Higher QA recovery does not by itself establish better fluency or learning value."
+    },
+    {
+      "id": "sciq:test:547",
+      "observation": "Improvement: the original asks vaguely what quarks are while the target names their composite particles. The adapted cloze asks what quarks make up, aligning the target protons/neutrons with the source."
+    }
+  ],
+  "automatic_cases": [
+    {
+      "source_file": "results/generalization_v1/automatic/case_01_en.json",
+      "source_sha256": "ccce66e3dd65cd386e26fd1d71d6ca1172eb623e340842d4ff237180ffaeeca4",
+      "observation": "The event question is readable and supported: the source explicitly says the relationship was reinforced when Borte was captured. Only one target is selected. The longer alliance/support statements exceed the whole-statement target budget, so the quiz does not cover the full paragraph."
+    },
+    {
+      "source_file": "results/generalization_v1/automatic/case_02_en.json",
+      "source_sha256": "111f5db5f506938e0921edf36a002b2ff5646e86e8ab895364eb0c9eabe4d8ab",
+      "observation": "The three-location answer matches the enumerated congregations. The historic-district question combines its stated status and significance; the naming question uses the explicitly described Huguenot settlement. Questions are supported but targets remain broad and some items ask multiple linked facts."
+    },
+    {
+      "source_file": "results/generalization_v1/automatic/case_03_en.json",
+      "source_sha256": "4a543a89fb3c6bf41d056f16bc6bed354b4f55b2cc544be13a86411cfa846af5",
+      "observation": "The three revised questions ask about consequences for native populations, the departure of Spanish Catholics and the stated road-construction reason for Ohio settlement vulnerability. These match the supplied cause/effect statements and are clearer in focus than the generic first draft. Targets remain longer than minimal answers."
+    },
+    {
+      "source_file": "results/generalization_v1/automatic/case_04_en.json",
+      "source_sha256": "ba6fd8068de00030393cd4488627a2ac43665dea073771ae27b0c15345a9ac86",
+      "observation": "The flora question resolves the source antecedent and asks about the stated reduction in pathogen growth risk. The antibiotics item drops the source's possibility wording: What happens should be What can happen, since overgrowth is not stated as inevitable. This is a scope limitation on unseen data. Other long statements are not selected under the target-length budget."
+    },
+    {
+      "source_file": "results/generalization_v1/automatic/case_05_fr.json",
+      "source_sha256": "0c88e0438b34b842bd57fb7cf9dd2365183cbba8d185a8867bd776c55ff79888",
+      "observation": "The first question mishandles the idiom Dans le fond and is grammatically unclear; the outline fix does not solve this unseen wording failure. The second asks about the narrative attributed to the law within the source, not independently verified history. The why-question has a source explanation but uses the vague referent ce phenomene. These items still need wording review."
+    },
+    {
+      "source_file": "results/generalization_v1/automatic/case_06_fr.json",
+      "source_sha256": "468f2ff0b5f40ebb06a4d06a7bcddc005188f06be9a0b6db40e4c7d65fafab4d",
+      "observation": "The question asks the stated purpose of the counting stations: supplying the reported figures. It is source-supported, but selects only one narrow fact from a long sentence and leaves the electric-bike explanation and growth comparisons untested. This is limited coverage rather than proof that the paragraph lacks useful material."
+    },
+    {
+      "source_file": "results/generalization_v1/automatic/case_07_fr.json",
+      "source_sha256": "8d5adeebf6161bf53fe11d088b7a67884ae8dac3b71b4d394d475e52461c085f",
+      "observation": "The edited question asks for the complete three-part funding allocation, matching the full list rather than a singleton amount. It is more explicit than the T5 draft, but the preceding pronoun Ils still has no antecedent in this isolated paragraph. QA extracts only one amount, illustrating the judge/long-target mismatch."
+    },
+    {
+      "source_file": "results/generalization_v1/automatic/case_08_fr.json",
+      "source_sha256": "63f717772f97faf7d5e5eede1e6ab2abe689c78e11edf7690e3f30e6ac6db5e8",
+      "observation": "The revision clarifies the level/status, commission action and emissions comparison requested by three long targets. All are stated in the source; the first is awkwardly phrased and the third asks two linked quantities. The source does not name the incident, so the question remains context-dependent. QA does not recover the full answers."
+    },
+    {
+      "source_file": "results/generalization_v1/automatic/case_09_ar.json",
+      "source_sha256": "f3a5d07dfa67c0890b777eaefb6d3d9b0a27050f809daca5f95cd072b3272012",
+      "observation": "The hybrid retains the supported independence/date and two-main-islands questions. It repairs a draft asking where Samoa island is into a question about the stated location of the capital and airport. Answers are whole sentences instead of minimal spans; the multilingual QA judge scores the location question zero despite the explicit source relation. A Latin proper-name line wrap remains unjoined."
+    },
+    {
+      "source_file": "results/generalization_v1/automatic/case_10_ar.json",
+      "source_sha256": "f93f671d37369404bba4c39215c22c65fabede100a7557af47798e5ca2c30aee",
+      "observation": "The revised Arabic questions repair nonsensical symptom/heading drafts into the stated movement comparison, usual quiescent state and stage after the larva. The third answer is much broader than its question, and the source begins with a fragment. All three ask source-supported facts, but long sentence targets weaken answer focus and QA recovery."
+    },
+    {
+      "source_file": "results/generalization_v1/automatic/case_11_ar.json",
+      "source_sha256": "11ff46c4229200ce7b574f62d1539b6051b69887cc35209e033a14a4c26ac992",
+      "observation": "No questions are produced from a usable biographical fact because the source paragraph lacks terminal punctuation. The conservative complete-statement rule treats it as ineligible. This is a preprocessing coverage failure, retained as a zero-output case rather than replaced or counted as successful abstention."
+    },
+    {
+      "source_file": "results/generalization_v1/automatic/case_12_ar.json",
+      "source_sha256": "7cb27438cdac601cb1bcb864581a8a6a17340049066246fa7fa6b6de2cbba5f8",
+      "observation": "The three T5 drafts repeat the generic Who are the Arameans question despite different targets. The hybrid distinguishes their language, the stated state-building/agricultural achievements and the naming of their land. These are source-supported repairs, but the second is broad and passive, the third is awkward, and whole-sentence answers contain more than each question requests."
+    }
+  ]
+}

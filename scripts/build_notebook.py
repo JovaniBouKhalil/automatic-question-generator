@@ -333,13 +333,27 @@ if selection_path.exists():
                   ['n','bleu','chrf_pp','rouge_l','answer_f1']}} for name, score in result['methods'].items()]))
         print('Paired QA recovery difference, not question accuracy:', result['paired_qa_answer_f1_difference_pp'])
     print('Human educational-value ratings remain pending. Inspect the source-linked development comparison.')
+    holdout_folder = ROOT / 'results/generalization_v1'
+    if (holdout_folder / 'science_summary.json').exists():
+        audit = json.loads((holdout_folder / 'science_summary.json').read_text(encoding='utf-8'))
+        print('ADDITIONAL UNUSED TEST: fixed weights; no test-based tuning')
+        display(pd.DataFrame([{'method': name, **{key: score[key] for key in
+                  ['n','bleu','chrf_pp','rouge_l','answer_f1']}} for name, score in audit['methods'].items()]))
+        print('Paired QA change:', audit['paired_qa_answer_f1_difference_pp'])
+        print('Mixed results do not establish better question quality or diagnose overfitting.')
+        if (holdout_folder / 'automatic_summary.json').exists():
+            automatic = json.loads((holdout_folder / 'automatic_summary.json').read_text(encoding='utf-8'))
+            print('Automatic multilingual cases:', automatic['case_records'], '| errors:', automatic['execution_errors'])
+            display(pd.DataFrame(automatic['methods']).T)
+            print('Returned coverage and conditional QA are not correctness/usefulness percentages.')
+        print('See docs/GENERALIZATION_RESULTS.md for every source-linked case and split limitations.')
 else:
     print('Science training is not complete; no new outcomes are claimed.')
 """)
     markdown("""## 11. Demonstrate and explain
 
 Launch `python -m streamlit run app.py`. Choose a language, paste a passage, supply exact
-answers or use TF-IDF suggestions, and inspect the questions and evidence. Export a
+answers or use automatic source-fact selection, and inspect the questions and evidence. Export a
 student worksheet, answer key, CSV, JSON or Moodle XML.
 
 See `docs/DEFENSE_GUIDE.md` for course connections and technical Q&A. No external paid API is used.

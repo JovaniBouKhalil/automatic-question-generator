@@ -162,7 +162,8 @@ def create_learning_quiz(context: str, language: str, count: int = 3, *, objecti
                          manual_answers: list[str] | None = None, beams: int = 4,
                          checkpoint: str | None = None, device: str = "cpu",
                          progress=None, complete=chat_json, planner_spec: ModelSpec = PLANNER,
-                         cpu_precision: str = CPU_QUANTIZATION) -> tuple[list[dict], dict]:
+                         cpu_precision: str = CPU_QUANTIZATION, candidate_builder=None,
+                         planning_system: str = PLAN_SYSTEM) -> tuple[list[dict], dict]:
     validate_language(language)
     if not context.strip() or not 1 <= count <= 8:
         raise ValueError("Add a passage and request between one and eight questions.")
@@ -184,8 +185,8 @@ def create_learning_quiz(context: str, language: str, count: int = 3, *, objecti
     else:
         from .planning import build_fact_candidates, resolve_candidate_choices
 
-        candidate_pool = build_fact_candidates(context, language)
-        proposed, raw_plan = complete(PLAN_SYSTEM, {"language": LANGUAGES[language], "count": count,
+        candidate_pool = (candidate_builder or build_fact_candidates)(context, language)
+        proposed, raw_plan = complete(planning_system, {"language": LANGUAGES[language], "count": count,
                            "learning_objective": objective, "passage": context,
                            "candidates": [{"candidate_id": fact["candidate_id"], "answer": fact["answer"],
                                            "evidence": fact["evidence"], "kind": fact["question_type"]}
@@ -199,6 +200,8 @@ def create_learning_quiz(context: str, language: str, count: int = 3, *, objecti
               "raw_plan": raw_plan, "raw_edit": None, "facts": facts, "drafts": [],
               "rejected_questions": [], "learning_objective": objective,
               "educational_quality_status": "not_human_rated"}
+    if candidate_builder is not None:
+        report.update(candidate_source=candidate_builder.__name__, planning_system=planning_system)
     if not facts:
         report.update(returned=0, seconds=time.perf_counter() - started)
         return [], report
