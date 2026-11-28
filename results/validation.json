@@ -1,6 +1,6 @@
 {
-  "regular_tests_passed": 85,
-  "neural_integration_tests_passed": 11,
+  "regular_tests_passed": 95,
+  "neural_integration_tests_passed": 12,
   "executed_notebook_code_cells": 11,
   "notebook_errors": 0,
   "presentation_slides": 12,

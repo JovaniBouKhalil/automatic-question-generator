@@ -1,4 +1,23 @@
-# Ready for your review — 27 November 2026
+# Ready for your review — 28 November 2026
+
+The stronger 4B model is downloaded and checksum verified. For lesson concepts and
+relationships, choose **Learning-focused hybrid 4B (experimental)** and try **Training
+And Evaluation** in English, French or Arabic. Its answer-role guidance repairs some
+purpose/comparison mismatches, but also changes some simple questions unfavorably.
+Disable **Guide the target answer's role** to compare the original 4B editing style.
+
+You can now correct wording in **Question library → Edit question wording** before
+export. Edits clear old QA scores, start unselected, and preserve the original question
+and model in JSON/CSV. Worksheets include the source passage and optional objective.
+These actions leave benchmark records and original-generation statistics intact.
+
+The 18 fixed-target re-edits are complete: 49 questions from 50 retained targets, with
+zero execution errors. Source inspection finds real repairs and remaining grammar,
+premise and coverage problems. The nine additional-topic cases also finish without
+execution errors, returning 25 questions; all 27 cases have source-linked observations.
+Read [the measured findings](docs/ANSWER_ROLE_RESULTS.md). All **95 regular and 12
+real-model integration checks pass**, including the 4B app mode. The notebook has
+**11 executed code cells** without errors; the PPTX/PDF both contain **12 slides**.
 
 The educational-science follow-up is complete: eight English T5 adapter settings now
 search learning rate, rank and dropout. Validation selected `3e-4 / 16 / .05` at 256
@@ -14,12 +33,12 @@ Original/general-reading adapters remain available for comparison.
 
 Learning-focused T5 and local planner/editor modes add explicit concept/function/reason
 targets, optional objectives and visible T5 drafts. The smaller editor still makes factual-role
-errors and remains experimental. The stronger 4B model is downloading; it has no completed
-question-quality result yet. `python -m scripts.learning_status` reports current local progress.
-The queued evaluations do not automatically promote a mode or fill human ratings.
+errors and remains experimental. The stronger-model comparisons, selected writing recipe
+and failed probes are retained separately. See [the learning-mode guide](docs/LEARNING_FOCUS.md).
+No automatic score or generated goal is treated as a human usefulness rating.
 
 The notebook now has **11 executed code cells** and the **12-slide** presentation includes
-the science search and test findings. Your already-open presentation was snapshotted and
+the science search, test findings and optional planner/editor path. Your already-open presentation was snapshotted and
 left untouched; the updated workspace deck/PDF are separate files.
 
 The newly supplied course slides have been checked against the implementation. See
@@ -128,11 +147,13 @@ completed human evaluations. Teacher review of wording and factual support is pa
 
 ## Validation and reproducibility
 
-- **85 regular checks and 11 real-model integration checks passed.** The optional 4B app test is skipped until its weights are ready.
+- **95 regular and 12 real-model integration checks passed**, with no skips, including
+  the 4B editor through the actual app. These checks establish software behavior, not question accuracy.
 - Ruff checks passed; the notebook executed without errors.
 - A resumed copy of the LoRA test experiment retained all 200 prediction records with an
   unchanged SHA-256. All 21 original/follow-up generation experiments match their recorded core source hashes.
-- All original and follow-up generation/verification experiment records have zero execution errors.
+- The 21 main/native-adapter generation studies and 720 verifier-control records have
+  zero execution errors. Failed smaller-editor attempts remain recorded separately.
 - Slides were rendered and visually inspected; PDF and ZIP integrity were checked.
 - Dataset preparation rejected invalid spans/duplicates and removed **15 Arabic training
   rows overlapping evaluation passages**. Paragraph groups do not cross our partitions.
@@ -153,8 +174,9 @@ Full source/licensing details and remaining limitations are in `docs/DATA_AND_MO
   answers but accepts more constructed negatives; it is an experimental option, not the default.
 - `results/human_evaluation/review_booklet.html` supplies 54 blinded items, browser-tested CSV
   export and validated paired/inter-rater statistics. Human annotation remains pending.
-- Your open presentation was backed up and updated in place. New results are on slide 11;
-  the conclusion remains last. See `docs/EXTENSIONS.md` for findings and reproduction.
+- Your open presentation remains preserved. The separate workspace PPTX/PDF now shows
+  the learning path and science results; changed slides 2/12 were visually inspected.
+  See `docs/EXTENSIONS.md` for earlier findings and reproduction.
 
 ## Before handing it in
 

@@ -91,16 +91,36 @@ candidate-selection and planner/editor comparisons are separate development expe
 documented in [the learning workflow](LEARNING_FOCUS.md). Neither exact spans nor QA
 agreement certifies logical relationships.
 
+### Answer-role follow-up, 28 November
+
+The stronger local 4B planner/editor is now downloaded and evaluated. The selected
+writing recipe adds source-derived output/purpose/limitation/comparison cues. A targeted
+12-response pilot and three-response Arabic grammatical probe precede the final recipe;
+the extra Arabic instruction fails to fix conversion wording and is discarded.
+
+A controlled re-edit keeps 50 targets and T5 drafts fixed across 18 synthetic
+passage/language cases. Coverage stays at 24/25 educational and 25/25 classroom targets,
+with zero execution errors. Conditional QA F1 rises from 71.83 to 73.52 on educational
+cases and falls from 48.80 to 45.94 on classroom cases. Source inspection finds actual
+purpose/comparison repairs and wording regressions; these are not human usefulness scores.
+The additional-topic audit is reported separately in [the answer-role findings](ANSWER_ROLE_RESULTS.md).
+
+Qwen is an inference-time decoder-only extension. The native T5 encoder–decoder and
+measured LoRA training remain the course-aligned generative model work. The app also
+allows wording corrections before export, clears stale QA results on edits and retains
+the original generated question/model. Software checks and edit controls support a
+review workflow; they do not certify the question's factual premise or learning value.
+
 ### Recommendations retained from the initial audit
 
-The next experiment should address these observed errors, rather than extend training without
-a selection criterion. These are recommendations, not completed experiments:
+The initial audit proposed the directions below. The SciQ grid and role-guided comparisons
+address parts of that plan; the remaining items are future work:
 
 - Measure automatic target selection separately and then evaluate the complete pipeline.
   Improve complete entity/number spans and reject pronouns, verb fragments and partial clauses.
-- Compare a small, fixed search of learning rate, adapter rank and dropout on the same training
-  and development splits. Assess generated development questions as well as token loss.
-  Preserve a fresh, independently authored final evaluation set for the chosen configuration.
+- Extend the completed learning-rate/rank/dropout grid across budgets or seeds only with
+  validation-based selection. Assess generated development questions as well as token loss,
+  and preserve a fresh, independently authored final evaluation set for future configurations.
 - Compare full-passage context with sentence/neighboring-sentence evidence windows. This tests
   the evidence-focus idea without claiming vector-retrieval RAG. Shorter context may reduce
   irrelevant relations but can also lose antecedents, so it needs measured comparison.

@@ -1,0 +1,40 @@
+{
+  "version": "learning-v5",
+  "split": "educational_development",
+  "count": 3,
+  "languages": [
+    "en",
+    "fr",
+    "ar"
+  ],
+  "seed": 42,
+  "beams": 4,
+  "native_adapters": false,
+  "device": "cpu",
+  "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+  "planner_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+  "cpu_quantization": "none-float32",
+  "edit_recipe": "answer-role-v1",
+  "source_sha256_normalized_utf8": {
+    "docs/LEARNING_FOCUS_PROTOCOL.md": "1231599e0ca6935846a1f01d75a8934847767b75408ffc2735bac8a1e464574a",
+    "scripts/run_learning_focus_study.py": "9a4a9a6d41e8088e48ab32c8868c50e4f539cdaa36a09014d5c1ddfdce4bdb0a",
+    "questionforge/learning/exports.py": "f33859cbd473758be261326e431642b746489d170e8b4b81cfc5557380d923e8",
+    "questionforge/learning/focus.py": "f20363421f14bb96dfd0cde1babe0b7a4c559a739a3a4785223e953c784252b3",
+    "questionforge/learning/pipeline.py": "86c1c44be592fb2783f926299a3868d4b0b861a6193968f408a1550766ed0d4e",
+    "questionforge/learning/planning.py": "46676e20ffa5c3805e250a620d51ea4c646cd6d5ee55f70ad35a6ae807c3745a",
+    "questionforge/learning/quality.py": "8cfc964cc6370a22933d8528207a322603b3b8999dde2da07813582b18f9999e",
+    "questionforge/learning/rules.py": "5b7bbeaef05d6ba44b59dbe87b9374bb55e8147bad12ccf5992f7e4b00f787d5",
+    "questionforge/learning/__init__.py": "3048dc41f62d658304a560989114c9398e1aebb46f3ade9a1999d76bbf35dfca",
+    "questionforge/candidates.py": "7b7fdfe59a1bbf930794f25fd22fd830a6be0b478a8c6b7bff3cb82d59dcda92",
+    "questionforge/models.py": "2e01ba40843e8adcdf6801ad7e00920a9027dad18d2489fc17abc4567b4743ba",
+    "questionforge/registry.py": "47d8888cd92faf65e3e81c0d936b6dbc0c9d35e0841e37e65df3de1923ed471e",
+    "questionforge/text.py": "b454a3ee27ce5d02407cb6776db7f4c911c722fc014c8405ec223550c3cb6b58",
+    "questionforge/metrics.py": "64a83578331afb11fc51d1a90908452e70a70b1d808f7e079bae742d0f5f8a75",
+    "questionforge/verification.py": "0afe21469cead9539b440110dc416aea248b2f4422f5f348dda97c497ea8a8b3",
+    "docs/ANSWER_ROLE_PROTOCOL.md": "df9a4228e277876d78b2f97290cd13367471177f86cd741640ece8ce6de25563",
+    "results/learning_focus/refinement_selection.json": "a7236a093715ec2afc0ea0be95e4dc2cc2d3dceb93825bd87bc287dd5da8f233"
+  },
+  "data_sha256": "c7b98af7b914ba3b48a98309dedab20c033f6d2104849fa1f30e36637610585f",
+  "data_path": "data/authoring/learning_challenge.json",
+  "interpretation": "Target selection differs across recall/planned methods. QA F1 is not usefulness or accuracy."
+}

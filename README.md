@@ -274,6 +274,12 @@ relations; hybrid mode uses a local fact planner and question editor around T5. 
 show learning goals and preserve source evidence. The first T5-only comparisons still
 contain relation and negation errors. Human learning-value ratings remain pending.
 
+The completed [answer-role study](docs/ANSWER_ROLE_RESULTS.md) compares 18 fixed-target
+cases and inspects nine additional synthetic topic cases. Purpose/comparison repairs
+coexist with wording regressions, incomplete coverage and unsupported premises. The
+4B sidebar can compare both editing styles; wording edits are tracked separately from
+model predictions and clear their previous QA scores.
+
 The [course alignment and question-quality audit](docs/COURSE_ALIGNMENT.md) compares the
 supplied slides with the actual implementation. It documents the PyTorch/LoRA versus Keras
 classroom differences and concrete generation/answer-selection failures. Course alignment

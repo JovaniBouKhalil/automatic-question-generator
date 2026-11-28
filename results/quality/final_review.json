@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-28",
+  "validated_model_code_commit": "b4b3f5a0897e90c00480f82775ce25f1e3d05674",
+  "regular_tests": 95,
+  "real_model_integration_tests": 12,
+  "skipped_checks": 0,
+  "executed_notebook_code_cells": 11,
+  "presentation_slides": 12,
+  "presentation_pdf_pages": 12,
+  "matching_original_core_source_experiments": 21,
+  "completed_science_training_trials": 8,
+  "paired_role_case_records": 18,
+  "additional_topic_case_records": 9,
+  "source_inspected_new_case_records": 27,
+  "human_learning_value_ratings": "pending",
+  "interpretation": "Software, provenance and artifact consistency verified. Source inspections retain repairs and failures; no question-accuracy percentage or human learning gain is claimed."
+}

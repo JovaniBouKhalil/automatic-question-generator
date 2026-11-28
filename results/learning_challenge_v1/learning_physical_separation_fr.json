@@ -1,0 +1,210 @@
+{
+  "case_id": "learning:physical_separation:fr",
+  "language": "fr",
+  "group": "learning:physical_separation",
+  "context": "Dans une expérience de séparation en classe, un tamis a retenu de grands fragments de feuilles tandis que l'eau et le sable le traversaient. Un filtre en papier a ensuite retenu le sable, mais le sel dissous est resté dans l'eau. Les élèves ont chauffé l'eau salée filtrée dans une coupelle ouverte pour faire évaporer l'eau et recueillir le sel. Le filtre a séparé les particules en suspension ; il n'a pas retiré le sel dissous.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "Quel filtre a-t-il retenu le sable ?",
+        "answer": "papier a ensuite",
+        "answer_start": 154,
+        "evidence": "Un filtre en papier a ensuite retenu le sable, mais le sel dissous est resté dans l'eau.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 143,
+        "cropped": false,
+        "lexical_relevance": 0.4923659639173309,
+        "answer_leak": false,
+        "qa_answer": "filtre en papier",
+        "qa_score": 0.3764375150203705,
+        "answer_f1": 0.3333333333333333,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "Quel filtre a séparé les particules en suspension ?",
+        "answer": "filtre a séparé",
+        "answer_start": 350,
+        "evidence": "Le filtre a séparé les particules en suspension ; il n'a pas retiré le sel dissous.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 143,
+        "cropped": false,
+        "lexical_relevance": 0.6793662204867574,
+        "answer_leak": true,
+        "qa_answer": "Le filtre",
+        "qa_score": 0.9670823216438293,
+        "answer_f1": 0.4,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "answer appears in question",
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "Qui a utilisé l'eau salée dans une coupelle ouverte ?",
+        "answer": "élèves ont chauffé",
+        "answer_start": 234,
+        "evidence": "Les élèves ont chauffé l'eau salée filtrée dans une coupelle ouverte pour faire évaporer l'eau et recueillir le sel.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 143,
+        "cropped": false,
+        "lexical_relevance": 0.4879500364742666,
+        "answer_leak": false,
+        "qa_answer": "Les élèves",
+        "qa_score": 0.8638938069343567,
+        "answer_f1": 0.4,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "planned_t5": [
+      {
+        "question": "Qu'est-ce que le filtre a séparé les particules ?",
+        "answer": "Le filtre a séparé les particules en suspension ; il n'a pas retiré le sel dissous",
+        "answer_start": 347,
+        "evidence": "Le filtre a séparé les particules en suspension ; il n'a pas retiré le sel dissous.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 144,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Distinguer le tamisage, la filtration et l'évaporation, en précisant ce que la filtration ne retire pas.",
+        "question_type": "concept",
+        "lexical_relevance": 0.5661385170722978,
+        "answer_leak": false,
+        "qa_answer": "en suspension",
+        "qa_score": 0.9170821905136108,
+        "answer_f1": 0.2222222222222222,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "learning_hybrid": [
+      {
+        "question": "Qu'est-ce que le filtre n'a pas retiré lors de l'expérience de séparation ?",
+        "answer": "Le filtre a séparé les particules en suspension ; il n'a pas retiré le sel dissous",
+        "answer_start": 347,
+        "evidence": "Le filtre a séparé les particules en suspension ; il n'a pas retiré le sel dissous.",
+        "language": "fr",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 144,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Distinguer le tamisage, la filtration et l'évaporation, en précisant ce que la filtration ne retire pas.",
+        "question_type": "concept",
+        "draft_question": "Qu'est-ce que le filtre a séparé les particules ?",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "lmqg/mt5-small-frquad-qg",
+        "edit_recipe": "answer-role-v1",
+        "lexical_relevance": 0.5262348115842176,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "le sel dissous.",
+        "qa_score": 0.6642240984365344,
+        "answer_f1": 0.3157894736842105,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-v5",
+    "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+    "planner_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 1,
+    "rejected_facts": [],
+    "candidate_pool": [
+      {
+        "candidate_id": 0,
+        "answer": "Dans une expérience de séparation en classe, un tamis a retenu de grands fragments de feuilles tandis que l'eau et le sable le traversaient",
+        "answer_start": 0,
+        "evidence": "Dans une expérience de séparation en classe, un tamis a retenu de grands fragments de feuilles tandis que l'eau et le sable le traversaient.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 1,
+        "answer": "Un filtre en papier a ensuite retenu le sable, mais le sel dissous est resté dans l'eau",
+        "answer_start": 141,
+        "evidence": "Un filtre en papier a ensuite retenu le sable, mais le sel dissous est resté dans l'eau.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 2,
+        "answer": "Les élèves ont chauffé l'eau salée filtrée dans une coupelle ouverte pour faire évaporer l'eau et recueillir le sel",
+        "answer_start": 230,
+        "evidence": "Les élèves ont chauffé l'eau salée filtrée dans une coupelle ouverte pour faire évaporer l'eau et recueillir le sel.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 3,
+        "answer": "Le filtre a séparé les particules en suspension ; il n'a pas retiré le sel dissous",
+        "answer_start": 347,
+        "evidence": "Le filtre a séparé les particules en suspension ; il n'a pas retiré le sel dissous.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      }
+    ],
+    "raw_plan": "[3]",
+    "raw_edit": "[{\"index\": 0, \"question\": \"Qu'est-ce que le filtre n'a pas retiré lors de l'expérience de séparation ?\"}]",
+    "facts": [
+      {
+        "learning_goal": "Distinguer le tamisage, la filtration et l'évaporation, en précisant ce que la filtration ne retire pas.",
+        "question_type": "concept",
+        "answer": "Le filtre a séparé les particules en suspension ; il n'a pas retiré le sel dissous",
+        "evidence": "Le filtre a séparé les particules en suspension ; il n'a pas retiré le sel dissous.",
+        "answer_start": 347
+      }
+    ],
+    "drafts": [
+      {
+        "question": "Qu'est-ce que le filtre a séparé les particules ?",
+        "answer": "Le filtre a séparé les particules en suspension ; il n'a pas retiré le sel dissous",
+        "answer_start": 347,
+        "evidence": "Le filtre a séparé les particules en suspension ; il n'a pas retiré le sel dissous.",
+        "language": "fr",
+        "method": "transformer_beam4",
+        "model_id": "lmqg/mt5-small-frquad-qg",
+        "input_tokens": 144,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "Distinguer le tamisage, la filtration et l'évaporation, en précisant ce que la filtration ne retire pas.",
+        "question_type": "concept"
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "Distinguer le tamisage, la filtration et l'évaporation, en précisant ce que la filtration ne retire pas.",
+    "educational_quality_status": "not_human_rated",
+    "returned": 1,
+    "seconds": 63.76951880000706,
+    "edit_recipe": "answer-role-v1"
+  },
+  "seconds": 67.21785249999084
+}

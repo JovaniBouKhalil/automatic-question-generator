@@ -99,6 +99,11 @@ further prompt tuning. Their source data are synthetic, not human test reference
 The Arabic solar conversion is still rejected for leakage; no successful repair is
 claimed. Review broad statement targets and Arabic grammar even when QA agrees.
 
+All 18 paired cases and nine additional-topic cases are now complete and source-inspected.
+The [measured findings](ANSWER_ROLE_RESULTS.md) report unchanged coverage, mixed QA
+diagnostics, actual repairs, wording regressions and unsupported premises. The additional
+audit returns 25 questions, including a French case where planning selects only one fact.
+
 For a fresh reproduction folder:
 
 ```powershell

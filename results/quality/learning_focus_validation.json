@@ -1,6 +1,19 @@
 {
   "studies": [
     {
+      "study": "learning_challenge_v1",
+      "completed_case_records": 9,
+      "source_snapshots_checked": 17,
+      "returned_questions": {
+        "recall_t5": 27,
+        "planned_t5": 25,
+        "learning_hybrid": 25
+      },
+      "execution_error_cases": 0,
+      "review_rows_with_any_ratings": 0,
+      "interpretation": "Exact spans, source snapshots and counts checked. Logical support and educational value are not established by this audit."
+    },
+    {
       "study": "learning_focus_dev_4b_v1",
       "completed_case_records": 9,
       "source_snapshots_checked": 14,
@@ -71,6 +84,32 @@
         "recall_t5": 27,
         "planned_t5": 23,
         "learning_hybrid": 16
+      },
+      "execution_error_cases": 0,
+      "review_rows_with_any_ratings": 0,
+      "interpretation": "Exact spans, source snapshots and counts checked. Logical support and educational value are not established by this audit."
+    },
+    {
+      "study": "learning_role_classroom_v1",
+      "completed_case_records": 9,
+      "source_snapshots_checked": 17,
+      "returned_questions": {
+        "planned_t5": 25,
+        "baseline_hybrid": 25,
+        "role_hybrid": 25
+      },
+      "execution_error_cases": 0,
+      "review_rows_with_any_ratings": 0,
+      "interpretation": "Exact spans, source snapshots and counts checked. Logical support and educational value are not established by this audit."
+    },
+    {
+      "study": "learning_role_educational_v1",
+      "completed_case_records": 9,
+      "source_snapshots_checked": 17,
+      "returned_questions": {
+        "planned_t5": 25,
+        "baseline_hybrid": 24,
+        "role_hybrid": 24
       },
       "execution_error_cases": 0,
       "review_rows_with_any_ratings": 0,

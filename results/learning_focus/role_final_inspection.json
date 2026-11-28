@@ -24,7 +24,7 @@
     {
       "source_file": "results/learning_role_educational_v1/learning_text_representation_en.json",
       "source_sha256": "c060f403d999663762091e3b1772e7cd14be3562c907493aedb75634bcafbe65",
-      "observation": "The weight item now asks how the two word groups differ, matching the contrast target rather than asking why. The bag-of-words limitation and document-frequency adjustment remain supported."
+      "observation": "The weight item now asks how the two word groups differ, matching the contrast target rather than asking why. The bag-of-words limitation and document-frequency adjustment remain supported. The objective's explanation for lowering common-word weight is not directly tested by the replacement comparison."
     },
     {
       "source_file": "results/learning_role_educational_v1/learning_text_representation_fr.json",
@@ -92,5 +92,51 @@
       "observation": "Count and watering schedule are supported; the schedule question now asks both timing and duration. The planting item still asks for the relatively incidental classroom situation and copies much of its broad statement target. Role guidance does not solve target granularity."
     }
   ],
-  "challenge_cases": []
+  "challenge_cases": [
+    {
+      "source_file": "results/learning_challenge_v1/learning_greenhouse_conditions_ar.json",
+      "source_sha256": "fe9dcd48d8aab755195205b115310896f15468e818e344c33c0a341a5df4bac7",
+      "observation": "The three Arabic questions are readable and supported: both temperature thresholds, unchanged window position between them, and manual mode stopping automatic movement while the sensor continues recording. The first/manual targets are broad statements. The shading tradeoff named in the objective is not selected, so full objective coverage is not established."
+    },
+    {
+      "source_file": "results/learning_challenge_v1/learning_physical_separation_ar.json",
+      "source_sha256": "15e43ffe95332d57e1ad61c5947e0890a05a8cb2bd9536837e4ddadfe6a1307a",
+      "observation": "The first item identifies salt remaining in water and the evaporation item uses the stated heating procedure, though both have awkward wording. The second item asks what remained with it, leaving an ambiguous filter-versus-water referent. Two selected statements repeat the filtration limitation while the screening step is omitted. Unique evidence does not ensure conceptual diversity."
+    },
+    {
+      "source_file": "results/learning_challenge_v1/learning_word_search_limitations_ar.json",
+      "source_sha256": "aad486748e22d6f34cb6f5670c84d24ec43856122b90d2fdf08a6460e938846b",
+      "observation": "The stemming-function and over-aggressive-merging risk questions are supported. The librarian question adds a correction purpose that the source does not explicitly state; the source only says she reviews errors. Planning omits the inverted-index function and exact-match synonym limitation, concentrating all three items on stemming and its review."
+    },
+    {
+      "source_file": "results/learning_challenge_v1/learning_greenhouse_conditions_en.json",
+      "source_sha256": "a8eef337f186259c5894704159db9e92eb29c813f52c07cf83ac4d9ce3adf228",
+      "observation": "The questions preserve the unchanged state between thresholds, the heating-versus-light tradeoff, and manual mode stopping window movement while sensor recording continues. These are supported relationships rather than incidental facts. The opening/closing behavior itself is not directly tested; threshold values are given in the first question."
+    },
+    {
+      "source_file": "results/learning_challenge_v1/learning_physical_separation_en.json",
+      "source_sha256": "34c8639021dcf8e218d847a3e2131e09fd72e263dfbddaf5c303e6a06109e6b2",
+      "observation": "The filter-limitation and heating-method questions are source-supported, although verbose. The sand item adds a wrong premise that sand passed through the paper filter, whereas the source says the paper retained it. Two items overlap on filtration and omit the screening step. Valid spans and QA recovery do not catch this relation reliably."
+    },
+    {
+      "source_file": "results/learning_challenge_v1/learning_word_search_limitations_en.json",
+      "source_sha256": "b31526021b6d87e2f1d6f2a67e9510348f271a8fc72eb9acff54c7aff820de67",
+      "observation": "All three questions are clear and supported: the synonym limitation of exact matching, stemming's function and the risk of merging different meanings. These target useful search concepts. Whole-statement answers include extra context, and the inverted-index function named in the objective is not selected."
+    },
+    {
+      "source_file": "results/learning_challenge_v1/learning_greenhouse_conditions_fr.json",
+      "source_sha256": "6ed5a16ea42aae2f16c4b09458cb47084e69411703b5f3536726226ce639876b",
+      "observation": "The opening/closing thresholds, maintained window position and manual-mode behavior are supported and readable. The first question asks both threshold actions, matching its broad statement target. Shading's tradeoff is omitted from the selected quiz."
+    },
+    {
+      "source_file": "results/learning_challenge_v1/learning_physical_separation_fr.json",
+      "source_sha256": "614e55aa6aa624aadf637db31145196eb3d9d0eae7bee2f5443cc4572543c9d4",
+      "observation": "The single returned question correctly asks what the filter did not remove. The planner deliberately selects only one candidate, with no invalid-ID rejections, despite several usable source statements. Screening and evaporation are omitted, so requested count and objective coverage are substantially incomplete."
+    },
+    {
+      "source_file": "results/learning_challenge_v1/learning_word_search_limitations_fr.json",
+      "source_sha256": "dacffdfdfc87a9199d4a1900c07171c795901f1d5d1357d5b5c562ae143b0ead",
+      "observation": "All three questions are supported: exact matching's benefit and synonym limitation, the stemming operation and the risk of merging different meanings. The first is a two-part question matching its broad statement target. The inverted-index function in the objective is omitted."
+    }
+  ]
 }

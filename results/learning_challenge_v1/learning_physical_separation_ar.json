@@ -1,0 +1,360 @@
+{
+  "case_id": "learning:physical_separation:ar",
+  "language": "ar",
+  "group": "learning:physical_separation",
+  "context": "في تجربة فصل صفية، احتجز غربال قطع الأوراق الكبيرة بينما مر الماء والرمل عبره. ثم احتجز مرشح ورقي الرمل، لكن الملح المذاب بقي في الماء. سخن الطلاب الماء المالح المرشح في طبق مفتوح لتبخير الماء وجمع الملح. فصل المرشح الجسيمات العالقة، لكنه لم يزل الملح المذاب.",
+  "outputs": {
+    "recall_t5": [
+      {
+        "question": "كيف تم إزالة الملح المذاب؟",
+        "answer": "فصل المرشح الجسيمات",
+        "answer_start": 205,
+        "evidence": "فصل المرشح الجسيمات العالقة، لكنه لم يزل الملح المذاب.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 75,
+        "cropped": false,
+        "lexical_relevance": 0.3333333333333333,
+        "answer_leak": false,
+        "qa_answer": "فصل المرشح الجسيمات العالقة،",
+        "qa_score": 0.737461768090725,
+        "answer_f1": 0.8571428571428571,
+        "answer_em": 0.0,
+        "accepted": true,
+        "review_reasons": []
+      },
+      {
+        "question": "ما الذي حدث في تجربة فصل صفية؟",
+        "answer": "ثم احتجز مرشح",
+        "answer_start": 79,
+        "evidence": "ثم احتجز مرشح ورقي الرمل، لكن الملح المذاب بقي في الماء.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 75,
+        "cropped": false,
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "qa_answer": "احتجز غربال قطع الأوراق الكبيرة بينما مر الماء والرمل عبره.",
+        "qa_score": 0.47510348819196224,
+        "answer_f1": 0.15384615384615385,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "ما الذي تسبب في طرد الملح من الماء؟",
+        "answer": "سخن الطلاب الماء",
+        "answer_start": 136,
+        "evidence": "سخن الطلاب الماء المالح المرشح في طبق مفتوح لتبخير الماء وجمع الملح.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 74,
+        "cropped": false,
+        "lexical_relevance": 0.41602514716892186,
+        "answer_leak": false,
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      }
+    ],
+    "planned_t5": [
+      {
+        "question": "كيف تم اعتقال غربال في تجربة فصل صفية؟",
+        "answer": "ثم احتجز مرشح ورقي الرمل، لكن الملح المذاب بقي في الماء",
+        "answer_start": 79,
+        "evidence": "ثم احتجز مرشح ورقي الرمل، لكن الملح المذاب بقي في الماء.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 85,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "التمييز بين الغربلة والترشيح والتبخير، مع توضيح ما لا يزيله الترشيح.",
+        "question_type": "concept",
+        "lexical_relevance": 0.0,
+        "answer_leak": false,
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      },
+      {
+        "question": "كيف تم فصل الرمل؟",
+        "answer": "فصل المرشح الجسيمات العالقة، لكنه لم يزل الملح المذاب",
+        "answer_start": 205,
+        "evidence": "فصل المرشح الجسيمات العالقة، لكنه لم يزل الملح المذاب.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 83,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "التمييز بين الغربلة والترشيح والتبخير، مع توضيح ما لا يزيله الترشيح.",
+        "question_type": "concept",
+        "lexical_relevance": 0.19245008972987526,
+        "answer_leak": false,
+        "qa_answer": "",
+        "qa_score": 0.0,
+        "answer_f1": 0.0,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target",
+          "weak verifier span score"
+        ]
+      },
+      {
+        "question": "كيف تم إزالة الملح المذاب من الماء؟",
+        "answer": "سخن الطلاب الماء المالح المرشح في طبق مفتوح لتبخير الماء وجمع الملح",
+        "answer_start": 136,
+        "evidence": "سخن الطلاب الماء المالح المرشح في طبق مفتوح لتبخير الماء وجمع الملح.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 85,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "التمييز بين الغربلة والترشيح والتبخير، مع توضيح ما لا يزيله الترشيح.",
+        "question_type": "concept",
+        "lexical_relevance": 0.3721042037676254,
+        "answer_leak": false,
+        "qa_answer": "فصل المرشح الجسيمات العالقة،",
+        "qa_score": 0.6139001939445734,
+        "answer_f1": 0.125,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ],
+    "learning_hybrid": [
+      {
+        "question": "ما الذي بقي في الماء بعد احتجاز مرشح ورقي الرمل؟",
+        "answer": "ثم احتجز مرشح ورقي الرمل، لكن الملح المذاب بقي في الماء",
+        "answer_start": 79,
+        "evidence": "ثم احتجز مرشح ورقي الرمل، لكن الملح المذاب بقي في الماء.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 85,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "التمييز بين الغربلة والترشيح والتبخير، مع توضيح ما لا يزيله الترشيح.",
+        "question_type": "concept",
+        "draft_question": "كيف تم اعتقال غربال في تجربة فصل صفية؟",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "Mihakram/AraT5-base-question-generation",
+        "edit_recipe": "answer-role-v1",
+        "lexical_relevance": 0.5976143046671968,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "الملح المذاب",
+        "qa_score": 0.9635826165613253,
+        "answer_f1": 0.3076923076923077,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "ما الذي فصله المرشح و ما الذي بقي معه؟",
+        "answer": "فصل المرشح الجسيمات العالقة، لكنه لم يزل الملح المذاب",
+        "answer_start": 205,
+        "evidence": "فصل المرشح الجسيمات العالقة، لكنه لم يزل الملح المذاب.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 83,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "التمييز بين الغربلة والترشيح والتبخير، مع توضيح ما لا يزيله الترشيح.",
+        "question_type": "concept",
+        "draft_question": "كيف تم فصل الرمل؟",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "Mihakram/AraT5-base-question-generation",
+        "edit_recipe": "answer-role-v1",
+        "lexical_relevance": 0.16666666666666666,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "الجسيمات العالقة،",
+        "qa_score": 0.8170860251411796,
+        "answer_f1": 0.36363636363636365,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      },
+      {
+        "question": "كيف تم إزالة الماء من الملح المذاب في التجربة؟",
+        "answer": "سخن الطلاب الماء المالح المرشح في طبق مفتوح لتبخير الماء وجمع الملح",
+        "answer_start": 136,
+        "evidence": "سخن الطلاب الماء المالح المرشح في طبق مفتوح لتبخير الماء وجمع الملح.",
+        "language": "ar",
+        "method": "learning_focused_hybrid",
+        "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+        "input_tokens": 85,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "التمييز بين الغربلة والترشيح والتبخير، مع توضيح ما لا يزيله الترشيح.",
+        "question_type": "concept",
+        "draft_question": "كيف تم إزالة الملح المذاب من الماء؟",
+        "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+        "model_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+        "draft_model_id": "Mihakram/AraT5-base-question-generation",
+        "edit_recipe": "answer-role-v1",
+        "lexical_relevance": 0.3396831102433787,
+        "answer_leak": false,
+        "educational_quality_status": "not_human_rated",
+        "qa_answer": "فصل المرشح الجسيمات العالقة،",
+        "qa_score": 0.3261912213638425,
+        "answer_f1": 0.125,
+        "answer_em": 0.0,
+        "accepted": false,
+        "review_reasons": [
+          "verifier answer differs from target"
+        ]
+      }
+    ]
+  },
+  "error": null,
+  "planning_report": {
+    "version": "learning-v5",
+    "planner_model": "Qwen/Qwen3-4B-Instruct-2507",
+    "planner_revision": "cdbee75f17c01a7cc42f958dc650907174af0554",
+    "cpu_quantization": "none-float32",
+    "requested": 3,
+    "planned": 3,
+    "rejected_facts": [],
+    "candidate_pool": [
+      {
+        "candidate_id": 0,
+        "answer": "في تجربة فصل صفية، احتجز غربال قطع الأوراق الكبيرة بينما مر الماء والرمل عبره",
+        "answer_start": 0,
+        "evidence": "في تجربة فصل صفية، احتجز غربال قطع الأوراق الكبيرة بينما مر الماء والرمل عبره.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 1,
+        "answer": "ثم احتجز مرشح ورقي الرمل، لكن الملح المذاب بقي في الماء",
+        "answer_start": 79,
+        "evidence": "ثم احتجز مرشح ورقي الرمل، لكن الملح المذاب بقي في الماء.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 2,
+        "answer": "سخن الطلاب الماء المالح المرشح في طبق مفتوح لتبخير الماء وجمع الملح",
+        "answer_start": 136,
+        "evidence": "سخن الطلاب الماء المالح المرشح في طبق مفتوح لتبخير الماء وجمع الملح.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      },
+      {
+        "candidate_id": 3,
+        "answer": "فصل المرشح الجسيمات العالقة، لكنه لم يزل الملح المذاب",
+        "answer_start": 205,
+        "evidence": "فصل المرشح الجسيمات العالقة، لكنه لم يزل الملح المذاب.",
+        "question_type": "concept",
+        "selection_source": "source_statement"
+      }
+    ],
+    "raw_plan": "[1, 3, 2]",
+    "raw_edit": "[\n  {\n    \"index\": 0,\n    \"question\": \"ما الذي بقي في الماء بعد احتجاز مرشح ورقي الرمل؟\"\n  },\n  {\n    \"index\": 1,\n    \"question\": \"ما الذي فصله المرشح و ما الذي بقي معه؟\"\n  },\n  {\n    \"index\": 2,\n    \"question\": \"كيف تم إزالة الماء من الملح المذاب في التجربة؟\"\n  }\n]",
+    "facts": [
+      {
+        "learning_goal": "التمييز بين الغربلة والترشيح والتبخير، مع توضيح ما لا يزيله الترشيح.",
+        "question_type": "concept",
+        "answer": "ثم احتجز مرشح ورقي الرمل، لكن الملح المذاب بقي في الماء",
+        "evidence": "ثم احتجز مرشح ورقي الرمل، لكن الملح المذاب بقي في الماء.",
+        "answer_start": 79
+      },
+      {
+        "learning_goal": "التمييز بين الغربلة والترشيح والتبخير، مع توضيح ما لا يزيله الترشيح.",
+        "question_type": "concept",
+        "answer": "فصل المرشح الجسيمات العالقة، لكنه لم يزل الملح المذاب",
+        "evidence": "فصل المرشح الجسيمات العالقة، لكنه لم يزل الملح المذاب.",
+        "answer_start": 205
+      },
+      {
+        "learning_goal": "التمييز بين الغربلة والترشيح والتبخير، مع توضيح ما لا يزيله الترشيح.",
+        "question_type": "concept",
+        "answer": "سخن الطلاب الماء المالح المرشح في طبق مفتوح لتبخير الماء وجمع الملح",
+        "evidence": "سخن الطلاب الماء المالح المرشح في طبق مفتوح لتبخير الماء وجمع الملح.",
+        "answer_start": 136
+      }
+    ],
+    "drafts": [
+      {
+        "question": "كيف تم اعتقال غربال في تجربة فصل صفية؟",
+        "answer": "ثم احتجز مرشح ورقي الرمل، لكن الملح المذاب بقي في الماء",
+        "answer_start": 79,
+        "evidence": "ثم احتجز مرشح ورقي الرمل، لكن الملح المذاب بقي في الماء.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 85,
+        "cropped": false,
+        "index": 0,
+        "learning_goal": "التمييز بين الغربلة والترشيح والتبخير، مع توضيح ما لا يزيله الترشيح.",
+        "question_type": "concept"
+      },
+      {
+        "question": "كيف تم فصل الرمل؟",
+        "answer": "فصل المرشح الجسيمات العالقة، لكنه لم يزل الملح المذاب",
+        "answer_start": 205,
+        "evidence": "فصل المرشح الجسيمات العالقة، لكنه لم يزل الملح المذاب.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 83,
+        "cropped": false,
+        "index": 1,
+        "learning_goal": "التمييز بين الغربلة والترشيح والتبخير، مع توضيح ما لا يزيله الترشيح.",
+        "question_type": "concept"
+      },
+      {
+        "question": "كيف تم إزالة الملح المذاب من الماء؟",
+        "answer": "سخن الطلاب الماء المالح المرشح في طبق مفتوح لتبخير الماء وجمع الملح",
+        "answer_start": 136,
+        "evidence": "سخن الطلاب الماء المالح المرشح في طبق مفتوح لتبخير الماء وجمع الملح.",
+        "language": "ar",
+        "method": "transformer_beam4",
+        "model_id": "Mihakram/AraT5-base-question-generation",
+        "input_tokens": 85,
+        "cropped": false,
+        "index": 2,
+        "learning_goal": "التمييز بين الغربلة والترشيح والتبخير، مع توضيح ما لا يزيله الترشيح.",
+        "question_type": "concept"
+      }
+    ],
+    "rejected_questions": [],
+    "learning_objective": "التمييز بين الغربلة والترشيح والتبخير، مع توضيح ما لا يزيله الترشيح.",
+    "educational_quality_status": "not_human_rated",
+    "returned": 3,
+    "seconds": 157.73576379999577,
+    "edit_recipe": "answer-role-v1"
+  },
+  "seconds": 161.3525512000051
+}
