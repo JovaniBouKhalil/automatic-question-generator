@@ -5,6 +5,23 @@
 NLP final project **05 — Automatic Question Generation**. A local Python/Streamlit app,
 reproducible experimental comparison, and presentation. No paid API or GPU is required.
 
+## Current application version
+
+**[submission-v4](https://github.com/JovaniBouKhalil/automatic-question-generator/tree/submission-v4) · 28 November 2026.**
+The current application is on `main`; earlier submission tags remain available for comparison.
+
+The optional **Learning-focused hybrid 4B (experimental)** uses Qwen3-4B to select
+source facts, native T5/mT5/AraT5 to generate drafts, and Qwen to refine the wording.
+These steps run sequentially. An optional separate QA model checks answer recovery;
+teacher review and wording corrections follow. The original T5-only modes remain available.
+
+This version includes answer-role guidance, a switch to compare the original 4B editor,
+and editable quiz exports that clear stale QA scores and preserve the generated wording.
+Validation: **95 regular checks, 12 real-model integration checks, 11 executed notebook
+code cells and 12 presentation slides**. All 27 new development cases have source-linked
+inspection notes. These checks do not establish perfect question quality; see
+[the findings and remaining failures](docs/ANSWER_ROLE_RESULTS.md).
+
 ## Start the application
 
 On this computer, run from the project folder:
@@ -34,8 +51,20 @@ suggest questions for review; they do not certify correctness.
 
 ## Install on another computer
 
-Use **Python 3.11–3.13**. Exact tested versions are recorded in `requirements-lock.txt` after
-validation. Windows PowerShell:
+Clone the repository, or use GitHub's **Code → Download ZIP**, then open a terminal
+inside the project folder. **Create your own `.venv`; do not copy another computer's
+environment.** The trained adapters are included, so trying the app needs no retraining.
+Full model weights download separately.
+
+**Python 3.11 is the tested setup.** Exact package versions are recorded in
+`requirements-lock.txt`. To clone with Git:
+
+```powershell
+git clone https://github.com/JovaniBouKhalil/automatic-question-generator.git
+cd automatic-question-generator
+```
+
+Then, in Windows PowerShell:
 
 ```powershell
 py -3.11 -m venv .venv
@@ -53,6 +82,18 @@ interruption, pin Hub commits, and check LFS SHA-256 hashes. About **3.7 GB** of
 go into ignored `models/` for the core models. Optional planners/editors add separate weights.
 Allow additional space for packages. Weights and course materials
 are excluded from GitHub and the submission.
+
+To enable the current optional Qwen 4B mode after installing the core models:
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.download_quality_model
+.\.venv\Scripts\python.exe -m streamlit run app.py
+```
+
+Choose **Learning-focused hybrid 4B (experimental)** in the sidebar. This adds an
+**8.04 GB** model download. FP32 model parameters alone need about **16 GB RAM**, plus
+runtime memory; CPU generation can take several minutes. The basic T5 modes work
+without downloading Qwen. No paid API key is required.
 
 ## What is implemented
 
