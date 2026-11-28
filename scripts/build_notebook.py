@@ -354,7 +354,7 @@ else:
 
 Launch `python -m streamlit run app.py`. Choose a language, paste a passage, supply exact
 answers or use automatic source-fact selection, and inspect the questions and evidence. Export a
-student worksheet, answer key, CSV, JSON or Moodle XML.
+student worksheet, answer key, CSV, JSON or Moodle XML. Long chapters are automatically sectioned; selected coverage is displayed and source offsets remain document-relative. See docs/LONG_DOCUMENTS.md.
 
 See `docs/DEFENSE_GUIDE.md` for course connections and technical Q&A. No external paid API is used.
 """)

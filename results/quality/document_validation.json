@@ -1,0 +1,56 @@
+{
+  "scope": "Private user-reported DEVELOPMENT reproductions, not an independent quality test.",
+  "cases": [
+    {
+      "document": "ch2-arrays",
+      "pdf_sha256": "7056a7182aa0e586f6a1bee8f0a572c305068c83d9e20b8fcf48956aeff0f71f",
+      "pdf_pages": 37,
+      "prepared_characters": 19150,
+      "total_sections": 7,
+      "selected_sections": 3,
+      "returned_questions": 3,
+      "section_errors": 0,
+      "planning_input_tokens": [
+        1999,
+        1765,
+        858
+      ],
+      "editing_input_tokens": [
+        1447,
+        1308,
+        627
+      ],
+      "current_section_contexts_candidates_and_model_settings_match_real_run": true,
+      "raw_source_and_question_text_published": false
+    },
+    {
+      "document": "ch3-linked-structures",
+      "pdf_sha256": "9d060fd39afe867a95ef7ce8d8b0923127aaf953c0c5f465600526c9a1be146d",
+      "pdf_pages": 42,
+      "prepared_characters": 23087,
+      "total_sections": 7,
+      "selected_sections": 3,
+      "returned_questions": 3,
+      "section_errors": 0,
+      "planning_input_tokens": [
+        1931,
+        1931,
+        1981
+      ],
+      "editing_input_tokens": [
+        1427,
+        1411,
+        1346
+      ],
+      "current_section_contexts_candidates_and_model_settings_match_real_run": true,
+      "raw_source_and_question_text_published": false
+    }
+  ],
+  "model_weights_updated": false,
+  "source_sha256_normalized_utf8": {
+    "app.py": "24701094ab292124cfb1adff7048f247f147b298652dab16fae8bf02250eb8df",
+    "questionforge/documents/generation.py": "95ac97c63906b88025e59158c1a38b6b9af5df6569bb9efcd97644abb414351d",
+    ".streamlit/config.toml": "fe0a65bb403874b9c18bdcaff7ed74abcebdcc1eababa71e46d36058e4e2e6d5"
+  },
+  "interpretation": "Full PDFs load and bounded requests generate source-aligned questions. Current request construction replays the exact recorded model inputs. This does not certify question correctness or coverage of every fact."
+}

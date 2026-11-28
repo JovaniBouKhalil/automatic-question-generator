@@ -1,5 +1,11 @@
 # Ready for your review — 28 November 2026
 
+Full-chapter uploads now use automatic token-aware sections. The 40-page/20,000-character
+restrictions are removed: files can be up to 50 MB and text up to one million characters.
+Choose up to 20 questions; the UI reports sampled section coverage. The supplied arrays
+and linked-structures PDFs are private development regressions, not new training data or
+an independent quality benchmark. See [long documents](docs/LONG_DOCUMENTS.md).
+
 The final app now has **one generation workflow**: Qwen 4B selects source facts,
 native T5/mT5/AraT5 drafts questions, Qwen refines them, and independent QA flags answers
 for review. There is no model/version, adapter, decoder or verifier selector. Choose
@@ -22,7 +28,7 @@ The 18 fixed-target re-edits are complete: 49 questions from 50 retained targets
 zero execution errors. Source inspection finds real repairs and remaining grammar,
 premise and coverage problems. The nine additional-topic cases also finish without
 execution errors, returning 25 questions; all 27 cases have source-linked observations.
-Read [the measured findings](docs/ANSWER_ROLE_RESULTS.md). All **115 regular and 14
+Read [the measured findings](docs/ANSWER_ROLE_RESULTS.md). All **126 regular and 16
 real-model integration checks pass**, including the 4B app mode. The notebook has
 **11 executed code cells** without errors; the PPTX/PDF both contain **12 slides**.
 
@@ -154,7 +160,7 @@ completed human evaluations. Teacher review of wording and factual support is pa
 
 ## Validation and reproducibility
 
-- **115 regular and 14 real-model integration checks passed**, with no skips, including
+- **126 regular and 16 real-model integration checks passed**, with no skips, including
   the 4B editor through the actual app. These checks establish software behavior, not question accuracy.
 - Ruff checks passed; the notebook executed without errors.
 - A resumed copy of the LoRA test experiment retained all 200 prediction records with an

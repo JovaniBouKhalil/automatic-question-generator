@@ -13,17 +13,17 @@ from pathlib import Path
 import streamlit as st
 
 from questionforge.classroom.material import (
-    CLASSROOM_PLAN_SYSTEM,
+    VERSION as MATERIAL_VERSION,
+)
+from questionforge.classroom.material import (
     build_classroom_candidates,
     list_scope_issue,
     prepare_material,
 )
-from questionforge.classroom.material import (
-    VERSION as MATERIAL_VERSION,
-)
+from questionforge.documents.generation import MAX_QUESTIONS, create_document_quiz
 from questionforge.export import as_csv, as_json, moodle_xml, worksheet_html
 from questionforge.learning.exports import learning_csv
-from questionforge.learning.quality import QUALITY_MODEL, create_quality_quiz, local_quality_source
+from questionforge.learning.quality import QUALITY_MODEL, local_quality_source
 from questionforge.metrics import leaks_answer, lexical_relevance, quality_decision
 from questionforge.registry import GENERATORS
 from questionforge.review import GUIDE, ratings_csv, summarize_ratings, validate_ratings
@@ -32,6 +32,7 @@ from questionforge.verification import check_answer
 
 ROOT = Path(__file__).resolve().parent
 FINAL_PROFILE = "classroom-hybrid-4b-v1"
+MAX_DOCUMENT_CHARACTERS = 1_000_000
 
 
 def sample_passages(language):
@@ -40,20 +41,18 @@ def sample_passages(language):
 
 
 def read_upload(upload):
-    if upload.size > 10 * 1024 * 1024:
-        raise ValueError("Please choose a file smaller than 10 MB.")
+    if upload.size > 50 * 1024 * 1024:
+        raise ValueError("Please choose a file smaller than 50 MB.")
     if upload.name.casefold().endswith(".pdf"):
         from pypdf import PdfReader
         reader = PdfReader(io.BytesIO(upload.getvalue()))
-        if len(reader.pages) > 40:
-            raise ValueError("Please select a PDF with at most 40 pages.")
         text = "\n\n".join(page.extract_text() or "" for page in reader.pages)
         if not text.strip():
             raise ValueError("This PDF contains no extractable text. Use a text PDF or paste OCR text.")
     else:
         text = upload.getvalue().decode("utf-8-sig")
-    if len(text) > 20000:
-        raise ValueError("Please select a passage of at most 20,000 characters.")
+    if len(text) > MAX_DOCUMENT_CHARACTERS:
+        raise ValueError("This document exceeds one million extracted characters. Upload it by chapter.")
     return text
 
 
@@ -137,7 +136,7 @@ def main():
                                 index=list(LANGUAGES).index(initial_language), format_func=LANGUAGES.get)
         st.markdown("**From source to questions**")
         st.caption("Selects important facts, drafts and refines questions, then checks answer recovery.")
-        count = st.slider("Questions to create", 1, 8, 3)
+        count = st.slider("Questions to create", 1, MAX_QUESTIONS, 3)
         try:
             local_quality_source()
             model_ready = True
@@ -174,7 +173,8 @@ def main():
             if st.button("Use this example"):
                 st.session_state[passage_key] = samples[sample]
             upload = st.file_uploader("Or upload a text document", type=["txt", "pdf"],
-                                     help="UTF-8 text or a PDF with selectable text. Maximum 10 MB / 40 pages.")
+                                     max_upload_size=50,
+                                     help="UTF-8 text or a PDF with selectable text, up to 50 MB. Long chapters are sectioned automatically; there is no page-count cap.")
             if upload is not None:
                 digest = hashlib.sha256(upload.getvalue()).hexdigest() + language
                 if st.session_state.get("upload_digest") != digest:
@@ -183,8 +183,9 @@ def main():
                         st.session_state["upload_digest"] = digest
                     except Exception as exc:
                         st.error(str(exc))
-            passage = st.text_area("Passage", key=passage_key, height=295, max_chars=20000)
+            passage = st.text_area("Passage", key=passage_key, height=295, max_chars=MAX_DOCUMENT_CHARACTERS)
             st.caption(f"{len(passage):,} characters · Questions stay in the selected language.")
+            st.caption("Long documents are divided automatically. The quiz samples useful sections across the document; more questions can cover more sections.")
             st.caption("Use explanatory sentences beneath the headings. Headings alone may produce no questions.")
         with right:
             st.subheader("02 / Choose your facts")
@@ -219,8 +220,8 @@ def main():
                     if not passage.strip():
                         raise ValueError("Add a passage first.")
                     answers = list(dict.fromkeys(line.strip() for line in manual.splitlines() if line.strip()))
-                    if len(answers) > 8:
-                        raise ValueError("Use at most eight manual answers per quiz.")
+                    if len(answers) > MAX_QUESTIONS:
+                        raise ValueError(f"Use at most {MAX_QUESTIONS} manual answers per quiz.")
                     original_passage = passage
                     prepared = prepare_material(passage)
                     # Keep the raw passage for review; all offsets refer to the prepared source.
@@ -231,15 +232,21 @@ def main():
                         raise ValueError("No explanatory facts were found. Add complete statements beneath the headings.")
                     started = time.perf_counter()
                     with st.status("Building your question set…", expanded=True) as status:
-                        rows, learning_report = create_quality_quiz(
+                        rows, learning_report = create_document_quiz(
                             passage, language, count, objective=objective, manual_answers=answers,
-                            beams=4, checkpoint=None, progress=st.write, role_focus=True,
-                            candidate_builder=build_classroom_candidates, planning_system=CLASSROOM_PLAN_SYSTEM)
+                            progress=st.write)
                         st.session_state["learning_report"] = learning_report
+                        document = learning_report.get("document", {})
+                        if document.get("mode") == "sectioned":
+                            st.info(f"Scanned {document['sections_total']} document sections; selected {document['sections_used']} section(s) for this quiz. Increase the question count or add a learning objective to adjust coverage.")
+                        if learning_report.get("section_errors"):
+                            st.warning(f"{learning_report['section_errors']} section request(s) could not be completed. Inspect the generation report; any questions below come from the completed requests.")
                         for row in rows:
                             row["learning_objective"] = objective
                             row["app_profile"] = FINAL_PROFILE
-                            row.update(check_answer(row["question"], passage, row["answer"], language, "original"))
+                            section = row.get("source_section", {})
+                            verification_context = passage[section.get("start", 0):section.get("end", len(passage))]
+                            row.update(check_answer(row["question"], verification_context, row["answer"], language, "original"))
                             row["verifier"] = "original"
                             row["accepted"], row["review_reasons"] = quality_decision(row)
                         visible, rejected = [], []
@@ -251,7 +258,9 @@ def main():
                                 visible.append({**row, "source_preparation": MATERIAL_VERSION})
                         rows = visible
                         st.session_state["structural_rejections"] = rejected
-                        status.update(label="Your question set is ready", state="complete", expanded=False)
+                        failed = learning_report.get("section_errors", 0)
+                        status.update(label="Some document sections could not be completed" if failed else "Your question set is ready",
+                                      state="error" if failed and not rows else "complete", expanded=False)
                     st.session_state["questions"] = rows
                     st.session_state["quiz_profile"] = FINAL_PROFILE
                     st.session_state["quiz_context"] = passage
@@ -276,6 +285,9 @@ def main():
         if not rows:
             st.info("Your generated questions will appear here, with answers and source evidence.")
         else:
+            document = st.session_state.get("learning_report", {}).get("document", {})
+            if document.get("mode") == "sectioned":
+                st.caption(f"Document coverage: {document['sections_used']} of {document['sections_total']} sections selected for this quiz. Source offsets refer to the prepared full document.")
             if st.session_state.get("quiz_profile") != FINAL_PROFILE:
                 st.info("This quiz was generated before the final workflow was selected. Generate a new quiz to use the current workflow.")
             a, b, c = st.columns(3)

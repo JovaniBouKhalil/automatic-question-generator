@@ -157,7 +157,9 @@ The stronger experimental planner/editor is
 `cdbee75f17c01a7cc42f958dc650907174af0554` (Apache-2.0). Its three safetensors shards
 total about 8.04 GB; all are verified against published SHA-256 hashes by
 `scripts/download_quality_model.py`. The comparison uses FP32 CPU inference (about
-16 GB for model parameters, plus runtime memory), with a 6,000-token input limit.
+16 GB for model parameters, plus runtime memory), with a 6,000-token input budget
+per request. The final app sections longer documents rather than sending the whole
+chapter in one request; see [document processing](LONG_DOCUMENTS.md).
 No backbone weights enter GitHub or the submission. This decoder-only planner/editor
 is separate from the native encoder–decoder T5 draft models and is not fine-tuned here.
 Hybrid JSON and learning CSV exports identify the editor as `model_id` and retain

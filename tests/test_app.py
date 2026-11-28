@@ -9,15 +9,17 @@ from streamlit.testing.v1 import AppTest  # noqa: E402
 
 
 @pytest.fixture(autouse=True)
-def local_model_stubs(request, monkeypatch):
+def local_model_stubs(request, monkeypatch, chat_tokenizer):
     if request.node.get_closest_marker("integration"):
         return
     from questionforge import verification
+    from questionforge.documents import generation
     from questionforge.learning import quality
     from questionforge.registry import GENERATORS
     from questionforge.text import evidence_for
 
     monkeypatch.setattr(quality, "local_quality_source", lambda: Path("models/test-stub"))
+    monkeypatch.setattr(generation, "quality_tokenizer", lambda: chat_tokenizer)
 
     def fake(context, language, count, **kwargs):
         answers = kwargs.get("manual_answers") or ["leaves"]
@@ -150,6 +152,33 @@ def test_final_workflow_passes_objective_and_fixed_inference_settings(monkeypatc
     assert calls[0]["candidate_builder"] is build_classroom_candidates
     assert calls[0]["planning_system"] == CLASSROOM_PLAN_SYSTEM
     assert any(element.label == "Compare with the T5 draft" for element in app.expander)
+
+
+def test_sectioned_questions_use_their_own_source_for_qa(monkeypatch):
+    from questionforge import verification
+    from questionforge.documents import generation
+
+    calls = []
+    source = "Heading\n\nA mesh catches leaves."
+    start = source.index("A mesh")
+
+    def fake(*args, **kwargs):
+        return [{"question": "What does the mesh catch?", "answer": "leaves", "language": "en",
+                 "evidence": "A mesh catches leaves.", "answer_start": source.index("leaves"),
+                 "method": "learning_focused_hybrid", "source_section": {"start": start, "end": len(source)},
+                 "lexical_relevance": .5, "answer_leak": False}], {"returned": 1}
+
+    def verify(question, context, answer, language, verifier):
+        calls.append(context)
+        return {"qa_answer": answer, "qa_score": .9, "answer_f1": 1., "answer_em": 1.}
+
+    monkeypatch.setattr(generation, "create_document_quiz", fake)
+    monkeypatch.setattr(verification, "check_answer", verify)
+    app = app_test()
+    app.text_area[0].input(source)
+    app.button[1].click().run()
+    assert not app.exception and not app.error and calls == ["A mesh catches leaves."]
+    assert app.session_state["questions"][0]["answer_start"] == source.index("leaves")
 
 
 def test_rerunning_the_final_workflow_keeps_the_users_passage_and_target():
@@ -385,3 +414,42 @@ def test_french_slide_outline_through_the_automatic_hybrid_application():
         assert row["source_preparation"] == VERSION and row["answer"] not in {"QUALITÉ", "ENVIRONNEMENT"}
         start = row["answer_start"]
         assert app.session_state["quiz_context"][start:start + len(row["answer"])] == row["answer"]
+
+
+@pytest.mark.integration
+@pytest.mark.parametrize("filename", ["ch2-arrays.pdf", "ch3-linked-structures.pdf"])
+def test_long_local_chapter_through_the_final_application(filename):
+    """Private development reproductions; do not publish the instructor's document text."""
+    import hashlib
+    import io
+    import json
+
+    from app import read_upload
+    from questionforge.learning.quality import local_quality_source
+
+    path = Path.home() / "Downloads" / filename
+    if not path.exists():
+        pytest.skip("The private user-reported chapter is not present on this computer.")
+    local_quality_source()
+    upload = io.BytesIO(path.read_bytes())
+    upload.name, upload.size = path.name, path.stat().st_size
+    source = read_upload(upload)
+    app = AppTest.from_file(Path(__file__).resolve().parents[1] / "app.py", default_timeout=1200).run()
+    app.text_area[0].input(source)
+    app.text_area[1].input("")
+    app.text_area[2].input("")
+    app.button[1].click().run(timeout=1200)
+    assert not app.exception and not app.error
+    report = app.session_state["learning_report"]
+    rows = app.session_state["questions"]
+    private = Path(".cache/chapter_reproductions")
+    private.mkdir(parents=True, exist_ok=True)
+    (private / (path.stem + ".json")).write_text(json.dumps({"source_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "source_context": app.session_state["quiz_context"], "report": report, "questions": rows},
+        ensure_ascii=False, indent=2), encoding="utf-8")
+    assert report["document"]["mode"] == "sectioned" and report["document"]["sections_total"] > 1
+    assert not report["section_errors"] and rows
+    for row in rows:
+        start = row["answer_start"]
+        assert app.session_state["quiz_context"][start:start + len(row["answer"])] == row["answer"]
+        assert row["verifier"] == "original" and "answer_f1" in row

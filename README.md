@@ -21,7 +21,7 @@ targets, retains complete list answers, and rejects obvious list/count mismatche
 The original passage is preserved alongside the prepared source. No model weights
 are changed for this repair. See [the input regression](docs/CLASSROOM_INPUT_FIX.md).
 
-Validation: **115 regular checks and 14 real-model integration checks**, with no skips.
+Validation: **126 regular checks and 16 real-model integration checks**, with no skips.
 The notebook has **11 executed code cells** and the presentation has **12 slides**.
 These verify implementation, not question quality. A frozen audit uses **12 unused
 human-authored multilingual paragraphs and 50 additional SciQ test pairs**, keeping
@@ -39,6 +39,12 @@ On this computer, run from the project folder:
 
 Open **http://localhost:8501**. Choose a language, paste a passage or upload a text PDF,
 and supply exact target answers (one per line) or use automatic source-fact selection.
+Full chapters are sectioned automatically: **no PDF page-count cap**, uploads up to
+**50 MB**, text up to **one million characters**, and **up to 20 questions** per quiz.
+The app shows which sections contributed questions. Each model request stays within
+its input budget; no manual shortening is needed for the reported chapters.
+See [long-document behavior and coverage](docs/LONG_DOCUMENTS.md).
+
 Review questions beside their answers and source evidence. Export a printable student
 worksheet, answer key, CSV, JSON, or Moodle short-answer XML.
 

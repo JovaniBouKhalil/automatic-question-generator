@@ -41,3 +41,10 @@ reproduction scripts for the course rubric. They appear in Experiment results an
 notebook, rather than as alternative quiz-generation options. Git history preserves
 earlier checkpoints; `main` and `submission/QuestionForge-submission.zip` contain the
 single current application.
+
+Long chapters are automatically sectioned with the actual Qwen tokenizer and processed
+through this same workflow. Selected section coverage is displayed and source offsets
+remain relative to the prepared full document. More than eight requested questions are
+batched. See [the input support and remaining coverage limits](LONG_DOCUMENTS.md).
+The model settings remain fixed; long-document orchestration is a separate development
+extension and is not included in the earlier frozen small-passage quality claims.
